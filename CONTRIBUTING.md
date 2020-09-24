@@ -1,0 +1,11 @@
+# Github Procedures
+- Only move a task into ‘In Progress’ and assign it to yourself when you’re working on it.
+- Label tasks as ‘Help Wanted’ if you’re struggling with something, that way team members will know who needs help and with what.
+- Try to work on the same epic if there are enough tasks.
+- Have a maximum of 5 epics in progress at once AKA don’t leave things unfinished.
+- Always rebase your code or merge master into your branch before creating a pull request.
+- When reviewing a pull request, review each file that was changed using the system GitHub provides.
+- A story point will be analogous to an hour of work.
+- Every task encompasses implementation and testing.
+- When creating a pull request, assign it to yourself and request a review from either a single individual or everyone. Whoever gets to it first will be the one to review the pull request.
+- When reviewing a pull request, use the "Files changed" tab to mark that you have read every file that was changed, leave any comments and then request changes or approve the pull request.
