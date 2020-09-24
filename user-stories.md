@@ -1,0 +1,20 @@
+# User Stories
+- As a user, I want to be able to register for the platform by using my email address and set up my profile (nickname, password) for quicker access to the application.
+- As a user, I should be able to create a new match.
+- As a user, I should be able to invite another user to join the match.
+- As a user, I should be able to send more than one invitation.
+- As a user, I should be able to accept or reject an invitation, alerting the inviter.
+- As a user, I should be part of multiple games at the same time.
+- As a user, I should be able to quit from any game at any time.
+- As a user, I should be able to unregister.
+- As a user, I can view history statistics from previous games.
+- As a user, I should be able to view a user profile if registered.
+- As a user, I should be able to make the first move if I create the match.
+- As a user, I should be able to return to a saved game.
+- As a user, I want to know the end result of a game I participate in.
+- As a user, I want to be alerted when a user accepts/declines an invitation, when it is my turn, or a game I am participating in is over.
+- As a user, I want to be able to view a title screen with buttons that I can click on to take me to other screens.
+- As a user, I want to be able to quit the game using a Quit button.
+- As a user, I want to be able to view a chess board and pieces when I’m in a match.
+- As a user, when I choose to move a piece I want it to show where I can move the piece.
+- As a user, I want to be able to view a list of strings in a text box.
