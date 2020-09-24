@@ -9,3 +9,4 @@
 - Every task encompasses implementation and testing.
 - When creating a pull request, assign it to yourself and request a review from either a single individual or everyone. Whoever gets to it first will be the one to review the pull request.
 - When reviewing a pull request, use the "Files changed" tab to mark that you have read every file that was changed, leave any comments and then request changes or approve the pull request.
+- Delete your branches when you're done with them.
