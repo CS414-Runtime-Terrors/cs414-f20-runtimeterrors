@@ -5,9 +5,15 @@
 ### Where Am I?
 ### Sprint Leader: *Daniel Stephenson*
 
-## Definition of Done
+## What We Need To Have Completed By October 13th
 
-(need to add this)
+* Update System (#69)
+* Register (#11)
+* Unregister (#12)
+* End Match (#15)
+* Piece Classes (#73)
+* Game Board Logics (#128)
+* Storage of Previous Games (#18)
 
 ## Policies
 
@@ -25,16 +31,16 @@ Epics planned for this release.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *x* | *x* |
-| Tasks |  *x*   | *x* | 
-| Story Points |  *x*  | *x* | 
+| Epics | *7* | *x* |
+| Tasks |  *22*   | *x* | 
+| Story Points |  *43*  | *x* | 
 
 
 ## Scrums
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *9/30/20* | *N/A* | (TO DO) | *none* |
+| *9/30/20* | *N/A* | #19, #105, #106, #107, #108, #109, #130 | *none* |
 
 ## Review
 
