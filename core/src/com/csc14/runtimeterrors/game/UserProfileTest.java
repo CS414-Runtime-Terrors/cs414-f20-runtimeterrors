@@ -20,14 +20,23 @@ public class UserProfileTest {
         String nicknameToSet = "Ted";
         String passwordToSet = "apple";
         String emailAddressToSet = "ted@gmail.com";
+        int gamesWonToSet = 5;
+        int gamesLostToSet = 3;
+        int gamesTiedToSet = 2;
 
         newProfile.setNickname(nicknameToSet);
         newProfile.setPassword(passwordToSet);
         newProfile.setEmailAddress(emailAddressToSet);
+        newProfile.setGamesWon(gamesWonToSet);
+        newProfile.setGamesLost(gamesLostToSet);
+        newProfile.setGamesTied(gamesTiedToSet);
 
         return (newProfile.getNickname().equals(nicknameToSet) &&
                 newProfile.getPassword().equals(passwordToSet) &&
-                newProfile.getEmailAddress().equals(emailAddressToSet));
+                newProfile.getEmailAddress().equals(emailAddressToSet) &&
+                newProfile.getGamesWon() == gamesWonToSet &&
+                newProfile.getGamesLost() == gamesLostToSet &&
+                newProfile.getGamesTied() == gamesTiedToSet);
     }
 
     @Test

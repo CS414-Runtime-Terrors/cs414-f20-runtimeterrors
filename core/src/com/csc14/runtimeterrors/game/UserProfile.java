@@ -13,8 +13,9 @@ public class UserProfile {
         setNickname(nick);
         setPassword(pass);
         setEmailAddress(email);
-        gamesWon = 0;
-        gamesLost = 0;
+        setGamesWon(0);
+        setGamesLost(0);
+        setGamesTied(0);
         gamesTied = 0;
     }
 
