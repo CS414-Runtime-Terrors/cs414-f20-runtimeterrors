@@ -18,6 +18,52 @@ public class UserProfile {
         gamesTied = 0;
     }
 
+    public void setNickname(String newNickname) {
+        nickname = newNickname;
+    }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setPassword(String newPassword) {
+        password = newPassword;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setEmailAddress(String newEmailAddress) {
+        emailAddress = newEmailAddress;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setGamesWon(int i) {
+        gamesWon = i;
+    }
+
+    public int getGamesWon() {
+        return gamesWon;
+    }
+
+    public void setGamesLost(int i) {
+        gamesLost = i;
+    }
+
+    public int getGamesLost() {
+        return gamesLost;
+    }
+
+    public void setGamesTied(int i) {
+        gamesTied = i;
+    }
+
+    public int getGamesTied() {
+        return gamesTied;
+    }
 
 }
