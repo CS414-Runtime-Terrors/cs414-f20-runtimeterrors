@@ -51,8 +51,8 @@ public class UserProfileTest {
         testProfile.increment("gamesLost");
         testProfile.increment("gamesTied");
 
-        return ((testProfile.getGamesWon() == initialGamesWon + 1) ||
-                (testProfile.getGamesLost() == initialGamesLost + 1) ||
+        return ((testProfile.getGamesWon() == initialGamesWon + 1) &&
+                (testProfile.getGamesLost() == initialGamesLost + 1) &&
                 (testProfile.getGamesTied() == initialGamesTied + 1));
     }
 
