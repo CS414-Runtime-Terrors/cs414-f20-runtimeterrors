@@ -18,6 +18,8 @@ public class UserProfile {
         gamesTied = 0;
     }
 
+    // getters and setters
+
     public void setNickname(String newNickname) {
         nickname = newNickname;
     }
@@ -64,6 +66,27 @@ public class UserProfile {
 
     public int getGamesTied() {
         return gamesTied;
+    }
+
+    // incrementers
+
+    public boolean increment(String dataName) {
+        if (dataName.equalsIgnoreCase("gamesWon")) {
+            gamesWon++;
+            return true;
+        }
+
+        if (dataName.equalsIgnoreCase("gamesLost")) {
+            gamesLost++;
+            return true;
+        }
+
+        if (dataName.equalsIgnoreCase("gamesTied")) {
+            gamesTied++;
+            return true;
+        }
+
+        return false;
     }
 
 }
