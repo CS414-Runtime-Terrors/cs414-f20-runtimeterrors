@@ -10,9 +10,9 @@ public class UserProfile {
     private int gamesTied = -1;
 
     public UserProfile(String nick, String pass, String email) {
-        nickname = nick;
-        password = pass;
-        emailAddress = email;
+        setNickname(nick);
+        setPassword(pass);
+        setEmailAddress(email);
         gamesWon = 0;
         gamesLost = 0;
         gamesTied = 0;
