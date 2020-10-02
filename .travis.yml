@@ -1,4 +1,5 @@
 language: java
+install: skip
 
 script:
  - ./gradlew build --scan -s
