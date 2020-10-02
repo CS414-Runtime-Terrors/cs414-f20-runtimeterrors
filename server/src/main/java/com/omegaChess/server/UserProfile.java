@@ -16,7 +16,6 @@ public class UserProfile {
         setGamesWon(0);
         setGamesLost(0);
         setGamesTied(0);
-        gamesTied = 0;
     }
 
     // getters and setters
