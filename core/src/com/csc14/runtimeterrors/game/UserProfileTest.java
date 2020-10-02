@@ -30,4 +30,21 @@ public class UserProfileTest {
                 newProfile.getEmailAddress().equals(emailAddressToSet));
     }
 
+    @Test
+    public boolean testIncrementers() {
+        UserProfile testProfile = new UserProfile("Bill", "bob", "billybob@gmail.com");
+
+        int initialGamesWon = testProfile.getGamesWon();
+        int initialGamesLost = testProfile.getGamesLost();
+        int initialGamesTied = testProfile.getGamesTied();
+
+        testProfile.increment("gamesWon");
+        testProfile.increment("gamesLost");
+        testProfile.increment("gamesTied");
+
+        return ((testProfile.getGamesWon() == initialGamesWon + 1) ||
+                (testProfile.getGamesLost() == initialGamesLost + 1) ||
+                (testProfile.getGamesTied() == initialGamesTied + 1));
+    }
+
 }
