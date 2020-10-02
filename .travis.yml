@@ -2,9 +2,6 @@ language: java
 
 before_install:
  – chmod +x gradlew
-
-script:
- - ./gradlew build --scan -s
  
 jdk:
   – openjdk8
