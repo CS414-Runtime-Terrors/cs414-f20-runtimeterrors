@@ -1,4 +1,4 @@
-package com.cs414.omegachess;
+package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
