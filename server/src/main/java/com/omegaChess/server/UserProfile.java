@@ -95,7 +95,7 @@ public class UserProfile {
     // adders
 
     public boolean addToPlayedWith(UserProfile profile) {
-        if (hasPlayedWith(profile)) {
+        if (!hasPlayedWith(profile)) {
             playedWith.add(profile);
             return true;
         }
