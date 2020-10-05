@@ -5,13 +5,21 @@ import org.slf4j.Logger;
 
 class MicroServer {
 
+  // fields
   private final Logger log = LoggerFactory.getLogger(MicroServer.class);
+  private ArrayList<UserProfile> profiles = new ArrayList<>();
+  private RegistrationSystem registrationSystem = new RegistrationSystem();
 
-  // list of user profiles
-  public ArrayList<UserProfile> profiles = new ArrayList<>();
+  // methods
 
-  // registration system
-  RegistrationSystem registrationSystem = new RegistrationSystem(this);
+  public ArrayList<UserProfile> getProfiles() {
+    return profiles;
+  }
+
+  public RegistrationSystem getRegistrationSystem() {
+    return registrationSystem;
+  }
+
 
 
 }

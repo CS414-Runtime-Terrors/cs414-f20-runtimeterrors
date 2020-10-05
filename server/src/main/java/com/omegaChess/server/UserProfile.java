@@ -2,6 +2,7 @@ package com.csc14.runtimeterrors.game;
 
 public class UserProfile {
 
+    // fields
     private String nickname = null;
     private String password = null;
     private String emailAddress = null;
@@ -10,6 +11,7 @@ public class UserProfile {
     private int gamesTied = -1;
     private ArrayList<UserProfile> playedWith = new ArrayList<>();
 
+    // constructor
     public UserProfile(String nick, String pass, String email) {
         setNickname(nick);
         setPassword(pass);
@@ -90,6 +92,8 @@ public class UserProfile {
         return false;
     }
 
+    // adders
+
     public boolean addToPlayedWith(UserProfile profile) {
         if (hasPlayedWith(profile)) {
             playedWith.add(profile);
@@ -98,7 +102,9 @@ public class UserProfile {
         return false;
     }
 
-    public void hasPlayedWith(UserProfile user) {
+    // checkers
+
+    public boolean hasPlayedWith(UserProfile user) {
         for (UserProfile profile : playedWith) {
             if (user.getNickname().equalsIgnoreCase(profile.getNickname())) {
                 return true;
