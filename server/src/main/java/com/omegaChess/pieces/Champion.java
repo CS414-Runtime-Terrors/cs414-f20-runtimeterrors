@@ -14,7 +14,7 @@ public class Champion extends ChessPiece{
     public ArrayList<String> legalMoves(){
         ArrayList<String> moves = new ArrayList<>();
         String pos = this.getPosition();
-        int[] rc = new int[2];
+        int[] rc;
         try{
             rc = parsePosition(pos);
         }catch (IllegalPositionException e){
