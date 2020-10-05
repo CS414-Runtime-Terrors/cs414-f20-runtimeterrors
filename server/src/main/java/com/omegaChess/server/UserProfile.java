@@ -10,6 +10,7 @@ public class UserProfile {
     private int gamesLost = -1;
     private int gamesTied = -1;
     private ArrayList<UserProfile> playedWith = new ArrayList<>();
+    private ArrayList<GameRecord> previousGames = new ArrayList<>();
 
     // constructor
     public UserProfile(String nick, String pass, String email) {
@@ -100,6 +101,10 @@ public class UserProfile {
             return true;
         }
         return false;
+    }
+
+    public void addPlayedGame(GameRecord game) {
+        previousGames.add(game);
     }
 
     // checkers
