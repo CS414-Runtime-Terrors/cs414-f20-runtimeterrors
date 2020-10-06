@@ -63,33 +63,45 @@ public abstract class ChessPiece {
             case 'h':
                 pos[1] = 7;
                 break;
+            case 'i':
+                pos[1] = 8;
+                break;
+            case 'j':
+                pos[1] = 9;
+                break;
             default:
                 throw new IllegalPositionException();
         }
         switch (position.charAt(1)){
-            case '1':
+            case '0':
                 pos[0] = 0;
                 break;
-            case '2':
+            case '1':
                 pos[0] = 1;
                 break;
-            case '3':
+            case '2':
                 pos[0] = 2;
                 break;
-            case '4':
+            case '3':
                 pos[0] = 3;
                 break;
-            case '5':
+            case '4':
                 pos[0] = 4;
                 break;
-            case '6':
+            case '5':
                 pos[0] = 5;
                 break;
-            case '7':
+            case '6':
                 pos[0] = 6;
                 break;
-            case '8':
+            case '7':
                 pos[0] = 7;
+                break;
+            case '8':
+                pos[0] = 8;
+                break;
+            case '9':
+                pos[0] = 9;
                 break;
             default:
                 throw new IllegalPositionException();
@@ -101,8 +113,6 @@ public abstract class ChessPiece {
     protected String reverseParse(int r, int c){
         String pos = new String();
         char colRow[] = new char[2];
-
-        r++;
 
         colRow[1] = (char)(r+'0');
         switch (c){
@@ -129,6 +139,12 @@ public abstract class ChessPiece {
                 break;
             case 7:
                 colRow[0] = 'h';
+                break;
+            case 8:
+                colRow[0] = 'i';
+                break;
+            case 9:
+                colRow[0] = 'j';
                 break;
         }
         pos = new String(colRow);
