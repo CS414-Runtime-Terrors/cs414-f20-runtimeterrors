@@ -1,12 +1,15 @@
 package com.omegaChess.server;
 
-import org.slf4j.Logger;
-import org.slf4j.Logger;
+//import com.csc14.runtimeterrors.game.UserProfile;
+//import com.sun.org.slf4j.internal.Logger;
+//import com.sun.org.slf4j.internal.LoggerFactory;
+
+import java.util.ArrayList;
 
 class MicroServer {
 
   // fields
-  private final Logger log = LoggerFactory.getLogger(MicroServer.class);
+ // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
   private ArrayList<UserProfile> profiles = new ArrayList<>();
   private RegistrationSystem registrationSystem = new RegistrationSystem();
 

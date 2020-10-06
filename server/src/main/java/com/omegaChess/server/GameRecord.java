@@ -1,4 +1,7 @@
-package com.csc14.runtimeterrors.game;
+package com.omegaChess.server;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameRecord {
     private String winner;
