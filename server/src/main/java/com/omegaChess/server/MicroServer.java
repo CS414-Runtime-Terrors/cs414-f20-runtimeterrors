@@ -11,7 +11,7 @@ class MicroServer {
   // fields
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
   private ArrayList<UserProfile> profiles = new ArrayList<>();
-  private RegistrationSystem registrationSystem = new RegistrationSystem();
+  private RegistrationSystem registrationSystem = new RegistrationSystem(this);
 
   // methods
 

@@ -2,6 +2,12 @@ package com.omegaChess.server;
 
 class RegistrationSystem {
 
+    private MicroServer server;
+
+    public RegistrationSystem(MicroServer serverReference) {
+        server = serverReference;
+    }
+
     public boolean createProfile(String nick, String pass, String email) {
         if (!isNicknameTaken(nick)) {
             UserProfile profile = new UserProfile(nick, pass, email);
