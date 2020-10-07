@@ -1,6 +1,14 @@
-import org.junit.jupiter.api.Test;
+package com.omegaChess;
 
-public class TestWizard(){
+import com.omegaChess.pieces.Wizard;
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import com.omegaChess.board.ChessBoard;
+import com.omegaChess.pieces.ChessPiece;
+import org.junit.jupiter.api.DisplayName;
+
+@DisplayName("JUnit Wizard Class Test")
+class TestWizard{
 
     @Test
     public void testGetColor(){
@@ -14,7 +22,7 @@ public class TestWizard(){
         ChessBoard board = new ChessBoard();
         Wizard wiz = new Wizard(board, ChessPiece.Color.WHITE);
         board.placePiece(wiz, "a4");
-        assert wiz.getPosition == "a4": "Piece expected to return \"a4\"";
+        assert wiz.getPosition().equals("a4"): "Piece expected to return \"a4\"";
     }
 
     @Test

@@ -1,6 +1,7 @@
-package com.csc14.runtimeterrors.game;
+package com.omegaChess;
 
-import org.junit.Test;
+import com.omegaChess.server.UserProfile;
+import org.junit.jupiter.api.Test;
 
 public class UserProfileTest {
 

@@ -1,6 +1,15 @@
+package com.omegaChess;
+
+import java.util.ArrayList;
+
+import com.omegaChess.board.ChessBoard;
+import com.omegaChess.pieces.Champion;
+import com.omegaChess.pieces.ChessPiece;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class TestChampion(){
+@DisplayName("JUnit Champion Class Test")
+class TestChampion {
 
     @Test
     public void testGetColor(){
@@ -14,7 +23,7 @@ public class TestChampion(){
         ChessBoard board = new ChessBoard();
         Champion champ = new Champion(board, ChessPiece.Color.WHITE);
         board.placePiece(champ, "a4");
-        assert champ.getPosition == "a4": "Piece expected to return \"a4\"";
+        assert champ.getPosition().equals("a4"): "Piece expected to return \"a4\"";
     }
 
     @Test

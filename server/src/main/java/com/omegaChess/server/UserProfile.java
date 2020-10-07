@@ -1,4 +1,6 @@
-package com.csc14.runtimeterrors.game;
+package com.omegaChess.server;
+
+import java.util.ArrayList;
 
 public class UserProfile {
 
