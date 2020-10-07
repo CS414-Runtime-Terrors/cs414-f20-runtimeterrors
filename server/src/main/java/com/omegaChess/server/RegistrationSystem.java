@@ -26,4 +26,14 @@ class RegistrationSystem {
         return false;
     }
 
+    public boolean removeProfile(String nick) {
+        for (UserProfile profile : server.getProfiles()) {
+            if (profile.getNickname().equalsIgnoreCase(nick)) {
+                server.getProfiles().remove(profile);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
