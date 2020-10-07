@@ -38,11 +38,14 @@ Epics planned for this release.
 | *9/30/20* | *N/A* | #19, #105, #106, #107, #108, #109, #130 | *N/A* |
 | *10/2/20* | #19, #130 | #20, #21, #48, #84, #106, #107, #108, #109, #112, #113, #129, #131 | some problems with getting travis working, but Darla and Falkyn got it working |
 | *10/5/20* | #20, #21, #48, #84 | #33, #105, #106, #107, #109, #112, #113, #128, #129, #131 | *none* |
+| *10/7/20* | #33, #38, #109, #112, #112 | #105, #106, #107, #108, #129, #131 |  |
 
 ## Review
 
 #### Completed epics in Sprint Backlog 
 * Register (#11)
+* Unregister (#12)
+* End Match (#15)
 * Storage of Previous Games (#18)
 
 #### Incomplete epics in Sprint Backlog 
