@@ -32,7 +32,7 @@ public class GameRecord {
 
     public void setDraw(boolean tie) { draw = tie; }
 
-    public boolean getDraw() { return draw; }
+    public boolean isDraw() { return draw; }
 
     public void setNumMoves(int moves) { numMoves = moves; }
 
