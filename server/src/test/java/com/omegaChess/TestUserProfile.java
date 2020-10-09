@@ -34,12 +34,12 @@ public class TestUserProfile {
         newProfile.setGamesLost(gamesLostToSet);
         newProfile.setGamesTied(gamesTiedToSet);
 
-        assert (newProfile.getNickname().equals(nicknameToSet) &&
-                newProfile.getPassword().equals(passwordToSet) &&
-                newProfile.getEmailAddress().equals(emailAddressToSet) &&
-                newProfile.getGamesWon() == gamesWonToSet &&
-                newProfile.getGamesLost() == gamesLostToSet &&
-                newProfile.getGamesTied() == gamesTiedToSet);
+        assert (newProfile.getNickname().equals(nicknameToSet));
+        assert (newProfile.getPassword().equals(passwordToSet));
+        assert (newProfile.getEmailAddress().equals(emailAddressToSet));
+        assert (newProfile.getGamesWon() == gamesWonToSet);
+        assert (newProfile.getGamesLost() == gamesLostToSet);
+        assert (newProfile.getGamesTied() == gamesTiedToSet);
     }
 
     @Test
@@ -54,9 +54,9 @@ public class TestUserProfile {
         testProfile.increment("gamesLost");
         testProfile.increment("gamesTied");
 
-        assert ((testProfile.getGamesWon() == initialGamesWon + 1) &&
-                (testProfile.getGamesLost() == initialGamesLost + 1) &&
-                (testProfile.getGamesTied() == initialGamesTied + 1));
+        assert (testProfile.getGamesWon() == initialGamesWon + 1);
+        assert (testProfile.getGamesLost() == initialGamesLost + 1);
+        assert (testProfile.getGamesTied() == initialGamesTied + 1);
     }
 
 }
