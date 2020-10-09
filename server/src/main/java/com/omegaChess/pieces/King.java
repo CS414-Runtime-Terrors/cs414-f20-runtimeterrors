@@ -45,55 +45,60 @@ public class King extends ChessPiece {
         ArrayList<String> legalMoves = new ArrayList<String>();
 
         // row-1, col-1
-        if( row-1 >= 0 && column-1 >= 0)
+        if( row-1 >= 1 && column-1 >= 1)
         {
             legalMoves.add(board.reverseParse(row-1, column-1));
         }
 
         // row, col-1
-        if(column-1 >= 0 )
+        if(column-1 >= 1 )
         {
             legalMoves.add(board.reverseParse(row, column-1));
         }
 
         // row+1, col-1
-        if(row+1 <= 7 && column-1 >= 0 )
+        if(row+1 <= 10 && column-1 >= 1 )
         {
             legalMoves.add(board.reverseParse(row+1, column-1));
         }
 
         // row+1, col
-        if(row+1 <= 7 )
+        if(row+1 <= 10 )
         {
             legalMoves.add(board.reverseParse(row+1, column));
         }
 
         // row+1, col+1
-        if(row+1 <= 7 && column+1 <= 7 )
+        if(row+1 <= 10 && column+1 <= 10 )
         {
             legalMoves.add(board.reverseParse(row+1, column+1));
         }
 
         // row, col+1
-        if(column+1 <= 7 )
+        if(column+1 <= 10 )
         {
             legalMoves.add(board.reverseParse(row, column+1));
         }
 
         // row-1, col+1
-        if(row-1 >= 0 && column+1 <= 7 )
+        if(row-1 >= 1 && column+1 <= 10 )
         {
             legalMoves.add(board.reverseParse(row-1, column+1));
         }
 
         // row-1, col
-        if(row-1 >= 0 )
+        if(row-1 >= 1 )
         {
             legalMoves.add(board.reverseParse(row-1, column));
         }
 
-
         return legalMoves;
+    }
+
+    // todo: implement function checking if a move will put the king in check
+    public boolean king_in_check(String new_pos)
+    {
+        return false;
     }
 
 }
