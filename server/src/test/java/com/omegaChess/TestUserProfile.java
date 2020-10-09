@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("JUnit User Profile Class Test")
-public class UserProfileTest {
+public class TestUserProfile {
 
     @Test
     public void testConstruction() {
