@@ -1,6 +1,7 @@
 package com.omegaChess.pieces;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
 
@@ -44,56 +45,160 @@ public class King extends ChessPiece {
     {
         ArrayList<String> legalMoves = new ArrayList<String>();
 
+        ChessPiece tmp_piece = null;
+        String tmp_str;
+
         // row-1, col-1
-        if( row-1 >= 0 && column-1 >= 0)
+        if( row-1 >= 1 && column-1 >= 1)
         {
-            legalMoves.add(board.reverseParse(row-1, column-1));
+            tmp_str = board.reverseParse(row-1, column-1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color) ||
+                    !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row, col-1
-        if(column-1 >= 0 )
+        if(column-1 >= 1 )
         {
-            legalMoves.add(board.reverseParse(row, column-1));
+            tmp_str = board.reverseParse(row, column-1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row+1, col-1
-        if(row+1 <= 7 && column-1 >= 0 )
+        if(row+1 <= 10 && column-1 >= 1 )
         {
-            legalMoves.add(board.reverseParse(row+1, column-1));
+            tmp_str = board.reverseParse(row+1, column-1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row+1, col
-        if(row+1 <= 7 )
+        if(row+1 <= 10 )
         {
-            legalMoves.add(board.reverseParse(row+1, column));
+            tmp_str = board.reverseParse(row+1, column);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row+1, col+1
-        if(row+1 <= 7 && column+1 <= 7 )
+        if(row+1 <= 10 && column+1 <= 10 )
         {
-            legalMoves.add(board.reverseParse(row+1, column+1));
+            tmp_str = board.reverseParse(row+1, column+1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row, col+1
-        if(column+1 <= 7 )
+        if(column+1 <= 10 )
         {
-            legalMoves.add(board.reverseParse(row, column+1));
+            tmp_str = board.reverseParse(row, column+1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row-1, col+1
-        if(row-1 >= 0 && column+1 <= 7 )
+        if(row-1 >= 1 && column+1 <= 10 )
         {
-            legalMoves.add(board.reverseParse(row-1, column+1));
+            tmp_str = board.reverseParse(row-1, column+1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
         // row-1, col
-        if(row-1 >= 0 )
+        if(row-1 >= 1 )
         {
-            legalMoves.add(board.reverseParse(row-1, column));
+            tmp_str = board.reverseParse(row-1, column);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece or somewhere that puts in check
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
+            {
+                legalMoves.add(tmp_str);
+            }
         }
 
-
         return legalMoves;
+    }
+
+    // todo: implement function checking if a move will put the king in check
+    public boolean is_king_in_check(String new_pos)
+    {
+        return false;
     }
 
 }

@@ -5,9 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.King;
 import com.omegaChess.pieces.Knight;
+import com.omegaChess.pieces.Pawn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 @DisplayName("JUnit Knight Class Test")
 class TestKnight {
@@ -66,8 +71,50 @@ class TestKnight {
 
         Knight knight = new Knight(board, ChessPiece.Color.BLACK);
 
-        // knights have no legal moves
-        assertEquals(0, knight.legalMoves().size());
+        board.placePiece(knight,  "f5");
+
+        // test 1 - no blocking pieces
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add("d6");
+        validMoves.add("e7");
+        validMoves.add("g7");
+        validMoves.add("h6");
+        validMoves.add("h4");
+        validMoves.add("g3");
+        validMoves.add("d4");
+        validMoves.add("e3");
+
+        // get kings valid moves
+        ArrayList<String> knightValid = knight.legalMoves();
+
+        // Sort in case they come in a different order
+        Collections.sort(validMoves);
+        Collections.sort(knightValid);
+
+        assertEquals(validMoves, knightValid);
+
+        // test 2 - friend piece in the way
+        Pawn pawn = new Pawn(board, ChessPiece.Color.BLACK);
+        board.placePiece(pawn, "g3");
+        
+        validMoves.clear();
+        validMoves.add("d6");
+        validMoves.add("e7");
+        validMoves.add("g7");
+        validMoves.add("h6");
+        validMoves.add("h4");
+        validMoves.add("d4");
+        validMoves.add("e3");
+
+        // get kings valid moves
+        knightValid = knight.legalMoves();
+
+        // Sort in case they come in a different order
+        Collections.sort(validMoves);
+        Collections.sort(knightValid);
+
+        assertEquals(validMoves, knightValid);
+        
     }
 
 }

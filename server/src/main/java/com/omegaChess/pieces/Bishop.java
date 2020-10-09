@@ -44,8 +44,7 @@ public class Bishop extends ChessPiece {
     {
         ArrayList<String> validMoves = new ArrayList<String>();
 
-        // rook can move any number of squares forward, backward, horiz or vert if
-        // it does not encounter other pieces
+        // bishop can move any number of squares diagonally if no other pieces
 
         // handle forward up diag pieces
         int tmp_row = row+1;
@@ -53,7 +52,7 @@ public class Bishop extends ChessPiece {
         ChessPiece tmp_piece = null;
         String tmp_str = board.reverseParse(tmp_row, tmp_col);
 
-        while( tmp_row < 8 && tmp_col < 8 && tmp_piece == null )
+        while( tmp_row < 11 && tmp_col < 11 && tmp_piece == null )
         {
             try {
                 tmp_piece = board.getPiece(tmp_str);
@@ -70,7 +69,12 @@ public class Bishop extends ChessPiece {
             else if( tmp_piece.getColor() != this.color )
             {
                 validMoves.add(tmp_str);
-                tmp_row = 9;
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
             }
 
             tmp_row += 1;
@@ -84,7 +88,7 @@ public class Bishop extends ChessPiece {
         tmp_piece = null;
         tmp_str = board.reverseParse(tmp_row, tmp_col);
 
-        while( tmp_row > -1 && tmp_col < 8 && tmp_piece == null )
+        while( tmp_row > 0 && tmp_col < 11 && tmp_piece == null )
         {
             try {
                 tmp_piece = board.getPiece(tmp_str);
@@ -101,7 +105,12 @@ public class Bishop extends ChessPiece {
             else if( tmp_piece.getColor() != this.color )
             {
                 validMoves.add(tmp_str);
-                tmp_row = -1;
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
             }
 
             tmp_row -= 1;
@@ -115,7 +124,7 @@ public class Bishop extends ChessPiece {
         tmp_piece = null;
         tmp_str = board.reverseParse(tmp_row, tmp_col);
 
-        while( tmp_col > -1 && tmp_row < 8 && tmp_piece == null )
+        while( tmp_col > 0 && tmp_row < 11 && tmp_piece == null )
         {
             try {
                 tmp_piece = board.getPiece(tmp_str);
@@ -132,7 +141,12 @@ public class Bishop extends ChessPiece {
             else if( tmp_piece.getColor() != this.color )
             {
                 validMoves.add(tmp_str);
-                tmp_col = 9;
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
             }
 
             tmp_col -= 1;
@@ -147,7 +161,7 @@ public class Bishop extends ChessPiece {
         tmp_piece = null;
         tmp_str = board.reverseParse(tmp_row, tmp_col);
 
-        while( tmp_col > -1 && tmp_row > -1 && tmp_piece == null )
+        while( tmp_col > 0 && tmp_row > 0 && tmp_piece == null )
         {
             try {
                 tmp_piece = board.getPiece(tmp_str);
@@ -164,13 +178,17 @@ public class Bishop extends ChessPiece {
             else if( tmp_piece.getColor() != this.color )
             {
                 validMoves.add(tmp_str);
-                tmp_col = -1;
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
             }
 
             tmp_col -= 1;
             tmp_row -= 1;
             tmp_str = board.reverseParse(tmp_row, tmp_col);
-
         }
 
         return validMoves;

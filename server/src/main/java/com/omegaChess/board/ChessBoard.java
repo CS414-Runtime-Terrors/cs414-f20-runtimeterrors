@@ -4,6 +4,7 @@ import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,8 +13,8 @@ public class ChessBoard {
 
     // Create a class constructor for the ChessBoard.java class
     public ChessBoard() {
-        // create 9x9 board and initialize to all nulls
-        board = new ChessPiece[11][11];
+        // create 12x12 board and initialize to all nulls
+        board = new ChessPiece[12][12];
         for( ChessPiece[] array : board )
         {
             Arrays.fill(array, null);
@@ -91,35 +92,41 @@ public class ChessBoard {
             e.printStackTrace();
         }
 
-        // get color of current player
-        ChessPiece.Color currentColor = piece.getColor();
-
-        boolean valid = true;
-        if( board[pos[0]][pos[1]] != null )
+        if( piece != null )
         {
-            ChessPiece.Color oldColor = board[pos[0]][pos[1]].getColor();
+            // get color of current player
+            ChessPiece.Color currentColor = piece.getColor();
 
-            if( oldColor == currentColor )
+            boolean valid = true;
+            if( board[pos[0]][pos[1]] != null )
             {
-                valid = false;
+                ChessPiece.Color oldColor = board[pos[0]][pos[1]].getColor();
+
+                if( oldColor == currentColor )
+                {
+                    valid = false;
+                }
+            }
+
+            // if color is the same as current player or invalid column or row values
+            if( valid == false )
+            {
+                return false;
+            }
+
+            // if opponent has piece here, it gets captured. Either way, setPosition
+            // gets called and return true.
+            board[pos[0]][pos[1]] = piece;
+            try {
+                board[pos[0]][pos[1]].setPosition(position);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
             }
         }
-
-        // if color is the same as current player or invalid column or row values
-        if( valid == false )
+        else
         {
-            return false;
+            board[pos[0]][pos[1]] = null;
         }
-
-        // if opponent has piece here, it gets captured. Either way, setPosition
-        // gets called and return true.
-        board[pos[0]][pos[1]] = piece;
-        try {
-            board[pos[0]][pos[1]].setPosition(position);
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-        }
-
 
         return true;
     }
@@ -219,7 +226,6 @@ public class ChessBoard {
         try {
             board.move("c2", "c4");
         } catch (IllegalMoveException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -229,129 +235,136 @@ public class ChessBoard {
     // Method to convert string position into two integer coordinates
     public int[] parsePosition(String position) throws IllegalPositionException {
         int pos[] = new int[2];
-        char col = position.charAt(0);
-        int row = Integer.valueOf(position.substring(1));
-        switch (col){
-            case 'a':
-                pos[1] = 0;
-                break;
-            case 'b':
-                pos[1] = 1;
-                break;
-            case 'c':
-                pos[1] = 2;
-                break;
-            case 'd':
-                pos[1] = 3;
-                break;
-            case 'e':
-                pos[1] = 4;
-                break;
-            case 'f':
-                pos[1] = 5;
-                break;
-            case 'g':
-                pos[1] = 6;
-                break;
-            case 'h':
-                pos[1] = 7;
-                break;
-            case 'i':
-                pos[1] = 8;
-                break;
-            case 'j':
-                pos[1] = 9;
-                break;
-            case 'w':
-                pos[1] = 10;    // todo: decide if 11 is ok?
-                break;
-            default:
-                throw new IllegalPositionException("Illegal Column Position: " + pos[1]);
+
+        // handle w squares since they are different
+        if (position.equals("w1"))
+        {
+            pos[0] = 0;
+            pos[1] = 0;
+        }
+        else if(position.equals("w2"))
+        {
+            pos[0] = 0;
+            pos[1] = 11;
+        }
+        else if(position.equals("w3"))
+        {
+            pos[0] = 11;
+            pos[1] = 11;
+        }
+        else if(position.equals("w4"))
+        {
+            pos[0] = 11;
+            pos[1] = 0;
+        }
+        else
+        {
+            char col = position.charAt(0);
+            pos[0] = Integer.valueOf(position.substring(1));
+
+            if(pos[0] < 1 || pos[0] > 10 )
+            {
+                throw new IllegalPositionException("Illegal Column Position: " + pos[0]);
+            }
+
+
+            switch (col){
+                case 'a':
+                    pos[1] = 1;
+                    break;
+                case 'b':
+                    pos[1] = 2;
+                    break;
+                case 'c':
+                    pos[1] = 3;
+                    break;
+                case 'd':
+                    pos[1] = 4;
+                    break;
+                case 'e':
+                    pos[1] = 5;
+                    break;
+                case 'f':
+                    pos[1] = 6;
+                    break;
+                case 'g':
+                    pos[1] = 7;
+                    break;
+                case 'h':
+                    pos[1] = 8;
+                    break;
+                case 'i':
+                    pos[1] = 9;
+                    break;
+                case 'j':
+                    pos[1] = 10;
+                    break;
+                default:
+                    throw new IllegalPositionException("Illegal Column Position: " + pos[1]);
+            }
         }
 
-        switch (row){
-            case 0:
-                pos[0] = 0;
-                break;
-            case 1:
-                pos[0] = 1;
-                break;
-            case 2:
-                pos[0] = 2;
-                break;
-            case 3:
-                pos[0] = 3;
-                break;
-            case 4:
-                pos[0] = 4;
-                break;
-            case 5:
-                pos[0] = 5;
-                break;
-            case 6:
-                pos[0] = 6;
-                break;
-            case 7:
-                pos[0] = 7;
-                break;
-            case 8:
-                pos[0] = 8;
-                break;
-            case 9:
-                pos[0] = 9;
-                break;
-            case 10:
-                pos[0] = 10;    // todo: decide if 11 is ok??
-                break;
-            default:
-                throw new IllegalPositionException("Illegal Row Position: " + pos[0]);
-        }
         return pos;
     }
 
     // A method that converts the integer coordinates of a piece to a String
     public String reverseParse(int r, int c){
-        String pos = new String();
-        char colRow[] = new char[2];
+        String colRow = "";
 
-        colRow[1] = (char)(r+'0');
-        switch (c){
-            case 0:
-                colRow[0] = 'a';
-                break;
-            case 1:
-                colRow[0] = 'b';
-                break;
-            case 2:
-                colRow[0] = 'c';
-                break;
-            case 3:
-                colRow[0] = 'd';
-                break;
-            case 4:
-                colRow[0] = 'e';
-                break;
-            case 5:
-                colRow[0] = 'f';
-                break;
-            case 6:
-                colRow[0] = 'g';
-                break;
-            case 7:
-                colRow[0] = 'h';
-                break;
-            case 8:
-                colRow[0] = 'i';
-                break;
-            case 9:
-                colRow[0] = 'j';
-                break;
-            case 11:        // todo: decide if 11 is ok
-                colRow[0] = 'w';
-                break;
+        // handle w squares since they are different
+        if (r == 0 && c == 0)
+        {
+            colRow = "w1";
         }
-        pos = new String(colRow);
+        else if(r == 0 && c == 11)
+        {
+            colRow = "w2";
+        }
+        else if(r == 11 && c == 11)
+        {
+            colRow = "w3";
+        }
+        else if(r == 11 && c == 0)
+        {
+            colRow = "w4";
+        }
+        else
+        {
+            switch (c){
+                case 1:
+                    colRow = "a";
+                    break;
+                case 2:
+                    colRow = "b";
+                    break;
+                case 3:
+                    colRow = "c";
+                    break;
+                case 4:
+                    colRow = "d";
+                    break;
+                case 5:
+                    colRow = "e";
+                    break;
+                case 6:
+                    colRow = "f";
+                    break;
+                case 7:
+                    colRow = "g";
+                    break;
+                case 8:
+                    colRow = "h";
+                    break;
+                case 9:
+                    colRow = "i";
+                    break;
+                case 10:
+                    colRow = "j";
+                    break;
+            }
+            colRow += String.valueOf(r);
+        }
 
-        return pos;
+        return colRow;
     }
 }

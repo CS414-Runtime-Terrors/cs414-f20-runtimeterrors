@@ -74,13 +74,6 @@ class TestRook {
 
         // test 1 - no blocking pieces
         ArrayList<String> validMoves = new ArrayList<String>();
-        validMoves.add("g2");
-        validMoves.add("h2");
-        validMoves.add("e2");
-        validMoves.add("d2");
-        validMoves.add("c2");
-        validMoves.add("b2");
-        validMoves.add("a2");
         validMoves.add("f1");
         validMoves.add("f3");
         validMoves.add("f4");
@@ -88,6 +81,17 @@ class TestRook {
         validMoves.add("f6");
         validMoves.add("f7");
         validMoves.add("f8");
+        validMoves.add("f9");
+        validMoves.add("f10");
+        validMoves.add("e2");
+        validMoves.add("d2");
+        validMoves.add("c2");
+        validMoves.add("b2");
+        validMoves.add("a2");
+        validMoves.add("g2");
+        validMoves.add("h2");
+        validMoves.add("i2");
+        validMoves.add("j2");
 
         ArrayList<String> rookValid = rook.legalMoves();
         Collections.sort(validMoves);
@@ -105,15 +109,17 @@ class TestRook {
         board.placePiece(knight, "f3");
 
         validMoves.clear();
-        validMoves.add("g2");
-        validMoves.add("h2");
+        validMoves.add("f1");
+        validMoves.add("f3");
         validMoves.add("e2");
         validMoves.add("d2");
         validMoves.add("c2");
         validMoves.add("b2");
         validMoves.add("a2");
-        validMoves.add("f1");
-        validMoves.add("f3");
+        validMoves.add("g2");
+        validMoves.add("h2");
+        validMoves.add("i2");
+        validMoves.add("j2");
 
         rookValid = rook.legalMoves();
         Collections.sort(validMoves);
