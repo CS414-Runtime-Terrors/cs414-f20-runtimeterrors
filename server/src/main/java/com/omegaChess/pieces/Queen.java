@@ -1,6 +1,7 @@
 package com.omegaChess.pieces;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,309 @@ public class Queen extends ChessPiece {
      */
     public ArrayList<String> legalMoves()
     {
-        return new ArrayList<String>();
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        // Queen moves are combination of bishop and rook
+        validMoves = rookMoves();
+        validMoves.addAll(bishopMoves());
+
+        return validMoves;
+    }
+
+    public ArrayList<String> rookMoves()
+    {
+        ArrayList<String> validMoves = new ArrayList<>();
+        // handle forward vertical pieces
+        int tmp_row = row+1;
+        ChessPiece tmp_piece = null;
+        String tmp_str = board.reverseParse(tmp_row, column);
+
+        while( tmp_row < 11 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_row += 1;
+            tmp_str = board.reverseParse(tmp_row, column);
+        }
+
+        // handle backwards vertical pieces
+        tmp_row = row-1;
+        tmp_piece = null;
+        tmp_str = board.reverseParse(tmp_row, column);
+
+        while( tmp_row > 0 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_row -= 1;
+            tmp_str = board.reverseParse(tmp_row, column);
+        }
+
+        // handle forward horizontal pieces
+        int tmp_col = column+1;
+        tmp_piece = null;
+        tmp_str = board.reverseParse(row, tmp_col);
+
+        while( tmp_col < 11 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_col += 1;
+            tmp_str = board.reverseParse(row, tmp_col);
+
+        }
+
+        // handle backward horizontal pieces
+        tmp_col = column-1;
+        tmp_piece = null;
+        tmp_str = board.reverseParse(row, tmp_col);
+
+        while( tmp_col > 0 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_col -= 1;
+            tmp_str = board.reverseParse(row, tmp_col);
+
+        }
+
+        return validMoves;
+    }
+
+    public ArrayList<String> bishopMoves()
+    {
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        // handle forward up diag pieces
+        int tmp_row = row+1;
+        int tmp_col = column+1;
+        ChessPiece tmp_piece = null;
+        String tmp_str = board.reverseParse(tmp_row, tmp_col);
+
+        while( tmp_row < 11 && tmp_col < 11 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_row += 1;
+            tmp_col += 1;
+            tmp_str = board.reverseParse(tmp_row, tmp_col);
+        }
+
+        // handle forwards down diag pieces
+        tmp_row = row-1;
+        tmp_col = column +1;
+        tmp_piece = null;
+        tmp_str = board.reverseParse(tmp_row, tmp_col);
+
+        while( tmp_row > 0 && tmp_col < 11 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_row -= 1;
+            tmp_col += 1;
+            tmp_str = board.reverseParse(tmp_row, tmp_col);
+        }
+
+        // handle backwards diag up pieces
+        tmp_col = column-1;
+        tmp_row = row+1;
+        tmp_piece = null;
+        tmp_str = board.reverseParse(tmp_row, tmp_col);
+
+        while( tmp_col > 0 && tmp_row < 11 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_col -= 1;
+            tmp_row += 1;
+            tmp_str = board.reverseParse(tmp_row, tmp_col);
+
+        }
+
+        // handle backward diag down pieces
+        tmp_col = column-1;
+        tmp_row = row-1;
+        tmp_piece = null;
+        tmp_str = board.reverseParse(tmp_row, tmp_col);
+
+        while( tmp_col > 0 && tmp_row > 0 && tmp_piece == null )
+        {
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if empty - legal move
+            if( tmp_piece == null )
+            {
+                validMoves.add(tmp_str);
+            }
+            // if opponent piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece - can't move here or in this direction anymore
+            else if( tmp_piece.getColor() == this.color )
+            {
+                break;
+            }
+
+            tmp_col -= 1;
+            tmp_row -= 1;
+            tmp_str = board.reverseParse(tmp_row, tmp_col);
+        }
+
+        return validMoves;
     }
 
 }

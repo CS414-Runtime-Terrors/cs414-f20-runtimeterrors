@@ -52,7 +52,6 @@ public class Bishop extends ChessPiece {
         ChessPiece tmp_piece = null;
         String tmp_str = board.reverseParse(tmp_row, tmp_col);
 
-        // todo: add in condition ' && tmp_piece is not instance of invalid_piece '
         while( tmp_row < 11 && tmp_col < 11 && tmp_piece == null )
         {
             try {
