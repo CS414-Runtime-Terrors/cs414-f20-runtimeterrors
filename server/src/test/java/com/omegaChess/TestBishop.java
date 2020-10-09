@@ -78,6 +78,8 @@ class TestBishop {
         validMoves.add("f6");
         validMoves.add("g7");
         validMoves.add("h8");
+        validMoves.add("i9");
+        validMoves.add("j10");
         validMoves.add("c3");
         validMoves.add("b2");
         validMoves.add("a1");
