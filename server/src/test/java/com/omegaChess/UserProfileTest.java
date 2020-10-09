@@ -6,15 +6,15 @@ import org.junit.jupiter.api.Test;
 public class UserProfileTest {
 
     @Test
-    public boolean testConstruction() {
+    public void testConstruction() {
 
         UserProfile testProfile = new UserProfile("Mr. Jiggly", "baseball", "misterjiggly@gmail.com");
 
-        return (testProfile != null);
+        assert (testProfile != null);
     }
 
     @Test
-    public boolean testSettersAndGetters() {
+    public void testSettersAndGetters() {
 
         UserProfile newProfile = new UserProfile("Bill", "bob", "billybob@gmail.com");
 
@@ -32,7 +32,7 @@ public class UserProfileTest {
         newProfile.setGamesLost(gamesLostToSet);
         newProfile.setGamesTied(gamesTiedToSet);
 
-        return (newProfile.getNickname().equals(nicknameToSet) &&
+        assert (newProfile.getNickname().equals(nicknameToSet) &&
                 newProfile.getPassword().equals(passwordToSet) &&
                 newProfile.getEmailAddress().equals(emailAddressToSet) &&
                 newProfile.getGamesWon() == gamesWonToSet &&
@@ -41,7 +41,7 @@ public class UserProfileTest {
     }
 
     @Test
-    public boolean testIncrementers() {
+    public void testIncrementers() {
         UserProfile testProfile = new UserProfile("Bill", "bob", "billybob@gmail.com");
 
         int initialGamesWon = testProfile.getGamesWon();
@@ -52,7 +52,7 @@ public class UserProfileTest {
         testProfile.increment("gamesLost");
         testProfile.increment("gamesTied");
 
-        return ((testProfile.getGamesWon() == initialGamesWon + 1) &&
+        assert ((testProfile.getGamesWon() == initialGamesWon + 1) &&
                 (testProfile.getGamesLost() == initialGamesLost + 1) &&
                 (testProfile.getGamesTied() == initialGamesTied + 1));
     }
