@@ -1,6 +1,7 @@
 package com.omegaChess.pieces;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,148 @@ public class Knight extends ChessPiece {
      */
     public ArrayList<String> legalMoves()
     {
-        return new ArrayList<String>();
+        ArrayList<String> legalMoves = new ArrayList<>();
+
+        ChessPiece tmp_piece = null;
+        String tmp_str;
+
+        // row+1, col-2
+        if( row+1 <= 10 && column-2 >= 1)
+        {
+            tmp_str = board.reverseParse(row+1, column-2);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row+2, col-1
+        if(row+2 <= 10 && column-1 >= 1 )
+        {
+            tmp_str = board.reverseParse(row+2, column-1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row+2, col+1
+        if(row+2 <= 10 && column+1 <= 10 )
+        {
+            tmp_str = board.reverseParse(row+2, column+1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row+1, col+2
+        if(row+1 <= 10 && column+2 <= 10)
+        {
+            tmp_str = board.reverseParse(row+1, column+2);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row-1, col+2
+        if(row-1 >= 1 && column+2 <= 10 )
+        {
+            tmp_str = board.reverseParse(row-1, column+2);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row-2, col+1
+        if(row-2 >= 1 && column+1 <= 10 )
+        {
+            tmp_str = board.reverseParse(row-2, column+1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row-2, col-1
+        if(row-2 >= 1 && column-1 >= 1 )
+        {
+            tmp_str = board.reverseParse(row-2, column-1);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        // row-1, col-2
+        if(row-1 >= 1 && column-2 >= 1)
+        {
+            tmp_str = board.reverseParse(row-1, column-2);
+            try {
+                tmp_piece = board.getPiece(tmp_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // can't move to a friend piece
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            {
+                legalMoves.add(tmp_str);
+            }
+        }
+
+        return legalMoves;
     }
 }
 
