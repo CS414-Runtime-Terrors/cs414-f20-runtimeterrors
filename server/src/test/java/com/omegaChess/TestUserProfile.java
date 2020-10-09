@@ -4,6 +4,9 @@ import com.omegaChess.server.UserProfile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @DisplayName("JUnit User Profile Class Test")
 public class TestUserProfile {
 
@@ -12,7 +15,7 @@ public class TestUserProfile {
 
         UserProfile testProfile = new UserProfile("Mr. Jiggly", "baseball", "misterjiggly@gmail.com");
 
-        assert (testProfile != null);
+        assertNotNull(testProfile);
     }
 
     @Test
@@ -34,12 +37,12 @@ public class TestUserProfile {
         newProfile.setGamesLost(gamesLostToSet);
         newProfile.setGamesTied(gamesTiedToSet);
 
-        assert (newProfile.getNickname().equals(nicknameToSet));
-        assert (newProfile.getPassword().equals(passwordToSet));
-        assert (newProfile.getEmailAddress().equals(emailAddressToSet));
-        assert (newProfile.getGamesWon() == gamesWonToSet);
-        assert (newProfile.getGamesLost() == gamesLostToSet);
-        assert (newProfile.getGamesTied() == gamesTiedToSet);
+        assertEquals(nicknameToSet, newProfile.getNickname());
+        assertEquals(passwordToSet, newProfile.getPassword());
+        assertEquals(emailAddressToSet, newProfile.getEmailAddress());
+        assertEquals(gamesWonToSet, newProfile.getGamesWon());
+        assertEquals(gamesLostToSet, newProfile.getGamesLost());
+        assertEquals(gamesTiedToSet, newProfile.getGamesTied());
     }
 
     @Test
@@ -54,9 +57,9 @@ public class TestUserProfile {
         testProfile.increment("gamesLost");
         testProfile.increment("gamesTied");
 
-        assert (testProfile.getGamesWon() == initialGamesWon + 1);
-        assert (testProfile.getGamesLost() == initialGamesLost + 1);
-        assert (testProfile.getGamesTied() == initialGamesTied + 1);
+        assertEquals(initialGamesWon + 1, testProfile.getGamesWon());
+        assertEquals(initialGamesLost + 1, testProfile.getGamesLost());
+        assertEquals(initialGamesTied + 1, testProfile.getGamesTied());
     }
 
 }
