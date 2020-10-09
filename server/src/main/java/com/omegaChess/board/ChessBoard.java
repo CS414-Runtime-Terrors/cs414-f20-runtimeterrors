@@ -92,35 +92,41 @@ public class ChessBoard {
             e.printStackTrace();
         }
 
-        // get color of current player
-        ChessPiece.Color currentColor = piece.getColor();
-
-        boolean valid = true;
-        if( board[pos[0]][pos[1]] != null )
+        if( piece != null )
         {
-            ChessPiece.Color oldColor = board[pos[0]][pos[1]].getColor();
+            // get color of current player
+            ChessPiece.Color currentColor = piece.getColor();
 
-            if( oldColor == currentColor )
+            boolean valid = true;
+            if( board[pos[0]][pos[1]] != null )
             {
-                valid = false;
+                ChessPiece.Color oldColor = board[pos[0]][pos[1]].getColor();
+
+                if( oldColor == currentColor )
+                {
+                    valid = false;
+                }
+            }
+
+            // if color is the same as current player or invalid column or row values
+            if( valid == false )
+            {
+                return false;
+            }
+
+            // if opponent has piece here, it gets captured. Either way, setPosition
+            // gets called and return true.
+            board[pos[0]][pos[1]] = piece;
+            try {
+                board[pos[0]][pos[1]].setPosition(position);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
             }
         }
-
-        // if color is the same as current player or invalid column or row values
-        if( valid == false )
+        else
         {
-            return false;
+            board[pos[0]][pos[1]] = null;
         }
-
-        // if opponent has piece here, it gets captured. Either way, setPosition
-        // gets called and return true.
-        board[pos[0]][pos[1]] = piece;
-        try {
-            board[pos[0]][pos[1]].setPosition(position);
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-        }
-
 
         return true;
     }
@@ -255,6 +261,13 @@ public class ChessBoard {
         {
             char col = position.charAt(0);
             pos[0] = Integer.valueOf(position.substring(1));
+
+            if(pos[0] < 1 || pos[0] > 10 )
+            {
+                throw new IllegalPositionException("Illegal Column Position: " + pos[0]);
+            }
+
+
             switch (col){
                 case 'a':
                     pos[1] = 1;
