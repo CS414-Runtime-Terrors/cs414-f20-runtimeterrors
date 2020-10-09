@@ -1,8 +1,5 @@
 # Sprint 1 - P2 - *Team Runtime Terrors*
 
-## Goal
-
-### Where Am I?
 ### Sprint Leader: *Daniel Stephenson*
 
 ## Policies
@@ -39,6 +36,7 @@ Epics planned for this release.
 | *10/2/20* | #19, #130 | #20, #21, #48, #84, #106, #107, #108, #109, #112, #113, #129, #131 | some problems with getting travis working, but Darla and Falkyn got it working |
 | *10/5/20* | #20, #21, #48, #84 | #33, #105, #106, #107, #109, #112, #113, #128, #129, #131 | *none* |
 | *10/7/20* | #33, #38, #109, #112, #112 | #105, #106, #107, #108, #110, #111, #129, #131, #147, #157 | some issues with running unit tests with intellij |
+| *10/9/20* | #105, #106, #107, #108, #110, #111, #129, #131 | #70, #71, #147, #157, #160, #162, #163, #166 | *none* |
 
 ## Review
 
