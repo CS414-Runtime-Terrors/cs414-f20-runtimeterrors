@@ -13,7 +13,7 @@ public class ChessBoard {
 
     // Create a class constructor for the ChessBoard.java class
     public ChessBoard() {
-        // create 11x11 board and initialize to all nulls
+        // create 12x12 board and initialize to all nulls
         board = new ChessPiece[12][12];
         for( ChessPiece[] array : board )
         {
