@@ -96,11 +96,8 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        //p1 = null;
-        //p1_str = getStringPosFromInt(column) + String.valueOf(row+2);
-
-        // a pawn is in the initial position if it is in row 2 (so 0 based is 1)
-        if( row == 1 )
+        // a pawn is in the initial position if it is in row 2
+        if( row == 2 )
         {
             // pawn in initial can move 1 or 2 squares vertically forward to an empty
             // square but cannot leap over anything
