@@ -46,6 +46,13 @@ public class Pawn extends ChessPiece {
         ArrayList<String> validMoves = new ArrayList<String>();
 
         ChessPiece p1 = null;
+        int increment;
+        if (this.getColor() == Color.WHITE) {
+            increment = 1;
+        }
+        else {
+            increment = -1;
+        }
         String p1_str = board.reverseParse(row+1, column);
 
         try {
@@ -114,6 +121,29 @@ public class Pawn extends ChessPiece {
             if( p1 == null && p2 == null )
             {
                 validMoves.add(p2_str);
+            }
+        }
+
+        //check en pessant possibility
+        ChessPiece lastMovePiece = board.moves.get(0).getMovedPiece();
+        if (lastMovePiece.getClass() == Pawn.class) {
+            try {
+                int pos[] = board.parsePosition(board.moves.get(0).getMovedToPosition());
+                if (pos[1] == column + 1) {
+                    String moveStr = board.reverseParse(row + increment,column + 1);
+                    if (!validMoves.contains(moveStr)) {
+                        validMoves.add(moveStr);
+                    }
+                }
+                else if (pos[1] == column - 1) {
+                    String moveStr = board.reverseParse(row + increment,column - 1);
+                    if (!validMoves.contains(moveStr)) {
+                        validMoves.add(moveStr);
+                    }
+                }
+            }
+            catch (IllegalPositionException e) {
+                e.printStackTrace();
             }
         }
 
