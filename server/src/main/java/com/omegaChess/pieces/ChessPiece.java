@@ -52,10 +52,10 @@ public abstract class ChessPiece {
     }
 
     public void setMoved(boolean isMoved) {
-        this.moved = isMoved;
+        this.moved = moved;
     }
 
-    public boolean geMoved() {
+    public boolean isMoved() {
         return this.moved;
     }
 

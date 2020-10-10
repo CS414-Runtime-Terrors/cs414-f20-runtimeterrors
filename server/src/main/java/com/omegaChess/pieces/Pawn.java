@@ -43,7 +43,7 @@ public class Pawn extends ChessPiece {
      */
     public LegalMoves legalMoves()
     {
-        ArrayList<String> validMoves = new ArrayList<String>();
+        ArrayList<String> validMoves = new ArrayList<>();
         boolean isEnPessant = false;
 
         ChessPiece p1 = null;
@@ -54,7 +54,7 @@ public class Pawn extends ChessPiece {
         else {
             increment = -1;
         }
-        String p1_str = board.reverseParse(row+1, column);
+        String p1_str = board.reverseParse(row+increment, column);
 
         try {
             p1 = board.getPiece(p1_str);
@@ -68,10 +68,10 @@ public class Pawn extends ChessPiece {
             validMoves.add(p1_str);
         }
 
-        if( column > 0 )
+        if( column > 1 )
         {
             ChessPiece diagLeft = null;
-            String diagLeft_str = board.reverseParse(row+1, column-1);
+            String diagLeft_str = board.reverseParse(row+increment, column-1);
 
             try {
                 diagLeft = board.getPiece(diagLeft_str);
@@ -86,10 +86,10 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        if( column < 7 )
+        if( column < 11 )
         {
             ChessPiece diagRight = null;
-            String diagRight_str = board.reverseParse(row+1, column+1);
+            String diagRight_str = board.reverseParse(row+increment, column+1);
 
             try {
                 diagRight = board.getPiece(diagRight_str);
@@ -105,12 +105,12 @@ public class Pawn extends ChessPiece {
         }
 
         // a pawn is in the initial position if it is in row 2
-        if( row == 2 )
+        if( !this.isMoved() )
         {
             // pawn in initial can move 1 or 2 squares vertically forward to an empty
             // square but cannot leap over anything
             ChessPiece p2 = null;
-            String p2_str = board.reverseParse(row+2, column);
+            String p2_str = board.reverseParse(row+(2*increment), column);
 
             try {
                 p2 = board.getPiece(p2_str);
