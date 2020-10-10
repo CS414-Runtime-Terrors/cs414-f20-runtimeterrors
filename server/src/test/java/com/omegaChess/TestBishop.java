@@ -9,6 +9,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.Bishop;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -87,7 +88,8 @@ class TestBishop {
         validMoves.add("b6");
         validMoves.add("a7");
 
-        ArrayList<String> bishopValid = bishop.legalMoves();
+        LegalMoves moves = bishop.legalMoves();
+        ArrayList<String> bishopValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(bishopValid);
 

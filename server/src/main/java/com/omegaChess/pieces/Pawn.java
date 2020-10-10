@@ -126,27 +126,27 @@ public class Pawn extends ChessPiece {
         }
 
         //check en pessant possibility
-        ChessPiece lastMovePiece = board.moves.get(0).getMovedPiece();
-        if (lastMovePiece.getClass() == Pawn.class) {
-            try {
-                int pos[] = board.parsePosition(board.moves.get(0).getMovedToPosition());
-                if (pos[1] == column + 1) {
-                    String moveStr = board.reverseParse(row + increment,column + 1);
-                    if (!validMoves.contains(moveStr)) {
-                        validMoves.add(moveStr);
-                        isEnPessant = true;
+        if (!board.moves.isEmpty()) {
+            ChessPiece lastMovePiece = board.moves.get(0).getMovedPiece();
+            if (lastMovePiece.getClass() == Pawn.class) {
+                try {
+                    int pos[] = board.parsePosition(board.moves.get(0).getMovedToPosition());
+                    if (pos[1] == column + 1) {
+                        String moveStr = board.reverseParse(row + increment, column + 1);
+                        if (!validMoves.contains(moveStr)) {
+                            validMoves.add(moveStr);
+                            isEnPessant = true;
+                        }
+                    } else if (pos[1] == column - 1) {
+                        String moveStr = board.reverseParse(row + increment, column - 1);
+                        if (!validMoves.contains(moveStr)) {
+                            validMoves.add(moveStr);
+                            isEnPessant = true;
+                        }
                     }
+                } catch (IllegalPositionException e) {
+                    e.printStackTrace();
                 }
-                else if (pos[1] == column - 1) {
-                    String moveStr = board.reverseParse(row + increment,column - 1);
-                    if (!validMoves.contains(moveStr)) {
-                        validMoves.add(moveStr);
-                        isEnPessant = true;
-                    }
-                }
-            }
-            catch (IllegalPositionException e) {
-                e.printStackTrace();
             }
         }
 

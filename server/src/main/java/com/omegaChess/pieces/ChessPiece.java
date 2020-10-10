@@ -52,7 +52,7 @@ public abstract class ChessPiece {
     }
 
     public void setMoved(boolean isMoved) {
-        this.moved = moved;
+        this.moved = isMoved;
     }
 
     public boolean isMoved() {

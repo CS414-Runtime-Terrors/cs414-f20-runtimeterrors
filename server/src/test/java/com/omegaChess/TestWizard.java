@@ -1,5 +1,6 @@
 package com.omegaChess;
 
+import com.omegaChess.pieces.LegalMoves;
 import com.omegaChess.pieces.Wizard;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -31,10 +32,12 @@ class TestWizard{
         ChessBoard board = new ChessBoard();
         Wizard wiz = new Wizard(board, ChessPiece.Color.BLACK);
         board.placePiece(wiz, "g5");
-        ArrayList<String> moves = new ArrayList<>();
-        moves.add("f6"); moves.add("f8"); moves.add("h6"); moves.add("j6");
-        moves.add("h4"); moves.add("h2"); moves.add("f4"); moves.add("d4");
-        moves.add("h8"); moves.add("j4"); moves.add("f2"); moves.add("d6");
-        assertEquals(moves, wiz.legalMoves(), "Expected moves not provided");
+        ArrayList<String> expectedMoves = new ArrayList<>();
+        expectedMoves.add("f6"); expectedMoves.add("f8"); expectedMoves.add("h6"); expectedMoves.add("j6");
+        expectedMoves.add("h4"); expectedMoves.add("h2"); expectedMoves.add("f4"); expectedMoves.add("d4");
+        expectedMoves.add("h8"); expectedMoves.add("j4"); expectedMoves.add("f2"); expectedMoves.add("d6");
+        LegalMoves moves = wiz.legalMoves();
+        ArrayList<String> actualMoves = moves.getListOfMoves();
+        assertEquals(expectedMoves, actualMoves, "Expected moves not provided");
     }
 }

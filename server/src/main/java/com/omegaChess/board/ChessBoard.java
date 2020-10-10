@@ -20,6 +20,7 @@ public class ChessBoard {
         {
             Arrays.fill(array, null);
         }
+        moves = new ArrayList<>();
     }
 
     public void initialize()
