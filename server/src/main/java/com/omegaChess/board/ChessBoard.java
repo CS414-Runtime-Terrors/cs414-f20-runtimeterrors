@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 public class ChessBoard {
     private ChessPiece[][] board;
+    public ArrayList<Move> moves;
 
     // Create a class constructor for the ChessBoard.java class
     public ChessBoard() {
@@ -156,6 +157,11 @@ public class ChessBoard {
 
             // make the old position null
             this.placePiece(null, fromPosition);
+
+            piece.setMoved(true);
+
+            //push move to front of list for easier access of most recent move
+            moves.add(0, new Move(piece, fromPosition, toPosition));
         }
         // otherwise, throw illegal move exception
         else

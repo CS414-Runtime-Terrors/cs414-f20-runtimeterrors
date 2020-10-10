@@ -20,10 +20,13 @@ public abstract class ChessPiece {
     // Color of piece
     protected Color color;
 
+    protected boolean moved;
+
     // Sets board and color attributes
     public ChessPiece(ChessBoard board, Color color){
         this.board = board;
         this.color = color;
+        this.moved = false;
     }
 
     // Returns the color of the current piece
@@ -48,6 +51,14 @@ public abstract class ChessPiece {
         int pos[] = board.parsePosition(position);
         column = pos[1];
         row = pos[0];
+    }
+
+    public void setMoved(boolean isMoved) {
+        this.moved = isMoved;
+    }
+
+    public boolean geMoved() {
+        return this.moved;
     }
 
     /* To be implemented in the concrete subclasses. Returns a one-character piece corresponding
