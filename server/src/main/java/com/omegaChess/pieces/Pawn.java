@@ -41,9 +41,10 @@ public class Pawn extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public ArrayList<String> legalMoves()
+    public LegalMoves legalMoves()
     {
         ArrayList<String> validMoves = new ArrayList<String>();
+        boolean isEnPessant = false;
 
         ChessPiece p1 = null;
         int increment;
@@ -133,12 +134,14 @@ public class Pawn extends ChessPiece {
                     String moveStr = board.reverseParse(row + increment,column + 1);
                     if (!validMoves.contains(moveStr)) {
                         validMoves.add(moveStr);
+                        isEnPessant = true;
                     }
                 }
                 else if (pos[1] == column - 1) {
                     String moveStr = board.reverseParse(row + increment,column - 1);
                     if (!validMoves.contains(moveStr)) {
                         validMoves.add(moveStr);
+                        isEnPessant = true;
                     }
                 }
             }
@@ -147,6 +150,6 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        return validMoves;
+        return new LegalMoves(validMoves, isEnPessant);
     }
 }

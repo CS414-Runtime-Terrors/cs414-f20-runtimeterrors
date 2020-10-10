@@ -1,7 +1,5 @@
 package com.omegaChess.pieces;
 
-import java.util.ArrayList;
-
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
@@ -69,5 +67,5 @@ public abstract class ChessPiece {
     * piece can make. Each string in the arraylist should be the position of a possible destination
     * for the piece. Order of legal moves is irrelevant. Return an empty list if no moves are
     * available. Queen and Knight should return empty lists.*/
-    abstract public ArrayList<String> legalMoves();
+    abstract public LegalMoves legalMoves();
 }

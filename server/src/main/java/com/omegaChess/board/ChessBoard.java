@@ -144,7 +144,9 @@ public class ChessBoard {
         }
 
         // get the piece's legal moves
-        ArrayList<String> validMoves = piece.legalMoves();
+        LegalMoves listOfMoves = piece.legalMoves();
+        ArrayList<String> validMoves = listOfMoves.getListOfMoves();
+        boolean isEnPessant = listOfMoves.isEnPessant();
 
         // check if to position is legal
         boolean found = validMoves.contains(toPosition);
@@ -157,6 +159,17 @@ public class ChessBoard {
 
             // make the old position null
             this.placePiece(null, fromPosition);
+
+            //check if en pessant move made
+            if (isEnPessant) {
+                String pieceCol = toPosition.substring(0, 1);
+                String otherPiecePos = moves.get(0).getMovedToPosition();
+                String otherPieceCol = otherPiecePos.substring(0, 1);
+
+                if (pieceCol == otherPieceCol) {
+                    this.placePiece(null, otherPiecePos);
+                }
+            }
 
             piece.setMoved(true);
 
