@@ -242,6 +242,16 @@ public class ChessBoard {
                 {
                     valid = false;
                 }
+                // if opponent piece and black, remove piece from black arraylist
+                else if( oldColor == ChessPiece.Color.BLACK )
+                {
+                    black_pieces.remove(board[pos[0]][pos[1]]);
+                }
+                // if opponent piece and white, remove piece from white arraylist
+                else if( oldColor == ChessPiece.Color.WHITE )
+                {
+                    white_pieces.remove(board[pos[0]][pos[1]]);
+                }
             }
 
             // if color is the same as current player or invalid column or row values
