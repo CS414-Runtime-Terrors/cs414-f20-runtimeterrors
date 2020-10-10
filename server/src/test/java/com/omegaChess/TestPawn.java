@@ -67,8 +67,8 @@ class TestPawn {
     void test_legalMoves() {
         ChessBoard board = new ChessBoard();
 
-        Pawn pawn = new Pawn(board, ChessPiece.Color.BLACK);
-        Knight knight = new Knight(board, ChessPiece.Color.WHITE);
+        Pawn pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        Knight knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c2");
 
@@ -109,8 +109,8 @@ class TestPawn {
         // test 4 from initial position - piece diagonal left available for capture
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.BLACK);
-        knight = new Knight(board, ChessPiece.Color.WHITE);
+        pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c2");
         board.placePiece(knight, "b3");
@@ -133,13 +133,13 @@ class TestPawn {
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
         knight = new Knight(board, ChessPiece.Color.WHITE);
 
-        board.placePiece(pawn, "c2");
-        board.placePiece(knight, "d3");
+        board.placePiece(pawn, "c9");
+        board.placePiece(knight, "d8");
 
         validMoves.clear();
-        validMoves.add("d3");
-        validMoves.add("c3");
-        validMoves.add("c4");
+        validMoves.add("c8");
+        validMoves.add("c7");
+        validMoves.add("d8");
 
         pawnValid = pawn.legalMoves();
         Collections.sort(validMoves);
@@ -152,10 +152,10 @@ class TestPawn {
 
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
 
-        board.placePiece(pawn, "c4");
+        board.placePiece(pawn, "c7");
 
         validMoves.clear();
-        validMoves.add("c5");
+        validMoves.add("c6");
 
         pawnValid = pawn.legalMoves();
         Collections.sort(validMoves);
@@ -166,7 +166,7 @@ class TestPawn {
         // test 7 from non initial position - yes blocking pieces
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.BLACK);
+        pawn = new Pawn(board, ChessPiece.Color.WHITE);
         knight = new Knight(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
@@ -183,8 +183,8 @@ class TestPawn {
         // test 8 from non initial position - no blocking and yes diag left
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.BLACK);
-        knight = new Knight(board, ChessPiece.Color.WHITE);
+        pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "b5");
@@ -202,8 +202,8 @@ class TestPawn {
         // test 9 from non initial position - yes blocking and yes diag right
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.BLACK);
-        knight = new Knight(board, ChessPiece.Color.WHITE);
+        pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "c5");
@@ -221,8 +221,8 @@ class TestPawn {
         // test 10 - non initial position - yes blocking and same color piece diag left
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.BLACK);
-        knight = new Knight(board, ChessPiece.Color.BLACK);
+        pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        knight = new Knight(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "c5");
@@ -239,8 +239,8 @@ class TestPawn {
         // test 11 - non initial position, yes blocking and both diags available
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.BLACK);
-        knight = new Knight(board, ChessPiece.Color.WHITE);
+        pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "b5");

@@ -233,7 +233,7 @@ class TestChessBoard {
     void test_move() {
         ChessBoard board = new ChessBoard();
 
-        Pawn blackPawn = new Pawn(board, ChessPiece.Color.BLACK);
+        Pawn blackPawn = new Pawn(board, ChessPiece.Color.WHITE);
 
         // place black king at random spot on board
         board.placePiece(blackPawn, "d3");

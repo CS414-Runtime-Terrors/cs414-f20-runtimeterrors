@@ -43,10 +43,27 @@ public class Pawn extends ChessPiece {
      */
     public ArrayList<String> legalMoves()
     {
-        ArrayList<String> validMoves = new ArrayList<String>();
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        int row_inc_1;
+        int row_inc_2;
+        int starting_row;
+
+        if( this.color == Color.BLACK )
+        {
+            row_inc_1 = -1;
+            row_inc_2 = -2;
+            starting_row = 9;
+        }
+        else
+        {
+            row_inc_1 = 1;
+            row_inc_2 = 2;
+            starting_row = 2;
+        }
 
         ChessPiece p1 = null;
-        String p1_str = board.reverseParse(row+1, column);
+        String p1_str = board.reverseParse(row+row_inc_1, column);
 
         try {
             p1 = board.getPiece(p1_str);
@@ -63,7 +80,7 @@ public class Pawn extends ChessPiece {
         if( column > 0 )
         {
             ChessPiece diagLeft = null;
-            String diagLeft_str = board.reverseParse(row+1, column-1);
+            String diagLeft_str = board.reverseParse(row+row_inc_1, column-1);
 
             try {
                 diagLeft = board.getPiece(diagLeft_str);
@@ -78,10 +95,10 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        if( column < 7 )
+        if( column < 11 )
         {
             ChessPiece diagRight = null;
-            String diagRight_str = board.reverseParse(row+1, column+1);
+            String diagRight_str = board.reverseParse(row+row_inc_1, column+1);
 
             try {
                 diagRight = board.getPiece(diagRight_str);
@@ -96,13 +113,13 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        // a pawn is in the initial position if it is in row 2
-        if( row == 2 )
+        // a pawn is in the initial position
+        if( row == starting_row )
         {
             // pawn in initial can move 1 or 2 squares vertically forward to an empty
             // square but cannot leap over anything
             ChessPiece p2 = null;
-            String p2_str = board.reverseParse(row+2, column);
+            String p2_str = board.reverseParse(row+row_inc_2, column);
 
             try {
                 p2 = board.getPiece(p2_str);
@@ -119,4 +136,5 @@ public class Pawn extends ChessPiece {
 
         return validMoves;
     }
+
 }
