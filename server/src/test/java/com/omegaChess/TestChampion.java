@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.pieces.Champion;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,10 +33,12 @@ class TestChampion {
         ChessBoard board = new ChessBoard();
         Champion champ = new Champion(board, ChessPiece.Color.BLACK);
         board.placePiece(champ, "c7");
-        ArrayList<String> moves = new ArrayList<>();
-        moves.add("c8"); moves.add("c9"); moves.add("c6"); moves.add("c5");
-        moves.add("d7"); moves.add("e7"); moves.add("b7"); moves.add("a7");
-        moves.add("a9"); moves.add("e9"); moves.add("e5"); moves.add("a5");
-        assertEquals(champ.legalMoves(), moves, "Expected moves not provided");
+        ArrayList<String> expectedMoves = new ArrayList<>();
+        expectedMoves.add("c8"); expectedMoves.add("c9"); expectedMoves.add("c6"); expectedMoves.add("c5");
+        expectedMoves.add("d7"); expectedMoves.add("e7"); expectedMoves.add("b7"); expectedMoves.add("a7");
+        expectedMoves.add("a9"); expectedMoves.add("e9"); expectedMoves.add("e5"); expectedMoves.add("a5");
+        LegalMoves moves = champ.legalMoves();
+        ArrayList<String> actualMoves = moves.getListOfMoves();
+        assertEquals(expectedMoves, actualMoves, "Expected moves not provided");
     }
 }

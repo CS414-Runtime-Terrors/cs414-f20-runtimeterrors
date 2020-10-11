@@ -41,7 +41,7 @@ public class King extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public ArrayList<String> legalMoves()
+    public LegalMoves legalMoves()
     {
         ArrayList<String> legalMoves = new ArrayList<>();
 
@@ -192,7 +192,7 @@ public class King extends ChessPiece {
             }
         }
 
-        return legalMoves;
+        return new LegalMoves(legalMoves, false);
     }
 
     public boolean is_king_in_check(String new_pos)
@@ -208,12 +208,12 @@ public class King extends ChessPiece {
         }
 
         // go through opposing pieces
-        for (ChessPiece piece : pieces) {
+       /* for (ChessPiece piece : pieces) {
             // new_pos is somewhere a white piece can move, return true that king is in check
             if (piece.legalMoves().contains(new_pos)) {
                 return true;
             }
-        }
+        }*/
 
         return false;
     }

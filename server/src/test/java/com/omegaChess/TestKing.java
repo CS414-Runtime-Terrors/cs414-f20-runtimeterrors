@@ -11,6 +11,7 @@ import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.King;
 import com.omegaChess.pieces.Queen;
+import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -82,7 +83,8 @@ class TestKing {
         validMoves.add("f1");
 
         // get kings valid moves
-        ArrayList<String> kingValid = king.legalMoves();
+        LegalMoves moves = king.legalMoves();
+        ArrayList<String> kingValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
         Collections.sort(validMoves);
@@ -106,7 +108,8 @@ class TestKing {
         validMoves.add("c4");
 
         // get kings valid moves
-        kingValid = king.legalMoves();
+        moves = king.legalMoves();
+        kingValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
         Collections.sort(validMoves);
@@ -144,7 +147,7 @@ class TestKing {
         validMoves.add("f2");
 
         // get kings valid moves
-        kingValid = king1.legalMoves();
+        //kingValid = king1.legalMoves();
 
         // Sort in case they come in a different order
         Collections.sort(validMoves);

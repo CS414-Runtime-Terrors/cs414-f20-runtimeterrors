@@ -10,8 +10,11 @@ import java.util.Arrays;
 
 public class ChessBoard {
     private ChessPiece[][] board;
-    ArrayList<ChessPiece> black_pieces;
-    ArrayList<ChessPiece> white_pieces;
+
+    public ArrayList<ChessPiece> black_pieces;
+    public ArrayList<ChessPiece> white_pieces;
+    public ArrayList<Move> moves;
+
 
     // Create a class constructor for the ChessBoard.java class
     public ChessBoard() {
@@ -22,8 +25,11 @@ public class ChessBoard {
             Arrays.fill(array, null);
         }
 
+
         black_pieces = new ArrayList<>();
         white_pieces = new ArrayList<>();
+        moves = new ArrayList<>();
+
     }
 
     public void initialize()
@@ -299,7 +305,9 @@ public class ChessBoard {
         }
 
         // get the piece's legal moves
-        ArrayList<String> validMoves = piece.legalMoves();
+        LegalMoves listOfMoves = piece.legalMoves();
+        ArrayList<String> validMoves = listOfMoves.getListOfMoves();
+        boolean isEnPessant = listOfMoves.isEnPessant();
 
         // check if to position is legal
         boolean found = validMoves.contains(toPosition);
@@ -312,6 +320,22 @@ public class ChessBoard {
 
             // make the old position null
             this.placePiece(null, fromPosition);
+
+            //check if en pessant move made
+            if (isEnPessant) {
+                String pieceCol = toPosition.substring(0, 1);
+                String otherPiecePos = moves.get(0).getMovedToPosition();
+                String otherPieceCol = otherPiecePos.substring(0, 1);
+
+                if (pieceCol == otherPieceCol) {
+                    this.placePiece(null, otherPiecePos);
+                }
+            }
+
+            piece.setMoved(true);
+
+            //push move to front of list for easier access of most recent move
+            moves.add(0, new Move(piece, fromPosition, toPosition));
         }
         // otherwise, throw illegal move exception
         else
