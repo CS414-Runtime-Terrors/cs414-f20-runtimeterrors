@@ -127,6 +127,11 @@ class TestKing {
         board.placePiece(null, "e9");
         board.placePiece(null, "e2");
 
+        // make some positions null to give king opportunity to move
+        board.placePiece(null, "f2");
+        board.placePiece(null, "g2");
+        board.placePiece(null, "g1");
+
         // e2 and e9 should be null now
         try {
             assertNull(board.getPiece("e2"));
@@ -149,6 +154,7 @@ class TestKing {
         validMoves.add("g1");
 
         // get kings valid moves
+        assert king1 != null;
         kingValid = king1.legalMoves().getListOfMoves();
 
         // Sort in case they come in a different order
