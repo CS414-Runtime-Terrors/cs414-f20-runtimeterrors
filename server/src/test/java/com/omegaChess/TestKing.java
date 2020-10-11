@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.King;
+import com.omegaChess.pieces.Queen;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +73,6 @@ class TestKing {
 
         board.placePiece(king,  "e1");
 
-
         // valid moves list for king in e1 position
         ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add("d1");
@@ -89,6 +90,7 @@ class TestKing {
 
         assertEquals(validMoves, kingValid);
 
+        board = new ChessBoard();
         validMoves.clear();
 
         board.placePiece(king, "d5");
@@ -110,6 +112,43 @@ class TestKing {
         Collections.sort(validMoves);
         Collections.sort(kingValid);
 
+        assertEquals(validMoves, kingValid);
+
+
+        validMoves.clear();
+        board = new ChessBoard();
+        board.initialize();
+
+
+        board.placePiece(null, "e9");   // make this empty
+        board.placePiece(null, "e2");   // make this empty
+
+        // move the queen
+        try {
+            board.move("f10", "e9");
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
+
+        ChessPiece king1 = null;
+        try {
+            king1 = board.getPiece("e1");
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+
+        // new list for if king is in e1 with opponent queen in e9
+        validMoves.add("d1");
+        validMoves.add("d2");
+        validMoves.add("f1");
+        validMoves.add("f2");
+
+        // get kings valid moves
+        kingValid = king1.legalMoves();
+
+        // Sort in case they come in a different order
+        Collections.sort(validMoves);
+        Collections.sort(kingValid);
 
         assertEquals(validMoves, kingValid);
     }

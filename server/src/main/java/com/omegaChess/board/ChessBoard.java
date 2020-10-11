@@ -32,6 +32,16 @@ public class ChessBoard {
         initialize_black_pieces();
     }
 
+    public ArrayList<ChessPiece> get_white_pieces()
+    {
+        return white_pieces;
+    }
+
+    public ArrayList<ChessPiece> get_black_pieces()
+    {
+        return black_pieces;
+    }
+
     private void initialize_black_pieces() {
         Champion bChampion = new Champion(this, ChessPiece.Color.BLACK);
         black_pieces.add(bChampion);
