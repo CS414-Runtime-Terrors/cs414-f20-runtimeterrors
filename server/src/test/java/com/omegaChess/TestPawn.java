@@ -132,20 +132,19 @@ class TestPawn {
 
         assertEquals(validMoves, pawnValid);
 
-
         // test 5 from initial position - piece diagonal right available for capture
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.WHITE);
-        knight = new Knight(board, ChessPiece.Color.BLACK);
+        pawn = new Pawn(board, ChessPiece.Color.BLACK);
+        knight = new Knight(board, ChessPiece.Color.WHITE);
 
-        board.placePiece(pawn, "c2");
-        board.placePiece(knight, "d3");
+        board.placePiece(pawn, "c9");
+        board.placePiece(knight, "d8");
 
         validMoves.clear();
-        validMoves.add("d3");
-        validMoves.add("c3");
-        validMoves.add("c4");
+        validMoves.add("c8");
+        validMoves.add("c7");
+        validMoves.add("d8");
 
         moves = pawn.legalMoves();
         pawnValid = moves.getListOfMoves();
@@ -157,13 +156,13 @@ class TestPawn {
         // test 6 from non initial position - no blocking pieces
         board = new ChessBoard();
 
-        pawn = new Pawn(board, ChessPiece.Color.WHITE);
+        pawn = new Pawn(board, ChessPiece.Color.BLACK);
         pawn.setMoved(true);
 
-        board.placePiece(pawn, "c4");
+        board.placePiece(pawn, "c7");
 
         validMoves.clear();
-        validMoves.add("c5");
+        validMoves.add("c6");
 
         moves = pawn.legalMoves();
         pawnValid = moves.getListOfMoves();
@@ -176,6 +175,7 @@ class TestPawn {
         board = new ChessBoard();
 
         pawn = new Pawn(board, ChessPiece.Color.WHITE);
+
         pawn.setMoved(true);
         knight = new Knight(board, ChessPiece.Color.BLACK);
 
@@ -195,6 +195,7 @@ class TestPawn {
         board = new ChessBoard();
 
         pawn = new Pawn(board, ChessPiece.Color.WHITE);
+
         pawn.setMoved(true);
         knight = new Knight(board, ChessPiece.Color.BLACK);
 
@@ -216,7 +217,9 @@ class TestPawn {
         board = new ChessBoard();
 
         pawn = new Pawn(board, ChessPiece.Color.WHITE);
+
         pawn.setMoved(true);
+
         knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c4");
@@ -237,6 +240,7 @@ class TestPawn {
         board = new ChessBoard();
 
         pawn = new Pawn(board, ChessPiece.Color.WHITE);
+
         pawn.setMoved(true);
         knight = new Knight(board, ChessPiece.Color.BLACK);
         Knight knight2 = new Knight(board, ChessPiece.Color.WHITE);
@@ -258,7 +262,9 @@ class TestPawn {
         board = new ChessBoard();
 
         pawn = new Pawn(board, ChessPiece.Color.WHITE);
+
         pawn.setMoved(true);
+
         knight = new Knight(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c4");

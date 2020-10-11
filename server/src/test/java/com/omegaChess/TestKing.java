@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.King;
+import com.omegaChess.pieces.Queen;
 import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,7 +74,6 @@ class TestKing {
 
         board.placePiece(king,  "e1");
 
-
         // valid moves list for king in e1 position
         ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add("d1");
@@ -91,6 +92,7 @@ class TestKing {
 
         assertEquals(validMoves, kingValid);
 
+        board = new ChessBoard();
         validMoves.clear();
 
         board.placePiece(king, "d5");
@@ -113,6 +115,45 @@ class TestKing {
         Collections.sort(validMoves);
         Collections.sort(kingValid);
 
+        assertEquals(validMoves, kingValid);
+
+
+        validMoves.clear();
+        board = new ChessBoard();
+        board.initialize();
+
+        // make e positions empty so queen at e10 could capture if
+        // king moved to e2
+        board.placePiece(null, "e9");
+        board.placePiece(null, "e2");
+
+        // e2 and e9 should be null now
+        try {
+            assertNull(board.getPiece("e2"));
+            assertNull(board.getPiece("e9"));
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+
+        // get the king at f1
+        ChessPiece king1 = null;
+        try {
+            king1 = board.getPiece("f1");
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+
+        // new list for if king is in f1 with opponent queen in e10
+        validMoves.add("f2");
+        validMoves.add("g2");
+        validMoves.add("g1");
+
+        // get kings valid moves
+        kingValid = king1.legalMoves().getListOfMoves();
+
+        // Sort in case they come in a different order
+        Collections.sort(validMoves);
+        Collections.sort(kingValid);
 
         assertEquals(validMoves, kingValid);
     }

@@ -43,7 +43,7 @@ public class King extends ChessPiece {
      */
     public LegalMoves legalMoves()
     {
-        ArrayList<String> legalMoves = new ArrayList<String>();
+        ArrayList<String> legalMoves = new ArrayList<>();
 
         ChessPiece tmp_piece = null;
         String tmp_str;
@@ -195,10 +195,53 @@ public class King extends ChessPiece {
         return new LegalMoves(legalMoves, false);
     }
 
-    // todo: implement function checking if a move will put the king in check
     public boolean is_king_in_check(String new_pos)
     {
+        ArrayList<ChessPiece> pieces;
+        if( this.color == Color.BLACK )
+        {
+            pieces = board.get_white_pieces();
+        }
+        else
+        {
+            pieces = board.get_black_pieces();
+        }
+
+        // go through opposing pieces
+        for (ChessPiece piece : pieces) {
+            // new_pos is somewhere a white piece can move, return true that king is in check
+            if (!(piece instanceof King) && piece.legalMoves().getListOfMoves().contains(new_pos)) {
+                return true;
+            }
+            // handle king separately otherwise recursion and stackoverflow error occurs
+            else if(piece instanceof King)
+            {
+                String kingPos = piece.getPosition();
+                int[] pos = null;
+                try {
+                    pos = board.parsePosition(new_pos);
+                } catch (IllegalPositionException e) {
+                    e.printStackTrace();
+                }
+
+                int r = pos[0];
+                int c = pos[1];
+
+                // check if opponent king is in one of the newPos moves
+                if(     kingPos.equals(board.reverseParse(r, c-1)) ||
+                        kingPos.equals(board.reverseParse(r+1, c-1)) ||
+                        kingPos.equals(board.reverseParse(r+1, c)) ||
+                        kingPos.equals(board.reverseParse(r+1, c+1)) ||
+                        kingPos.equals(board.reverseParse(r, c+1)) ||
+                        kingPos.equals(board.reverseParse(r-1, c+1)) ||
+                        kingPos.equals(board.reverseParse(r-1, c)) ||
+                        kingPos.equals(board.reverseParse(r-1, c-1)))
+                {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
-
 }

@@ -43,7 +43,7 @@ public class Queen extends ChessPiece {
      */
     public LegalMoves legalMoves()
     {
-        ArrayList<String> validMoves = new ArrayList<>();
+        ArrayList<String> validMoves;
 
         // Queen moves are combination of bishop and rook
         validMoves = rookMoves();
