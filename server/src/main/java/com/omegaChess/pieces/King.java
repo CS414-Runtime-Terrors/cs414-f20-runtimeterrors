@@ -59,7 +59,7 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color) ||
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
                     !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
@@ -77,8 +77,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -95,8 +95,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -113,8 +113,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -131,8 +131,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -149,8 +149,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -167,8 +167,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -185,8 +185,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece != null && tmp_piece.getColor() != this.color )
-                    || !is_king_in_check(tmp_str))
+            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+                    !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
