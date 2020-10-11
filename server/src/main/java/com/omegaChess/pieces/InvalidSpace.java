@@ -3,8 +3,6 @@ package com.omegaChess.pieces;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
-import java.util.ArrayList;
-
 public class InvalidSpace extends ChessPiece{
 
     public InvalidSpace(ChessBoard board, ChessPiece.Color color){super(board, null);}
@@ -30,7 +28,7 @@ public class InvalidSpace extends ChessPiece{
     }
 
     @Override
-    public ArrayList<String> legalMoves() {
+    public LegalMoves legalMoves() {
         return null;
     }
 }

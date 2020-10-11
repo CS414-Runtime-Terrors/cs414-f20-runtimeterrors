@@ -233,10 +233,10 @@ class TestChessBoard {
     void test_move() {
         ChessBoard board = new ChessBoard();
 
-        Pawn blackPawn = new Pawn(board, ChessPiece.Color.BLACK);
+        Pawn whitePawn = new Pawn(board, ChessPiece.Color.WHITE);
 
         // place black king at random spot on board
-        board.placePiece(blackPawn, "d3");
+        board.placePiece(whitePawn, "d3");
 
         try {
             board.move("d3", "d4");
@@ -244,7 +244,7 @@ class TestChessBoard {
             e.printStackTrace();
         }
 
-        assertEquals("d4", blackPawn.getPosition());
+        assertEquals("d4", whitePawn.getPosition());
 
         try {
             assertNull(board.getPiece("d3"));

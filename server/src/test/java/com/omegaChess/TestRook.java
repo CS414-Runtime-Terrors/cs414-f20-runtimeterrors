@@ -10,6 +10,7 @@ import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.Knight;
 import com.omegaChess.pieces.Rook;
+import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -93,7 +94,8 @@ class TestRook {
         validMoves.add("i2");
         validMoves.add("j2");
 
-        ArrayList<String> rookValid = rook.legalMoves();
+        LegalMoves moves = rook.legalMoves();
+        ArrayList<String> rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
 
@@ -121,7 +123,8 @@ class TestRook {
         validMoves.add("i2");
         validMoves.add("j2");
 
-        rookValid = rook.legalMoves();
+        moves = rook.legalMoves();
+        rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
 
@@ -149,7 +152,8 @@ class TestRook {
         validMoves.add("f3");
         validMoves.add("f4");
 
-        rookValid = rook.legalMoves();
+        moves = rook.legalMoves();
+        rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
 
