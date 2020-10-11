@@ -122,32 +122,34 @@ class TestKing {
         board = new ChessBoard();
         board.initialize();
 
+        // make e positions empty so queen at e10 could capture if
+        // king moved to e2
+        board.placePiece(null, "e9");
+        board.placePiece(null, "e2");
 
-        board.placePiece(null, "e9");   // make this empty
-        board.placePiece(null, "e2");   // make this empty
-
-        // move the queen
+        // e2 and e9 should be null now
         try {
-            board.move("f10", "e9");
-        } catch (IllegalMoveException e) {
-            e.printStackTrace();
-        }
-
-        ChessPiece king1 = null;
-        try {
-            king1 = board.getPiece("e1");
+            assertNull(board.getPiece("e2"));
+            assertNull(board.getPiece("e9"));
         } catch (IllegalPositionException e) {
             e.printStackTrace();
         }
 
-        // new list for if king is in e1 with opponent queen in e9
-        validMoves.add("d1");
-        validMoves.add("d2");
-        validMoves.add("f1");
+        // get the king at f1
+        ChessPiece king1 = null;
+        try {
+            king1 = board.getPiece("f1");
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+
+        // new list for if king is in f1 with opponent queen in e10
         validMoves.add("f2");
+        validMoves.add("g2");
+        validMoves.add("g1");
 
         // get kings valid moves
-        //kingValid = king1.legalMoves();
+        kingValid = king1.legalMoves().getListOfMoves();
 
         // Sort in case they come in a different order
         Collections.sort(validMoves);

@@ -305,8 +305,10 @@ public class ChessBoard {
         }
 
         // get the piece's legal moves
+        System.out.print(piece);
         LegalMoves listOfMoves = piece.legalMoves();
         ArrayList<String> validMoves = listOfMoves.getListOfMoves();
+
         boolean isEnPessant = listOfMoves.isEnPessant();
 
         // check if to position is legal

@@ -68,7 +68,8 @@ public class Pawn extends ChessPiece {
             validMoves.add(p1_str);
         }
 
-        if( column > 1 )
+        // need to make sure diagLeft doesn't go out of bounds
+        if( column-1 > 0 && row+increment > 0 && row+increment < 11 )
         {
             ChessPiece diagLeft = null;
             String diagLeft_str = board.reverseParse(row+increment, column-1);
@@ -86,7 +87,8 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        if( column < 11 )
+        // make sure diagRight doesn't go out of bounds
+        if( column+1 < 11 && row+increment > 0 && row+increment < 11 )
         {
             ChessPiece diagRight = null;
             String diagRight_str = board.reverseParse(row+increment, column+1);

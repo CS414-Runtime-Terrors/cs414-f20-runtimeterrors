@@ -208,12 +208,13 @@ public class King extends ChessPiece {
         }
 
         // go through opposing pieces
-       /* for (ChessPiece piece : pieces) {
+        for (ChessPiece piece : pieces) {
             // new_pos is somewhere a white piece can move, return true that king is in check
-            if (piece.legalMoves().contains(new_pos)) {
+            //System.out.print(piece);
+            if (!(piece instanceof King) && piece.legalMoves().getListOfMoves().contains(new_pos)) {
                 return true;
             }
-        }*/
+        }
 
         return false;
     }
