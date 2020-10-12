@@ -49,7 +49,7 @@ public class Queen extends ChessPiece {
         validMoves = rookMoves();
         validMoves.addAll(bishopMoves());
 
-        return new LegalMoves(validMoves, false);
+        return new LegalMoves(validMoves, false, false);
     }
 
     public ArrayList<String> rookMoves()

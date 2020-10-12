@@ -50,181 +50,137 @@ public class ChessBoard {
 
     private void initialize_black_pieces() {
         Champion bChampion = new Champion(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bChampion);
         placePiece(bChampion, "a10");
 
         Rook bRook = new Rook(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bRook);
         placePiece(bRook, "b10");
 
         Knight bKnight = new Knight(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bKnight);
         placePiece(bKnight, "c10");
 
         Bishop bBishop = new Bishop(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bBishop);
         placePiece(bBishop, "d10");
 
         Queen bQueen = new Queen(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bQueen);
         placePiece(bQueen, "e10");
 
         King bKing = new King(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bKing);
         placePiece(bKing, "f10");
 
         bBishop = new Bishop(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bBishop);
         placePiece(bBishop, "g10");
 
         bKnight = new Knight(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bKnight);
         placePiece(bKnight, "h10");
 
         bRook = new Rook(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bRook);
         placePiece(bRook, "i10");
 
         bChampion = new Champion(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bChampion);
         placePiece(bChampion, "j10");
 
         Pawn bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "a9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "b9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "c9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "d9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "e9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "f9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "g9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "h9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "i9");
 
         bPawn = new Pawn(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bPawn);
         placePiece(bPawn, "j9");
 
         Wizard bWizard = new Wizard(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bWizard);
         placePiece(bWizard, "w3");
 
         bWizard = new Wizard(this, ChessPiece.Color.BLACK);
-        black_pieces.add(bWizard);
         placePiece(bWizard, "w4");
     }
 
     private void initialize_white_pieces() {
         Champion wChampion = new Champion(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wChampion);
         placePiece(wChampion, "a1");
 
         Rook wRook = new Rook(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wRook);
         placePiece(wRook, "b1");
 
         Knight wKnight = new Knight(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wKnight);
         placePiece(wKnight, "c1");
 
         Bishop wBishop = new Bishop(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wBishop);
         placePiece(wBishop, "d1");
 
         Queen wQueen = new Queen(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wQueen);
         placePiece(wQueen, "e1");
 
         King wKing = new King(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wKing);
         placePiece(wKing, "f1");
 
         wBishop = new Bishop(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wBishop);
         placePiece(wBishop, "g1");
 
         wKnight = new Knight(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wKnight);
         placePiece(wKnight, "h1");
 
         wRook = new Rook(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wRook);
         placePiece(wRook, "i1");
 
         wChampion = new Champion(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wChampion);
         placePiece(wChampion, "j1");
 
         Pawn wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "a2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "b2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "c2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "d2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "e2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "f2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "g2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "h2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "i2");
 
         wPawn = new Pawn(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wPawn);
         placePiece(wPawn, "j2");
 
         Wizard wWizard = new Wizard(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wWizard);
         placePiece(wWizard, "w1");
 
         wWizard = new Wizard(this, ChessPiece.Color.WHITE);
-        white_pieces.add(wWizard);
         placePiece(wWizard, "w2");
     }
 
@@ -305,11 +261,12 @@ public class ChessBoard {
         }
 
         // get the piece's legal moves
-        System.out.print(piece);
+        System.out.println(piece);
         LegalMoves listOfMoves = piece.legalMoves();
         ArrayList<String> validMoves = listOfMoves.getListOfMoves();
 
         boolean isEnPessant = listOfMoves.isEnPessant();
+        boolean isCastle = listOfMoves.isCastle();
 
         // check if to position is legal
         boolean found = validMoves.contains(toPosition);
@@ -332,6 +289,47 @@ public class ChessBoard {
                 if (pieceCol == otherPieceCol) {
                     this.placePiece(null, otherPiecePos);
                 }
+            }
+
+            // if move is a castle, move associated rook
+            if (isCastle) {
+                String rookFromPosition = null;
+                String rookToPosition = null;
+                ChessPiece rook = null;
+
+                // white queen side castle
+                if (toPosition.equals("d1")) {
+                    rookFromPosition = "b1";
+                    rookToPosition = "e1";
+                }
+                // white king side castle
+                if (toPosition.equals("h1")) {
+                    rookFromPosition = "i1";
+                    rookToPosition = "g1";
+                }
+                // black queen side castle
+                if (toPosition.equals("d10")) {
+                    rookFromPosition = "b10";
+                    rookToPosition = "e10";
+                }
+                // black king side castle
+                if (toPosition.equals("h10")) {
+                    rookFromPosition = "i10";
+                    rookToPosition = "g10";
+                }
+
+                // get associated rook
+                try {
+                    rook = this.getPiece(rookFromPosition);
+                } catch (IllegalPositionException e) {
+                    e.printStackTrace();
+                }
+
+                // place rook at new position and mark as moved
+                this.placePiece(rook, rookToPosition);
+                rook.setMoved(true);
+                // make old position null
+                this.placePiece(null, rookFromPosition);
             }
 
             piece.setMoved(true);
@@ -366,28 +364,28 @@ public class ChessBoard {
         String rightT = "\u2524";
 
         String topLine = upperLeft;
-        for (int i = 0; i<7; i++){
+        for (int i = 0; i<11; i++){
             topLine += horizontal3 + upperT;
         }
         topLine += horizontal3 + upperRight;
 
         String bottomLine = bottomLeft;
-        for (int i = 0; i<7; i++){
+        for (int i = 0; i<11; i++){
             bottomLine += horizontal3 + bottomT;
         }
         bottomLine += horizontal3 + bottomRight;
         chess+=topLine + "\n";
 
-        for (int row = 7; row >=0; row--){
+        for (int row = 11; row >=0; row--){
             String midLine = "";
-            for (int col = 0; col < 8; col++){
+            for (int col = 0; col < 12; col++){
                 if(board[row][col]==null) {
                     midLine += verticalLine + " \u3000 ";
                 } else {midLine += verticalLine + " "+board[row][col]+" ";}
             }
             midLine += verticalLine;
             String midLine2 = leftT;
-            for (int i = 0; i<7; i++){
+            for (int i = 0; i<11; i++){
                 midLine2 += horizontal3 + plus;
             }
             midLine2 += horizontal3 + rightT;

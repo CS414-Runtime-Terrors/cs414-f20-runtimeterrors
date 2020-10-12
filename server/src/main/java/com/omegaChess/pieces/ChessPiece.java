@@ -25,6 +25,10 @@ public abstract class ChessPiece {
         this.board = board;
         this.color = color;
         this.moved = false;
+        if(color == Color.BLACK)
+            board.black_pieces.add(this);
+        if(color == Color.WHITE)
+            board.white_pieces.add(this);
     }
 
     // Returns the color of the current piece

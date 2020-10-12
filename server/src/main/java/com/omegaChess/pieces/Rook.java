@@ -186,6 +186,6 @@ public class Rook extends ChessPiece {
 
         }
 
-        return new LegalMoves(validMoves, false);
+        return new LegalMoves(validMoves, false, false);
     }
 }

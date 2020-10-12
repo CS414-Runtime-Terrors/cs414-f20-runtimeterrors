@@ -26,7 +26,7 @@ public class Wizard extends ChessPiece {
             rc = board.parsePosition(pos);
         } catch (IllegalPositionException e) {
             e.printStackTrace();
-            return new LegalMoves(moves, false);
+            return new LegalMoves(moves, false, false);
         }
 
 
@@ -45,7 +45,7 @@ public class Wizard extends ChessPiece {
         }
         moves.add(board.reverseParse(rc[0]+3, rc[1]+1)); moves.add(board.reverseParse(rc[0]-1, rc[1]+3));
         moves.add(board.reverseParse(rc[0]-3, rc[1]-1)); moves.add(board.reverseParse(rc[0]+1, rc[1]-3));
-        return new LegalMoves(moves, false);
+        return new LegalMoves(moves, false, false);
     }
 
 }
