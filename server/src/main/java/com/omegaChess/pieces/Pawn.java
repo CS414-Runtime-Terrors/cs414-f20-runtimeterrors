@@ -153,7 +153,7 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        return new LegalMoves(validMoves, isEnPessant);
+        return new LegalMoves(validMoves, isEnPessant, false);
     }
 
 }

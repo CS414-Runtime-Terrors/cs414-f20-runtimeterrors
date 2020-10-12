@@ -191,6 +191,6 @@ public class Bishop extends ChessPiece {
             tmp_str = board.reverseParse(tmp_row, tmp_col);
         }
 
-        return new LegalMoves(validMoves, false);
+        return new LegalMoves(validMoves, false, false);
     }
 }

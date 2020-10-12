@@ -26,7 +26,7 @@ public class Champion extends ChessPiece{
             rc = board.parsePosition(pos);
         } catch (IllegalPositionException e) {
             e.printStackTrace();
-            return new LegalMoves(moves, false);
+            return new LegalMoves(moves, false, false);
         }
 
         for (int i = 1; i <= 2; i++){
@@ -40,7 +40,7 @@ public class Champion extends ChessPiece{
         }
         moves.add(board.reverseParse(rc[0]+2, rc[1]-2)); moves.add(board.reverseParse(rc[0]+2, rc[1]+2));
         moves.add(board.reverseParse(rc[0]-2, rc[1]+2)); moves.add(board.reverseParse(rc[0]-2, rc[1]-2));
-        return new LegalMoves(moves, false);
+        return new LegalMoves(moves, false, false);
     }
 
 }

@@ -184,7 +184,7 @@ public class Knight extends ChessPiece {
             }
         }
 
-        return new LegalMoves(legalMoves, false);
+        return new LegalMoves(legalMoves, false, false);
     }
 }
 
