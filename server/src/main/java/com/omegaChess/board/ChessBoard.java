@@ -325,8 +325,9 @@ public class ChessBoard {
                     e.printStackTrace();
                 }
 
-                // place rook at new position
+                // place rook at new position and mark as moved
                 this.placePiece(rook, rookToPosition);
+                rook.setMoved(true);
                 // make old position null
                 this.placePiece(null, rookFromPosition);
             }
