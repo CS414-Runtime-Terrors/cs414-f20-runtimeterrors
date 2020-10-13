@@ -18,6 +18,7 @@ Epics planned for this release.
 * Piece Classes (#73)
 * Game Board Logics (#128)
 * Storage of Previous Games (#18)
+* Server Side Turn Utility
 
 ## Metrics
 
@@ -46,9 +47,12 @@ Epics planned for this release.
 * Unregister (#12)
 * End Match (#15)
 * Storage of Previous Games (#18)
+* Game Board Logics (#128)
 
 #### Incomplete epics in Sprint Backlog 
-(TBD)
+* Update System
+* Piece Classes
+* Server Side Turn Utility
 
 #### What went well
 (TBD)
