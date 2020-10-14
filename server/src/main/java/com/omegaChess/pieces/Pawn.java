@@ -106,8 +106,10 @@ public class Pawn extends ChessPiece {
             p1 = this.board.getPiece(m1);
         }catch (IllegalPositionException e){ e.printStackTrace(); }
         // if a chess piece is here and it is an opponent's piece
-        if (pl != null) if( pl.getColor() != this.getColor()) moves.add(ml);
-        if (pr != null) if ( pr.getColor() != this.getColor()) moves.add(mr);
+        if (pl != null)
+            if( pl.getColor() != this.getColor()) moves.add(ml);
+        if (pr != null)
+            if ( pr.getColor() != this.getColor()) moves.add(mr);
         // if the spot 1 forward to move is null, add it to legal moves
         if (p1 == null) moves.add(m1); else return moves;
         // a pawn is in the initial position
