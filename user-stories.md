@@ -13,8 +13,19 @@
 12) As a user, I can return to a saved game.
 13) As a user, I can see the end result of a game I participate in.
 14) As a user, I will be alerted when a user accepts/declines an invitation, when it is my turn, or a game I am participating in is over.
-15) As a user, I will be able to view a title screen with buttons that I can click on to take me to other screens.
+15) As a user, I want to have a lobby which shows me the actions I can perform.
 16) As a user, I will be able to quit the game using a Quit button.
 17) As a user, I will be able to view a chess board and pieces when I’m in a match.
 18) As a user, when I choose to move a piece the board will show where I can move the piece.
-19) As a user, I will be able to view a list of strings in a text box.
+
+**Must Have:**
+**1, 2, 8, 17, 18**
+
+**Should Have:**
+**3, 5, 6, 12, 15**
+
+**Could Have:**
+**4, 7, 11, 14, 16**
+
+**Would Have:**
+**9, 10, 13**
