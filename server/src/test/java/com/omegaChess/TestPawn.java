@@ -78,6 +78,7 @@ class TestPawn {
         ArrayList<String> validMoves = new ArrayList<String>();
         validMoves.add("c3");
         validMoves.add("c4");
+        validMoves.add("c5");
 
         LegalMoves moves = pawn.legalMoves();
         ArrayList<String> pawnValid = moves.getListOfMoves();
@@ -124,6 +125,7 @@ class TestPawn {
         validMoves.add("b3");
         validMoves.add("c3");
         validMoves.add("c4");
+        validMoves.add("c5");
 
         moves = pawn.legalMoves();
         pawnValid = moves.getListOfMoves();
@@ -144,6 +146,7 @@ class TestPawn {
         validMoves.clear();
         validMoves.add("c8");
         validMoves.add("c7");
+        validMoves.add("c6");
         validMoves.add("d8");
 
         moves = pawn.legalMoves();
