@@ -7,6 +7,7 @@ import com.omegaChess.pieces.*;
 import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class ChessBoard {
     private ChessPiece[][] board;
@@ -330,6 +331,46 @@ public class ChessBoard {
                 rook.setMoved(true);
                 // make old position null
                 this.placePiece(null, rookFromPosition);
+            }
+
+            // if pawn moves to last rank, prompt promotion
+            String newRow = toPosition.substring(1);
+            boolean isLastRow = newRow.equals("1") || newRow.equals("10");
+            if (piece instanceof Pawn && isLastRow) {
+                ChessPiece newPiece = null;
+
+                // request promotion from user
+                System.out.print("Please enter which piece you want the pawn to be promoted to: ");
+                Scanner input = new Scanner(System.in);
+                while (true) {
+                    String promotion = input.nextLine();
+                    if (promotion.equalsIgnoreCase("queen")) {
+                        newPiece = new Queen(this, piece.getColor());
+                        break;
+                    } else if (promotion.equalsIgnoreCase("bishop")) {
+                        newPiece = new Bishop(this, piece.getColor());
+                        break;
+                    } else if (promotion.equalsIgnoreCase("knight")) {
+                        newPiece = new Knight(this, piece.getColor());
+                        break;
+                    } else if(promotion.equalsIgnoreCase("rook")) {
+                        newPiece = new Rook(this, piece.getColor());
+                        break;
+                    } else if(promotion.equalsIgnoreCase("champion")) {
+                        newPiece = new Champion(this, piece.getColor());
+                        break;
+                    } else if(promotion.equalsIgnoreCase("wizard")) {
+                        newPiece = new Wizard(this, piece.getColor());
+                        break;
+                    } else
+                        System.out.print("Not a valid piece, please enter valid omegachess piece: ");
+                }
+                input.close();
+
+                // replace pawn with the promoted piece and mark as moved
+                this.placePiece(null, toPosition);
+                this.placePiece(newPiece, toPosition);
+                newPiece.setMoved(true);
             }
 
             piece.setMoved(true);
