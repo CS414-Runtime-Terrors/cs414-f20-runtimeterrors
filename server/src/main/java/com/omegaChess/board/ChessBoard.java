@@ -541,6 +541,9 @@ public class ChessBoard {
                 case 10:
                     colRow = "j";
                     break;
+                default:
+                    colRow = "x";
+                    break;
             }
             colRow += String.valueOf(r);
         }
