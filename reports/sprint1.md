@@ -24,9 +24,9 @@ Epics planned for this release.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *7* | *x* |
-| Tasks |  *22*   | *x* | 
-| Story Points |  *43*  | *x* | 
+| Epics | *8* | *6* |
+| Tasks |  *35*   | *29* | 
+| Story Points |  *53*  | *44* | 
 
 
 ## Scrums
@@ -39,6 +39,7 @@ Epics planned for this release.
 | *10/7/20* | #33, #38, #109, #112, #112 | #105, #106, #107, #108, #110, #111, #129, #131, #147, #157 | some issues with running unit tests with intellij |
 | *10/9/20* | #105, #106, #107, #108, #110, #111, #129, #131 | #70, #71, #147, #157, #160, #162, #163, #166 | *none* |
 | *10/12/20* | #157, #160, #162, #163, #166, #171 | #147, #173, #178, #179, #183, #188 | *none* |
+| *10/14/20* | #178, #179, #183, #188 |  | *none* |
 
 ## Review
 
@@ -48,25 +49,29 @@ Epics planned for this release.
 * End Match (#15)
 * Storage of Previous Games (#18)
 * Game Board Logics (#128)
+* Piece Classes
 
 #### Incomplete epics in Sprint Backlog 
 * Update System
-* Piece Classes
 * Server Side Turn Utility
 
 #### What went well
-(TBD)
+(N/A)
 
 #### Problems encountered and resolutions
-(TBD)
+* Getting unit tests to run was a problem. The resolution was getting the configuration set up correctly.
+* We were supposed to meet with the PO, expectations have now been clarified.
+* IntelliJ wasn't recognizing package, this was troubleshooted.
 
 ## Retrospective
 
 #### What went well
-(TBD)
+* Completed most of our planned epics within this sprint.
+* Our knowledge of how to proceed is clarified now, so that's good.
 
 #### Potential improvements
-(TBD)
+* We can't think of many improvements, though it was mentioned that meetings are very useful for keeping us on track and we should continue having them as we have.
 
 #### What we will change next time
-(TBD)
+* We will work more closely with the PO.
+* We will try to meet for an hour or so each week for a coding session.
