@@ -27,4 +27,4 @@ Game Screen
 ![Game Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Game%20Screen.png)
 
 CRC Cards
-![CRC Cards](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/deliverables/CRC%20Cards.pdf)
+![CRC Cards](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/meeting-notes/CRC%20Cards.pdf)

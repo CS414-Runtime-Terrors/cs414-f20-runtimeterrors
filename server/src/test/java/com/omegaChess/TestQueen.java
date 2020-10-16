@@ -6,7 +6,6 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.Bishop;
 import com.omegaChess.pieces.ChessPiece;
-import com.omegaChess.pieces.LegalMoves;
 import com.omegaChess.pieces.Queen;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,12 +110,11 @@ class TestQueen {
         validMoves.add("b5");
         validMoves.add("a5");
 
-        LegalMoves moves = queen.legalMoves();
-        ArrayList<String> queenValid = moves.getListOfMoves();
+        ArrayList<String> bishopValid = queen.legalMoves();
         Collections.sort(validMoves);
-        Collections.sort(queenValid);
+        Collections.sort(bishopValid);
 
-        assertEquals(validMoves, queenValid);
+        assertEquals(validMoves, bishopValid);
     }
 
 }

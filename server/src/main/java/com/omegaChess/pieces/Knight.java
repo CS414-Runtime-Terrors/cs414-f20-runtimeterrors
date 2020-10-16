@@ -41,7 +41,7 @@ public class Knight extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves()
+    public ArrayList<String> legalMoves()
     {
         ArrayList<String> legalMoves = new ArrayList<>();
 
@@ -184,7 +184,7 @@ public class Knight extends ChessPiece {
             }
         }
 
-        return new LegalMoves(legalMoves, false, false);
+        return legalMoves;
     }
 }
 

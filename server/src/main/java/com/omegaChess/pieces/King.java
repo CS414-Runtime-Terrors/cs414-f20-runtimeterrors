@@ -15,7 +15,7 @@ public class King extends ChessPiece {
      * This is an abstract function that will be implemented in the
      * concrete subclasses corresponding to each chess piece. It returns
      * a one character String that corresponds to the type of the piece. In
-     * the Unicode6 character encoding scheme, there are characters that represent
+     * the Unicode6 character encoding scheme, there are characters that represet
      * each chess piece.
      */
     public String toString()
@@ -41,10 +41,9 @@ public class King extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves()
+    public ArrayList<String> legalMoves()
     {
-        ArrayList<String> legalMoves = new ArrayList<>();
-        boolean isCastle = false;
+        ArrayList<String> legalMoves = new ArrayList<String>();
 
         ChessPiece tmp_piece = null;
         String tmp_str;
@@ -60,7 +59,7 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
+            if((tmp_piece != null && tmp_piece.getColor() != this.color) ||
                     !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
@@ -78,8 +77,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -96,8 +95,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -114,8 +113,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -132,8 +131,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -150,8 +149,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -168,8 +167,8 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -186,124 +185,20 @@ public class King extends ChessPiece {
             }
 
             // can't move to a friend piece or somewhere that puts in check
-            if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+            if((tmp_piece != null && tmp_piece.getColor() != this.color )
+                    || !is_king_in_check(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
         }
 
-        // castling
-        if(!this.isMoved()) //check if the king has moved yet
-        {
-            //castle king's side
-            //get pieces from spaces involved in the castle
-            ChessPiece bishop = null;
-            ChessPiece knight = null;
-            ChessPiece rook = null;
-            String bishop_str = board.reverseParse(row, column+1);
-            String knight_str = board.reverseParse(row, column+2);
-            String rook_str = board.reverseParse(row, column+3);
-            try {
-                bishop = board.getPiece(bishop_str);
-                knight = board.getPiece(knight_str);
-                rook = board.getPiece(rook_str);
-            } catch (IllegalPositionException e) {
-                e.printStackTrace();
-            }
-
-            // check if the castle is legal
-            boolean okToCastle = rook instanceof Rook && !rook.isMoved(); //rook is there and hasn't moved
-            okToCastle = okToCastle && bishop == null && knight == null; //bishop and knight spots are both empty
-            okToCastle = okToCastle && !is_king_in_check(bishop_str) && !is_king_in_check(knight_str); //king is not in check in either spot
-
-            // if legal, add move to list
-            if(okToCastle) {
-                legalMoves.add(knight_str);
-                isCastle = true;
-            }
-
-            // castle queen's side
-            // get pieces from spaces involved in the castle
-            ChessPiece queen = null;
-            bishop = null;
-            knight = null;
-            rook = null;
-            String queen_str = board.reverseParse(row, column-1);
-            bishop_str = board.reverseParse(row, column-2);
-            knight_str = board.reverseParse(row, column-3);
-            rook_str = board.reverseParse(row, column-4);
-            try {
-                queen = board.getPiece(queen_str);
-                bishop = board.getPiece(bishop_str);
-                knight = board.getPiece(knight_str);
-                rook = board.getPiece(rook_str);
-            } catch (IllegalPositionException e) {
-                e.printStackTrace();
-            }
-
-            // check if the castle is legal
-            okToCastle = rook instanceof Rook && !rook.isMoved(); //rook is there and hasn't moved
-            okToCastle = okToCastle && queen == null && bishop == null && knight == null; //queen, bishop, and knight spots are all empty
-            okToCastle = okToCastle && !is_king_in_check(queen_str) && !is_king_in_check(bishop_str); //king is not in check in either spot
-
-            // if legal, add move to list
-            if(okToCastle) {
-                legalMoves.add(bishop_str);
-                isCastle = true;
-            }
-        }
-
-        return new LegalMoves(legalMoves, false, isCastle);
+        return legalMoves;
     }
 
+    // todo: implement function checking if a move will put the king in check
     public boolean is_king_in_check(String new_pos)
     {
-        ArrayList<ChessPiece> pieces;
-        if( this.color == Color.BLACK )
-        {
-            pieces = board.get_white_pieces();
-        }
-        else
-        {
-            pieces = board.get_black_pieces();
-        }
-
-        // go through opposing pieces
-        for (ChessPiece piece : pieces) {
-            // new_pos is somewhere a white piece can move, return true that king is in check
-            if (!(piece instanceof King) && piece.legalMoves().getListOfMoves().contains(new_pos)) {
-                return true;
-            }
-            // handle king separately otherwise recursion and stackoverflow error occurs
-            else if(piece instanceof King)
-            {
-                String kingPos = piece.getPosition();
-                int[] pos = null;
-                try {
-                    pos = board.parsePosition(new_pos);
-                } catch (IllegalPositionException e) {
-                    e.printStackTrace();
-                }
-
-                int r = pos[0];
-                int c = pos[1];
-
-                // check if opponent king is in one of the newPos moves
-                if(     kingPos.equals(board.reverseParse(r, c-1)) ||
-                        kingPos.equals(board.reverseParse(r+1, c-1)) ||
-                        kingPos.equals(board.reverseParse(r+1, c)) ||
-                        kingPos.equals(board.reverseParse(r+1, c+1)) ||
-                        kingPos.equals(board.reverseParse(r, c+1)) ||
-                        kingPos.equals(board.reverseParse(r-1, c+1)) ||
-                        kingPos.equals(board.reverseParse(r-1, c)) ||
-                        kingPos.equals(board.reverseParse(r-1, c-1)))
-                {
-                    return true;
-                }
-            }
-        }
-
         return false;
     }
+
 }

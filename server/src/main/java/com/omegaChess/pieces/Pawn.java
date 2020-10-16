@@ -41,94 +41,82 @@ public class Pawn extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves()
+    public ArrayList<String> legalMoves()
     {
-        ArrayList<String> validMoves = new ArrayList<>();
-        boolean isEnPessant = false;
+        ArrayList<String> validMoves = new ArrayList<String>();
 
         ChessPiece p1 = null;
-        int increment;
-        if (this.getColor() == Color.WHITE) {
-            increment = 1;
-        }
-        else {
-            increment = -1;
+        String p1_str = board.reverseParse(row+1, column);
+
+        try {
+            p1 = board.getPiece(p1_str);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
         }
 
-        // insert the base set of moves, i.e. diagLeft/Right if there is enemy piece there. Also moving the
-        // piece forward 1, 2, or 3 depending on position
-        validMoves = baseMoves(increment);
+        // if the spot 1 forward to move is null, add it to legal moves
+        if( p1 == null)
+        {
+            validMoves.add(p1_str);
+        }
 
-        //check en pessant possibility
-        if (!board.moves.isEmpty()) {
-            ChessPiece lastMovePiece = board.moves.get(0).getMovedPiece();
-            if (lastMovePiece.getClass() == Pawn.class) {
-                try {
-                    int pos[] = board.parsePosition(board.moves.get(0).getMovedToPosition());
-                    if (pos[1] == column + 1) {
-                        String moveStr = board.reverseParse(row + increment, column + 1);
-                        if (!validMoves.contains(moveStr)) {
-                            validMoves.add(moveStr);
-                            isEnPessant = true;
-                        }
-                    } else if (pos[1] == column - 1) {
-                        String moveStr = board.reverseParse(row + increment, column - 1);
-                        if (!validMoves.contains(moveStr)) {
-                            validMoves.add(moveStr);
-                            isEnPessant = true;
-                        }
-                    }
-                } catch (IllegalPositionException e) {
-                    e.printStackTrace();
-                }
+        if( column > 0 )
+        {
+            ChessPiece diagLeft = null;
+            String diagLeft_str = board.reverseParse(row+1, column-1);
+
+            try {
+                diagLeft = board.getPiece(diagLeft_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if a chess piece is here and it is an opponent's piece
+            if( diagLeft != null && diagLeft.getColor() != this.color )
+            {
+                validMoves.add(diagLeft_str);
             }
         }
 
-        return new LegalMoves(validMoves, isEnPessant, false);
-    }
+        if( column < 7 )
+        {
+            ChessPiece diagRight = null;
+            String diagRight_str = board.reverseParse(row+1, column+1);
 
-    private ArrayList<String> baseMoves(int increment){
-        ArrayList<String> moves = new ArrayList<>();
-        String ml = board.reverseParse(row+increment, column-1), mr = board.reverseParse(row+increment, column+1),
-                m1 = board.reverseParse(row+increment,column), m2 = board.reverseParse(row+(2*increment), column),
-                m3 = board.reverseParse(row+(3*increment), column);
-        ChessPiece p1 = null, p2 = null, p3 = null, pl = null, pr = null;
-        // need to make sure diagLeft doesn't go out of bounds
-        try {
-            pl = this.board.getPiece(ml);
-        }catch (IllegalPositionException e){ e.printStackTrace(); }
-        // need to make sure diagRight doesn't go out of bounds
-        try {
-            pr = this.board.getPiece(mr);
-            System.out.println(this.getColor());
-        }catch (IllegalPositionException e){ e.printStackTrace(); }
-        try {
-            p1 = this.board.getPiece(m1);
-        }catch (IllegalPositionException e){ e.printStackTrace(); }
-        // if a chess piece is here and it is an opponent's piece
-        if (pl != null)
-            if( pl.getColor() != this.getColor()) moves.add(ml);
-        if (pr != null)
-            if ( pr.getColor() != this.getColor()) moves.add(mr);
-        // if the spot 1 forward to move is null, add it to legal moves
-        if (p1 == null) moves.add(m1); else return moves;
-        // a pawn is in the initial position
-        if (!this.isMoved()) {
-            // pawn in initial can move 1, 2, or 3 squares vertically up to an empty
-            // square but cannot leap over anything
             try {
-                p2 = this.board.getPiece(m2);
-            }catch (IllegalPositionException e){ e.printStackTrace(); }
-            try {
-                p3 = this.board.getPiece(m3);
-            }catch (IllegalPositionException e){ e.printStackTrace(); }
-            // if the spot 2 forward to move is null, add it to legal moves
-            if (p2 == null) moves.add(m2); else return moves;
-            // if the spot 3 forward to move is null, add it to legal moves
-            if (p3 == null) moves.add(m3);
+                diagRight = board.getPiece(diagRight_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if a chess piece is here and it is an opponent's piece
+            if( diagRight != null && diagRight.getColor() != this.color )
+            {
+                validMoves.add(diagRight_str);
+            }
         }
-        return moves;
+
+        // a pawn is in the initial position if it is in row 2
+        if( row == 2 )
+        {
+            // pawn in initial can move 1 or 2 squares vertically forward to an empty
+            // square but cannot leap over anything
+            ChessPiece p2 = null;
+            String p2_str = board.reverseParse(row+2, column);
+
+            try {
+                p2 = board.getPiece(p2_str);
+            } catch (IllegalPositionException e) {
+                e.printStackTrace();
+            }
+
+            // if the spot 1 forward and the spot 2 forward is null, add it to legal move
+            if( p1 == null && p2 == null )
+            {
+                validMoves.add(p2_str);
+            }
+        }
+
+        return validMoves;
     }
-
 }
-
