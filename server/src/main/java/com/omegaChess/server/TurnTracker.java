@@ -1,26 +1,33 @@
 package com.omegaChess.server;
 
+import com.omegaChess.pieces.ChessPiece;
+
 public class TurnTracker {
     private final String player1;
     private final String player2;
-    private String currentTurn;
+    private String currentTurnPlayer;
+    private ChessPiece.Color currentTurnColor = ChessPiece.Color.WHITE;
 
     public TurnTracker(String p1, String p2) {
         this.player1 = p1;
         this.player2 = p2;
-        this.currentTurn = p1;
+        this.currentTurnPlayer = p1;
     }
 
-    public String getCurrentTurn() {
-        return this.currentTurn;
+    public String getCurrentTurnPlayer() {
+        return this.currentTurnPlayer;
     }
+
+    public ChessPiece.Color getCurrentTurnColor() { return this.currentTurnColor; }
 
     public void switchTurn() {
-        if (this.currentTurn.equals(this.player1)) {
-            this.currentTurn = this.player2;
+        if (this.currentTurnPlayer.equals(this.player1)) {
+            this.currentTurnPlayer = this.player2;
+            this.currentTurnColor = ChessPiece.Color.BLACK;
         }
         else {
-            this.currentTurn = this.player1;
+            this.currentTurnPlayer = this.player1;
+            this.currentTurnColor = ChessPiece.Color.WHITE;
         }
     }
 }
