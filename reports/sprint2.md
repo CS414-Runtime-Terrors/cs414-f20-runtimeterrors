@@ -36,12 +36,12 @@ Epics planned for this release.
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *10/16/20* | *N/A* | (TO DO) | *none* |
+| *10/16/20* | *#173* | *#37, #95, #98, #99, #147, #187, #200, #209* | *none* |
 
 ## Review
 
 #### Completed epics in Sprint Backlog 
-(TBD)
+* Server-side Turn Utility (#172)
 
 #### Incomplete epics in Sprint Backlog 
 (TBD)
