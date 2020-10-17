@@ -193,4 +193,35 @@ public class Bishop extends ChessPiece {
 
         return new LegalMoves(validMoves, false, false);
     }
+
+    public LegalMoves checkingPieceMoves(String kingPos) {
+        int[] kPos = new int[2];
+        try {
+            kPos = board.parsePosition(kingPos);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+        int kr = kPos[0];
+        int kc = kPos[1];
+        int r = row;
+        int c = column;
+
+        int rIncrement = 1;
+        int cIncrement = 1;
+        if (r > kr) {rIncrement = -1;}
+        if (c > kc) {cIncrement = -1;}
+
+        ArrayList<String> validMoves = new ArrayList<>();
+        String pos = this.getPosition();
+        validMoves.add(pos);
+
+        while (r != (kr - rIncrement) && c != (kc - cIncrement)) {
+            r += rIncrement;
+            c += cIncrement;
+            pos = board.reverseParse(r, c);
+            validMoves.add(pos);
+        }
+
+        return new LegalMoves(validMoves, false, false);
+    }
 }
