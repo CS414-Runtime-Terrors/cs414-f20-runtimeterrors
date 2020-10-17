@@ -2,9 +2,9 @@ package com.omegaChess.server;
 
 class RegistrationSystem {
 
-    private MicroServer server;
+    private OCServerData server;
 
-    public RegistrationSystem(MicroServer serverReference) {
+    public RegistrationSystem(OCServerData serverReference) {
         server = serverReference;
     }
 
