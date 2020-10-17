@@ -12,10 +12,14 @@ public class OCMultiServer {
         boolean listening = true;
 
         try {
+            System.out.println("Creating Socket");
             ServerSocket serverSocket = new ServerSocket(portNumber);
 
+
             while (listening) {
+                System.out.println("Listening...");
                 new OCMultiServerThread(serverSocket.accept()).start();
+                System.out.println("New connection!");
             }
 
         } catch(Exception e) {

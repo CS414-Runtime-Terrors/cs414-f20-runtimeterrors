@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 
 public class OCClient {
 
-    private static final String serverHostName = "albany.cs.colostate.edu";
+    private static final String serverHostName = "albany.cs.colostate.edu"; // in order to test on production, OCMultiServer.java must be running on the server host
     private static final String localHostName = "Jeff-From-Surplus"; // set this when testing locally
 
     public static void main(String[] args) throws IOException {
@@ -27,9 +27,14 @@ public class OCClient {
 
             String userInput;
 
+            // this is the client loop, writing to the socket's output stream every time something is inputted into standard input.
+            // we will want to change this and integrate it with the graphical code so that we can write the socket's output stream
+            // every time something is clicked on.
             while ((userInput = stdIn.readLine()) != null) {
 
-                out.println(userInput);
+                // plan: have a JSON object with field "process":"squareInput" (as an example) and "number":in.readLine() and pass this
+
+                out.println(userInput); // TODO: rather than pass a simple string, write a JSON object converted to a string to the socket's output stream
                 System.out.println(in.readLine());
 
             }
