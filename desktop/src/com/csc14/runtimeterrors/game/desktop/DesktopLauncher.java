@@ -2,11 +2,11 @@ package com.csc14.runtimeterrors.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.csc14.runtimeterrors.game.LoginScreen;
+import com.csc14.runtimeterrors.game.MainMenuScreen;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
 public class DesktopLauncher {
-	private LoginScreen loginScreen;
+	private MainMenuScreen loginScreen;
 	//private PreferencesScreen preferencesScreen;
 	//private MenuScreen menuScreen;
 	//private MainScreen mainScreen;

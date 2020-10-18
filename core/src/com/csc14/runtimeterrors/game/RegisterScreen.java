@@ -12,11 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class LoginScreen implements Screen {
+public class RegisterScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
 
-    public LoginScreen(OmegaChess omegachess){
+    public RegisterScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
 
         stage = new Stage(new ScreenViewport());
@@ -39,7 +39,7 @@ public class LoginScreen implements Screen {
         style.font = new BitmapFont();
         style.fontColor = Color.PURPLE;
         style.font.getData().setScale(2f);
-        TextField title = new TextField("Future Login Screen", style);
+        TextField title = new TextField("Future Register Screen", style);
 
         table.center();
         table.add(title).width(400).fillX().uniformX();
@@ -52,7 +52,7 @@ public class LoginScreen implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
-        parent.changeScreen(OmegaChess.LOGIN_SCREEN);
+        parent.changeScreen(OmegaChess.REGISTER_SCREEN);
     }
 
     @Override
