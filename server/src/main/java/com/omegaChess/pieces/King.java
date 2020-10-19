@@ -6,9 +6,15 @@ import com.omegaChess.exceptions.IllegalPositionException;
 import java.util.ArrayList;
 
 public class King extends ChessPiece {
+    private ChessPiece checkingPiece = null;
+
     public King(ChessBoard board, Color color) {
         super(board, color);
         // TODO Auto-generated constructor stub
+    }
+
+    public ChessPiece getCheckingPiece() {
+        return checkingPiece;
     }
 
     /*
@@ -61,7 +67,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -79,7 +85,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -97,7 +103,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -115,7 +121,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -133,7 +139,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -151,7 +157,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -169,7 +175,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -187,7 +193,7 @@ public class King extends ChessPiece {
 
             // can't move to a friend piece or somewhere that puts in check
             if((tmp_piece == null || tmp_piece.getColor() != this.color) &&
-                    !is_king_in_check(tmp_str))
+                    !willKingBeInCheck(tmp_str))
             {
                 legalMoves.add(tmp_str);
             }
@@ -215,7 +221,7 @@ public class King extends ChessPiece {
             // check if the castle is legal
             boolean okToCastle = rook instanceof Rook && !rook.isMoved(); //rook is there and hasn't moved
             okToCastle = okToCastle && bishop == null && knight == null; //bishop and knight spots are both empty
-            okToCastle = okToCastle && !is_king_in_check(bishop_str) && !is_king_in_check(knight_str); //king is not in check in either spot
+            okToCastle = okToCastle && !willKingBeInCheck(bishop_str) && !willKingBeInCheck(knight_str); //king is not in check in either spot
 
             // if legal, add move to list
             if(okToCastle) {
@@ -245,7 +251,7 @@ public class King extends ChessPiece {
             // check if the castle is legal
             okToCastle = rook instanceof Rook && !rook.isMoved(); //rook is there and hasn't moved
             okToCastle = okToCastle && queen == null && bishop == null && knight == null; //queen, bishop, and knight spots are all empty
-            okToCastle = okToCastle && !is_king_in_check(queen_str) && !is_king_in_check(bishop_str); //king is not in check in either spot
+            okToCastle = okToCastle && !willKingBeInCheck(queen_str) && !willKingBeInCheck(bishop_str); //king is not in check in either spot
 
             // if legal, add move to list
             if(okToCastle) {
@@ -257,7 +263,7 @@ public class King extends ChessPiece {
         return new LegalMoves(legalMoves, false, isCastle);
     }
 
-    public boolean is_king_in_check(String new_pos)
+    private boolean willKingBeInCheck(String new_pos)
     {
         ArrayList<ChessPiece> pieces;
         if( this.color == Color.BLACK )
@@ -305,5 +311,32 @@ public class King extends ChessPiece {
         }
 
         return false;
+    }
+
+    public boolean isKingInCheck() {
+        String myPos = this.getPosition();
+
+        ArrayList<ChessPiece> opponentPieces;
+        if (color == Color.WHITE) {
+            opponentPieces = board.get_black_pieces();
+        }
+        else {
+            opponentPieces = board.get_white_pieces();
+        }
+
+        for (ChessPiece piece : opponentPieces) {
+            if (!(piece instanceof King) && piece.legalMoves().getListOfMoves().contains(myPos)) {
+                checkingPiece = piece;
+                return true;
+            }
+        }
+
+        checkingPiece = null;
+        return false;
+    }
+
+    //The King will never use this function since the king can never check the other king
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
+        return null;
     }
 }

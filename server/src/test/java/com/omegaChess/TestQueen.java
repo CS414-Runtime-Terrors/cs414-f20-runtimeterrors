@@ -119,4 +119,32 @@ class TestQueen {
         assertEquals(validMoves, queenValid);
     }
 
+    @Test
+    public void testMovesToBlockCheckingPiece() {
+        ChessBoard board = new ChessBoard();
+        Queen queen = new Queen(board, ChessPiece.Color.WHITE);
+        board.placePiece(queen, "f5");
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        validMoves.add("f5");
+        validMoves.add("f4");
+        validMoves.add("f3");
+        validMoves.add("f2");
+        assertEquals(validMoves, queen.movesToBlockCheckingPiece("f1").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        validMoves.add("g4");
+        validMoves.add("h3");
+        assertEquals(validMoves, queen.movesToBlockCheckingPiece("i2").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        validMoves.add("g5");
+        assertEquals(validMoves, queen.movesToBlockCheckingPiece("h5").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        assertEquals(validMoves, queen.movesToBlockCheckingPiece("g6").getListOfMoves());
+    }
 }

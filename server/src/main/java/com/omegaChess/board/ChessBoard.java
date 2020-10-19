@@ -263,7 +263,7 @@ public class ChessBoard {
 
         // get the piece's legal moves
         System.out.println(piece);
-        LegalMoves listOfMoves = piece.legalMoves();
+        LegalMoves listOfMoves = piece.getNormalOrCheckMoves();
         ArrayList<String> validMoves = listOfMoves.getListOfMoves();
 
         boolean isEnPessant = listOfMoves.isEnPessant();

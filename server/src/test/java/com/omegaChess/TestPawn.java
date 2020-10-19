@@ -293,9 +293,11 @@ class TestPawn {
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
         pawn.setMoved(true);
         Pawn otherPawn = new Pawn(board, ChessPiece.Color.WHITE);
+        King king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "d4");
         board.placePiece(otherPawn, "c2");
+        board.placePiece(king, "j2");
         try {
             board.move("c2", "c4");
         }
@@ -320,9 +322,11 @@ class TestPawn {
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
         pawn.setMoved(true);
         otherPawn = new Pawn(board, ChessPiece.Color.WHITE);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "b4");
         board.placePiece(otherPawn, "c2");
+        board.placePiece(king, "j2");
         try {
             board.move("c2", "c4");
         }
@@ -367,12 +371,16 @@ class TestPawn {
         pawn5.setMoved(true);
         Pawn pawn6 = new Pawn(board, ChessPiece.Color.WHITE);
         pawn6.setMoved(true);
+        King wKing = new King(board, ChessPiece.Color.WHITE);
+        King bKing = new King(board, ChessPiece.Color.BLACK);
         board.placePiece(pawn1, "e2");
         board.placePiece(pawn2, "f2");
         board.placePiece(pawn3, "g2");
         board.placePiece(pawn4, "e9");
         board.placePiece(pawn5, "f9");
         board.placePiece(pawn6, "g9");
+        board.placePiece(wKing, "j2");
+        board.placePiece(bKing, "j8");
         try {
             System.setIn(queenInput);
             board.move("e2", "e1");

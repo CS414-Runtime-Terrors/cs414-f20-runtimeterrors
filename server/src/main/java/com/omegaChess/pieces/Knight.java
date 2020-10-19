@@ -186,5 +186,11 @@ public class Knight extends ChessPiece {
 
         return new LegalMoves(legalMoves, false, false);
     }
+
+    public LegalMoves movesToBlockCheckingPiece(String kinPos) {
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add(this.getPosition());
+        return new LegalMoves(validMoves, false, false);
+    }
 }
 

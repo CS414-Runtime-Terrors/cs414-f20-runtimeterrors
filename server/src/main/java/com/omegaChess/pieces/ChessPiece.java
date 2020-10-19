@@ -3,6 +3,8 @@ package com.omegaChess.pieces;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
+import java.util.ArrayList;
+
 public abstract class ChessPiece {
     public enum Color {WHITE, BLACK}
 
@@ -63,6 +65,48 @@ public abstract class ChessPiece {
         return this.moved;
     }
 
+    public LegalMoves getNormalOrCheckMoves() {
+        LegalMoves nonCheckLegal = this.legalMoves();
+
+        if (!(this instanceof King)) {
+            King myKing = null;
+            if (this.color == Color.WHITE) {
+                ArrayList<ChessPiece> myPieces = this.board.get_white_pieces();
+                for (ChessPiece piece : myPieces) {
+                    if (piece instanceof King) {
+                        myKing = (King) piece;
+                        break;
+                    }
+                }
+            } else {
+                ArrayList<ChessPiece> myPieces = this.board.get_black_pieces();
+                for (ChessPiece piece : myPieces) {
+                    if (piece instanceof King) {
+                        myKing = (King) piece;
+                        break;
+                    }
+                }
+            }
+
+            if (myKing.isKingInCheck()) {
+                LegalMoves inCheckLegal = myKing.getCheckingPiece().movesToBlockCheckingPiece(myKing.getPosition());
+                ArrayList<String> checkerLegal = inCheckLegal.getListOfMoves();
+                ArrayList<String> allLegal = nonCheckLegal.getListOfMoves();
+                ArrayList<String> legalMoves = new ArrayList<>();
+
+                for (String al : allLegal) {
+                    if (checkerLegal.contains(al)) {
+                        legalMoves.add(al);
+                    }
+                }
+
+                return new LegalMoves(legalMoves, false, false);
+            }
+        }
+
+        return nonCheckLegal;
+    }
+
     /* To be implemented in the concrete subclasses. Returns a one-character piece corresponding
     * to the type of the piece. */
     abstract public String toString();
@@ -70,6 +114,12 @@ public abstract class ChessPiece {
     /* To be implemented in the concrete subclasses. Returns a list of all legal moves that
     * piece can make. Each string in the arraylist should be the position of a possible destination
     * for the piece. Order of legal moves is irrelevant. Return an empty list if no moves are
-    * available. Queen and Knight should return empty lists.*/
+    * available. */
     abstract public LegalMoves legalMoves();
+
+    /* To be implemented in concrete subclasses. Returns the list of possible locations that the
+    * piece checking the king can be at in between itself and the king, including its current
+    * position. Assumed that kingPos is within piece's valid move-set, since only called after
+    * the king's isKingInCheck method. */
+    abstract public LegalMoves movesToBlockCheckingPiece(String kingPos);
 }
