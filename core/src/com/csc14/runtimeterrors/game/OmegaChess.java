@@ -1,33 +1,36 @@
 package com.csc14.runtimeterrors.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Game;
 
-public class OmegaChess extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+public class OmegaChess extends Game {
+	private MainMenuScreen mainMenuScreen;
+	private LoginScreen loginScreen;
+	private RegisterScreen registerScreen;
+
+	public final static int LOGIN_SCREEN = 0;
+	public final static int REGISTER_SCREEN = 1;
+	public final static int MAIN_MENU_SCREEN = 2;
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+	public void create() {
+		mainMenuScreen = new MainMenuScreen(this);
+		setScreen(mainMenuScreen);
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+
+	public void changeScreen(int screen){
+		switch(screen){
+			case MAIN_MENU_SCREEN:
+				if(mainMenuScreen == null) mainMenuScreen = new MainMenuScreen(this);
+				this.setScreen(mainMenuScreen);
+				break;
+			case LOGIN_SCREEN:
+				if(loginScreen == null) loginScreen = new LoginScreen(this);
+				this.setScreen(loginScreen);
+				break;
+			case REGISTER_SCREEN:
+				if(registerScreen == null) registerScreen = new RegisterScreen(this);
+				this.setScreen(registerScreen);
+				break;
+		}
 	}
 }
