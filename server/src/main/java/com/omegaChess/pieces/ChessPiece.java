@@ -65,7 +65,7 @@ public abstract class ChessPiece {
         return this.moved;
     }
 
-    private LegalMoves getNormalOrCheckMoves() {
+    public LegalMoves getNormalOrCheckMoves() {
         LegalMoves nonCheckLegal = this.legalMoves();
 
         if (!(this instanceof King)) {
