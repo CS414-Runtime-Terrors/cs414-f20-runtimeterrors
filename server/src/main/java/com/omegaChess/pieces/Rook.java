@@ -189,7 +189,7 @@ public class Rook extends ChessPiece {
         return new LegalMoves(validMoves, false, false);
     }
 
-    public LegalMoves checkingPieceMoves(String kingPos) {
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
         int[] kPos = new int[2];
         try {
             kPos = board.parsePosition(kingPos);
@@ -214,11 +214,11 @@ public class Rook extends ChessPiece {
             cIncrement = 1;
         }
 
-        ArrayList<String> validMoves = new ArrayList<>();
         String pos = this.getPosition();
+        ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add(pos);
 
-        while (r != (kr - rIncrement) && c != (kc - cIncrement)) {
+        while (r != (kr - rIncrement) || c != (kc - cIncrement)) {
             r += rIncrement;
             c += cIncrement;
             pos = board.reverseParse(r, c);

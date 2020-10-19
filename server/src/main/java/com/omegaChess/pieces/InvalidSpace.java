@@ -33,5 +33,5 @@ public class InvalidSpace extends ChessPiece{
     }
 
     @Override
-    public LegalMoves checkingPieceMoves(String kingPos) { return null; }
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) { return null; }
 }

@@ -48,7 +48,7 @@ public class Wizard extends ChessPiece {
         return new LegalMoves(moves, false, false);
     }
 
-    public LegalMoves checkingPieceMoves(String kinPos) {
+    public LegalMoves movesToBlockCheckingPiece(String kinPos) {
         ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add(this.getPosition());
         return new LegalMoves(validMoves, false, false);

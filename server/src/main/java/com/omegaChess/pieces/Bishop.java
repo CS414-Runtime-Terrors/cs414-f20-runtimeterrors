@@ -194,7 +194,7 @@ public class Bishop extends ChessPiece {
         return new LegalMoves(validMoves, false, false);
     }
 
-    public LegalMoves checkingPieceMoves(String kingPos) {
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
         int[] kPos = new int[2];
         try {
             kPos = board.parsePosition(kingPos);
@@ -208,11 +208,15 @@ public class Bishop extends ChessPiece {
 
         int rIncrement = 1;
         int cIncrement = 1;
-        if (r > kr) {rIncrement = -1;}
-        if (c > kc) {cIncrement = -1;}
+        if (r > kr) {
+            rIncrement = -1;
+        }
+        if (c > kc) {
+            cIncrement = -1;
+        }
 
-        ArrayList<String> validMoves = new ArrayList<>();
         String pos = this.getPosition();
+        ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add(pos);
 
         while (r != (kr - rIncrement) && c != (kc - cIncrement)) {

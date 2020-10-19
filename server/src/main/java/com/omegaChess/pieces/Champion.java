@@ -43,7 +43,7 @@ public class Champion extends ChessPiece{
         return new LegalMoves(moves, false, false);
     }
 
-    public LegalMoves checkingPieceMoves(String kingPos) {
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
         int[] kPos = new int[2];
         try {
             kPos = board.parsePosition(kingPos);
@@ -59,6 +59,7 @@ public class Champion extends ChessPiece{
         String pos = this.getPosition();
         validMoves.add(pos);
 
+        //conditions to see if king is within the sliding move-set
         if (r < kr && c == kc) {
             while (r < (kr - 1)) {
                 r += 1;

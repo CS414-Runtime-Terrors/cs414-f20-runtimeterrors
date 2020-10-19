@@ -89,7 +89,7 @@ public abstract class ChessPiece {
             }
 
             if (myKing.isKingInCheck()) {
-                LegalMoves inCheckLegal = myKing.getCheckingPiece().checkingPieceMoves(myKing.getPosition());
+                LegalMoves inCheckLegal = myKing.getCheckingPiece().movesToBlockCheckingPiece(myKing.getPosition());
                 ArrayList<String> checkerLegal = inCheckLegal.getListOfMoves();
                 ArrayList<String> allLegal = nonCheckLegal.getListOfMoves();
                 ArrayList<String> legalMoves = new ArrayList<>();
@@ -119,6 +119,7 @@ public abstract class ChessPiece {
 
     /* To be implemented in concrete subclasses. Returns the list of possible locations that the
     * piece checking the king can be at in between itself and the king, including its current
-    * position. */
-    abstract public LegalMoves checkingPieceMoves(String kingPos);
+    * position. Assumed that kingPos is within piece's valid move-set, since only called after
+    * the king's isKingInCheck method. */
+    abstract public LegalMoves movesToBlockCheckingPiece(String kingPos);
 }

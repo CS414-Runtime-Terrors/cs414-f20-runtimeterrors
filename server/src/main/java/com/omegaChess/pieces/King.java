@@ -336,7 +336,7 @@ public class King extends ChessPiece {
     }
 
     //The King will never use this function since the king can never check the other king
-    public LegalMoves checkingPieceMoves(String kingPos) {
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
         return null;
     }
 }

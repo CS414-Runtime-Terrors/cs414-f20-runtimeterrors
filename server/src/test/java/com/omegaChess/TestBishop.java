@@ -95,4 +95,26 @@ class TestBishop {
 
         assertEquals(validMoves, bishopValid);
     }
+
+    @Test
+    public void testMovesToBlockCheckingPiece() {
+        ChessBoard board = new ChessBoard();
+        Bishop bishop = new Bishop(board, ChessPiece.Color.BLACK);
+        board.placePiece(bishop, "f5");
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        validMoves.add("f5");
+        validMoves.add("g4");
+        validMoves.add("h3");
+        assertEquals(validMoves, bishop.movesToBlockCheckingPiece("i2").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        validMoves.add("g6");
+        assertEquals(validMoves, bishop.movesToBlockCheckingPiece("h7").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        assertEquals(validMoves, bishop.movesToBlockCheckingPiece("e6").getListOfMoves());
+    }
 }
