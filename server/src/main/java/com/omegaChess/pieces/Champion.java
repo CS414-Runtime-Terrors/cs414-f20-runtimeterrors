@@ -43,4 +43,52 @@ public class Champion extends ChessPiece{
         return new LegalMoves(moves, false, false);
     }
 
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
+        int[] kPos = new int[2];
+        try {
+            kPos = board.parsePosition(kingPos);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+        int kr = kPos[0];
+        int kc = kPos[1];
+        int r = row;
+        int c = column;
+
+        ArrayList<String> validMoves = new ArrayList<>();
+        String pos = this.getPosition();
+        validMoves.add(pos);
+
+        //conditions to see if king is within the sliding move-set
+        if (r < kr && c == kc) {
+            while (r < (kr - 1)) {
+                r += 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+        else if (r > kr && c == kc) {
+            while (r > (kr + 1)) {
+                r -= 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+        else if (c < kc && r == kr) {
+            while (c < (kc - 1)) {
+                c += 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+        else if (c > kc && r == kr) {
+            while (c > (kc + 1)) {
+                c -= 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+
+        return new LegalMoves(validMoves, false, false);
+    }
 }

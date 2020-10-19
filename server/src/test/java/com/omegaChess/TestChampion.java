@@ -41,4 +41,29 @@ class TestChampion {
         ArrayList<String> actualMoves = moves.getListOfMoves();
         assertEquals(expectedMoves, actualMoves, "Expected moves not provided");
     }
+
+    @Test
+    public void testMovesToBlockCheckingPiece() {
+        ChessBoard board = new ChessBoard();
+        Champion champ = new Champion(board, ChessPiece.Color.WHITE);
+        board.placePiece(champ, "f5");
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        validMoves.add("f5");
+        validMoves.add("f4");
+        assertEquals(validMoves, champ.movesToBlockCheckingPiece("f3").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        validMoves.add("g5");
+        assertEquals(validMoves, champ.movesToBlockCheckingPiece("h5").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        assertEquals(validMoves, champ.movesToBlockCheckingPiece("h3").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        assertEquals(validMoves, champ.movesToBlockCheckingPiece("h7").getListOfMoves());
+    }
 }

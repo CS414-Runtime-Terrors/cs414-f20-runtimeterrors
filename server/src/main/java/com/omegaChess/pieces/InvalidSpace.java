@@ -31,4 +31,7 @@ public class InvalidSpace extends ChessPiece{
     public LegalMoves legalMoves() {
         return null;
     }
+
+    @Override
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) { return null; }
 }
