@@ -14,7 +14,7 @@ public class Bishop extends ChessPiece {
      * This is an abstract function that will be implemented in the
      * concrete subclasses corresponding to each chess piece. It returns
      * a one character String that corresponds to the type of the piece. In
-     * the Unicode6 character encoding scheme, there are characters that represet
+     * the Unicode6 character encoding scheme, there are characters that represent
      * each chess piece.
      */
     public String toString()
@@ -42,7 +42,7 @@ public class Bishop extends ChessPiece {
      */
     public LegalMoves legalMoves()
     {
-        ArrayList<String> validMoves = new ArrayList<String>();
+        ArrayList<String> validMoves = new ArrayList<>();
 
         // bishop can move any number of squares diagonally if no other pieces
 

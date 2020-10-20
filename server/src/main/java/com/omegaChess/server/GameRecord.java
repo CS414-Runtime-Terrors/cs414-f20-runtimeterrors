@@ -21,9 +21,6 @@ public class GameRecord {
         }
     }
 
-    // forfeit a match
-    public void endMatch(String quitter, String winner, int moves){ GameRecord end = new GameRecord(winner, quitter, moves, false); }
-
     //getters and setters
     public void setWinner(String newWinner) { winner = newWinner; }
 
