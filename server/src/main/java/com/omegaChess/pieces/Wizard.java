@@ -14,7 +14,7 @@ public class Wizard extends ChessPiece {
         if (this.color == Color.WHITE)
             return "\u26AA";
         else
-            return "\u26BB";
+            return "\u26AB";
     }
 
     @Override

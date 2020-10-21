@@ -37,6 +37,7 @@ public class ChessBoard {
     {
         initialize_white_pieces();
         initialize_black_pieces();
+        initializeInvalidSpaces();
     }
 
     public ArrayList<ChessPiece> get_white_pieces()
@@ -185,6 +186,25 @@ public class ChessBoard {
         placePiece(wWizard, "w2");
     }
 
+    public void initializeInvalidSpaces(){
+        for (int i = 0; i < board.length; i ++){
+            for (int j = 0; j < board[i].length; j++){
+                int pos[] = {i, j};
+                ChessPiece piece = null;
+                try {
+                    piece = getPiece(reverseParse(i, j));
+                }catch (IllegalPositionException e){
+                    e.printStackTrace();
+                }
+
+                if (piece == null && ((i == 0 || i == 11) || (j == 0 || j == 11))) {
+                    piece = new InvalidSpace(this, null);
+                    placePiece(piece, reverseParse(i, j));
+                }
+            }
+        }
+    }
+
     public ChessPiece getPiece(String position) throws IllegalPositionException {
         int[] pos = new int[0];
         pos = parsePosition(position);
@@ -262,7 +282,7 @@ public class ChessBoard {
         }
 
         // get the piece's legal moves
-        System.out.println(piece);
+        //System.out.println(piece);
         LegalMoves listOfMoves = piece.getNormalOrCheckMoves();
         ArrayList<String> validMoves = listOfMoves.getListOfMoves();
 
@@ -483,7 +503,7 @@ public class ChessBoard {
             char col = position.charAt(0);
             pos[0] = Integer.valueOf(position.substring(1));
 
-            if(pos[0] < 1 || pos[0] > 10 )
+            if(pos[0] < 0 || pos[0] > 11 )
             {
                 throw new IllegalPositionException("Illegal Column Position: " + pos[0]);
             }
@@ -520,8 +540,14 @@ public class ChessBoard {
                 case 'j':
                     pos[1] = 10;
                     break;
+                case 'x':
+                    pos[1] = 0;
+                    break;
+                case 'y':
+                    pos[1] = 11;
+                    break;
                 default:
-                    throw new IllegalPositionException("Illegal Column Position: " + pos[1]);
+                    throw new IllegalPositionException("Illegal Row Position: " + pos[1]);
             }
         }
 
@@ -552,6 +578,9 @@ public class ChessBoard {
         else
         {
             switch (c){
+                case 0:
+                    colRow = "x";
+                    break;
                 case 1:
                     colRow = "a";
                     break;
@@ -582,8 +611,8 @@ public class ChessBoard {
                 case 10:
                     colRow = "j";
                     break;
-                default:
-                    colRow = "x";
+                case 11:
+                    colRow = "y";
                     break;
             }
             colRow += String.valueOf(r);
