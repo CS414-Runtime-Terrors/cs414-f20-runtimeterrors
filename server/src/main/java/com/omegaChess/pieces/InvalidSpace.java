@@ -5,7 +5,7 @@ import com.omegaChess.exceptions.IllegalPositionException;
 
 public class InvalidSpace extends ChessPiece{
 
-    public InvalidSpace(ChessBoard board, ChessPiece.Color color){super(board, null);}
+    public InvalidSpace(ChessBoard board, ChessPiece.Color color){ super(board, color); }
 
     @Override
     public String toString() {
