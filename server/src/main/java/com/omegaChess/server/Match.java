@@ -15,6 +15,7 @@ public class Match {
     private TurnTracker turn;
     public ArrayList<ChessPiece> player1Pieces, player2Pieces;
 
+    // Profile 1 should be the profile that sent an invite
     public Match(UserProfile profile1, UserProfile profile2){
         this.profile1 = profile1;
         this.profile2 = profile2;
