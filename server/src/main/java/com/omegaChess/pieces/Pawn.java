@@ -100,7 +100,7 @@ public class Pawn extends ChessPiece {
         // need to make sure diagRight doesn't go out of bounds
         try {
             pr = this.board.getPiece(mr);
-            System.out.println(this.getColor());
+            //System.out.println(this.getColor());
         }catch (IllegalPositionException e){ e.printStackTrace(); }
         try {
             p1 = this.board.getPiece(m1);
