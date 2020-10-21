@@ -27,13 +27,14 @@ public class Match {
     public void initialize(){
         board.initialize();
         turn = new TurnTracker(profile1.getNickname(), profile2.getNickname());
-        player1Pieces = board.get_white_pieces();
-        player2Pieces = board.get_black_pieces();
+        setPlayer1Pieces(board.get_white_pieces());
+        setPlayer2Pieces(board.get_black_pieces());
     }
 
     public boolean checkCheckmate(){
         ArrayList<ChessPiece> currentPieces = new ArrayList<>();
-        boolean check = false, noBlock = true;
+        // a boolean to track if the opponents king is in check, and if they have any piece to block the check.
+        boolean check = true, noBlock = true;
         switch (turn.getCurrentTurnColor()){
             case WHITE:
                 currentPieces = player2Pieces;
@@ -43,21 +44,35 @@ public class Match {
                 break;
         }
 
+        // Moves king to the front of current pieces, ensures if the king is not in check it fails the test immediately
+        int count = 0;
+        for (ChessPiece piece : currentPieces){
+            if (piece instanceof King){
+                if (count == 0)
+                    break;
+                ChessPiece first = currentPieces.get(0);
+                currentPieces.set(0, piece);
+                currentPieces.set(count, first);
+                break;
+            }
+            count++;
+        }
+
+        King king = null;
+
         for (ChessPiece piece : currentPieces) {
             if (piece instanceof King) {
-                check = ((King) piece).isKingInCheck();
+                king = (King) piece;
+                check = king.isKingInCheck();
                 if (!check)
-                    break;
+                    return check;
             }
             while (noBlock){
-                System.out.println(noBlock);
-                noBlock = (piece.getNormalOrCheckMoves().getListOfMoves().equals(new ArrayList<>()));
+                noBlock = piece.getNormalOrCheckMoves().getListOfMoves().isEmpty();
                 if (noBlock)
                     break;
             }
         }
-
-        System.out.println(noBlock + " " + check);
 
         return (check && noBlock);
     }
@@ -77,6 +92,11 @@ public class Match {
 
     public ArrayList<ChessPiece> getPlayer2Pieces() { return player2Pieces; }
 
+    public void setPlayer1Pieces(ArrayList<ChessPiece> player1Pieces) { this.player1Pieces = player1Pieces; }
+
+    public void setPlayer2Pieces(ArrayList<ChessPiece> player2Pieces) { this.player2Pieces = player2Pieces; }
+
     public TurnTracker getTurn() { return turn; }
 
+    public void setTurn(TurnTracker turn) { this.turn = turn; }
 }
