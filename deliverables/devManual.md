@@ -1,3 +1,3 @@
-##Development Manual
+## Development Manual
 
-####This will tell you exactly how to run our application yourself!
+#### This will tell you exactly how to run our application yourself!
