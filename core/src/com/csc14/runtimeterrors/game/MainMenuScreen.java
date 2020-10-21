@@ -11,11 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class MainMenuScreen implements Screen {
     private OmegaChess parent;
@@ -37,11 +33,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        // Create a table that fills the screen. Everything else will go inside this table.
-        Table table = new Table();
-        table.setFillParent(true);
-        //table.setDebug(true);
-        stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
 
         // set up title text widget
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
@@ -59,22 +51,30 @@ public class MainMenuScreen implements Screen {
         // add button listeners
         addListeners();
 
-        // make the buttons smaller
+        // set up title label
+        title.setHeight(30);
+        title.setWidth(350);
+        title.setPosition(175, 400);
+        title.setDisabled(true);
+        stage.addActor(title);
+
+        // set up login button
         loginBtn.setTransform(true);
         loginBtn.setScale(0.5f);
+        loginBtn.setPosition(250, 300);
+        stage.addActor(loginBtn);
+
+        // set up register button
         registerBtn.setTransform(true);
         registerBtn.setScale(0.5f);
+        registerBtn.setPosition(250, 200);
+        stage.addActor(registerBtn);
+
+        // set up exit button
         exitBtn.setTransform(true);
         exitBtn.setScale(0.5f);
-
-        table.center();
-        table.add(title).width(400).fillX().uniformX().colspan(2);
-        table.row().pad(10,0,10,0);
-        table.add(loginBtn).fillX().uniformX();
-        table.row();
-        table.add(registerBtn).fillX().uniformX();
-        table.row();
-        table.add(exitBtn).fillX().uniformX();
+        exitBtn.setPosition(250, 100);
+        stage.addActor(exitBtn);
     }
 
     private void addListeners() {
@@ -92,6 +92,7 @@ public class MainMenuScreen implements Screen {
         registerBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                stage.clear();
                 parent.changeScreen(OmegaChess.REGISTER_SCREEN);
             };
         });
@@ -100,6 +101,7 @@ public class MainMenuScreen implements Screen {
         exitBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                stage.dispose();
                 Gdx.app.exit();
             };
         });
@@ -109,10 +111,11 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+
+        stage.act();
         stage.draw();
 
-        parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
+        //parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
     }
 
     @Override
@@ -135,5 +138,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+
     }
 }
