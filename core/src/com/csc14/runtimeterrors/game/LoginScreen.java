@@ -19,15 +19,17 @@ public class LoginScreen implements Screen {
     public LoginScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        //stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        //stage.draw();
     }
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
+
         // Create a table that fills the screen. Everything else will go inside this table.
         Table table = new Table();
         table.setFillParent(true);
@@ -47,9 +49,10 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+
+        stage.act(delta);
         stage.draw();
 
         parent.changeScreen(OmegaChess.LOGIN_SCREEN);

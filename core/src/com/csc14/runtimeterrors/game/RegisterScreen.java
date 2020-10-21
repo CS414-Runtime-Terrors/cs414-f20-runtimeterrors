@@ -1,58 +1,151 @@
 package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import javax.xml.soap.Text;
 
 public class RegisterScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
+    private TextButton registerBtn;
+    private TextButton backBtn;
 
     public RegisterScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act();
         stage.draw();
     }
 
     @Override
     public void show() {
-        // Create a table that fills the screen. Everything else will go inside this table.
-        Table table = new Table();
-        table.setFillParent(true);
-        //table.setDebug(true);
-        stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
 
-        // set up title text widget
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
         style.fontColor = Color.PURPLE;
         style.font.getData().setScale(2f);
-        TextField title = new TextField("Future Register Screen", style);
 
-        table.center();
-        table.add(title).width(400).fillX().uniformX();
+        TextField title = new TextField("Register To Play OmegaChess!", style);
+
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
+        Label emailLabel = new Label("Email:", skin);
+        TextField emailBox = new TextField("", skin);
+
+        Label nicknameLabel = new Label("Nickname:", skin);
+        TextField nicknameBox = new TextField("", skin);
+
+        Label passwordLabel = new Label("Password:", skin);
+        TextField passwordBox = new TextField("", skin);
+
+        registerBtn = new TextButton("Register!", skin);
+        backBtn = new TextButton("Back", skin);
+
+        // set up title label
+        title.setHeight(30);
+        title.setWidth(450);
+        title.setPosition(150, 400);
+        title.setDisabled(true);
+        stage.addActor(title);
+
+        // set up email label
+        emailLabel.setWidth(50);
+        emailLabel.setPosition(150, 300);
+        stage.addActor(emailLabel);
+
+        // set up email text box
+        emailBox.setWidth(300);
+        emailBox.setPosition(250, 300);
+        emailBox.setDisabled(false);
+        stage.addActor(emailBox);
+
+        // set up nickname label
+        nicknameLabel.setWidth(100);
+        nicknameLabel.setPosition(150, 200);
+        stage.addActor(nicknameLabel);
+
+        // set up nickname text box
+        nicknameBox.setWidth(300);
+        nicknameBox.setPosition(250, 200);
+        nicknameBox.setDisabled(false);
+        stage.addActor(nicknameBox);
+
+        // set up password label
+        passwordLabel.setWidth(100);
+        passwordLabel.setPosition(150, 100);
+        stage.addActor(passwordLabel);
+
+        // set up password text box
+        passwordBox.setWidth(300);
+        passwordBox.setPosition(250, 100);
+        passwordBox.setDisabled(false);
+        passwordBox.setPasswordCharacter('*');
+        passwordBox.setPasswordMode(true);
+        stage.addActor(passwordBox);
+
+        // set up register button
+        registerBtn.setTransform(true);
+        registerBtn.setScale(0.5f);
+        registerBtn.setPosition(450, 30);
+        stage.addActor(registerBtn);
+
+        backBtn.setTransform(true);
+        backBtn.setScale(0.5f);
+        backBtn.setPosition(50, 30);
+        stage.addActor(backBtn);
+
+        // add listener for register button
+        addListeners();
+
+    }
+
+    private void addListeners() {
+        // register button will handle registering the user
+        registerBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // 1. get text from email, nickname, password.
+                // 2. registration functions will make sure nickname is unique
+                // 3. decide password complexity and check that before sending request to
+                //  register
+                // 4. do any error checking to make sure email is valid (has '@')
+
+
+            };
+        });
+
+        // back button will return user to main menu screen
+        backBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
+            };
+        });
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+
+        stage.act(delta);
         stage.draw();
 
-        parent.changeScreen(OmegaChess.REGISTER_SCREEN);
+        //parent.changeScreen(OmegaChess.REGISTER_SCREEN);
     }
 
     @Override
