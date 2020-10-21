@@ -282,7 +282,7 @@ public class ChessBoard {
         }
 
         // get the piece's legal moves
-        System.out.println(piece);
+        //System.out.println(piece);
         LegalMoves listOfMoves = piece.getNormalOrCheckMoves();
         ArrayList<String> validMoves = listOfMoves.getListOfMoves();
 
@@ -547,7 +547,7 @@ public class ChessBoard {
                     pos[1] = 11;
                     break;
                 default:
-                    throw new IllegalPositionException("Illegal Column Position: " + pos[1]);
+                    throw new IllegalPositionException("Illegal Row Position: " + pos[1]);
             }
         }
 

@@ -277,8 +277,19 @@ public class King extends ChessPiece {
 
         // go through opposing pieces
         for (ChessPiece piece : pieces) {
+            // If the piece is a pawn, checks if new_pos is one of it's capturing diagonals
+            if (piece instanceof Pawn){
+                int increment = 0;
+                if (piece.getColor() == Color.BLACK)
+                    increment = -1;
+                else
+                    increment = 1;
+                String diagLeft = board.reverseParse(piece.row + increment, piece.column - 1),
+                        diagRight = board.reverseParse(piece.row + increment, piece.column + 1);
+                if (new_pos.equals(diagLeft) || new_pos.equals(diagRight))
+                    return true;
             // new_pos is somewhere a white piece can move, return true that king is in check
-            if (!(piece instanceof King) && piece.legalMoves().getListOfMoves().contains(new_pos)) {
+            }else if (!(piece instanceof King) && piece.legalMoves().getListOfMoves().contains(new_pos)) {
                 return true;
             }
             // handle king separately otherwise recursion and stackoverflow error occurs
