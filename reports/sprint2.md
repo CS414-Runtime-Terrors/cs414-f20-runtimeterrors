@@ -37,6 +37,7 @@ Epics planned for this release.
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
 | *10/16/20* | *#173* | *#37, #95, #98, #99, #147, #187, #200, #209* | *none* |
+| *10/19/20* | *#98, #182, #200, #205, #206, #207, #208, #209* | *#37, #95, #99, #147, #187, #216* | *Figuring out libGDX and JSON* |
 
 ## Review
 

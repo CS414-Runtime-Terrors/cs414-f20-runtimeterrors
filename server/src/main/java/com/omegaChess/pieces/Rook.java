@@ -188,4 +188,43 @@ public class Rook extends ChessPiece {
 
         return new LegalMoves(validMoves, false, false);
     }
+
+    public LegalMoves movesToBlockCheckingPiece(String kingPos) {
+        int[] kPos = new int[2];
+        try {
+            kPos = board.parsePosition(kingPos);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+        int kr = kPos[0];
+        int kc = kPos[1];
+        int r = row;
+        int c = column;
+
+        int rIncrement = 0;
+        int cIncrement = 0;
+        if (r > kr) {
+            rIncrement = -1;
+        } else if (r < kr) {
+            rIncrement = 1;
+        }
+        if (c > kc) {
+            cIncrement = -1;
+        } else if (c < kc) {
+            cIncrement = 1;
+        }
+
+        String pos = this.getPosition();
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add(pos);
+
+        while (r != (kr - rIncrement) || c != (kc - cIncrement)) {
+            r += rIncrement;
+            c += cIncrement;
+            pos = board.reverseParse(r, c);
+            validMoves.add(pos);
+        }
+
+        return new LegalMoves(validMoves, false, false);
+    }
 }

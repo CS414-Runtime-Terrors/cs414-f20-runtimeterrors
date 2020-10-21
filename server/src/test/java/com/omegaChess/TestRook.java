@@ -160,4 +160,25 @@ class TestRook {
         assertEquals(validMoves, rookValid);
     }
 
+    @Test
+    public void testMovesToBlockCheckingPiece() {
+        ChessBoard board = new ChessBoard();
+        Rook rook = new Rook(board, ChessPiece.Color.WHITE);
+        board.placePiece(rook, "f5");
+        ArrayList<String> validMoves = new ArrayList<>();
+
+        validMoves.add("f5");
+        validMoves.add("f4");
+        validMoves.add("f3");
+        assertEquals(validMoves, rook.movesToBlockCheckingPiece("f2").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        validMoves.add("g5");
+        assertEquals(validMoves, rook.movesToBlockCheckingPiece("h5").getListOfMoves());
+
+        validMoves.clear();
+        validMoves.add("f5");
+        assertEquals(validMoves, rook.movesToBlockCheckingPiece("g6").getListOfMoves());
+    }
 }

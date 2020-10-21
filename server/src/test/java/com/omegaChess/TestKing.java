@@ -10,12 +10,7 @@ import java.util.concurrent.BlockingDeque;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
-import com.omegaChess.pieces.ChessPiece;
-import com.omegaChess.pieces.King;
-import com.omegaChess.pieces.Rook;
-import com.omegaChess.pieces.Queen;
-import com.omegaChess.pieces.Pawn;
-import com.omegaChess.pieces.LegalMoves;
+import com.omegaChess.pieces.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -282,4 +277,24 @@ class TestKing {
 
     }
 
+    @Test
+    public void testIsKingInCheck() {
+        ChessBoard board = new ChessBoard();
+        King king = new King(board, ChessPiece.Color.WHITE);
+        board.placePiece(king, "f1");
+        assertFalse(king.isKingInCheck());
+
+        Bishop bishop = new Bishop(board, ChessPiece.Color.WHITE);
+        board.placePiece(bishop, "d3");
+        assertFalse(king.isKingInCheck());
+
+        Rook rook = new Rook(board, ChessPiece.Color.BLACK);
+        board.placePiece(rook, "b1");
+        assertTrue(king.isKingInCheck());
+        assertTrue(king.getCheckingPiece() instanceof Rook);
+
+        board.placePiece(bishop, "b1");
+        assertFalse(king.isKingInCheck());
+        assertNull(king.getCheckingPiece());
+    }
 }
