@@ -11,10 +11,10 @@ public abstract class ChessPiece {
     // The board the piece belongs to.
     protected ChessBoard board;
 
-    // Horizontal position 0-7
+    // Horizontal position 0-11
     protected int row;
 
-    // Vertical position 0-7
+    // Vertical position 0-11
     protected int column;
 
     // Color of piece
