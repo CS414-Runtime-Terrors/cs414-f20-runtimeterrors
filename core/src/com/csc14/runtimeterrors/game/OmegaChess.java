@@ -3,6 +3,9 @@ package com.csc14.runtimeterrors.game;
 import com.badlogic.gdx.Game;
 
 public class OmegaChess extends Game {
+
+	private OCClient client;
+
 	private MainMenuScreen mainMenuScreen;
 	private LoginScreen loginScreen;
 	private RegisterScreen registerScreen;
@@ -13,6 +16,15 @@ public class OmegaChess extends Game {
 
 	@Override
 	public void create() {
+
+		client = new OCClient();
+		if (client.sendSquareRequest("10").equals("Square of 10 is 100")) {
+			System.out.println("Server/client relationship established.");
+		}
+		else {
+			System.out.println("An error has occurred setting up the server/client relationship.");
+		}
+
 		mainMenuScreen = new MainMenuScreen(this);
 		setScreen(mainMenuScreen);
 	}

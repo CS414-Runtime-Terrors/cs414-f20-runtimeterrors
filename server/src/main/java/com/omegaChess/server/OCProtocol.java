@@ -2,6 +2,9 @@ package com.omegaChess.server;
 
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
+
+    OCServerData serverData = new OCServerData();
+
     public String processInput(String input) {
         String toReturn = "";
         try {
@@ -13,6 +16,9 @@ public class OCProtocol {
             switch(process) {
                 case "square":
                     toReturn = squareInput(receivedMessage);
+                    break;
+                case "register":
+                    toReturn = registerUser(receivedMessage);
                     break;
                 default:
                     OCMessage message = new OCMessage();
@@ -34,8 +40,6 @@ public class OCProtocol {
 
         return toReturn;
     }
-
-
 
     private String squareInput(OCMessage receivedMessage) {
         String inputLine = (String) receivedMessage.get("number");
@@ -63,4 +67,34 @@ public class OCProtocol {
 
         return message.toString();
     }
+
+    private String registerUser(OCMessage receivedMessage) {
+
+        String email = (String) receivedMessage.get("email");
+        String nickname = (String) receivedMessage.get("nickname");
+        String password = (String) receivedMessage.get("password");
+
+        System.out.println("Attempting to register new user: " + nickname);
+
+        Boolean success = serverData.createProfile(email, nickname, password);
+
+        if (success) {
+            OCMessage message = new OCMessage();
+            message.put("success", "true");
+
+            System.out.printf("Registered!");
+
+            return message.toString();
+        }
+        else {
+            OCMessage message = new OCMessage();
+            message.put("success", "false");
+            message.put("reason", "Unknown");
+
+            System.out.println("Something went wrong.");
+
+            return message.toString();
+        }
+    }
+
 }
