@@ -9,17 +9,17 @@ Message Template:
 
 Return Message Template:
 * "success": "true" or "false"
-* if false -> "reason": "(reason for failure")
+* if success=false -> "reason": "(reason for failure)"
 
 ## Register
 - This request registers a new user using their nickname, password and email.
 
 Message Template:
-* process: register
-* email: example@gmail.com
-* nickname: examplenick
-* password: examplepass
+* "process": "register"
+* "email": "example@gmail.com"
+* "nickname": "examplenick"
+* "password": "examplepass"
 
 Return Message Template:
 * "success": "true" or "false"
-* if false -> "reason": "(reason for failure")
+* if success=false -> "reason": "(reason for failure)"
