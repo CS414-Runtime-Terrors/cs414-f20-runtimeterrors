@@ -76,7 +76,7 @@ public class OCProtocol {
 
         System.out.println("Attempting to register new user: " + nickname);
 
-        Boolean success = serverData.createProfile(email, nickname, password);
+        Boolean success = serverData.createProfile(nickname, password, email);
 
         if (success) {
             OCMessage message = new OCMessage();
