@@ -23,26 +23,41 @@ public class OCClient {
 
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
-            String userInput;
-
-            // this is the client loop, writing to the socket's output stream every time something is inputted into standard input.
-            // we will want to change this and integrate it with the graphical code so that we can write the socket's output stream
-            // every time something is clicked on.
-            while ((userInput = stdIn.readLine()) != null) {
-
-                // plan: have a JSON object with field "process":"squareInput" (as an example) and "number":in.readLine() and pass this
-
-                out.println(userInput); // TODO: rather than pass a simple string, write a JSON object converted to a string to the socket's output stream
-                System.out.println(in.readLine());
-
-            }
+            sendSquareRequest("10", out, in);
 
         } catch (UnknownHostException e) {
             System.out.println("Host unknown");
         } catch (IOException e) {
             System.out.println("Something went wrong with the I/O connection.");
+        }
+
+    }
+
+    private static void sendSquareRequest(String number, PrintWriter out, BufferedReader in) {
+        try {
+            OCMessage message = new OCMessage();
+            message.put("process", "square");
+            message.put("number", "" + number);
+
+            // send request
+            out.println(message.toString());
+
+            // receive message
+            OCMessage receivedMessage = new OCMessage();
+            receivedMessage.fromString(in.readLine());
+
+            // print answer
+            String success = (String) receivedMessage.get("success");
+
+            if (success.equals("true")) {
+                System.out.println(receivedMessage.get("answer"));
+            }
+            else {
+                System.out.println("Reason: " + receivedMessage.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

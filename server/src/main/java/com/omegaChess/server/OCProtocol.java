@@ -2,32 +2,65 @@ package com.omegaChess.server;
 
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
-
-    private OCServerData data = new OCServerData();
-
-    // this method is responsible for deciding how to process the input
     public String processInput(String input) {
-        String option = "squareInput"; // TODO: grab this option from a field in a passed JSON object string after performing a toJSON() call on the string.
+        String toReturn = "";
+        try {
+            OCMessage receivedMessage = new OCMessage();
+            receivedMessage.fromString(input);
 
-        switch(option) {
-            case "squareInput":
-                return squareInput(input);
+            String process = (String) receivedMessage.get("process");
+
+            switch(process) {
+                case "square":
+                    toReturn = squareInput(receivedMessage);
+                    break;
+                default:
+                    OCMessage message = new OCMessage();
+                    message.put("success", "false");
+                    message.put("reason", "process not recognized");
+
+                    toReturn = message.toString();
+                    break;
+            }
+        } catch (Exception e) {
+            OCMessage message = new OCMessage();
+            message.put("success", "false");
+            message.put("reason", "Something went wrong when processing input.");
+
+            toReturn = message.toString();
+
+            System.out.printf("Something went wrong when processing input.");
         }
-        return null;
+
+        return toReturn;
     }
 
-    // this is an example method for processing the input, where the input is expected to be a number and the output is number*number
-    private String squareInput(String inputLine) {
+
+
+    private String squareInput(OCMessage receivedMessage) {
+        String inputLine = (String) receivedMessage.get("number");
+
+        System.out.println("Attempting to square " + inputLine + "...");
         int number;
 
         try {
             number = Integer.parseInt(inputLine);
         } catch (Exception e) {
-            return "Wrong input!";
+            OCMessage message = new OCMessage();
+            message.put("success", "false");
+            message.put("reason", "Wrong input!");
+
+            return message.toString();
         }
 
         int square = number * number;
+        System.out.println("Square: " + square);
 
-        return "Square of " + number + " is " + square;
+
+        OCMessage message = new OCMessage();
+        message.put("success", "true");
+        message.put("answer", "Square of " + number + " is " + square);
+
+        return message.toString();
     }
 }
