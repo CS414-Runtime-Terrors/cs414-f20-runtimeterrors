@@ -25,7 +25,7 @@ public class OCClient {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    public OCMessage sendRequestAndReceiveMessage(OCMessage message) {
+    private OCMessage sendRequestAndReceiveMessage(OCMessage message) {
         // send request
         out.println(message.toString());
 
