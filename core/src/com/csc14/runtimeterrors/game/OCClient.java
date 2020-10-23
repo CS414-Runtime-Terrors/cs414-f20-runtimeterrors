@@ -43,6 +43,8 @@ public class OCClient {
     // example request
     public String sendSquareRequest(String number) {
 
+        System.out.println("Sending square request!");
+
         OCMessage message = new OCMessage();
         message.put("process", "square");
         message.put("number", "" + number);
@@ -64,6 +66,8 @@ public class OCClient {
 
     // register request
     public String sendRegisterRequest(String email, String nickname, String password) {
+
+        System.out.println("Sending register request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "register");

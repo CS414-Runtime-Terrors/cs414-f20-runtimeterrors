@@ -35,7 +35,7 @@ public class OCProtocol {
 
             toReturn = message.toString();
 
-            System.out.printf("Something went wrong when processing input.");
+            System.out.println("Something went wrong when processing input.");
         }
 
         return toReturn;
@@ -82,7 +82,7 @@ public class OCProtocol {
             OCMessage message = new OCMessage();
             message.put("success", "true");
 
-            System.out.printf("Registered!");
+            System.out.println("Registered!");
 
             return message.toString();
         }
