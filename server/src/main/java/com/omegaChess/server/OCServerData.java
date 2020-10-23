@@ -6,7 +6,7 @@ package com.omegaChess.server;
 
 import java.util.ArrayList;
 
-class OCServerData {
+public class OCServerData {
 
   // fields
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);

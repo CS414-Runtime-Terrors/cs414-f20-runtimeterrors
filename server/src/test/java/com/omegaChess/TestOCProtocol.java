@@ -2,6 +2,7 @@ package com.omegaChess;
 
 import com.omegaChess.server.OCMessage;
 import com.omegaChess.server.OCProtocol;
+import com.omegaChess.server.OCServerData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,8 @@ public class TestOCProtocol {
 
     @Test
     public void testSquareInput() {
-        OCProtocol protocol = new OCProtocol();
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
 
         OCMessage message = new OCMessage();
         message.put("process", "square");
@@ -31,7 +33,8 @@ public class TestOCProtocol {
 
     @Test
     public void testRegisterUser() {
-        OCProtocol protocol = new OCProtocol();
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
 
         OCMessage message = new OCMessage();
         message.put("process", "register");

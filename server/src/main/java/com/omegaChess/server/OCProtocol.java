@@ -3,7 +3,11 @@ package com.omegaChess.server;
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
 
-    OCServerData serverData = new OCServerData();
+    private OCServerData serverData;
+
+    public OCProtocol(OCServerData data) {
+        serverData = data;
+    }
 
     public String processInput(String input) {
         String toReturn = "";
