@@ -20,14 +20,14 @@ public class RegisterScreen implements Screen {
     private TextButton registerBtn;
     private TextButton backBtn;
 
-    Label emailLabel;
-    TextField emailBox;
+    private Label emailLabel;
+    private TextField emailBox;
 
-    Label nicknameLabel;
-    TextField nicknameBox;
+    private Label nicknameLabel;
+    private TextField nicknameBox;
 
-    Label passwordLabel;
-    TextField passwordBox;
+    private Label passwordLabel;
+    private TextField passwordBox;
 
     public RegisterScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
