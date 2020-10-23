@@ -17,16 +17,26 @@ public class OmegaChess extends Game {
 	@Override
 	public void create() {
 
-		client = new OCClient();
-		if (client.sendSquareRequest("10").equals("Square of 10 is 100")) {
-			System.out.println("Server/client relationship established.");
-		}
-		else {
-			System.out.println("An error has occurred setting up the server/client relationship.");
+		try {
+			client = new OCClient(); // if this fails then server is probably not running
+
+			if (client.sendSquareRequest("10").equals("Square of 10 is 100")) {
+				System.out.println("Server/client relationship established.");
+			}
+			else {
+				System.out.println("An error has occurred setting up the server/client relationship.");
+			}
+
+		} catch (Exception e) {
+			System.out.println("Client failed to initialize. Server is likely not running.");
 		}
 
 		mainMenuScreen = new MainMenuScreen(this);
 		setScreen(mainMenuScreen);
+	}
+
+	public OCClient getClient() {
+		return client;
 	}
 
 	public void changeScreen(int screen){

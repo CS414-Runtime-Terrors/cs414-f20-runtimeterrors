@@ -19,17 +19,10 @@ public class OCClient {
     PrintWriter out;
     BufferedReader in;
 
-    public OCClient() {
-        try {
-            socket = new Socket(hostName, portNumber);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (UnknownHostException e) {
-            System.out.println("Host unknown");
-        } catch (IOException e) {
-            System.out.println("Something went wrong with the I/O connection.");
-        }
-
+    public OCClient() throws IOException {
+        socket = new Socket(hostName, portNumber);
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public OCMessage sendRequestAndReceiveMessage(OCMessage message) {
