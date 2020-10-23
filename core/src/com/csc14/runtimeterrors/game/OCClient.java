@@ -85,7 +85,7 @@ public class OCClient {
             return true;
         }
         else {
-            System.out.println("Error! Nickname likely taken!");
+            System.out.println("Error! Nickname or email already taken!");
             return false;
         }
 

@@ -89,9 +89,9 @@ public class OCProtocol {
         else {
             OCMessage message = new OCMessage();
             message.put("success", "false");
-            message.put("reason", "nickname was taken");
+            message.put("reason", "nickname/email was taken");
 
-            System.out.println("Something went wrong. Nickname was likely taken.");
+            System.out.println("Something went wrong. Nickname or email was taken.");
 
             return message.toString();
         }
