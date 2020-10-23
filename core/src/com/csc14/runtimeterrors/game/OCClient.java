@@ -81,9 +81,11 @@ public class OCClient {
         String success = (String) receivedMessage.get("success");
 
         if (success.equals("true")) {
+            System.out.println("Success!");
             return success;
         }
         else {
+            System.out.println("Error! Nickname likely taken!");
             return "error";
         }
 
