@@ -142,7 +142,9 @@ public class RegisterScreen implements Screen {
                 // TODO
 
                 // 5. send register request
-                parent.getClient().sendRegisterRequest(email, nickname, password);
+                if (parent.getClient().sendRegisterRequest(email, nickname, password)) {
+                    parent.changeScreen(OmegaChess.LOGIN_SCREEN); // go to login screen if successful
+                }
             };
         });
 

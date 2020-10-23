@@ -65,7 +65,7 @@ public class OCClient {
     }
 
     // register request
-    public String sendRegisterRequest(String email, String nickname, String password) {
+    public boolean sendRegisterRequest(String email, String nickname, String password) {
 
         System.out.println("Sending register request for " + nickname + "!");
 
@@ -82,11 +82,11 @@ public class OCClient {
 
         if (success.equals("true")) {
             System.out.println("Success!");
-            return success;
+            return true;
         }
         else {
             System.out.println("Error! Nickname likely taken!");
-            return "error";
+            return false;
         }
 
     }
