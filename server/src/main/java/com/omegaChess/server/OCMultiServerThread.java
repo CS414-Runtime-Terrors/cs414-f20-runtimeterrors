@@ -11,7 +11,7 @@ public class OCMultiServerThread extends Thread {
     private OCServerData serverData;
 
     public OCMultiServerThread(Socket socket, OCServerData data) {
-        super("SquareMultiServerThread");
+        super("OCMultiServerThread");
         this.socket = socket;
         serverData = data;
     }
