@@ -7,6 +7,8 @@ public class OCMultiServer {
 
     public static void main(String[] args) throws IOException {
 
+        OCServerData serverData = new OCServerData();
+
         int portNumber = 28362;
 
         boolean listening = true;
@@ -18,7 +20,7 @@ public class OCMultiServer {
 
             while (listening) {
                 System.out.println("Listening...");
-                new OCMultiServerThread(serverSocket.accept()).start();
+                new OCMultiServerThread(serverSocket.accept(), serverData).start();
                 System.out.println("New connection!");
             }
 

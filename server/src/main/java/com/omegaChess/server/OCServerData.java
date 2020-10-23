@@ -6,7 +6,7 @@ package com.omegaChess.server;
 
 import java.util.ArrayList;
 
-class OCServerData {
+public class OCServerData {
 
   // fields
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
@@ -19,7 +19,7 @@ class OCServerData {
   }
 
   public boolean createProfile(String nick, String pass, String email) {
-    if (!isNicknameTaken(nick)) {
+    if (!isNicknameTaken(nick) && !isEmailTaken(email)) {
       UserProfile profile = new UserProfile(nick, pass, email);
       getProfiles().add(profile);
       return true;
@@ -30,6 +30,15 @@ class OCServerData {
   private boolean isNicknameTaken(String nick) {
     for (UserProfile profile : getProfiles()) {
       if (profile.getNickname().equalsIgnoreCase(nick)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isEmailTaken(String email) {
+    for (UserProfile profile : getProfiles()) {
+      if (profile.getEmailAddress().equalsIgnoreCase(email)) {
         return true;
       }
     }

@@ -12,13 +12,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import javax.xml.soap.Text;
+//import javax.xml.soap.Text;
 
 public class RegisterScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
     private TextButton registerBtn;
     private TextButton backBtn;
+
+    private Label emailLabel;
+    private TextField emailBox;
+
+    private Label nicknameLabel;
+    private TextField nicknameBox;
+
+    private Label passwordLabel;
+    private TextField passwordBox;
 
     public RegisterScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
@@ -43,14 +52,14 @@ public class RegisterScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        Label emailLabel = new Label("Email:", skin);
-        TextField emailBox = new TextField("", skin);
+        emailLabel = new Label("Email:", skin);
+        emailBox = new TextField("", skin);
 
-        Label nicknameLabel = new Label("Nickname:", skin);
-        TextField nicknameBox = new TextField("", skin);
+        nicknameLabel = new Label("Nickname:", skin);
+        nicknameBox = new TextField("", skin);
 
-        Label passwordLabel = new Label("Password:", skin);
-        TextField passwordBox = new TextField("", skin);
+        passwordLabel = new Label("Password:", skin);
+        passwordBox = new TextField("", skin);
 
         registerBtn = new TextButton("Register!", skin);
         backBtn = new TextButton("Back", skin);
@@ -119,12 +128,23 @@ public class RegisterScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // 1. get text from email, nickname, password.
+                String email = emailBox.getText();
+                String nickname = nicknameBox.getText();
+                String password = passwordBox.getText();
+
                 // 2. registration functions will make sure nickname is unique
-                // 3. decide password complexity and check that before sending request to
-                //  register
+                // TODO
+
+                // 3. decide password complexity and check that before sending request to register
+                // TODO
+
                 // 4. do any error checking to make sure email is valid (has '@')
+                // TODO
 
-
+                // 5. send register request
+                if (parent.getClient().sendRegisterRequest(email, nickname, password)) {
+                    parent.changeScreen(OmegaChess.LOGIN_SCREEN); // go to login screen if successful
+                }
             };
         });
 

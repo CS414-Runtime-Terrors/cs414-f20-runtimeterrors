@@ -3,31 +3,102 @@ package com.omegaChess.server;
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
 
-    private OCServerData data = new OCServerData();
+    private OCServerData serverData;
 
-    // this method is responsible for deciding how to process the input
-    public String processInput(String input) {
-        String option = "squareInput"; // TODO: grab this option from a field in a passed JSON object string after performing a toJSON() call on the string.
-
-        switch(option) {
-            case "squareInput":
-                return squareInput(input);
-        }
-        return null;
+    public OCProtocol(OCServerData data) {
+        serverData = data;
     }
 
-    // this is an example method for processing the input, where the input is expected to be a number and the output is number*number
-    private String squareInput(String inputLine) {
+    public String processInput(String input) {
+        String toReturn = "";
+        try {
+            OCMessage receivedMessage = new OCMessage();
+            receivedMessage.fromString(input);
+
+            String process = (String) receivedMessage.get("process");
+
+            switch(process) {
+                case "square":
+                    toReturn = squareInput(receivedMessage);
+                    break;
+                case "register":
+                    toReturn = registerUser(receivedMessage);
+                    break;
+                default:
+                    OCMessage message = new OCMessage();
+                    message.put("success", "false");
+                    message.put("reason", "process not recognized");
+
+                    toReturn = message.toString();
+                    break;
+            }
+        } catch (Exception e) {
+            OCMessage message = new OCMessage();
+            message.put("success", "false");
+            message.put("reason", "Something went wrong when processing input.");
+
+            toReturn = message.toString();
+
+            System.out.println("Something went wrong when processing input.");
+        }
+
+        return toReturn;
+    }
+
+    private String squareInput(OCMessage receivedMessage) {
+        String inputLine = (String) receivedMessage.get("number");
+
+        System.out.println("Attempting to square " + inputLine + "...");
         int number;
 
         try {
             number = Integer.parseInt(inputLine);
         } catch (Exception e) {
-            return "Wrong input!";
+            OCMessage message = new OCMessage();
+            message.put("success", "false");
+            message.put("reason", "Wrong input!");
+
+            return message.toString();
         }
 
         int square = number * number;
+        System.out.println("Square: " + square);
 
-        return "Square of " + number + " is " + square;
+
+        OCMessage message = new OCMessage();
+        message.put("success", "true");
+        message.put("answer", "Square of " + number + " is " + square);
+
+        return message.toString();
     }
+
+    private String registerUser(OCMessage receivedMessage) {
+
+        String email = (String) receivedMessage.get("email");
+        String nickname = (String) receivedMessage.get("nickname");
+        String password = (String) receivedMessage.get("password");
+
+        System.out.println("Attempting to register new user: " + nickname);
+
+        Boolean success = serverData.createProfile(nickname, password, email);
+
+        if (success) {
+            OCMessage message = new OCMessage();
+            message.put("success", "true");
+
+            System.out.println("Registered!");
+
+            return message.toString();
+        }
+        else {
+            OCMessage message = new OCMessage();
+            message.put("success", "false");
+            message.put("reason", "nickname/email was taken");
+
+            System.out.println("Something went wrong. Nickname or email was taken.");
+
+            return message.toString();
+        }
+    }
+
 }

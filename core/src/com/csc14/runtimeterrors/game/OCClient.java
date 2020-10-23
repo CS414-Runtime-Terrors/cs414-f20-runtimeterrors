@@ -10,39 +10,83 @@ import java.net.UnknownHostException;
 public class OCClient {
 
     private static final String serverHostName = "albany.cs.colostate.edu"; // in order to test on production, OCMultiServer.java must be running on the server host
-    private static final String localHostName = "Jeff-From-Surplus"; // set this when testing locally
+    private static final String localHostName = "Jeff-From-Surplus"; // set this to your hostname when testing locally
 
-    public static void main(String[] args) throws IOException {
+    String hostName = localHostName;
+    int portNumber = 28362;
 
-        String hostName = localHostName;
-        int portNumber = 28362;
+    Socket socket;
+    PrintWriter out;
+    BufferedReader in;
+
+    public OCClient() throws IOException {
+        socket = new Socket(hostName, portNumber);
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+
+    private OCMessage sendRequestAndReceiveMessage(OCMessage message) {
+        // send request
+        out.println(message.toString());
+
+        // receive message
+        OCMessage receivedMessage = new OCMessage();
 
         try {
+            receivedMessage.fromString(in.readLine());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return receivedMessage;
+    }
 
-            Socket socket = new Socket(hostName, portNumber);
+    // example request
+    public String sendSquareRequest(String number) {
 
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Sending square request!");
 
-            String userInput;
+        OCMessage message = new OCMessage();
+        message.put("process", "square");
+        message.put("number", "" + number);
 
-            // this is the client loop, writing to the socket's output stream every time something is inputted into standard input.
-            // we will want to change this and integrate it with the graphical code so that we can write the socket's output stream
-            // every time something is clicked on.
-            while ((userInput = stdIn.readLine()) != null) {
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-                // plan: have a JSON object with field "process":"squareInput" (as an example) and "number":in.readLine() and pass this
+        // print answer
+        String success = (String) receivedMessage.get("success");
 
-                out.println(userInput); // TODO: rather than pass a simple string, write a JSON object converted to a string to the socket's output stream
-                System.out.println(in.readLine());
+        if (success.equals("true")) {
+            return (String) receivedMessage.get("answer");
+        }
+        else {
+            return (String) receivedMessage.get("reason");
+        }
 
-            }
+    }
 
-        } catch (UnknownHostException e) {
-            System.out.println("Host unknown");
-        } catch (IOException e) {
-            System.out.println("Something went wrong with the I/O connection.");
+    // register request
+    public boolean sendRegisterRequest(String email, String nickname, String password) {
+
+        System.out.println("Sending register request for " + nickname + "!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "register");
+        message.put("email", email);
+        message.put("nickname", nickname);
+        message.put("password", password);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        String success = (String) receivedMessage.get("success");
+
+        if (success.equals("true")) {
+            System.out.println("Success!");
+            return true;
+        }
+        else {
+            System.out.println("Error! Nickname or email already taken!");
+            return false;
         }
 
     }

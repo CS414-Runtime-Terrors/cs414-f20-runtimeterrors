@@ -8,10 +8,12 @@ import java.net.Socket;
 public class OCMultiServerThread extends Thread {
 
     private Socket socket = null;
+    private OCServerData serverData;
 
-    public OCMultiServerThread(Socket socket) {
-        super("SquareMultiServerThread");
+    public OCMultiServerThread(Socket socket, OCServerData data) {
+        super("OCMultiServerThread");
         this.socket = socket;
+        serverData = data;
     }
 
     public void run() {
@@ -23,7 +25,7 @@ public class OCMultiServerThread extends Thread {
 
             String inputLine, outputLine;
 
-            OCProtocol p = new OCProtocol();
+            OCProtocol p = new OCProtocol(serverData);
 
             while ((inputLine = in.readLine()) != null) {
 
