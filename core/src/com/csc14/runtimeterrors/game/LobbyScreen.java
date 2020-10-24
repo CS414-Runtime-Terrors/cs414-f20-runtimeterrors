@@ -89,7 +89,7 @@ public class LobbyScreen implements Screen {
         createGameBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                parent.changeScreen(OmegaChess.SCREEN.INVITE);
             };
         });
 
@@ -114,7 +114,7 @@ public class LobbyScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.user = "";
-                parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
+                parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };
         });
 
