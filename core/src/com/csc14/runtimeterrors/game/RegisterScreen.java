@@ -1,7 +1,6 @@
 package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,9 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
-//import javax.xml.soap.Text;
 
 public class RegisterScreen implements Screen {
     private OmegaChess parent;
@@ -48,7 +44,7 @@ public class RegisterScreen implements Screen {
         style.fontColor = Color.PURPLE;
         style.font.getData().setScale(2f);
 
-        TextField title = new TextField("Register To Play OmegaChess!", style);
+        TextField title = new TextField("Register To Play Omega Chess!", style);
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
@@ -143,7 +139,8 @@ public class RegisterScreen implements Screen {
 
                 // 5. send register request
                 if (parent.getClient().sendRegisterRequest(email, nickname, password)) {
-                    parent.changeScreen(OmegaChess.LOGIN_SCREEN); // go to login screen if successful
+                    parent.user = nickname;
+                    parent.changeScreen(OmegaChess.LOBBY_SCREEN); // go to login screen if successful
                 }
             };
         });
