@@ -47,7 +47,7 @@ public class InviteScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        opponentName = new Label("Insert the username of another player. (This is not case-sensitive)", skin);
+        opponentName = new Label("Insert the nickname of another player. (This is not case-sensitive)", skin);
         anotherUser = new TextField("", skin);
 
         submit = new TextButton("Invite Player", skin);
