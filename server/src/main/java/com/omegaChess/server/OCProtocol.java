@@ -88,23 +88,21 @@ public class OCProtocol {
 
         Boolean success = serverData.createProfile(nickname, password, email);
 
+        OCMessage message = new OCMessage();
         if (success) {
-            OCMessage message = new OCMessage();
             message.put("success", "true");
 
             System.out.println("Registered!");
 
-            return message.toString();
         }
         else {
-            OCMessage message = new OCMessage();
             message.put("success", "false");
             message.put("reason", "nickname/email was taken");
 
-            System.out.println("Something went wrong. Nickname or email was taken.");
+            System.out.println("Nickname or email was taken.");
 
-            return message.toString();
         }
+        return message.toString();
     }
 
     private String unregisterUser(OCMessage receivedMessage) {
@@ -115,28 +113,57 @@ public class OCProtocol {
 
         Boolean success = serverData.removeProfile(nickname);
 
+        OCMessage message = new OCMessage();
         if (success) {
-            OCMessage message = new OCMessage();
             message.put("success", "true");
 
             System.out.println("Unregistered!");
 
-            return message.toString();
         }
         else {
-            OCMessage message = new OCMessage();
             message.put("success", "false");
             message.put("reason", "nickname wasn't found");
 
-            System.out.println("Something went wrong. Nickname wasn't found.");
+            System.out.println("Nickname wasn't found.");
 
-            return message.toString();
         }
+        return message.toString();
     }
 
     private String loginUser(OCMessage receivedMessage) {
 
-        return null;
+        String nickname = (String) receivedMessage.get("nickname");
+        String password = (String) receivedMessage.get("password");
+
+        System.out.println("Attempting to login user: " + nickname);
+
+        OCMessage message = new OCMessage();
+
+        if (!serverData.profileExists(nickname)) {
+            // profile doesn't exist
+            message.put("success", "false");
+            message.put("reason", "nickname wasn't found");
+
+            System.out.println("Nickname wasn't found.");
+            return message.toString();
+        }
+
+        Boolean success = serverData.checkPassword(nickname, password);
+
+        if (success) {
+            message.put("success", "true");
+
+            System.out.println("Logged in!");
+
+        }
+        else {
+            message.put("success", "false");
+            message.put("reason", "wrong password");
+
+            System.out.println("Wrong password.");
+
+        }
+        return message.toString();
     }
 
 }

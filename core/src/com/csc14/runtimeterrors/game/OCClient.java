@@ -40,6 +40,19 @@ public class OCClient {
         return receivedMessage;
     }
 
+    private boolean printResult(OCMessage receivedMessage) {
+        String success = (String) receivedMessage.get("success");
+
+        if (success.equals("true")) {
+            System.out.println("Success!");
+            return true;
+        }
+        else {
+            System.out.println(receivedMessage.get("reason"));
+            return false;
+        }
+    }
+
     // example request
     public String sendSquareRequest(String number) {
 
@@ -78,17 +91,7 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        String success = (String) receivedMessage.get("success");
-
-        if (success.equals("true")) {
-            System.out.println("Success!");
-            return true;
-        }
-        else {
-            System.out.println(receivedMessage.get("reason"));
-            return false;
-        }
-
+        return printResult(receivedMessage);
     }
 
     // unregister request
@@ -102,22 +105,22 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        String success = (String) receivedMessage.get("success");
-
-        if (success.equals("true")) {
-            System.out.println("Success!");
-            return true;
-        }
-        else {
-            System.out.println(receivedMessage.get("reason"));
-            return false;
-        }
+        return printResult(receivedMessage);
     }
 
     // login request
-    public boolean sendLoginRequest() {
+    public boolean sendLoginRequest(String nickname, String password) {
+        System.out.println("Sending login request for " + nickname + "!");
 
-        return false;
+        OCMessage message = new OCMessage();
+        message.put("process", "login");
+        message.put("nickname", nickname);
+        message.put("password", password);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        return printResult(receivedMessage);
     }
 
 

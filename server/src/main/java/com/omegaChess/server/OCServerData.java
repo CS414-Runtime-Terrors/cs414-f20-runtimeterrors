@@ -55,6 +55,19 @@ public class OCServerData {
     return false;
   }
 
+  public boolean checkPassword(String nick, String pass) {
+    for (UserProfile profile : getProfiles()) {
+      if (profile.getNickname().equalsIgnoreCase(nick)) {
+        if (profile.getPassword().equals(pass)) { // case sensitive
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
+  public boolean profileExists(String nick) {
+    return isNicknameTaken(nick);
+  }
 
 }
