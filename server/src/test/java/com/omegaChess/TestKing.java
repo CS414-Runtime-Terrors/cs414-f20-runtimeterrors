@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.WeakHashMap;
-import java.util.concurrent.BlockingDeque;
 
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalMoveException;
@@ -82,7 +80,7 @@ class TestKing {
         validMoves.add("f1");
 
         // get kings valid moves
-        LegalMoves moves = king.legalMoves();
+        LegalMoves moves = king.legalMoves(true);
         ArrayList<String> kingValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
@@ -108,7 +106,7 @@ class TestKing {
         validMoves.add("c4");
 
         // get kings valid moves
-        moves = king.legalMoves();
+        moves = king.legalMoves(true);
         kingValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
@@ -155,7 +153,7 @@ class TestKing {
 
         // get kings valid moves
         assert king1 != null;
-        kingValid = king1.legalMoves().getListOfMoves();
+        kingValid = king1.legalMoves(true).getListOfMoves();
 
         // Sort in case they come in a different order
         Collections.sort(validMoves);

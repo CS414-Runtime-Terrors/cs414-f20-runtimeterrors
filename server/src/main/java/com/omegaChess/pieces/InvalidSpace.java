@@ -1,7 +1,6 @@
 package com.omegaChess.pieces;
 
 import com.omegaChess.board.ChessBoard;
-import com.omegaChess.exceptions.IllegalPositionException;
 
 public class InvalidSpace extends ChessPiece{
 
@@ -13,7 +12,7 @@ public class InvalidSpace extends ChessPiece{
     }
 
     @Override
-    public LegalMoves legalMoves() {
+    public LegalMoves legalMoves(Boolean firstPass) {
         return null;
     }
 

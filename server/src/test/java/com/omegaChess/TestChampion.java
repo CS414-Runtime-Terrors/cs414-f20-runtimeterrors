@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.pieces.Champion;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.King;
 import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,12 +33,14 @@ class TestChampion {
     public void testLegalMoves(){
         ChessBoard board = new ChessBoard();
         Champion champ = new Champion(board, ChessPiece.Color.BLACK);
+        King king = new King(board, ChessPiece.Color.BLACK);
         board.placePiece(champ, "c7");
+        board.placePiece(king, "j2");
         ArrayList<String> expectedMoves = new ArrayList<>();
         expectedMoves.add("c8"); expectedMoves.add("c9"); expectedMoves.add("c6"); expectedMoves.add("c5");
         expectedMoves.add("d7"); expectedMoves.add("e7"); expectedMoves.add("b7"); expectedMoves.add("a7");
         expectedMoves.add("a9"); expectedMoves.add("e9"); expectedMoves.add("e5"); expectedMoves.add("a5");
-        LegalMoves moves = champ.legalMoves();
+        LegalMoves moves = champ.legalMoves(true);
         ArrayList<String> actualMoves = moves.getListOfMoves();
         assertEquals(expectedMoves, actualMoves, "Expected moves not provided");
     }

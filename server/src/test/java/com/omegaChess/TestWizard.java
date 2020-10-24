@@ -1,5 +1,6 @@
 package com.omegaChess;
 
+import com.omegaChess.pieces.King;
 import com.omegaChess.pieces.LegalMoves;
 import com.omegaChess.pieces.Wizard;
 import org.junit.jupiter.api.Test;
@@ -31,12 +32,14 @@ class TestWizard{
     public void testLegalMoves(){
         ChessBoard board = new ChessBoard();
         Wizard wiz = new Wizard(board, ChessPiece.Color.BLACK);
+        King king = new King(board, ChessPiece.Color.BLACK);
         board.placePiece(wiz, "g5");
+        board.placePiece(king, "j2");
         ArrayList<String> expectedMoves = new ArrayList<>();
         expectedMoves.add("f6"); expectedMoves.add("f8"); expectedMoves.add("h6"); expectedMoves.add("j6");
         expectedMoves.add("h4"); expectedMoves.add("h2"); expectedMoves.add("f4"); expectedMoves.add("d4");
         expectedMoves.add("h8"); expectedMoves.add("j4"); expectedMoves.add("f2"); expectedMoves.add("d6");
-        LegalMoves moves = wiz.legalMoves();
+        LegalMoves moves = wiz.legalMoves(true);
         ArrayList<String> actualMoves = moves.getListOfMoves();
         assertEquals(expectedMoves, actualMoves, "Expected moves not provided");
     }

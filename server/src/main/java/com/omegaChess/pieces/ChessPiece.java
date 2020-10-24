@@ -66,32 +66,14 @@ public abstract class ChessPiece {
     }
 
     public LegalMoves getNormalOrCheckMoves() {
-        LegalMoves nonCheckLegal = this.legalMoves();
 
         if (!(this instanceof King)) {
-            King myKing = null;
-            if (this.color == Color.WHITE) {
-                ArrayList<ChessPiece> myPieces = this.board.get_white_pieces();
-                for (ChessPiece piece : myPieces) {
-                    if (piece instanceof King) {
-                        myKing = (King) piece;
-                        break;
-                    }
-                }
-            } else {
-                ArrayList<ChessPiece> myPieces = this.board.get_black_pieces();
-                for (ChessPiece piece : myPieces) {
-                    if (piece instanceof King) {
-                        myKing = (King) piece;
-                        break;
-                    }
-                }
-            }
+            King myKing = this.getMyKing();
 
             if (myKing.isKingInCheck()) {
                 LegalMoves inCheckLegal = myKing.getCheckingPiece().movesToBlockCheckingPiece(myKing.getPosition());
                 ArrayList<String> checkerLegal = inCheckLegal.getListOfMoves();
-                ArrayList<String> allLegal = nonCheckLegal.getListOfMoves();
+                ArrayList<String> allLegal = this.legalMoves(false).getListOfMoves();
                 ArrayList<String> legalMoves = new ArrayList<>();
 
                 for (String al : allLegal) {
@@ -102,9 +84,45 @@ public abstract class ChessPiece {
 
                 return new LegalMoves(legalMoves, false, false);
             }
+            else {
+                return this.legalMoves(true);
+            }
         }
 
-        return nonCheckLegal;
+        return this.legalMoves(true);
+    }
+
+    public King getMyKing() {
+        if (this.color == Color.WHITE) {
+            ArrayList<ChessPiece> myPieces = this.board.get_white_pieces();
+            for (ChessPiece piece : myPieces) {
+                if (piece instanceof King) {
+                    return (King) piece;
+                }
+            }
+        } else {
+            ArrayList<ChessPiece> myPieces = this.board.get_black_pieces();
+            for (ChessPiece piece : myPieces) {
+                if (piece instanceof King) {
+                    return (King) piece;
+                }
+            }
+        }
+        return null;
+    }
+
+    // used to check if moving the selected piece from it's current position will put it's king in check
+    public boolean willLeaveKingInCheck() {
+        King myKing = this.getMyKing();
+
+        String myPos = this.getPosition();
+        this.board.placePiece(null, myPos);
+        if (myKing.isKingInCheck()) {
+            this.board.placePiece(this, myPos);
+            return true;
+        }
+        this.board.placePiece(this, myPos);
+        return false;
     }
 
     /* To be implemented in the concrete subclasses. Returns a one-character piece corresponding
@@ -115,7 +133,7 @@ public abstract class ChessPiece {
     * piece can make. Each string in the arraylist should be the position of a possible destination
     * for the piece. Order of legal moves is irrelevant. Return an empty list if no moves are
     * available. */
-    abstract public LegalMoves legalMoves();
+    abstract public LegalMoves legalMoves(Boolean firstPass);
 
     /* To be implemented in concrete subclasses. Returns the list of possible locations that the
     * piece checking the king can be at in between itself and the king, including its current

@@ -21,6 +21,7 @@ public class TestChessPiece {
         Pawn wPawn3 = new Pawn(board, ChessPiece.Color.WHITE);
         Pawn wPawn4 = new Pawn(board, ChessPiece.Color.WHITE);
         Pawn wPawn5 = new Pawn(board, ChessPiece.Color.WHITE);
+        Pawn wPawn6 = new Pawn(board, ChessPiece.Color.WHITE);
         Bishop bBishop = new Bishop(board, ChessPiece.Color.BLACK);
 
         //Not in check
@@ -61,5 +62,11 @@ public class TestChessPiece {
         validMoves.clear();
         validMoves.add("c7");
         assertEquals(validMoves, wPawn5.getNormalOrCheckMoves().getListOfMoves());
+
+        //Will leave king in check if moved
+        board.placePiece(wPawn6, "f4");
+
+        validMoves.clear();
+        assertEquals(validMoves, wPawn6.getNormalOrCheckMoves().getListOfMoves());
     }
 }

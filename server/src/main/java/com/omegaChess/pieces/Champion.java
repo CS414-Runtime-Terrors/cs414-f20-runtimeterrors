@@ -18,8 +18,16 @@ public class Champion extends ChessPiece{
     }
 
     @Override
-    public LegalMoves legalMoves(){
+    public LegalMoves legalMoves(Boolean firstPass){
         ArrayList<String> moves = new ArrayList<>();
+
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck()) {
+                return new LegalMoves(moves, false, false);
+            }
+        }
+
         String pos = this.getPosition();
         int[] rc;
         try {

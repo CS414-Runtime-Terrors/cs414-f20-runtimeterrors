@@ -9,6 +9,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.Bishop;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.King;
 import com.omegaChess.pieces.LegalMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,8 +68,10 @@ class TestBishop {
         ChessBoard board = new ChessBoard();
 
         Bishop bishop = new Bishop(board, ChessPiece.Color.BLACK);
+        King king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(bishop, "d4");
+        board.placePiece(king, "j2");
 
         // test 1 - no blocking pieces
         ArrayList<String> validMoves = new ArrayList<>();
@@ -88,7 +91,7 @@ class TestBishop {
         validMoves.add("b6");
         validMoves.add("a7");
 
-        LegalMoves moves = bishop.legalMoves();
+        LegalMoves moves = bishop.legalMoves(true);
         ArrayList<String> bishopValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(bishopValid);
