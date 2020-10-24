@@ -91,4 +91,17 @@ public class OCClient {
 
     }
 
+    // unregister request
+    public boolean sendUnregisterRequest() {
+
+        return false;
+    }
+
+    // login request
+    public boolean sendLoginRequest() {
+
+        return false;
+    }
+
+
 }
