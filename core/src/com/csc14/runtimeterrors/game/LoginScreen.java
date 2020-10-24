@@ -109,16 +109,21 @@ public class LoginScreen implements Screen {
                 String password = passwordBox.getText();
 
                 // 2. send login request
-                if (parent.getClient().sendLoginRequest(nickname, password)) {
+                OCMessage receivedMessage = parent.getClient().sendLoginRequest(nickname, password);
+                if (receivedMessage.get("success").equals("true")) {
                     parent.user = nickname;
                     parent.changeScreen(OmegaChess.SCREEN.LOBBY); // go to lobby screen if successful
                 }
                 else {
                     // if nickname didn't exist, alert user
-                    // TODO
+                    if (receivedMessage.get("reason").equals("nickname wasn't found")) {
+                        // TODO
+                    }
 
                     // if password was wrong, alert user
-                    // TODO
+                    if (receivedMessage.get("reason").equals("wrong password")) {
+                        // TODO
+                    }
                 }
             };
         });

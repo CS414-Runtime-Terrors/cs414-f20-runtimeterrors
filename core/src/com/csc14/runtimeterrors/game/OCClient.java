@@ -109,7 +109,7 @@ public class OCClient {
     }
 
     // login request
-    public boolean sendLoginRequest(String nickname, String password) {
+    public OCMessage sendLoginRequest(String nickname, String password) {
         System.out.println("Sending login request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
@@ -120,7 +120,9 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        return printResult(receivedMessage);
+        printResult(receivedMessage);
+
+        return receivedMessage;
     }
 
 
