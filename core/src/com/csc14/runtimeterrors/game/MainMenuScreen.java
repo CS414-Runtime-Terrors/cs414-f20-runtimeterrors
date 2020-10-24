@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -40,7 +39,7 @@ public class MainMenuScreen implements Screen {
         style.font = new BitmapFont();
         style.fontColor = Color.PURPLE;
         style.font.getData().setScale(2f);
-        title = new TextField("OmegaChess Main Menu", style);
+        title = new TextField("Omega Chess Main Menu", style);
 
         // set up button widgets
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
