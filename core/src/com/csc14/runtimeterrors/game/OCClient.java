@@ -85,16 +85,33 @@ public class OCClient {
             return true;
         }
         else {
-            System.out.println("Error! Nickname or email already taken!");
+            System.out.println(receivedMessage.get("reason"));
             return false;
         }
 
     }
 
     // unregister request
-    public boolean sendUnregisterRequest() {
+    public boolean sendUnregisterRequest(String nickname) {
+        System.out.println("Sending unregister request for " + nickname + "!");
 
-        return false;
+        OCMessage message = new OCMessage();
+        message.put("process", "unregister");
+        message.put("nickname", nickname);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        String success = (String) receivedMessage.get("success");
+
+        if (success.equals("true")) {
+            System.out.println("Success!");
+            return true;
+        }
+        else {
+            System.out.println(receivedMessage.get("reason"));
+            return false;
+        }
     }
 
     // login request
