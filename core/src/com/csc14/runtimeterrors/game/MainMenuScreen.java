@@ -82,7 +82,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.clear();
-                parent.changeScreen(OmegaChess.LOGIN_SCREEN);
+                parent.changeScreen(OmegaChess.SCREEN.LOGIN);
 
             };
         });
@@ -92,7 +92,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.clear();
-                parent.changeScreen(OmegaChess.REGISTER_SCREEN);
+                parent.changeScreen(OmegaChess.SCREEN.REGISTER);
             };
         });
 

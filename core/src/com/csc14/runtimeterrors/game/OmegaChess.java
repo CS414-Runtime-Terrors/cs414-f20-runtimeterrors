@@ -10,11 +10,11 @@ public class OmegaChess extends Game {
 	private LoginScreen loginScreen;
 	private RegisterScreen registerScreen;
 	private LobbyScreen lobbyScreen;
+	private InviteScreen inviteScreen;
 
-	public final static int LOGIN_SCREEN = 0;
-	public final static int REGISTER_SCREEN = 1;
-	public final static int MAIN_MENU_SCREEN = 2;
-	public final static int LOBBY_SCREEN = 3;
+	enum SCREEN{
+		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE
+	}
 
 	String user = "";
 
@@ -43,23 +43,27 @@ public class OmegaChess extends Game {
 		return client;
 	}
 
-	public void changeScreen(int screen){
+	public void changeScreen(SCREEN screen){
 		switch(screen){
-			case MAIN_MENU_SCREEN:
+			case MAIN_MENU:
 				if(mainMenuScreen == null) mainMenuScreen = new MainMenuScreen(this);
 				this.setScreen(mainMenuScreen);
 				break;
-			case LOGIN_SCREEN:
+			case LOGIN:
 				if(loginScreen == null) loginScreen = new LoginScreen(this);
 				this.setScreen(loginScreen);
 				break;
-			case REGISTER_SCREEN:
+			case REGISTER:
 				if(registerScreen == null) registerScreen = new RegisterScreen(this);
 				this.setScreen(registerScreen);
 				break;
-			case LOBBY_SCREEN:
+			case LOBBY:
 				if(lobbyScreen == null) lobbyScreen = new LobbyScreen(this);
 				this.setScreen(lobbyScreen);
+				break;
+			case INVITE:
+				if(inviteScreen == null) inviteScreen = new InviteScreen(this);
+				this.setScreen(inviteScreen);
 				break;
 		}
 	}

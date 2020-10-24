@@ -140,7 +140,7 @@ public class RegisterScreen implements Screen {
                 // 5. send register request
                 if (parent.getClient().sendRegisterRequest(email, nickname, password)) {
                     parent.user = nickname;
-                    parent.changeScreen(OmegaChess.LOBBY_SCREEN); // go to login screen if successful
+                    parent.changeScreen(OmegaChess.SCREEN.LOBBY); // go to login screen if successful
                 }
             };
         });
@@ -149,7 +149,7 @@ public class RegisterScreen implements Screen {
         backBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
+                parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };
         });
     }

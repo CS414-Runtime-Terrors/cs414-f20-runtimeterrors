@@ -121,7 +121,7 @@ public class LoginScreen implements Screen {
                 // TODO send request in if statement
                 if (true) {
                     parent.user = nickname;
-                    parent.changeScreen(OmegaChess.LOBBY_SCREEN); // go to login screen if successful
+                    parent.changeScreen(OmegaChess.SCREEN.LOBBY); // go to lobby screen if successful
                 }
             };
         });
@@ -130,7 +130,7 @@ public class LoginScreen implements Screen {
         backBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
+                parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };
         });
     }
