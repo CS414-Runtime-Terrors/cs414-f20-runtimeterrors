@@ -1,7 +1,6 @@
 package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,15 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
-//import javax.xml.soap.Text;
 
 public class LoginScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
     private TextButton loginBtn;
     private TextButton backBtn;
+
+    private Label nicknameLabel, passwordLabel;
+    private TextField nicknameBox, passwordBox;
+
 
     public LoginScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
@@ -39,15 +39,15 @@ public class LoginScreen implements Screen {
         style.fontColor = Color.PURPLE;
         style.font.getData().setScale(2f);
 
-        TextField title = new TextField("Login To Play OmegaChess!", style);
+        TextField title = new TextField("Login To Play Omega Chess!", style);
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        Label nicknameLabel = new Label("Nickname:", skin);
-        TextField nicknameBox = new TextField("", skin);
+        nicknameLabel = new Label("Nickname:", skin);
+        nicknameBox = new TextField("", skin);
 
-        Label passwordLabel = new Label("Password:", skin);
-        TextField passwordBox = new TextField("", skin);
+        passwordLabel = new Label("Password:", skin);
+        passwordBox = new TextField("", skin);
 
         loginBtn = new TextButton("Login!", skin);
         backBtn = new TextButton("Back", skin);
@@ -105,8 +105,24 @@ public class LoginScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // 1. get text from nickname, password.
+                String nickname = nicknameBox.getText();
+                String password = passwordBox.getText();
+
                 // 2. check that nickname exists
+                // TODO
+
                 // 3. attempt to login with nickname and password
+                // TODO
+
+                // 4. error checking
+                // TODO
+
+                // 5. send login request
+                // TODO send request in if statement
+                if (true) {
+                    parent.user = nickname;
+                    parent.changeScreen(OmegaChess.LOBBY_SCREEN); // go to login screen if successful
+                }
             };
         });
 

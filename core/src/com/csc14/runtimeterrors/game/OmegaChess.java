@@ -9,10 +9,14 @@ public class OmegaChess extends Game {
 	private MainMenuScreen mainMenuScreen;
 	private LoginScreen loginScreen;
 	private RegisterScreen registerScreen;
+	private LobbyScreen lobbyScreen;
 
 	public final static int LOGIN_SCREEN = 0;
 	public final static int REGISTER_SCREEN = 1;
 	public final static int MAIN_MENU_SCREEN = 2;
+	public final static int LOBBY_SCREEN = 3;
+
+	String user = "";
 
 	@Override
 	public void create() {
@@ -52,6 +56,10 @@ public class OmegaChess extends Game {
 			case REGISTER_SCREEN:
 				if(registerScreen == null) registerScreen = new RegisterScreen(this);
 				this.setScreen(registerScreen);
+				break;
+			case LOBBY_SCREEN:
+				if(lobbyScreen == null) lobbyScreen = new LobbyScreen(this);
+				this.setScreen(lobbyScreen);
 				break;
 		}
 	}
