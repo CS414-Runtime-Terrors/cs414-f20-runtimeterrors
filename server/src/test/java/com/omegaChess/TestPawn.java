@@ -3,7 +3,6 @@ package com.omegaChess;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,8 +71,10 @@ class TestPawn {
 
         Pawn pawn = new Pawn(board, ChessPiece.Color.WHITE);
         Knight knight = new Knight(board, ChessPiece.Color.BLACK);
+        King king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c2");
+        board.placePiece(king, "j2");
 
         // test 1 from initial position - no blocking pieces
         ArrayList<String> validMoves = new ArrayList<String>();
@@ -81,7 +82,7 @@ class TestPawn {
         validMoves.add("c4");
         validMoves.add("c5");
 
-        LegalMoves moves = pawn.legalMoves();
+        LegalMoves moves = pawn.legalMoves(true);
         ArrayList<String> pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -94,7 +95,7 @@ class TestPawn {
         validMoves.clear();
         validMoves.add("c3");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -106,7 +107,7 @@ class TestPawn {
 
         validMoves.clear();
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -118,9 +119,11 @@ class TestPawn {
 
         pawn = new Pawn(board, ChessPiece.Color.WHITE);
         knight = new Knight(board, ChessPiece.Color.BLACK);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c2");
         board.placePiece(knight, "b3");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
         validMoves.add("b3");
@@ -128,7 +131,7 @@ class TestPawn {
         validMoves.add("c4");
         validMoves.add("c5");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -140,9 +143,11 @@ class TestPawn {
 
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
         knight = new Knight(board, ChessPiece.Color.WHITE);
+        king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c9");
         board.placePiece(knight, "d8");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
         validMoves.add("c8");
@@ -150,7 +155,7 @@ class TestPawn {
         validMoves.add("c6");
         validMoves.add("d8");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -162,13 +167,15 @@ class TestPawn {
 
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
         pawn.setMoved(true);
+        king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "c7");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
         validMoves.add("c6");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -182,13 +189,15 @@ class TestPawn {
 
         pawn.setMoved(true);
         knight = new Knight(board, ChessPiece.Color.BLACK);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "c5");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -202,15 +211,17 @@ class TestPawn {
 
         pawn.setMoved(true);
         knight = new Knight(board, ChessPiece.Color.BLACK);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "b5");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
         validMoves.add("c5");
         validMoves.add("b5");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -225,15 +236,17 @@ class TestPawn {
         pawn.setMoved(true);
 
         knight = new Knight(board, ChessPiece.Color.BLACK);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "c5");
         board.placePiece(knight, "d5");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
         validMoves.add("d5");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -248,14 +261,16 @@ class TestPawn {
         pawn.setMoved(true);
         knight = new Knight(board, ChessPiece.Color.BLACK);
         Knight knight2 = new Knight(board, ChessPiece.Color.WHITE);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "c5");
         board.placePiece(knight2, "b5");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -270,17 +285,19 @@ class TestPawn {
         pawn.setMoved(true);
 
         knight = new Knight(board, ChessPiece.Color.BLACK);
+        king = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "c4");
         board.placePiece(knight, "b5");
         board.placePiece(knight, "d5");
         board.placePiece(knight, "c5");
+        board.placePiece(king, "j2");
 
         validMoves.clear();
         validMoves.add("d5");
         validMoves.add("b5");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -293,11 +310,13 @@ class TestPawn {
         pawn = new Pawn(board, ChessPiece.Color.BLACK);
         pawn.setMoved(true);
         Pawn otherPawn = new Pawn(board, ChessPiece.Color.WHITE);
-        King king = new King(board, ChessPiece.Color.WHITE);
+        king = new King(board, ChessPiece.Color.BLACK);
+        King otherKing = new King(board, ChessPiece.Color.WHITE);
 
         board.placePiece(pawn, "d4");
         board.placePiece(otherPawn, "c2");
         board.placePiece(king, "j2");
+        board.placePiece(otherKing, "j7");
         try {
             board.move("c2", "c4");
         }
@@ -309,7 +328,7 @@ class TestPawn {
         validMoves.add("d3");
         validMoves.add("c3");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -323,10 +342,12 @@ class TestPawn {
         pawn.setMoved(true);
         otherPawn = new Pawn(board, ChessPiece.Color.WHITE);
         king = new King(board, ChessPiece.Color.WHITE);
+        otherKing = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(pawn, "b4");
         board.placePiece(otherPawn, "c2");
         board.placePiece(king, "j2");
+        board.placePiece(otherKing, "j7");
         try {
             board.move("c2", "c4");
         }
@@ -338,7 +359,7 @@ class TestPawn {
         validMoves.add("b3");
         validMoves.add("c3");
 
-        moves = pawn.legalMoves();
+        moves = pawn.legalMoves(true);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);

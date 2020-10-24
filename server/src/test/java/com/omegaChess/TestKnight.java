@@ -67,8 +67,10 @@ class TestKnight {
         ChessBoard board = new ChessBoard();
 
         Knight knight = new Knight(board, ChessPiece.Color.BLACK);
+        King king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(knight,  "f5");
+        board.placePiece(king, "j2");
 
         // test 1 - no blocking pieces
         ArrayList<String> validMoves = new ArrayList<>();
@@ -82,7 +84,7 @@ class TestKnight {
         validMoves.add("e3");
 
         // get kings valid moves
-        LegalMoves moves = knight.legalMoves();
+        LegalMoves moves = knight.legalMoves(true);
         ArrayList<String> knightValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
@@ -105,7 +107,7 @@ class TestKnight {
         validMoves.add("e3");
 
         // get kings valid moves
-        moves = knight.legalMoves();
+        moves = knight.legalMoves(true);
         knightValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order

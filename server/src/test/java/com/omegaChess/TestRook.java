@@ -7,10 +7,7 @@ import java.util.Collections;
 
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
-import com.omegaChess.pieces.ChessPiece;
-import com.omegaChess.pieces.Knight;
-import com.omegaChess.pieces.Rook;
-import com.omegaChess.pieces.LegalMoves;
+import com.omegaChess.pieces.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -69,9 +66,10 @@ class TestRook {
         ChessBoard board = new ChessBoard();
 
         Rook rook = new Rook(board, ChessPiece.Color.BLACK);
-        Knight knight = new Knight(board, ChessPiece.Color.WHITE);
+        King king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(rook, "f2");
+        board.placePiece(king, "j7");
 
         // test 1 - no blocking pieces
         ArrayList<String> validMoves = new ArrayList<String>();
@@ -94,7 +92,7 @@ class TestRook {
         validMoves.add("i2");
         validMoves.add("j2");
 
-        LegalMoves moves = rook.legalMoves();
+        LegalMoves moves = rook.legalMoves(true);
         ArrayList<String> rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
@@ -105,10 +103,12 @@ class TestRook {
         board = new ChessBoard();
 
         rook = new Rook(board, ChessPiece.Color.BLACK);
-        knight = new Knight(board, ChessPiece.Color.WHITE);
+        Knight knight = new Knight(board, ChessPiece.Color.WHITE);
+        king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(rook, "f2");
         board.placePiece(knight, "f3");
+        board.placePiece(king, "j7");
 
         validMoves.clear();
         validMoves.add("f1");
@@ -123,7 +123,7 @@ class TestRook {
         validMoves.add("i2");
         validMoves.add("j2");
 
-        moves = rook.legalMoves();
+        moves = rook.legalMoves(true);
         rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
@@ -137,11 +137,13 @@ class TestRook {
         rook = new Rook(board, ChessPiece.Color.BLACK);
         knight = new Knight(board, ChessPiece.Color.BLACK);
         Knight knight2 = new Knight(board, ChessPiece.Color.WHITE);
+        king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(rook, "f2");
         board.placePiece(knight, "f5");
         board.placePiece(knight, "h2");
         board.placePiece(knight2, "c2");
+        board.placePiece(king, "j7");
 
         validMoves.clear();
         validMoves.add("g2");
@@ -152,7 +154,7 @@ class TestRook {
         validMoves.add("f3");
         validMoves.add("f4");
 
-        moves = rook.legalMoves();
+        moves = rook.legalMoves(true);
         rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);

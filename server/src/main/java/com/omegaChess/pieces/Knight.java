@@ -41,9 +41,16 @@ public class Knight extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves()
+    public LegalMoves legalMoves(Boolean firstPass)
     {
         ArrayList<String> legalMoves = new ArrayList<>();
+
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck()) {
+                return new LegalMoves(legalMoves, false, false);
+            }
+        }
 
         ChessPiece tmp_piece = null;
         String tmp_str;

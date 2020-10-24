@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
-import com.omegaChess.pieces.Bishop;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.King;
 import com.omegaChess.pieces.LegalMoves;
 import com.omegaChess.pieces.Queen;
 import org.junit.jupiter.api.DisplayName;
@@ -70,8 +70,10 @@ class TestQueen {
         ChessBoard board = new ChessBoard();
 
         Queen queen = new Queen(board, ChessPiece.Color.BLACK);
+        King king = new King(board, ChessPiece.Color.BLACK);
 
         board.placePiece(queen, "e5");
+        board.placePiece(king, "j2");
 
         // test 1 - no blocking pieces
         ArrayList<String> validMoves = new ArrayList<>();
@@ -111,7 +113,7 @@ class TestQueen {
         validMoves.add("b5");
         validMoves.add("a5");
 
-        LegalMoves moves = queen.legalMoves();
+        LegalMoves moves = queen.legalMoves(true);
         ArrayList<String> queenValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(queenValid);
