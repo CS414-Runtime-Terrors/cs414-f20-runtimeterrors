@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class OCClient {
 
     private static final String serverHostName = "albany.cs.colostate.edu"; // in order to test on production, OCMultiServer.java must be running on the server host
-    private static final String localHostName = "Jeff-From-Surplus"; // set this to your hostname when testing locally
+    private static final String localHostName = "localhost"; // set this to your hostname when testing locally
 
     String hostName = localHostName;
     int portNumber = 28362;
