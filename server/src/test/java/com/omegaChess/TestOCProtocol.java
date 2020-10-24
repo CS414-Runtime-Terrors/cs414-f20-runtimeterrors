@@ -54,4 +54,14 @@ public class TestOCProtocol {
         assertEquals("true", output);
     }
 
+    @Test
+    public void testUnregisteruser() {
+
+    }
+
+    @Test
+    public void testLoginUser() {
+
+    }
+
 }
