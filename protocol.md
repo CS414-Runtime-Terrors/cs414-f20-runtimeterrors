@@ -7,9 +7,12 @@ Message Template:
 * "process": "square"
 * "number": "(integer to square)"
 
-Return Message Template:
-* "success": "true" or "false"
-* if success=false -> "reason": "(reason for failure)"
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
 
 ## Register
 - This request registers a new user using their nickname, password and email.
@@ -20,6 +23,38 @@ Message Template:
 * "nickname": "examplenick"
 * "password": "examplepass"
 
-Return Message Template:
-* "success": "true" or "false"
-* if success=false -> "reason": "(reason for failure)"
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
+
+## Unregister
+- This request unregisters a user using their nickname.
+
+Message Template:
+* "process": "unregister"
+* "nickname": "examplenick"
+
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
+
+## Login
+- This request logs in a user using their nickname and password.
+
+Message Template:
+* "process": "login"
+* "nickname": "examplenick"
+* "password": "examplepass"
+
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
