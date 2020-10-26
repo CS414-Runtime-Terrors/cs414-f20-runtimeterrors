@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import javax.swing.*;
+
 public class LoginScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
@@ -108,6 +110,16 @@ public class LoginScreen implements Screen {
                 String nickname = nicknameBox.getText();
                 String password = passwordBox.getText();
 
+                // make sure user entered data for login attempt
+                if( nickname.isEmpty() || password.isEmpty())
+                {
+                    String errorMsg = "Error! Must enter a nickname and password!";
+                    JOptionPane.showMessageDialog(null, errorMsg, "Login Error!", JOptionPane.ERROR_MESSAGE);
+
+                    // return if empty nickname or password
+                    return;
+                }
+
                 // 2. send login request
                 OCMessage receivedMessage = parent.getClient().sendLoginRequest(nickname, password);
                 if (receivedMessage.get("success").equals("true")) {
@@ -117,12 +129,14 @@ public class LoginScreen implements Screen {
                 else {
                     // if nickname didn't exist, alert user
                     if (receivedMessage.get("reason").equals("nickname wasn't found")) {
-                        // TODO
+                        String errorMsg = "Error! Nickname wasn't found!";
+                        JOptionPane.showMessageDialog(null, errorMsg, "Login Error!", JOptionPane.ERROR_MESSAGE);
                     }
 
                     // if password was wrong, alert user
                     if (receivedMessage.get("reason").equals("wrong password")) {
-                        // TODO
+                        String errorMsg = "Error! Wrong Password!";
+                        JOptionPane.showMessageDialog(null, errorMsg, "Login Error!", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             };
