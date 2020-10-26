@@ -10,6 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import javax.swing.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
@@ -128,19 +132,55 @@ public class RegisterScreen implements Screen {
                 String nickname = nicknameBox.getText();
                 String password = passwordBox.getText();
 
-                // 2. registration functions will make sure nickname is unique
-                // TODO
+                // 2. do any error checking to make sure email is valid (has '@')
+                if(!is_valid_email(email))
+                {
+                    String errorMsg = "Error! Email is not a valid format!";
+                    JOptionPane.showMessageDialog(null, errorMsg, "Email Error!", JOptionPane.ERROR_MESSAGE);
 
-                // 3. decide password complexity and check that before sending request to register
-                // TODO
+                    // return if invalid emailo
+                    return;
+                }
 
-                // 4. do any error checking to make sure email is valid (has '@')
-                // TODO
+                // 3. make sure nickname isn't empty - register request handles unique
+                if(nickname.isEmpty())
+                {
+                    String errorMsg = "Error! Must enter a nickname";
+                    JOptionPane.showMessageDialog(null, errorMsg, "Nickname Error!", JOptionPane.ERROR_MESSAGE);
 
-                // 5. send register request
+                    // return if invalid nickname
+                    return;
+                }
+
+                // 4. decide password complexity and check that before sending request to register
+                if(!is_valid_password(password))
+                {
+                    String errorMsg = "Error! Password does not meet requirements!\nRequirements are:" +
+                            "\n*At least 8 characters and max of 20 characters" +
+                            "\n*At least 1 digit" +
+                            "\n*At least 1 upper case character" +
+                            "\n*At least 1 lower case character" +
+                            "\n*At least 1 special character from the list: !@#$%&*()-+=^" +
+                            "\n*No spaces";
+                    JOptionPane.showMessageDialog(null, errorMsg, "Password Error!", JOptionPane.ERROR_MESSAGE);
+
+                    // return if invalid password
+                    return;
+                }
+
+                // 5. send register request and successful
                 if (parent.getClient().sendRegisterRequest(email, nickname, password)) {
                     parent.user = nickname;
                     parent.changeScreen(OmegaChess.SCREEN.LOBBY); // go to login screen if successful
+                }
+                // unsuccessful registration
+                else
+                {
+                    String errorMsg = "Error with email or nickname!\nCheck to make sure valid email and unique nickname";
+                    JOptionPane.showMessageDialog(null, errorMsg, "Register Error!", JOptionPane.ERROR_MESSAGE);
+
+                    // return if invalid nickname
+                    return;
                 }
             };
         });
@@ -152,6 +192,63 @@ public class RegisterScreen implements Screen {
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };
         });
+    }
+
+    /* This function will check if an email address is valid.
+        A valid email address contains an '@' sign, no extra
+        punctuation before the '.com'/'.org', etc.
+     */
+    private boolean is_valid_email(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        // generate the regular expression patter to match later
+        Pattern p = Pattern.compile(emailRegex);
+
+        // password must not be empty
+        if (email.isEmpty()) {
+            return false;
+        }
+
+        // Use pattern matcher class to see if email
+        // fits all criteria of regular expression
+        Matcher m = p.matcher(email);
+
+        // Return true if the email matches the criteria
+        return m.matches();
+    }
+
+    /*  This function will check if a password a user enters is valid
+        or not. It checks for: being between 8-20 characters, containing
+        at least 1 digit, 1 upper case, 1 lower case, 1 special character
+        and no white space.
+
+        Found idea for how to check password complexity on :
+        https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
+     */
+    private boolean is_valid_password(String password) {
+        // Regular expression to check valid password.
+        String regex = "^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=.*[@#$%^&+=!])"
+                + "(?=\\S+$).{8,20}$";
+
+        // generate the regular expression patter to match later
+        Pattern p = Pattern.compile(regex);
+
+        // password must not be empty
+        if (password.isEmpty()) {
+            return false;
+        }
+
+        // Use pattern matcher class to see if password
+        // fits all criteria of regular expression
+        Matcher m = p.matcher(password);
+
+        // Return true if the password matches the criteria
+        return m.matches();
     }
 
     @Override
