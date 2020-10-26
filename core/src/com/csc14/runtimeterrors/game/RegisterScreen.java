@@ -232,7 +232,7 @@ public class RegisterScreen implements Screen {
         // Regular expression to check valid password.
         String regex = "^(?=.*[0-9])"
                 + "(?=.*[a-z])(?=.*[A-Z])"
-                + "(?=.*[@#$%^&+=])"
+                + "(?=.*[@#$%^&+=!])"
                 + "(?=\\S+$).{8,20}$";
 
         // generate the regular expression patter to match later
