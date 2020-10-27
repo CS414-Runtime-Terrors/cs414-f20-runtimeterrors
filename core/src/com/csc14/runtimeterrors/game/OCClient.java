@@ -127,7 +127,7 @@ public class OCClient {
 
     // get profile data request
     public OCMessage sendGetProfileDataRequest(String nickname) {
-        System.out.println("Sending login request for " + nickname + "!");
+        System.out.println("Sending get profile data request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "get profile data");
