@@ -125,5 +125,21 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // get profile data request
+    public OCMessage sendGetProfileDataRequest(String nickname) {
+        System.out.println("Sending get profile data request for " + nickname + "!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get profile data");
+        message.put("nickname", nickname);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
 
 }
