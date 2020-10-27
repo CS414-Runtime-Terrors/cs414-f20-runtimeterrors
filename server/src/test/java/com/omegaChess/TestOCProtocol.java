@@ -99,4 +99,31 @@ public class TestOCProtocol {
         assertEquals("true", receivedMessage.get("success"));
     }
 
+    @Test
+    public void testGetProfileData() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("Daniel", "pass", "daniel@gmail.com");
+        data.getProfile("Daniel").setGamesWon(1);
+        data.getProfile("Daniel").setGamesLost(2);
+        data.getProfile("Daniel").setGamesTied(3);
+
+        // login
+        OCMessage message = new OCMessage();
+        message.put("process", "get profile data");
+        message.put("nickname", "Daniel");
+
+        String input = message.toString();
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        assertEquals("1", receivedMessage.get("gamesWon"));
+        assertEquals("2", receivedMessage.get("gamesLost"));
+        assertEquals("3", receivedMessage.get("gamesTied"));
+    }
+
 }

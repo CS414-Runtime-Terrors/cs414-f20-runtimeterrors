@@ -70,4 +70,13 @@ public class OCServerData {
     return isNicknameTaken(nick);
   }
 
+  public UserProfile getProfile(String nick) {
+    for (UserProfile profile : getProfiles()) {
+      if (profile.getNickname().equalsIgnoreCase(nick)) {
+        return profile;
+      }
+    }
+    return null;
+  }
+
 }
