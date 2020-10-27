@@ -99,4 +99,33 @@ public class TestOCProtocol {
         assertEquals("true", receivedMessage.get("success"));
     }
 
+    @Test
+    void testInvite() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("sweetfire", "T0asty!!", "SweetFireSauce@omegacess.net");
+        data.createProfile("PawPatrol", "Pupp!e5!", "PawPatrolPuppySquad@omegachess.net");
+
+        // Invite
+        OCMessage message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", "sweetfire");
+        message.put("inviter", "pawpatrol");
+
+        String input = message.toString();
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        assertEquals("true", receivedMessage.get("success"), "Invite was not sent!");
+        assertFalse(data.getProfile("sweetfire").getMailbox().getReceived().isEmpty(),
+                "Failed to add invite to mailbox received!");
+        assertFalse(data.getProfile("pawpatrol").getMailbox().getSent().isEmpty(),
+                "Failed to add invite to mailbox sent!");
+
+    }
+
 }

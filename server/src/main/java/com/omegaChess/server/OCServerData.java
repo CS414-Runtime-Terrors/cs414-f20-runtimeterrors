@@ -11,11 +11,32 @@ public class OCServerData {
   // fields
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
   private ArrayList<UserProfile> profiles = new ArrayList<>();
+  private ArrayList<Match> matches = new ArrayList<>();
 
   // methods
 
   public ArrayList<UserProfile> getProfiles() {
     return profiles;
+  }
+
+  public UserProfile getProfile(String nick){
+    for (UserProfile profile : getProfiles()) {
+      if (profile.getNickname().equalsIgnoreCase(nick))
+        return profile;
+    }
+    return null;
+  }
+
+  public void addMatch(Match match){ matches.add(match); }
+
+  public ArrayList<Match> getMatches() { return matches; }
+
+  public void removeMatch(Match target) {
+    for (Match match: getMatches())
+      if (match == target) {
+        matches.remove(match);
+        break;
+      }
   }
 
   public boolean createProfile(String nick, String pass, String email) {

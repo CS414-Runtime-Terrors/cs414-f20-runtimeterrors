@@ -43,6 +43,8 @@ public class OmegaChess extends Game {
 		return client;
 	}
 
+	public String getUser() { return user; }
+
 	public void changeScreen(SCREEN screen){
 		switch(screen){
 			case MAIN_MENU:

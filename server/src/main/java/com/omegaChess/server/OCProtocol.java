@@ -30,10 +30,13 @@ public class OCProtocol {
                 case "login":
                     toReturn = loginUser(receivedMessage);
                     break;
+                case "invite":
+                    toReturn = sendInvite(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
-                    message.put("reason", "process not recognized");
+                    message.put("reason", " process not recognized");
 
                     toReturn = message.toString();
                     break;
@@ -165,5 +168,35 @@ public class OCProtocol {
         }
         return message.toString();
     }
+
+   private String sendInvite(OCMessage receivedMessage){
+
+        String inviter = (String) receivedMessage.get("inviter");
+        String invitee = (String) receivedMessage.get("invitee");
+
+       System.out.println("Attempting to send invite from " + inviter + " to " + invitee);
+
+       OCMessage message = new OCMessage();
+
+       if (!serverData.profileExists(invitee)){
+           // Invitee doesn't exist
+           message.put("success", "false");
+           message.put("reason", "input user doesn't exist");
+
+           System.out.println("Target user doesn't exist");
+           return message.toString();
+       }
+
+       UserProfile player1 = serverData.getProfile(inviter);
+       UserProfile player2 = serverData.getProfile(invitee);
+       Invite invite = new Invite(inviter, invitee);
+       player1.getMailbox().addToSent(invite);
+       player2.getMailbox().addToReceived(invite);
+       message.put("success", "true");
+
+       System.out.println("Invite has been sent");
+        return message.toString();
+
+   }
 
 }

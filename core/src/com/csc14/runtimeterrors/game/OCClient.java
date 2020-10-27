@@ -125,5 +125,22 @@ public class OCClient {
         return receivedMessage;
     }
 
+    public OCMessage sendInviteRequest(String inviter, String invitee){
+        System.out.println("Sending invite request from " + inviter + " to " + invitee + "!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", invitee.toLowerCase());
+        message.put("inviter", inviter.toLowerCase());
+
+        // send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+
+    }
+
 
 }

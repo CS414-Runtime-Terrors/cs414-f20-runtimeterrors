@@ -13,12 +13,14 @@ public class UserProfile {
     private int gamesTied = -1;
     private ArrayList<UserProfile> playedWith = new ArrayList<>();
     private ArrayList<GameRecord> previousGames = new ArrayList<>();
+    private Mailbox mailbox = null;
 
     // constructor
     public UserProfile(String nick, String pass, String email) {
         setNickname(nick);
         setPassword(pass);
         setEmailAddress(email);
+        mailbox = new Mailbox();
         setGamesWon(0);
         setGamesLost(0);
         setGamesTied(0);
@@ -41,6 +43,8 @@ public class UserProfile {
     public String getPassword() {
         return password;
     }
+
+    public Mailbox getMailbox() { return mailbox; }
 
     public void setEmailAddress(String newEmailAddress) {
         emailAddress = newEmailAddress;
