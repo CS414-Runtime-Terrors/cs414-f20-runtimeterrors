@@ -1,5 +1,7 @@
 package com.csc14.runtimeterrors.game;
 
+import sun.nio.cs.ext.MacCentralEurope;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -156,6 +158,36 @@ public class OCClient {
 
         return receivedMessage;
 
+    }
+
+    public OCMessage getSentInvite(String user){
+        System.out.println("Sending request to get sent invites from mailbox!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "invites sent");
+        message.put("user", user);
+
+        // Send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    public OCMessage getReceivedInvite(String user){
+        System.out.println("Sending request to get received invites from mailbox!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "invites received");
+        message.put("user", user);
+
+        // Send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
     }
 
 
