@@ -95,9 +95,28 @@ Return Message Template 2:
 ## Get Sent Invites
 - This request returns a user's sent invitations.
 
+(message templates needed)
+
 ## Get Received Invites
 - This request returns a user's received invitations.
+
+(message templates needed)
 
 ## Get Notifications
 - This request returns a user's notifications.
 
+Message Template:
+* "process": "get notifications"
+* "nickname": "examplenick"
+
+Return Message Template 1:
+* "success": "true"
+* "count": "#"
+for (count):
+* "event#": "eventString"
+* "message#": "eventMessage"
+* "datestring#": "dateString"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
