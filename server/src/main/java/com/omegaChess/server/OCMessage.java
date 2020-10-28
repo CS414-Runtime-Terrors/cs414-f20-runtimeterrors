@@ -5,16 +5,15 @@ import java.util.HashMap;
 
 public class OCMessage {
 
-    private HashMap<String, Object> map = new HashMap<>();
+    private HashMap<String, String> map = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<>();
 
-    // allow strings
     public void put(String key, String value) {
         map.put(key, value);
         keys.add(key);
     }
 
-    public Object get(String key) {
+    public String get(String key) {
         return map.get(key);
     }
 

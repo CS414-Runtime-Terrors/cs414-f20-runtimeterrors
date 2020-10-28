@@ -224,7 +224,39 @@ public class TestOCProtocol {
 
     @Test
     public void testGetNotifications() {
-        // TODO: implement
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("Daniel", "pass", "daniel@gmail.com");
+
+        data.getProfile("Daniel").getMailbox().addNotification("Event 1", "Message 1");
+        data.getProfile("Daniel").getMailbox().addNotification("Event 2", "Message 2");
+
+        // get notifications
+        OCMessage message = new OCMessage();
+        message.put("process", "get notifications");
+        message.put("nickname", "Daniel");
+
+        String input = message.toString();
+
+        System.out.println(input);
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        System.out.println(output);
+
+        int count = Integer.parseInt(receivedMessage.get("count"));
+
+        assertEquals(2, count);
+        assertEquals("Event 1", receivedMessage.get("event1"));
+        assertEquals("Message 1", receivedMessage.get("message1"));
+        assertNotNull(receivedMessage.get("datestring1"));
+        assertEquals("Event 2", receivedMessage.get("event2"));
+        assertEquals("Message 2", receivedMessage.get("message2"));
+        assertNotNull(receivedMessage.get("datestring2"));
     }
 
 }
