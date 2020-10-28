@@ -189,7 +189,6 @@ public class ProfileScreen implements Screen {
                         JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.YES_OPTION){
                     // unregister
-                    System.out.println("Unregister here");
                     parent.getClient().sendUnregisterRequest(nickname);
                     parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
                 }
