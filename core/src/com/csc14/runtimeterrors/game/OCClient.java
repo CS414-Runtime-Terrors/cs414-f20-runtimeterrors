@@ -160,7 +160,7 @@ public class OCClient {
 
     }
 
-    public OCMessage getSentInvite(String user){
+    public OCMessage getSentInvites(String user){
         System.out.println("Sending request to get sent invites from mailbox!");
 
         OCMessage message = new OCMessage();
@@ -175,7 +175,7 @@ public class OCClient {
         return receivedMessage;
     }
 
-    public OCMessage getReceivedInvite(String user){
+    public OCMessage getReceivedInvites(String user){
         System.out.println("Sending request to get received invites from mailbox!");
 
         OCMessage message = new OCMessage();
