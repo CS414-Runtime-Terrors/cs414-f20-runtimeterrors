@@ -6,6 +6,8 @@ import com.omegaChess.server.OCServerData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JUnit OCProtocol Class Test")
@@ -218,6 +220,11 @@ public class TestOCProtocol {
         assertEquals("1", receivedMessage.get("gamesWon"));
         assertEquals("2", receivedMessage.get("gamesLost"));
         assertEquals("3", receivedMessage.get("gamesTied"));
+    }
+
+    @Test
+    public void testGetNotifications() {
+        // TODO: implement
     }
 
 }
