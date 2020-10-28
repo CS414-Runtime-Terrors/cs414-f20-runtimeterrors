@@ -80,6 +80,18 @@ Return Message Template 2:
 ## Send Invite
 - This request sends an invitation to a user.
 
+Message Template:
+* "process": "invite"
+* "invitee": "examplenick1"
+* "inviter": "examplenick2"
+
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
+
 ## Get Sent Invites
 - This request returns a user's sent invitations.
 
