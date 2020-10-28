@@ -19,14 +19,6 @@ public class OCServerData {
     return profiles;
   }
 
-  public UserProfile getProfile(String nick){
-    for (UserProfile profile : getProfiles()) {
-      if (profile.getNickname().equalsIgnoreCase(nick))
-        return profile;
-    }
-    return null;
-  }
-
   public void addMatch(Match match){ matches.add(match); }
 
   public ArrayList<Match> getMatches() { return matches; }
