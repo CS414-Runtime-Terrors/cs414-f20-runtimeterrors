@@ -6,6 +6,8 @@ import com.omegaChess.server.OCServerData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JUnit OCProtocol Class Test")
@@ -218,6 +220,46 @@ public class TestOCProtocol {
         assertEquals("1", receivedMessage.get("gamesWon"));
         assertEquals("2", receivedMessage.get("gamesLost"));
         assertEquals("3", receivedMessage.get("gamesTied"));
+    }
+
+    @Test
+    public void testGetNotifications() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("Daniel", "pass", "daniel@gmail.com");
+
+        data.getProfile("Daniel").getMailbox().addNotification("event1", "message1");
+        data.getProfile("Daniel").getMailbox().addNotification("event2", "message2");
+        data.getProfile("Daniel").getMailbox().addNotification("event2", "message3");
+
+        // get notifications
+        OCMessage message = new OCMessage();
+        message.put("process", "get notifications");
+        message.put("nickname", "Daniel");
+
+        String input = message.toString();
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        int count = Integer.parseInt(receivedMessage.get("count").toString());
+
+        ArrayList<OCMessage> notifications = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            OCMessage notificationMessage = new OCMessage();
+            notificationMessage.fromString(receivedMessage.get("" + i).toString());
+            notifications.add(notificationMessage);
+        }
+
+        assertEquals(3, notifications.size());
+        assertEquals("event1", notifications.get(0).get("event"));
+        assertEquals("event2", notifications.get(1).get("event"));
+        assertEquals("event3", notifications.get(2).get("event"));
+
     }
 
 }
