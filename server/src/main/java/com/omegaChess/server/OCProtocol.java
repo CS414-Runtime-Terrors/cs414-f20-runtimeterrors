@@ -44,6 +44,9 @@ public class OCProtocol {
                 case "invites received":
                     toReturn = getReceivedInvites(receivedMessage);
                     break;
+                case "get notifications":
+                    toReturn = getNotifications(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -309,6 +312,9 @@ public class OCProtocol {
         return message.toString();
    }
 
-
+   private String getNotifications(OCMessage receivedMessage) {
+        // TODO: implement
+        return null; // TODO: change
+   }
 
 }
