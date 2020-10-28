@@ -190,6 +190,7 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // get notifications request
     public OCMessage getNotifications(String nickname) {
         System.out.println("Sending request to get notifications from mailbox for user: " + nickname);
 
