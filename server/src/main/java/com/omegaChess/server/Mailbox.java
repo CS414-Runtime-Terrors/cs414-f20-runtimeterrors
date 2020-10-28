@@ -30,14 +30,4 @@ public class Mailbox {
     public ArrayList<Notification> getNotifications() {
         return notifications;
     }
-
-    public ArrayList<Notification> getNotificationsByEvent(String event) {
-        ArrayList<Notification> toReturn = new ArrayList<>();
-        for (Notification n : notifications) {
-            if (n.getEvent().equalsIgnoreCase(event)) {
-                toReturn.add(n);
-            }
-        }
-        return toReturn;
-    }
 }
