@@ -1,5 +1,7 @@
 package com.omegaChess.server;
 
+import java.util.ArrayList;
+
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
 
