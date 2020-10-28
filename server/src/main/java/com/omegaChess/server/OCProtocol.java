@@ -313,19 +313,32 @@ public class OCProtocol {
    }
 
    private String getNotifications(OCMessage receivedMessage) {
-       String user = receivedMessage.get("user");
-       
+       String user = receivedMessage.get("nickname");
+
+       OCMessage message = new OCMessage();
+
+       if (!serverData.profileExists(user)){
+           // target user doesn't exist
+           message.put("success", "false");
+           message.put("reason", "target user doesn't exist");
+
+           System.out.println("Target user doesn't exist");
+           return message.toString();
+       }
+
        ArrayList<Notification> notifications = serverData.getProfile(user).getMailbox().getNotifications();
-       
-       receivedMessage.put("success", "true");
-       
-       receivedMessage.put("count", "" + notifications.size());
-       
-       for (Notification n : notifications) {
-           
+
+       message.put("success", "true");
+
+       message.put("count", "" + notifications.size());
+
+       for (int i = 0; i < notifications.size(); i++) {
+           message.put("event" + (i + 1), notifications.get(i).getEvent());
+           message.put("message" + (i + 1), notifications.get(i).getMessage());
+           message.put("datestring" + (i + 1), notifications.get(i).getDateString());
        }
        
-       return null; // TODO: change
+       return message.toString();
    }
 
 }

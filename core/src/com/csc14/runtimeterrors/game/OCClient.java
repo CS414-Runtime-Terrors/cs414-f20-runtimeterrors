@@ -140,6 +140,7 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // send invite request
     public OCMessage sendInviteRequest(String inviter, String invitee){
         System.out.println("Sending invite request from " + inviter + " to " + invitee + "!");
 
@@ -157,6 +158,7 @@ public class OCClient {
 
     }
 
+    // get sent invites request
     public OCMessage getSentInvites(String user){
         System.out.println("Sending request to get sent invites from mailbox!");
 
@@ -172,6 +174,7 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // get received invites request
     public OCMessage getReceivedInvites(String user){
         System.out.println("Sending request to get received invites from mailbox!");
 
@@ -187,5 +190,19 @@ public class OCClient {
         return receivedMessage;
     }
 
+    public OCMessage getNotifications(String nickname) {
+        System.out.println("Sending request to get notifications from mailbox for user: " + nickname);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get notifications");
+        message.put("nickname", nickname);
+
+        // Send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 
 }

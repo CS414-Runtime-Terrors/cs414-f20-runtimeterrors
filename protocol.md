@@ -58,3 +58,19 @@ Return Message Template 1:
 Return Message Template 2:
 * "success": "false"
 * "reason": "(reason for failure)"
+
+## Get Profile Data
+- 
+
+## Send Invite
+- 
+
+## Get Sent Invites
+- 
+
+## Get Received Invites
+- 
+
+## Get Notifications
+- 
+

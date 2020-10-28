@@ -239,19 +239,23 @@ public class TestOCProtocol {
 
         String input = message.toString();
 
+        System.out.println(input);
+
         String output = protocol.processInput(input);
 
         OCMessage receivedMessage = new OCMessage();
         receivedMessage.fromString(output);
 
-        int count = Integer.parseInt(receivedMessage.get("count").toString());
+        System.out.println(output);
+
+        int count = Integer.parseInt(receivedMessage.get("count"));
 
         assertEquals(2, count);
         assertEquals("Event 1", receivedMessage.get("event1"));
         assertEquals("Message 1", receivedMessage.get("message1"));
         assertNotNull(receivedMessage.get("datestring1"));
         assertEquals("Event 2", receivedMessage.get("event2"));
-        assertEquals("Message 2", receivedMessage.get("event2"));
+        assertEquals("Message 2", receivedMessage.get("message2"));
         assertNotNull(receivedMessage.get("datestring2"));
     }
 
