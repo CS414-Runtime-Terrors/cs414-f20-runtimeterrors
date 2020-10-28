@@ -6,8 +6,6 @@ import com.omegaChess.server.OCServerData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.print.DocFlavor;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JUnit OCProtocol Class Test")
@@ -193,6 +191,33 @@ public class TestOCProtocol {
 
         assertEquals("eatmyshorts", invite.get("invitee").toString(), "Failed to get sent invite");
 
+    }
+
+    @Test
+    public void testGetProfileData() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("Daniel", "pass", "daniel@gmail.com");
+        data.getProfile("Daniel").setGamesWon(1);
+        data.getProfile("Daniel").setGamesLost(2);
+        data.getProfile("Daniel").setGamesTied(3);
+
+        // login
+        OCMessage message = new OCMessage();
+        message.put("process", "get profile data");
+        message.put("nickname", "Daniel");
+
+        String input = message.toString();
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        assertEquals("1", receivedMessage.get("gamesWon"));
+        assertEquals("2", receivedMessage.get("gamesLost"));
+        assertEquals("3", receivedMessage.get("gamesTied"));
     }
 
 }

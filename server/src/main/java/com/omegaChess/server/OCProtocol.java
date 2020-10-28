@@ -1,7 +1,5 @@
 package com.omegaChess.server;
 
-import java.util.ArrayList;
-
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
 
@@ -32,6 +30,9 @@ public class OCProtocol {
                 case "login":
                     toReturn = loginUser(receivedMessage);
                     break;
+                case "get profile data":
+                    toReturn = getProfileData(receivedMessage);
+                    break;
                 case "invite":
                     toReturn = sendInvite(receivedMessage);
                     break;
@@ -44,7 +45,7 @@ public class OCProtocol {
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
-                    message.put("reason", " process not recognized");
+                    message.put("reason", "process not recognized");
 
                     toReturn = message.toString();
                     break;
@@ -175,6 +176,33 @@ public class OCProtocol {
 
         }
         return message.toString();
+    }
+
+    private String getProfileData(OCMessage receivedMessage) {
+
+        String nickname = (String) receivedMessage.get("nickname");
+
+        System.out.println("Attempting to get profile data for user: " + nickname);
+
+        OCMessage message = new OCMessage();
+
+        if (!serverData.profileExists(nickname)) {
+            // profile doesn't exist
+            message.put("success", "false");
+            message.put("reason", "nickname wasn't found");
+
+            System.out.println("Nickname wasn't found.");
+            return message.toString();
+        }
+
+        message.put("success", "true");
+        message.put("nickname", nickname);
+        message.put("gamesWon", "" + serverData.getProfile(nickname).getGamesWon());
+        message.put("gamesLost", "" + serverData.getProfile(nickname).getGamesLost());
+        message.put("gamesTied", "" + serverData.getProfile(nickname).getGamesTied());
+
+        return message.toString();
+
     }
 
    private String sendInvite(OCMessage receivedMessage){
