@@ -19,7 +19,7 @@ public class Notification {
     }
 
     public String getMessage() {
-        return event;
+        return message;
     }
 
     public String getDateString() {
