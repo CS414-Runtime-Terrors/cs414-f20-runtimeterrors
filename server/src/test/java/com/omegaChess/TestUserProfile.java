@@ -43,6 +43,7 @@ public class TestUserProfile {
         assertEquals(gamesWonToSet, newProfile.getGamesWon());
         assertEquals(gamesLostToSet, newProfile.getGamesLost());
         assertEquals(gamesTiedToSet, newProfile.getGamesTied());
+        assertNotNull(newProfile.getMailbox(), "Failed to create a mailbox!");
     }
 
     @Test

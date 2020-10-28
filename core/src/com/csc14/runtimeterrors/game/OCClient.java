@@ -1,5 +1,7 @@
 package com.csc14.runtimeterrors.game;
 
+import sun.nio.cs.ext.MacCentralEurope;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -134,6 +136,53 @@ public class OCClient {
         message.put("nickname", nickname);
 
         // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    public OCMessage sendInviteRequest(String inviter, String invitee){
+        System.out.println("Sending invite request from " + inviter + " to " + invitee + "!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", invitee.toLowerCase());
+        message.put("inviter", inviter.toLowerCase());
+
+        // send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+
+    }
+
+    public OCMessage getSentInvites(String user){
+        System.out.println("Sending request to get sent invites from mailbox!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "invites sent");
+        message.put("user", user);
+
+        // Send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    public OCMessage getReceivedInvites(String user){
+        System.out.println("Sending request to get received invites from mailbox!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "invites received");
+        message.put("user", user);
+
+        // Send and receive results
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
         printResult(receivedMessage);

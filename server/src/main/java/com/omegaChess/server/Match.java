@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public class Match {
 
     private ChessBoard board;
-    private UserProfile profile1, profile2;
+    private String profile1, profile2;
     private TurnTracker turn;
     public ArrayList<ChessPiece> player1Pieces, player2Pieces;
 
     // Profile 1 should be the profile that sent an invite
-    public Match(UserProfile profile1, UserProfile profile2){
+    public Match(String profile1, String profile2){
         this.profile1 = profile1;
         this.profile2 = profile2;
         board = new ChessBoard();
@@ -27,7 +27,7 @@ public class Match {
 
     public void initialize(){
         board.initialize();
-        turn = new TurnTracker(profile1.getNickname(), profile2.getNickname());
+        turn = new TurnTracker(profile1, profile2);
         setPlayer1Pieces(board.get_white_pieces());
         setPlayer2Pieces(board.get_black_pieces());
     }
@@ -85,9 +85,9 @@ public class Match {
 
     public void setBoard(ChessBoard board) { this.board = board; }
 
-    public UserProfile getProfile1() { return profile1; }
+    public String getProfile1() { return profile1; }
 
-    public UserProfile getProfile2() { return profile2; }
+    public String getProfile2() { return profile2; }
 
     public ArrayList<ChessPiece> getPlayer1Pieces() { return player1Pieces; }
 

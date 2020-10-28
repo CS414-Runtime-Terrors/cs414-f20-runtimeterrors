@@ -100,6 +100,100 @@ public class TestOCProtocol {
     }
 
     @Test
+    void testInvite() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("sweetfire", "T0asty!!", "SweetFireSauce@omegacess.net");
+        data.createProfile("PawPatrol", "Pupp!e5!", "PawPatrolPuppySquad@omegachess.net");
+
+        // Invite
+        OCMessage message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", "sweetfire");
+        message.put("inviter", "pawpatrol");
+
+        String input = message.toString();
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        assertEquals("true", receivedMessage.get("success"), "Invite was not sent!");
+        assertFalse(data.getProfile("sweetfire").getMailbox().getReceived().isEmpty(),
+                "Failed to add invite to mailbox received!");
+        assertFalse(data.getProfile("pawpatrol").getMailbox().getSent().isEmpty(),
+                "Failed to add invite to mailbox sent!");
+
+    }
+
+    @Test
+    void testGetInvites() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("eatmyshorts","B@rts1mps0n","bartsimpsonininc@omegachess.net");
+        data.createProfile("italian","!talianHandshak3","needsmorecheese@omegachess.net");
+
+        // Send invite
+        OCMessage message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", "eatmyshorts");
+        message.put("inviter", "italian");
+
+        String input = message.toString();
+
+        protocol.processInput(input);
+
+        // get sent invites
+        message = new OCMessage();
+        message.put("process", "invites sent");
+        message.put("user", "italian");
+
+        input = message.toString();
+
+        String output = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+
+        OCMessage invite = new OCMessage();
+        if (receivedMessage.get("object0").toString().equalsIgnoreCase("invite")){
+            invite.put("inviter", receivedMessage.get("inviter0").toString());
+            invite.put("invitee", receivedMessage.get("invitee0").toString());
+            invite.put("accepted", receivedMessage.get("accepted0").toString());
+            invite.put("declined", receivedMessage.get("declined0").toString());
+        }
+
+        assertEquals("italian", invite.get("inviter").toString(), "Failed to get sent invite");
+
+        // get received invites
+        message = new OCMessage();
+        message.put("process","invites received");
+        message.put("user","eatmyshorts");
+
+        input = message.toString();
+
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        invite = new OCMessage();
+
+        if (receivedMessage.get("object0").toString().equalsIgnoreCase("invite")) {
+            invite.put("inviter", receivedMessage.get("inviter0").toString());
+            invite.put("invitee", receivedMessage.get("invitee0").toString());
+            invite.put("accepted", receivedMessage.get("accepted0").toString());
+            invite.put("declined", receivedMessage.get("declined0").toString());
+        }
+
+
+        assertEquals("eatmyshorts", invite.get("invitee").toString(), "Failed to get sent invite");
+
+    }
+
+    @Test
     public void testGetProfileData() {
         OCServerData data = new OCServerData();
         OCProtocol protocol = new OCProtocol(data);
