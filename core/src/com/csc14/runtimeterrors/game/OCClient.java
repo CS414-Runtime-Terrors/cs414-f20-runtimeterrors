@@ -1,13 +1,10 @@
 package com.csc14.runtimeterrors.game;
 
-import sun.nio.cs.ext.MacCentralEurope;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class OCClient {
 
@@ -43,7 +40,7 @@ public class OCClient {
     }
 
     private boolean printResult(OCMessage receivedMessage) {
-        String success = (String) receivedMessage.get("success");
+        String success = receivedMessage.get("success");
 
         if (success.equals("true")) {
             System.out.println("Success!");
@@ -68,13 +65,13 @@ public class OCClient {
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
         // print answer
-        String success = (String) receivedMessage.get("success");
+        String success = receivedMessage.get("success");
 
         if (success.equals("true")) {
-            return (String) receivedMessage.get("answer");
+            return receivedMessage.get("answer");
         }
         else {
-            return (String) receivedMessage.get("reason");
+            return receivedMessage.get("reason");
         }
 
     }

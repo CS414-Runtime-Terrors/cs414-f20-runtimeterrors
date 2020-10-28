@@ -5,7 +5,7 @@ import java.util.ArrayList;
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
 
-    private OCServerData serverData;
+    private final OCServerData serverData;
 
     public OCProtocol(OCServerData data) {
         serverData = data;
@@ -17,7 +17,7 @@ public class OCProtocol {
             OCMessage receivedMessage = new OCMessage();
             receivedMessage.fromString(input);
 
-            String process = (String) receivedMessage.get("process");
+            String process = receivedMessage.get("process");
 
             switch(process) {
                 case "square":
@@ -69,7 +69,7 @@ public class OCProtocol {
     }
 
     private String squareInput(OCMessage receivedMessage) {
-        String inputLine = (String) receivedMessage.get("number");
+        String inputLine = receivedMessage.get("number");
 
         System.out.println("Attempting to square " + inputLine + "...");
         int number;
@@ -97,9 +97,9 @@ public class OCProtocol {
 
     private String registerUser(OCMessage receivedMessage) {
 
-        String email = (String) receivedMessage.get("email");
-        String nickname = (String) receivedMessage.get("nickname");
-        String password = (String) receivedMessage.get("password");
+        String email = receivedMessage.get("email");
+        String nickname = receivedMessage.get("nickname");
+        String password = receivedMessage.get("password");
 
         System.out.println("Attempting to register new user: " + nickname);
 
@@ -124,7 +124,7 @@ public class OCProtocol {
 
     private String unregisterUser(OCMessage receivedMessage) {
 
-        String nickname = (String) receivedMessage.get("nickname");
+        String nickname = receivedMessage.get("nickname");
 
         System.out.println("Attempting to unregister user: " + nickname);
 
@@ -149,8 +149,8 @@ public class OCProtocol {
 
     private String loginUser(OCMessage receivedMessage) {
 
-        String nickname = (String) receivedMessage.get("nickname");
-        String password = (String) receivedMessage.get("password");
+        String nickname = receivedMessage.get("nickname");
+        String password = receivedMessage.get("password");
 
         System.out.println("Attempting to login user: " + nickname);
 
@@ -185,7 +185,7 @@ public class OCProtocol {
 
     private String getProfileData(OCMessage receivedMessage) {
 
-        String nickname = (String) receivedMessage.get("nickname");
+        String nickname = receivedMessage.get("nickname");
 
         System.out.println("Attempting to get profile data for user: " + nickname);
 
@@ -212,8 +212,8 @@ public class OCProtocol {
 
    private String sendInvite(OCMessage receivedMessage){
 
-        String inviter = (String) receivedMessage.get("inviter");
-        String invitee = (String) receivedMessage.get("invitee");
+        String inviter = receivedMessage.get("inviter");
+        String invitee = receivedMessage.get("invitee");
 
        System.out.println("Attempting to send invite from " + inviter + " to " + invitee);
 
@@ -242,7 +242,7 @@ public class OCProtocol {
 
    private String getSentInvites(OCMessage receivedMessage){
 
-        String user = receivedMessage.get("user").toString();
+        String user = receivedMessage.get("user");
 
         System.out.println("Attempting to recover sent invites from " + user);
 
@@ -264,11 +264,11 @@ public class OCProtocol {
         for (Invite invite : sent) {
             OCMessage in = new OCMessage();
             in.fromString(invite.toString());
-            message.put("object" + count, in.get("object").toString());
-            message.put("inviter" + count, in.get("inviter").toString());
-            message.put("invitee" + count, in.get("invitee").toString());
-            message.put("accepted" + count, in.get("accepted").toString());
-            message.put("declined" + count, in.get("declined").toString());
+            message.put("object" + count, in.get("object"));
+            message.put("inviter" + count, in.get("inviter"));
+            message.put("invitee" + count, in.get("invitee"));
+            message.put("accepted" + count, in.get("accepted"));
+            message.put("declined" + count, in.get("declined"));
             count++;
         }
 
@@ -278,7 +278,7 @@ public class OCProtocol {
 
    private String getReceivedInvites(OCMessage receivedMessage){
 
-        String user = receivedMessage.get("user").toString();
+        String user = receivedMessage.get("user");
 
         System.out.println("Attempting to recover received invites from " + user);
 
@@ -301,10 +301,10 @@ public class OCProtocol {
             OCMessage in = new OCMessage();
             in.fromString(invite.toString());
             message.put("object" + count, "invite");
-            message.put("inviter" + count, in.get("inviter").toString());
-            message.put("invitee" + count, in.get("invitee").toString());
-            message.put("accepted" + count, in.get("accepted").toString());
-            message.put("declined" + count, in.get("declined").toString());
+            message.put("inviter" + count, in.get("inviter"));
+            message.put("invitee" + count, in.get("invitee"));
+            message.put("accepted" + count, in.get("accepted"));
+            message.put("declined" + count, in.get("declined"));
             count++;
         }
 
@@ -313,8 +313,19 @@ public class OCProtocol {
    }
 
    private String getNotifications(OCMessage receivedMessage) {
-        // TODO: implement
-        return null; // TODO: change
+       String user = receivedMessage.get("user");
+       
+       ArrayList<Notification> notifications = serverData.getProfile(user).getMailbox().getNotifications();
+       
+       receivedMessage.put("success", "true");
+       
+       receivedMessage.put("count", "" + notifications.size());
+       
+       for (Notification n : notifications) {
+           
+       }
+       
+       return null; // TODO: change
    }
 
 }
