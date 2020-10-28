@@ -60,17 +60,32 @@ Return Message Template 2:
 * "reason": "(reason for failure)"
 
 ## Get Profile Data
-- 
+- This request returns a user's profile data.
+
+Message Template:
+* "process": "get profile data"
+* "nickname": "examplenick"
+
+Return Message Template 1:
+* "success": "true"
+* "nickname": "examplenick"
+* "gamesWon": "#"
+* "gamesLost": "#"
+* "gamesTied": "#"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "(reason for failure)"
 
 ## Send Invite
-- 
+- This request sends an invitation to a user.
 
 ## Get Sent Invites
-- 
+- This request returns a user's sent invitations.
 
 ## Get Received Invites
-- 
+- This request returns a user's received invitations.
 
 ## Get Notifications
-- 
+- This request returns a user's notifications.
 
