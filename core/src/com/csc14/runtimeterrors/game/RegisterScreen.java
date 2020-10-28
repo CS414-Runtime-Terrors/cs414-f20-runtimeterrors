@@ -204,7 +204,7 @@ public class RegisterScreen implements Screen {
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
 
-        // generate the regular expression patter to match later
+        // generate the regular expression patter to match la ter
         Pattern p = Pattern.compile(emailRegex);
 
         // password must not be empty
