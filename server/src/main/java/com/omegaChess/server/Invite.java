@@ -28,4 +28,14 @@ public class Invite {
     public String getInvitee() { return invitee; }
 
     public String getInviter() { return inviter; }
+
+    public String toString() {
+        OCMessage message = new OCMessage();
+        message.put("object", "invite");
+        message.put("inviter", inviter);
+        message.put("invitee", invitee);
+        message.put("accepted", "" + accepted);
+        message.put("declined", "" + declined);
+        return message.toString();
+    }
 }

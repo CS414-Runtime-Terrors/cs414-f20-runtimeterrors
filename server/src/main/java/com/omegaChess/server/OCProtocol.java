@@ -1,5 +1,7 @@
 package com.omegaChess.server;
 
+import java.util.ArrayList;
+
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
 
@@ -32,6 +34,12 @@ public class OCProtocol {
                     break;
                 case "invite":
                     toReturn = sendInvite(receivedMessage);
+                    break;
+                case "invites sent":
+                    toReturn = getSentInvites(receivedMessage);
+                    break;
+                case "invites received":
+                    toReturn = getReceivedInvites(receivedMessage);
                     break;
                 default:
                     OCMessage message = new OCMessage();
@@ -195,8 +203,82 @@ public class OCProtocol {
        message.put("success", "true");
 
        System.out.println("Invite has been sent");
-        return message.toString();
+       return message.toString();
 
    }
+
+   private String getSentInvites(OCMessage receivedMessage){
+
+        String user = receivedMessage.get("user").toString();
+
+        System.out.println("Attempting to recover sent invites from " + user);
+
+        OCMessage message = new OCMessage();
+
+        if (!serverData.profileExists(user)){
+            // target user doesn't exist
+            message.put("success", "false");
+            message.put("reason", "target user doesn't exist");
+
+            System.out.println("Target user doesn't exist");
+            return message.toString();
+        }
+
+        UserProfile profile = serverData.getProfile(user);
+        ArrayList<Invite> sent = profile.getMailbox().getSent();
+        message.put("success", "true");
+        int count = 0;
+        for (Invite invite : sent) {
+            OCMessage in = new OCMessage();
+            in.fromString(invite.toString());
+            message.put("object" + count, in.get("object").toString());
+            message.put("inviter" + count, in.get("inviter").toString());
+            message.put("invitee" + count, in.get("invitee").toString());
+            message.put("accepted" + count, in.get("accepted").toString());
+            message.put("declined" + count, in.get("declined").toString());
+            count++;
+        }
+
+       System.out.println("Recovered sent invites!");
+        return message.toString();
+   }
+
+   private String getReceivedInvites(OCMessage receivedMessage){
+
+        String user = receivedMessage.get("user").toString();
+
+        System.out.println("Attempting to recover received invites from " + user);
+
+        OCMessage message = new OCMessage();
+
+        if (!serverData.profileExists(user)){
+            // target user doesn't exist
+            message.put("success", "false");
+            message.put("reason", "target user doesn't exist");
+
+            System.out.println("Target user doesn't exist");
+            return message.toString();
+        }
+
+        UserProfile profile = serverData.getProfile(user);
+        ArrayList<Invite> received = profile.getMailbox().getReceived();
+        message.put("success", "true");
+        int count = 0;
+        for (Invite invite : received) {
+            OCMessage in = new OCMessage();
+            in.fromString(invite.toString());
+            message.put("object" + count, "invite");
+            message.put("inviter" + count, in.get("inviter").toString());
+            message.put("invitee" + count, in.get("invitee").toString());
+            message.put("accepted" + count, in.get("accepted").toString());
+            message.put("declined" + count, in.get("declined").toString());
+            count++;
+        }
+
+       System.out.println("Recovered received invites!");
+        return message.toString();
+   }
+
+
 
 }
