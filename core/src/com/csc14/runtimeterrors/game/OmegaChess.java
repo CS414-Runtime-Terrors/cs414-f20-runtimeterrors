@@ -12,9 +12,10 @@ public class OmegaChess extends Game {
 	private LobbyScreen lobbyScreen;
 	private InviteScreen inviteScreen;
 	private MatchScreen matchScreen;
+	private ProfileScreen profileScreen;
 
 	enum SCREEN{
-		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH
+		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE
 	}
 
 	String user = "";
@@ -71,6 +72,10 @@ public class OmegaChess extends Game {
 			case MATCH:
 				if(matchScreen == null) matchScreen = new MatchScreen(this);
 				this.setScreen(matchScreen);
+				break;
+			case PROFILE:
+				if(profileScreen == null) profileScreen = new ProfileScreen(this);
+				this.setScreen(profileScreen);
 				break;
 		}
 	}
