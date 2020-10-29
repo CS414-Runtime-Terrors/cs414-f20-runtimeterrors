@@ -20,11 +20,17 @@ public class OmegaChess extends Game {
 
 	String user = "";
 
+	String[] args;
+
+	public OmegaChess(String[] arguments) {
+		args = arguments;
+	}
+
 	@Override
 	public void create() {
 
 		try {
-			client = new OCClient(); // if this fails then server is probably not running
+			client = new OCClient(args); // if this fails then server is probably not running
 
 			if (client.sendSquareRequest("10").equals("Square of 10 is 100")) {
 				System.out.println("Server/client relationship established.");

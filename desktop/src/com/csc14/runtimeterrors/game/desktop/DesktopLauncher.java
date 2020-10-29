@@ -5,9 +5,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.forceExit = false;		// suppresses execution failed on application close
-		new LwjglApplication(new OmegaChess(), config);
+		new LwjglApplication(new OmegaChess(args), config);
 	}
 }

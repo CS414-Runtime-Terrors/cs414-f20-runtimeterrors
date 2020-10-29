@@ -8,18 +8,17 @@ import java.net.Socket;
 
 public class OCClient {
 
-    private static final String serverHostName = "carson-city.cs.colostate.edu"; // in order to test on production, OCMultiServer.java must be running on the server host
-    private static final String localHostName = "localhost"; // set this to your hostname when testing locally
-
-    String hostName = serverHostName;
-    int portNumber = 28362;
-
     Socket socket;
     PrintWriter out;
     BufferedReader in;
 
-    public OCClient() throws IOException {
-        socket = new Socket(hostName, portNumber);
+    public OCClient(String[] args) throws IOException {
+        if (args.length < 2) {
+            System.out.println("Missing arguments for server host name and port number!");
+            return;
+        }
+
+        socket = new Socket(args[0], Integer.parseInt(args[1])); // server host name then port
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
