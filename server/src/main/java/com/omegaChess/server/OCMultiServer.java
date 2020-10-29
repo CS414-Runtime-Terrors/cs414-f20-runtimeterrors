@@ -20,6 +20,7 @@ public class OCMultiServer {
             portNumber = Integer.parseInt(args[0]);
         } catch(Exception e) {
             System.out.println("Incorrect argument! Expecting an integer to use as port number.");
+            return;
         }
 
         boolean listening = true;
