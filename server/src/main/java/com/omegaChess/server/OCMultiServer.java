@@ -9,7 +9,18 @@ public class OCMultiServer {
 
         OCServerData serverData = new OCServerData();
 
-        int portNumber = 28362;
+        if (args.length == 0) {
+            System.out.println("Missing port number as first argument.");
+            return;
+        }
+
+        int portNumber = -1;
+
+        try {
+            portNumber = Integer.parseInt(args[0]);
+        } catch(Exception e) {
+            System.out.println("Incorrect argument! Expecting an integer to use as port number.");
+        }
 
         boolean listening = true;
 
