@@ -8,11 +8,11 @@ import java.net.Socket;
 
 public class OCClient {
 
-    private static final String serverHostName = "albany.cs.colostate.edu"; // in order to test on production, OCMultiServer.java must be running on the server host
+    private static final String serverHostName = "34.71.50.54"; // in order to test on production, OCMultiServer.java must be running on the server host
     private static final String localHostName = "localhost"; // set this to your hostname when testing locally
 
-    String hostName = localHostName;
-    int portNumber = 28362;
+    String hostName = serverHostName;
+    int portNumber = 8484;
 
     Socket socket;
     PrintWriter out;
