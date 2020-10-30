@@ -1,6 +1,9 @@
 # Design Artifacts
 P1 Class Diagram
-![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/P1%20class%20diagram.png)
+![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/P2%20class%20diagram.png)
+
+Server Setup
+![Server Setup](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/multi-server-setup.png)
 
 Login Screen
 ![Login Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Login%20Screen.png)
