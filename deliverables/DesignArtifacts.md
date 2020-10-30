@@ -26,8 +26,8 @@ Archives Screen
 Results Screen
 ![Results Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Results%20Screen.png)
 
-Game Screen
-![Game Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Game%20Screen.png)
+Match Screen
+![Match Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Game%20Screen.png)
 
 CRC Cards
 ![CRC Cards](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/deliverables/CRC%20Cards.pdf)
