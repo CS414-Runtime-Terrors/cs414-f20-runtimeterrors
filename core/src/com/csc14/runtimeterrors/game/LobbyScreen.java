@@ -77,7 +77,7 @@ public class LobbyScreen implements Screen {
         stage.addActor(logoutBtn);
 
         testMatchBtn.setTransform(true);
-        testMatchBtn.setScale(0.5f);
+        testMatchBtn.setScale(0.2f);
         testMatchBtn.setPosition(0, 0);
         stage.addActor(testMatchBtn);
 

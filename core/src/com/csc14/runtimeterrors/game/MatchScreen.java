@@ -49,7 +49,7 @@ public class MatchScreen implements Screen {
         backBtn = new TextButton("Back", skin);
 
         backBtn.setTransform(true);
-        backBtn.setScale(0.5f);
+        backBtn.setScale(0.2f);
         backBtn.setPosition(0, 0);
         stage.addActor(backBtn);
 
