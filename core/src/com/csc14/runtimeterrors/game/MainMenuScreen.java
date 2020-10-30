@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MainMenuScreen implements Screen {
@@ -38,7 +39,8 @@ public class MainMenuScreen implements Screen {
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
         style.fontColor = Color.PURPLE;
-        style.font.getData().setScale(2f);
+        float scale = Math.min(Math.max(2, (parent.widthRatio * parent.heightRatio)), 5);
+        style.font.getData().setScale(scale);
         title = new TextField("Omega Chess Main Menu", style);
 
         // set up button widgets
@@ -50,29 +52,42 @@ public class MainMenuScreen implements Screen {
         // add button listeners
         addListeners();
 
+        float newXPos;
+        float newYPos;
+
         // set up title label
-        title.setHeight(30);
-        title.setWidth(350);
-        title.setPosition(175, 400);
+        title.setAlignment(Align.center);
+        title.setHeight(30 * parent.heightRatio);
+        title.setWidth(350 * parent.widthRatio);
+        newXPos = parent.midWidth - (title.getWidth() / 2);
+        newYPos = parent.displayHeight - (2.5f * title.getHeight());
+        title.setPosition(newXPos, newYPos);
         title.setDisabled(true);
         stage.addActor(title);
 
         // set up login button
         loginBtn.setTransform(true);
-        loginBtn.setScale(0.5f);
-        loginBtn.setPosition(250, 300);
+        scale = 1.5f - (parent.heightRatio / parent.widthRatio);
+        loginBtn.setScale(scale);
+        newXPos = parent.midWidth - ((loginBtn.getWidth() * scale) / 2);
+        newYPos = title.getTop() - title.getHeight() - (parent.displayHeight / 6) - (loginBtn.getHeight() * scale);
+        loginBtn.setPosition(newXPos, newYPos);
         stage.addActor(loginBtn);
 
         // set up register button
         registerBtn.setTransform(true);
-        registerBtn.setScale(0.5f);
-        registerBtn.setPosition(250, 200);
+        registerBtn.setScale(scale);
+        newXPos = parent.midWidth - ((registerBtn.getWidth() * scale) / 2);
+        newYPos = loginBtn.getTop() - (loginBtn.getHeight() * scale) - (parent.displayHeight / 6) - (registerBtn.getHeight() * scale);
+        registerBtn.setPosition(newXPos, newYPos);
         stage.addActor(registerBtn);
 
         // set up exit button
         exitBtn.setTransform(true);
-        exitBtn.setScale(0.5f);
-        exitBtn.setPosition(250, 100);
+        exitBtn.setScale(scale);
+        newXPos = parent.midWidth - ((exitBtn.getWidth() * scale) / 2);
+        newYPos = registerBtn.getTop() - (registerBtn.getHeight() * scale) - (parent.displayHeight / 6) - (exitBtn.getHeight() * scale);
+        exitBtn.setPosition(newXPos, newYPos);
         stage.addActor(exitBtn);
     }
 

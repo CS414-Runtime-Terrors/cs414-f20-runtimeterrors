@@ -19,6 +19,8 @@ public class OmegaChess extends Game {
 	}
 
 	String user = "";
+	int displayWidth, displayHeight, midWidth, midHeight;
+	float widthRatio, heightRatio;
 
 	@Override
 	public void create() {
@@ -78,5 +80,14 @@ public class OmegaChess extends Game {
 				this.setScreen(profileScreen);
 				break;
 		}
+	}
+
+	public void setDisplayRatios(int oldWidth, int oldHeight, int newWidth, int newHeight) {
+		this.displayWidth = newWidth;
+		this.displayHeight = newHeight;
+		this.midWidth = newWidth / 2;
+		this.midHeight = newHeight / 2;
+		this.widthRatio = (float)newWidth / (float)oldWidth;
+		this.heightRatio = (float)newHeight / (float)oldHeight;
 	}
 }

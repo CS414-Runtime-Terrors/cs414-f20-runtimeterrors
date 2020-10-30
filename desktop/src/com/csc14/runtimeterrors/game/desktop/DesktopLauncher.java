@@ -7,7 +7,13 @@ import com.csc14.runtimeterrors.game.OmegaChess;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		int oldWidth = config.width;
+		int oldHeight = config.height;
+		//config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
+		config.title = "Omega Chess";
 		config.forceExit = false;		// suppresses execution failed on application close
-		new LwjglApplication(new OmegaChess(), config);
+		OmegaChess game = new OmegaChess();
+		game.setDisplayRatios(oldWidth, oldHeight, config.width, config.height);
+		new LwjglApplication(game, config);
 	}
 }
