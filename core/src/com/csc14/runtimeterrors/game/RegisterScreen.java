@@ -20,13 +20,8 @@ public class RegisterScreen implements Screen {
     private TextButton registerBtn;
     private TextButton backBtn;
 
-    private Label emailLabel;
     private TextField emailBox;
-
-    private Label nicknameLabel;
     private TextField nicknameBox;
-
-    private Label passwordLabel;
     private TextField passwordBox;
 
     public RegisterScreen(OmegaChess omegachess){
@@ -52,13 +47,13 @@ public class RegisterScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        emailLabel = new Label("Email:", skin);
+        Label emailLabel = new Label("Email:", skin);
         emailBox = new TextField("", skin);
 
-        nicknameLabel = new Label("Nickname:", skin);
+        Label nicknameLabel = new Label("Nickname:", skin);
         nicknameBox = new TextField("", skin);
 
-        passwordLabel = new Label("Password:", skin);
+        Label passwordLabel = new Label("Password:", skin);
         passwordBox = new TextField("", skin);
 
         registerBtn = new TextButton("Register!", skin);
@@ -170,7 +165,7 @@ public class RegisterScreen implements Screen {
 
                 // 5. send register request and successful
                 if (parent.getClient().sendRegisterRequest(email, nickname, password)) {
-                    parent.user = nickname;
+                    parent.setUser(nickname);
                     parent.changeScreen(OmegaChess.SCREEN.LOBBY); // go to login screen if successful
                 }
                 // unsuccessful registration

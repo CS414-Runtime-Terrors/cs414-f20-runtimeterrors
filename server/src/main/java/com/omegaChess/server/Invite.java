@@ -5,8 +5,6 @@ public class Invite {
 
     private String inviter, invitee;
     private boolean accepted, declined;
-    private OCServerData data;
-
 
     public Invite(String inviter, String invitee){
         this.inviter = inviter;

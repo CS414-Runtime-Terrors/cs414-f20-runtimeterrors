@@ -18,7 +18,7 @@ public class OmegaChess extends Game {
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE
 	}
 
-	String user = "";
+	private String user = "";
 
 	@Override
 	public void create() {
@@ -46,6 +46,8 @@ public class OmegaChess extends Game {
 	}
 
 	public String getUser() { return user; }
+
+	public void setUser(String newUser) { user =newUser; }
 
 	public void changeScreen(SCREEN screen){
 		switch(screen){
