@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Notification {
 
-    String event;
-    String message;
-    Date date;
+    private String event;
+    private String message;
+    private Date date;
 
     public Notification(String eventToSet, String messageToSet) {
         event = eventToSet;

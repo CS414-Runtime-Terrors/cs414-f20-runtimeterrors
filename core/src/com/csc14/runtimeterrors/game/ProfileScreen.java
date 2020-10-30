@@ -15,13 +15,10 @@ import javax.swing.*;
 public class ProfileScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private TextButton unregisterBtn;
-    private TextButton lobbyBtn;
-    private TextButton changePwBtn;
-    private TextButton changeNicknameBtn;
+    private TextButton unregisterBtn, lobbyBtn, changePwBtn, changeNicknameBtn;
     private Skin skin;
     private Label.LabelStyle style_label;
-    String nickname;
+    private String nickname;
 
     public ProfileScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.

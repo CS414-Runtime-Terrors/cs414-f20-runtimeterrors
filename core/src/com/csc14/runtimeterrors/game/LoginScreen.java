@@ -18,9 +18,7 @@ public class LoginScreen implements Screen {
     private TextButton loginBtn;
     private TextButton backBtn;
 
-    private Label nicknameLabel, passwordLabel;
     private TextField nicknameBox, passwordBox;
-
 
     public LoginScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
@@ -45,10 +43,10 @@ public class LoginScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        nicknameLabel = new Label("Nickname:", skin);
+        Label nicknameLabel = new Label("Nickname:", skin);
         nicknameBox = new TextField("", skin);
 
-        passwordLabel = new Label("Password:", skin);
+        Label passwordLabel = new Label("Password:", skin);
         passwordBox = new TextField("", skin);
 
         loginBtn = new TextButton("Login!", skin);
@@ -123,7 +121,7 @@ public class LoginScreen implements Screen {
                 // 2. send login request
                 OCMessage receivedMessage = parent.getClient().sendLoginRequest(nickname, password);
                 if (receivedMessage.get("success").equals("true")) {
-                    parent.user = nickname;
+                    parent.setUser(nickname);
                     parent.changeScreen(OmegaChess.SCREEN.LOBBY); // go to lobby screen if successful
                 }
                 else {
