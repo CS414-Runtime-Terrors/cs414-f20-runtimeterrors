@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.BoardSquare;
@@ -16,6 +20,7 @@ public class MatchScreen implements Screen {
     private Stage stage;
     private Table table;
     private GameBoard board;
+    private TextButton backBtn;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -39,6 +44,26 @@ public class MatchScreen implements Screen {
         initializeBoard();
 
         stage.addActor(table);
+
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        backBtn = new TextButton("Back", skin);
+
+        backBtn.setTransform(true);
+        backBtn.setScale(0.5f);
+        backBtn.setPosition(0, 0);
+        stage.addActor(backBtn);
+
+        addListeners();
+    }
+
+    private void addListeners() {
+        // back button will take user back to lobby screen
+        backBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent even, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+            }
+        });
     }
 
     @Override
