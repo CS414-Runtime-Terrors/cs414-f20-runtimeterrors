@@ -61,7 +61,6 @@ Epics planned for this release.
 * #3 As a user, I can invite another user to join the match
 * #4 As a user, I can send more than one invitation
 * #8 As a user, I can unregister
-* #11 As a user, I can make the first move if I create the match
 * #15 As a user, I want to have a lobby which shows me the actions I can perform
 * #17 As a user, I will be able to view a chess board and pieces when I'm in a match
 
