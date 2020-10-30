@@ -12,6 +12,7 @@ public class OCServerData {
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
   private ArrayList<UserProfile> profiles = new ArrayList<>();
   private ArrayList<Match> matches = new ArrayList<>();
+  private ArrayList<GameRecord> archive = new ArrayList<>();
 
   // methods
 
@@ -29,6 +30,10 @@ public class OCServerData {
         matches.remove(match);
         break;
       }
+  }
+
+  public void addToArchive(GameRecord game) {
+    archive.add(game);
   }
 
   public boolean createProfile(String nick, String pass, String email) {
