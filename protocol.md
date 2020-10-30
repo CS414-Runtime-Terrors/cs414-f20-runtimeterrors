@@ -95,12 +95,45 @@ Return Message Template 2:
 ## Get Sent Invites
 - This request returns a user's sent invitations.
 
-(message templates needed)
+Message Template:
++ "process": "invites sent"
++ "user": "nickname"
+
+Return Message Template Success:
++ "success": "true"
++ "amount": "#"
+for each invite:
++ "object0": "invite"
++ "inviter0": "inviterName"
++ "invitee0": "inviteeName"
++ "accepted0": "accepted"
++ "declined0": "declined"
+
+Return Message Template Failure:
++ "success": "false"
++ "reason": "(reason for failure)"
+
 
 ## Get Received Invites
 - This request returns a user's received invitations.
 
-(message templates needed)
+Message Template:
++ "process": "invites received"
++ "user": "nickname"
+
+Return Message Template Success:
++ "success": "true"
++ "amount": "#"
+for each invite:
++ "object0": "invite"
++ "inviter0": "inviterName"
++ "invitee0": "inviteeName"
++ "accepted0": "accepted"
++ "declined0": "declined"
+
+Return Message Template Failure:
++ "success": "false"
++ "reason": "(reason for failure)"
 
 ## Get Notifications
 - This request returns a user's notifications.
