@@ -11,9 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class BoardSquare extends Actor {
 
     public Sprite currentPiece = null;
+    public Color squareColor;
 
     public BoardSquare(Color squareColor) {
         this.setColor(squareColor);
+        this.squareColor = squareColor;
         this.setHeight(30);
         this.setWidth(30);
     }
@@ -57,5 +59,7 @@ public class BoardSquare extends Actor {
     public void highlight() {
         this.setColor(Color.YELLOW);
     }
+
+    public void unHighlight() {this.setColor(this.squareColor);}
 
 }
