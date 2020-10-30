@@ -1,5 +1,5 @@
 # Design Artifacts
-P1 Class Diagram
+P2 Class Diagram
 ![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/P2%20class%20diagram.png)
 
 Server Setup
@@ -36,4 +36,7 @@ Results Screen
 ![Results Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Results%20Screen.png)
 
 CRC Cards
-![CRC Cards](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/deliverables/CRC%20Cards.pdf)
+[CRC Cards](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/deliverables/CRC%20Cards.pdf)
+
+Traceability Link Matrix
+[Traceability Link Matrix](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/deliverables/cs414-f20-runtimeterrors-Traceability_Matrix.pdf)
