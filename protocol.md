@@ -102,7 +102,7 @@ Message Template:
 Return Message Template Success:
 + "success": "true"
 + "amount": "#"
-for each invite:
+- for each invite:
 + "object0": "invite"
 + "inviter0": "inviterName"
 + "invitee0": "inviteeName"
@@ -124,7 +124,7 @@ Message Template:
 Return Message Template Success:
 + "success": "true"
 + "amount": "#"
-for each invite:
+- for each invite:
 + "object0": "invite"
 + "inviter0": "inviterName"
 + "invitee0": "inviteeName"
@@ -145,7 +145,7 @@ Message Template:
 Return Message Template 1:
 * "success": "true"
 * "count": "#"
-for (count):
+- for (count):
 * "event#": "eventString"
 * "message#": "eventMessage"
 * "datestring#": "dateString"
