@@ -13,9 +13,9 @@ public class Invite {
         declined = false;
     }
 
-    public void setAccepted(boolean accepted){ this.accepted = accepted; }
+    public void Accept(){ accepted = true; }
 
-    public void setDeclined(boolean declined) { this.declined = declined; }
+    public void Decline() { declined = true; }
 
     public Match makeMatch(){ return new Match(inviter, invitee); }
 

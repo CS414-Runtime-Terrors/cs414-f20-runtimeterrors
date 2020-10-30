@@ -11,9 +11,9 @@ public class TestInvite {
     public void testSettersAndGetters() {
         Invite invite = new Invite("playa1", "playa2");
 
-        invite.setAccepted(true);
+        invite.Accept();
         assertTrue(invite.isAccepted(), "Accept setter failed!");
-        invite.setDeclined(true);
+        invite.Decline();
         assertTrue(invite.isDeclined(), "Declined setter failed!");
         assertEquals("playa1", invite.getInviter(), "Inviter is incorrect!");
         assertEquals("playa2", invite.getInvitee(), "Invitee is incorrect!");
