@@ -260,6 +260,7 @@ public class OCProtocol {
         UserProfile profile = serverData.getProfile(user);
         ArrayList<Invite> sent = profile.getMailbox().getSent();
         message.put("success", "true");
+        message.put("amount", sent.size()+"");
         int count = 0;
         for (Invite invite : sent) {
             OCMessage in = new OCMessage();
@@ -296,6 +297,7 @@ public class OCProtocol {
         UserProfile profile = serverData.getProfile(user);
         ArrayList<Invite> received = profile.getMailbox().getReceived();
         message.put("success", "true");
+        message.put("amount", received.size()+"");
         int count = 0;
         for (Invite invite : received) {
             OCMessage in = new OCMessage();
