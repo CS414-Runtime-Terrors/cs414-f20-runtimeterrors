@@ -13,6 +13,7 @@ public class OmegaChess extends Game {
 	private InviteScreen inviteScreen;
 	private MatchScreen matchScreen;
 	private ProfileScreen profileScreen;
+	private boolean useLocal;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE
@@ -20,11 +21,16 @@ public class OmegaChess extends Game {
 
 	private String user = "";
 
+	public OmegaChess(boolean useLocalArg)
+	{
+		useLocal = useLocalArg;
+	}
+
 	@Override
 	public void create() {
 
 		try {
-			client = new OCClient(); // if this fails then server is probably not running
+			client = new OCClient(useLocal); // if this fails then server is probably not running
 
 			if (client.sendSquareRequest("10").equals("Square of 10 is 100")) {
 				System.out.println("Server/client relationship established.");
