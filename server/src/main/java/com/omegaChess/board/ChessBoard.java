@@ -50,6 +50,8 @@ public class ChessBoard {
         return black_pieces;
     }
 
+    public ArrayList<Move> getMoves() { return moves; }
+
     private void initialize_black_pieces() {
         Champion bChampion = new Champion(this, ChessPiece.Color.BLACK);
         placePiece(bChampion, "a10");
