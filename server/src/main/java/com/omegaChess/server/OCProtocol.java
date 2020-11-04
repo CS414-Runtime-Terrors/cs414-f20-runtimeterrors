@@ -129,6 +129,12 @@ public class OCProtocol {
         System.out.println("Attempting to unregister user: " + nickname);
 
         Boolean success = serverData.removeProfile(nickname);
+        for (GameRecord game : serverData.getArchive()){
+            if (game.getLoser().equalsIgnoreCase(nickname))
+                game.setLoser("[deleted]");
+            if (game.getWinner().equalsIgnoreCase(nickname))
+                game.setWinner("[deleted]");
+        }
 
         OCMessage message = new OCMessage();
         if (success) {
