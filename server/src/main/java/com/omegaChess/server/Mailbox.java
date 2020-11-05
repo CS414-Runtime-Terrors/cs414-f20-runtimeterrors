@@ -13,7 +13,6 @@ public class Mailbox {
         notifications = new ArrayList<>();
     }
 
-
     public void addToSent(Invite invite) { sent.add(invite); }
 
     public void addToReceived(Invite invite) { received.add(invite); }
@@ -29,5 +28,26 @@ public class Mailbox {
 
     public ArrayList<Notification> getNotifications() {
         return notifications;
+    }
+
+    public void save() {
+        // save sent invitations
+        for (Invite i : sent) {
+            i.save();
+        }
+
+        // save received invitations
+        for (Invite i : received) {
+            i.save();
+        }
+
+        // save notifications
+        for (Notification n : notifications) {
+            n.save();
+        }
+    }
+
+    public void load() {
+
     }
 }
