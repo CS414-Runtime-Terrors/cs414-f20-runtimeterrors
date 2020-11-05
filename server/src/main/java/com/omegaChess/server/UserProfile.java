@@ -1,6 +1,7 @@
 package com.omegaChess.server;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
@@ -111,7 +112,24 @@ public class UserProfile {
         final String mailboxSaveLocation = profileSaveLocation + "mailbox/";
 
         // save primitives to profile save folder in primitives.txt
-        // TODO
+        try {
+            File saveFile = new File(profileSaveLocation + "primitives.txt");
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            saveWriter.write(nickname + "\n");
+            saveWriter.write(password + "\n");
+            saveWriter.write(emailAddress + "\n");
+            saveWriter.write(gamesWon + "\n");
+            saveWriter.write(gamesLost + "\n");
+            saveWriter.write(gamesTied + "\n");
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         // save mailbox to mailbox save folder
         mailbox.save(mailboxSaveLocation);
