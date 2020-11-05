@@ -13,7 +13,6 @@ public class Match {
     private ChessBoard board;
     private String profile1, profile2;
     private TurnTracker turn;
-    public ArrayList<ChessPiece> player1Pieces, player2Pieces;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
@@ -21,15 +20,11 @@ public class Match {
         this.profile2 = profile2;
         board = new ChessBoard();
         turn = null;
-        player1Pieces = new ArrayList<>();
-        player2Pieces = new ArrayList<>();
     }
 
     public void initialize(){
         board.initialize();
         turn = new TurnTracker(profile1, profile2);
-        setPlayer1Pieces(board.get_white_pieces());
-        setPlayer2Pieces(board.get_black_pieces());
     }
 
     public boolean checkCheckmate(){
@@ -38,10 +33,10 @@ public class Match {
         boolean check = true, noBlock = true;
         switch (turn.getCurrentTurnColor()){
             case WHITE:
-                currentPieces = player2Pieces;
+                currentPieces = board.get_black_pieces();
                 break;
             case BLACK:
-                currentPieces = player1Pieces;
+                currentPieces = board.get_white_pieces();
                 break;
         }
 
@@ -88,14 +83,6 @@ public class Match {
     public String getProfile1() { return profile1; }
 
     public String getProfile2() { return profile2; }
-
-    public ArrayList<ChessPiece> getPlayer1Pieces() { return player1Pieces; }
-
-    public ArrayList<ChessPiece> getPlayer2Pieces() { return player2Pieces; }
-
-    public void setPlayer1Pieces(ArrayList<ChessPiece> player1Pieces) { this.player1Pieces = player1Pieces; }
-
-    public void setPlayer2Pieces(ArrayList<ChessPiece> player2Pieces) { this.player2Pieces = player2Pieces; }
 
     public TurnTracker getTurn() { return turn; }
 
