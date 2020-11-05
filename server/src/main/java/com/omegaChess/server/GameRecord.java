@@ -3,8 +3,6 @@ package com.omegaChess.server;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
-
 public class GameRecord {
     private String winner;
     private String loser;
@@ -46,15 +44,7 @@ public class GameRecord {
 
     public ArrayList<String> getPlayers() { return players; }
 
-    public void save(String saveLocation) {
-
-        createDirectoryIfNonExistent(saveLocation);
-
-        final String gameRecordSaveLocation = saveLocation + winner + "-" + loser + "-" + numMoves + "-" + draw + "/";
-
-        createDirectoryIfNonExistent(gameRecordSaveLocation);
-
-        // save primitives
+    public void save() {
         // TODO
     }
 

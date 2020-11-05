@@ -104,7 +104,9 @@ public class OCServerData {
     }
 
     // save matches
-    // TODO
+    for (Match m : getMatches()) {
+      m.save();
+    }
 
     // save game records
     // TODO

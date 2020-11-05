@@ -2,8 +2,6 @@ package com.omegaChess.server;
 
 import java.util.ArrayList;
 
-import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
-
 public class Mailbox {
 
     private ArrayList<Invite> sent, received;
@@ -17,11 +15,7 @@ public class Mailbox {
 
     public void addToSent(Invite invite) { sent.add(invite); }
 
-    public void removeFromSent(Invite invite) { sent.remove(invite); }
-
     public void addToReceived(Invite invite) { received.add(invite); }
-
-    public void removeFromReceived(Invite invite) { received.remove(invite); }
 
     public ArrayList<Invite> getReceived() { return received; }
 
@@ -36,27 +30,20 @@ public class Mailbox {
         return notifications;
     }
 
-    public void save(String saveLocation) {
-
-        createDirectoryIfNonExistent(saveLocation);
-
-        final String sentInvitationsSaveLocation = saveLocation + "sent-invitations/";
-        final String receivedInvitationsSaveLocation = saveLocation + "received-invitations/";
-        final String notificationsSaveLocation = saveLocation + "notifications/";
-
+    public void save() {
         // save sent invitations
         for (Invite i : sent) {
-            i.save(sentInvitationsSaveLocation);
+            i.save();
         }
 
         // save received invitations
         for (Invite i : received) {
-            i.save(receivedInvitationsSaveLocation);
+            i.save();
         }
 
         // save notifications
         for (Notification n : notifications) {
-            n.save(notificationsSaveLocation);
+            n.save();
         }
     }
 

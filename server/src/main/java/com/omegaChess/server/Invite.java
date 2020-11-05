@@ -1,8 +1,6 @@
 package com.omegaChess.server;
 
 
-import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
-
 public class Invite {
 
     private String inviter, invitee;
@@ -39,10 +37,7 @@ public class Invite {
         return message.toString();
     }
 
-    public void save(String saveLocation) {
-
-        createDirectoryIfNonExistent(saveLocation);
-
+    public void save() {
         // save primitives
         // TODO
     }

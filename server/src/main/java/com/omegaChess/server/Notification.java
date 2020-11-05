@@ -2,8 +2,6 @@ package com.omegaChess.server;
 
 import java.util.Date;
 
-import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
-
 public class Notification {
 
     private String event;
@@ -28,10 +26,7 @@ public class Notification {
         return date.toString();
     }
 
-    public void save(String saveLocation) {
-
-        createDirectoryIfNonExistent(saveLocation);
-
+    public void save() {
         // save primitives
         // TODO
     }

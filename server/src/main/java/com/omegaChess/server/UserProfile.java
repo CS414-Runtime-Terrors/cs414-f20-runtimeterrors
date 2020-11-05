@@ -98,10 +98,18 @@ public class UserProfile {
     }
 
     public void save() {
+        // save primitives
         // TODO
+
+        // save mailbox
+        mailbox.save();
     }
 
     public void load() {
+        // load primitives
+        // TODO
+
+        // load mailbox
         // TODO
     }
 }

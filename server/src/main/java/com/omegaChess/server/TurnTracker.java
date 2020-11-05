@@ -2,8 +2,6 @@ package com.omegaChess.server;
 
 import com.omegaChess.pieces.ChessPiece;
 
-import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
-
 public class TurnTracker {
     private final String player1;
     private final String player2;
@@ -33,10 +31,7 @@ public class TurnTracker {
         }
     }
 
-    public void save(String saveLocation) {
-
-        createDirectoryIfNonExistent(saveLocation);
-
+    public void save() {
         // save primitives
         // TODO
     }
