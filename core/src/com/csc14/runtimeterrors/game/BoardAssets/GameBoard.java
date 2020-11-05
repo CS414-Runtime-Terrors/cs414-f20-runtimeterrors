@@ -1,18 +1,22 @@
 package com.csc14.runtimeterrors.game.BoardAssets;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
 public class GameBoard {
 
-    ArrayList<ArrayList<BoardSquare>> gameBoard;
+    public ArrayList<ArrayList<BoardSquare>> gameBoard;
+    private BoardSquare clickedPiece = null;
 
     public GameBoard() {
         gameBoard = new ArrayList<>();
         initializeBoard();
     }
 
+    //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
@@ -198,15 +202,39 @@ public class GameBoard {
         gameBoard.add(row0);
     }
 
+    //get square with chess position string (i.e. "a3", "f5", etc.)
     public BoardSquare getSquare(String position) {
         int[] pos = parsePosition(position);
         return gameBoard.get(pos[0]).get(pos[1]);
     }
 
+    //get square with integers (i.e. (1,3), (2,5), etc.)
     public BoardSquare getSquare(int row, int column) {
         return gameBoard.get(row).get(column);
     }
 
+    //add click listener to each square
+    public void addListeners() {
+        for (ArrayList<BoardSquare> row : gameBoard) {
+            for (final BoardSquare square : row) {
+                //currently, you can click a piece and move it wherever you want
+                square.addListener( new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if (square.hasPiece() && clickedPiece == null)
+                            clickedPiece = square;
+                        else if (clickedPiece != null) {
+                            square.setPiece(clickedPiece.currentPiece);
+                            clickedPiece.removePiece();
+                            clickedPiece = null;
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    //turn chess string into integers ("c3" -> (3,3))
     private int[] parsePosition(String position) {
         int pos[] = new int[2];
 
