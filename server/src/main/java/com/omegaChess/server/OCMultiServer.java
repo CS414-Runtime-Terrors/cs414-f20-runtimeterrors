@@ -13,6 +13,7 @@ public class OCMultiServer {
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
+                System.out.println("");
                 serverData.save();
             }
         });
