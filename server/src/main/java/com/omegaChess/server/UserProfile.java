@@ -1,8 +1,10 @@
 package com.omegaChess.server;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
@@ -26,6 +28,11 @@ public class UserProfile {
         setGamesWon(0);
         setGamesLost(0);
         setGamesTied(0);
+    }
+
+    // loading constructor
+    public UserProfile() {
+
     }
 
     // getters and setters
@@ -135,9 +142,37 @@ public class UserProfile {
         mailbox.save(mailboxSaveLocation);
     }
 
-    public void load() {
+    public void load(String saveFolder) {
+
         // load primitives
-        // TODO
+        try {
+            File loadFile = new File(saveFolder + "primitives.txt");
+            Scanner loadReader = new Scanner(loadFile);
+
+            // actual loading
+            if (loadReader.hasNextLine()) {
+                setNickname(loadReader.nextLine());
+            }
+            if (loadReader.hasNextLine()) {
+                setPassword(loadReader.nextLine());
+            }
+            if (loadReader.hasNextLine()) {
+                setEmailAddress(loadReader.nextLine());
+            }
+            if (loadReader.hasNextLine()) {
+                setGamesWon(Integer.parseInt(loadReader.nextLine()));
+            }
+            if (loadReader.hasNextLine()) {
+                setGamesLost(Integer.parseInt(loadReader.nextLine()));
+            }
+            if (loadReader.hasNextLine()) {
+                setGamesTied(Integer.parseInt(loadReader.nextLine()));
+            }
+
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + saveFolder);
+        }
 
         // load mailbox
         // TODO

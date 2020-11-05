@@ -5,11 +5,19 @@ package com.omegaChess.server;
 //import com.sun.org.slf4j.internal.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class OCServerData {
 
-  // fields
+  // storage fields
+  final String rootSaveLocation = "./server-data/";
+  final String profilesSaveLocation = rootSaveLocation + "user-profiles/";
+  final String matchesSaveLocation = rootSaveLocation + "matches/";
+  final String gameRecordsSaveLocation = rootSaveLocation + "game-records/";
+
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
   private ArrayList<UserProfile> profiles = new ArrayList<>();
   private ArrayList<Match> matches = new ArrayList<>();
@@ -103,13 +111,26 @@ public class OCServerData {
   public void save() {
     System.out.println("Saving server data...");
 
-    final String rootSaveLocation = "./server-data/";
-
     createDirectoryIfNonExistent(rootSaveLocation);
 
-    final String profilesSaveLocation = rootSaveLocation + "user-profiles/";
-    final String matchesSaveLocation = rootSaveLocation + "matches/";
-    final String gameRecordsSaveLocation = rootSaveLocation + "game-records/";
+    // save user profile nicknames
+    try {
+      File saveFile = new File(profilesSaveLocation + "profile-nicknames.txt");
+
+      createDirectoryIfNonExistent(profilesSaveLocation);
+
+      saveFile.createNewFile();
+
+      FileWriter saveWriter = new FileWriter(saveFile);
+
+      for (UserProfile p : getProfiles()) {
+        saveWriter.write(p.getNickname() + "\n");
+      }
+
+      saveWriter.close();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
 
     // save user profiles
     for (UserProfile p : getProfiles()) {
@@ -139,7 +160,20 @@ public class OCServerData {
   public void load() {
     System.out.println("Loading server data...");
     // load user profiles
-    // TODO
+    try {
+      File loadFile = new File(profilesSaveLocation + "profile-nicknames.txt");
+      Scanner loadReader = new Scanner(loadFile);
+      // actual loading
+      while (loadReader.hasNextLine()) {
+        String nextNickname = loadReader.nextLine();
+        UserProfile temp = new UserProfile();
+        temp.load(profilesSaveLocation + nextNickname + "/");
+        profiles.add(temp);
+      }
+      loadReader.close();
+    } catch (FileNotFoundException e) {
+      System.out.println("File not found in " + profilesSaveLocation);
+    }
 
     // load matches
     // TODO
