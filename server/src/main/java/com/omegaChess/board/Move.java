@@ -2,6 +2,8 @@ package com.omegaChess.board;
 
 import com.omegaChess.pieces.ChessPiece;
 
+import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
+
 public class Move {
     private ChessPiece piece;
     private String fromPosition;
@@ -26,7 +28,10 @@ public class Move {
         return this.toPosition;
     }
 
-    public void save() {
+    public void save(String saveLocation) {
+
+        createDirectoryIfNonExistent(saveLocation);
+
         // TODO
     }
 
