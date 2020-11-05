@@ -11,7 +11,6 @@ public class UserProfile {
     private int gamesWon = -1;
     private int gamesLost = -1;
     private int gamesTied = -1;
-    private ArrayList<UserProfile> playedWith = new ArrayList<>();
     private Mailbox mailbox = null;
 
     // constructor
@@ -98,24 +97,11 @@ public class UserProfile {
         return false;
     }
 
-    // adders
-
-    public boolean addToPlayedWith(UserProfile profile) {
-        if (!hasPlayedWith(profile)) {
-            playedWith.add(profile);
-            return true;
-        }
-        return false;
+    public void save() {
+        // TODO
     }
 
-    // checkers
-
-    public boolean hasPlayedWith(UserProfile user) {
-        for (UserProfile profile : playedWith) {
-            if (user.getNickname().equalsIgnoreCase(profile.getNickname())) {
-                return true;
-            }
-        }
-        return false;
+    public void load() {
+        // TODO
     }
 }
