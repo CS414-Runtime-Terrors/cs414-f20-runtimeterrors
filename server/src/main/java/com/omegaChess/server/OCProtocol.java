@@ -47,6 +47,9 @@ public class OCProtocol {
                 case "get notifications":
                     toReturn = getNotifications(receivedMessage);
                     break;
+                case "invite response":
+                    toReturn  = inviteResponse(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -376,4 +379,39 @@ public class OCProtocol {
        return message.toString();
    }
 
+    private String inviteResponse(OCMessage receivedMessage){
+        String response = receivedMessage.get("response"),
+                inviter = receivedMessage.get("inviter"),
+                invitee = receivedMessage.get("invitee");
+        OCMessage message = new OCMessage();
+        if (response.equals("accept")) {
+            for (UserProfile profile : serverData.getProfiles()){
+                Mailbox mail = profile.getMailbox();
+                for (Invite invite : mail.getSent()){
+                    if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)){
+                        invite.Accept();
+                        mail.removeFromSent(invite);
+                        serverData.getProfile(invitee).getMailbox().removeFromReceived(invite);
+                        Match match = invite.makeMatch();
+                        serverData.addMatch(match);
+                        mail.addNotification("Invite accepted", invitee + " accepted your invite request.");
+                    }
+                }
+            }
+        }else if (response.equals("decline")) {
+            for (UserProfile profile : serverData.getProfiles()){
+                Mailbox mail = profile.getMailbox();
+                for (Invite invite : mail.getSent()){
+                    if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)){
+                        invite.Decline();
+                        mail.removeFromSent(invite);
+                        serverData.getProfile(invitee).getMailbox().removeFromReceived(invite);
+                        mail.addNotification("Invite declined", invitee + " declined your invite request.");
+                    }
+                }
+            }
+        }
+        message.put("success", "true");
+        return message.toString();
+    }
 }
