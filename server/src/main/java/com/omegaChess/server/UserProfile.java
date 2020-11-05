@@ -1,12 +1,6 @@
 package com.omegaChess.server;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class UserProfile {
 
@@ -28,11 +22,6 @@ public class UserProfile {
         setGamesWon(0);
         setGamesLost(0);
         setGamesTied(0);
-    }
-
-    // loading constructor
-    public UserProfile() {
-
     }
 
     // getters and setters
@@ -108,75 +97,11 @@ public class UserProfile {
         return false;
     }
 
-    public void save(String saveLocation) {
-
-        createDirectoryIfNonExistent(saveLocation);
-
-        final String profileSaveLocation = saveLocation + getNickname() + "/";
-
-        createDirectoryIfNonExistent(profileSaveLocation);
-
-        final String mailboxSaveLocation = profileSaveLocation + "mailbox/";
-
-        // save primitives to profile save folder in primitives.txt
-        try {
-            File saveFile = new File(profileSaveLocation + "primitives.txt");
-
-            saveFile.createNewFile();
-
-            FileWriter saveWriter = new FileWriter(saveFile);
-
-            saveWriter.write(nickname + "\n");
-            saveWriter.write(password + "\n");
-            saveWriter.write(emailAddress + "\n");
-            saveWriter.write(gamesWon + "\n");
-            saveWriter.write(gamesLost + "\n");
-            saveWriter.write(gamesTied + "\n");
-
-            saveWriter.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        // save mailbox to mailbox save folder
-        mailbox.save(mailboxSaveLocation);
+    public void save() {
+        // TODO
     }
 
-    public void load(String saveFolder) {
-
-        // load primitives
-        try {
-            File loadFile = new File(saveFolder + "primitives.txt");
-            Scanner loadReader = new Scanner(loadFile);
-
-            // actual loading
-            if (loadReader.hasNextLine()) {
-                setNickname(loadReader.nextLine());
-            }
-            if (loadReader.hasNextLine()) {
-                setPassword(loadReader.nextLine());
-            }
-            if (loadReader.hasNextLine()) {
-                setEmailAddress(loadReader.nextLine());
-            }
-            if (loadReader.hasNextLine()) {
-                setGamesWon(Integer.parseInt(loadReader.nextLine()));
-            }
-            if (loadReader.hasNextLine()) {
-                setGamesLost(Integer.parseInt(loadReader.nextLine()));
-            }
-            if (loadReader.hasNextLine()) {
-                setGamesTied(Integer.parseInt(loadReader.nextLine()));
-            }
-
-            loadReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found in " + saveFolder);
-        }
-
-        // load mailbox
-        // TODO: make this actually load the mailbox instead of creating a new one
-        mailbox = new Mailbox(); // temporary solution
-        System.out.println("Loaded user profile for '" + getNickname()  + "'");
+    public void load() {
+        // TODO
     }
 }
