@@ -123,7 +123,9 @@ public class OCServerData {
     }
 
     // save game records
-    // TODO
+    for (GameRecord r : archive) {
+      r.save();
+    }
     System.out.println("Saved!");
   }
 
