@@ -44,4 +44,12 @@ public class GameRecord {
 
     public ArrayList<String> getPlayers() { return players; }
 
+    public void save() {
+        // TODO
+    }
+
+    public void load() {
+        // TODO
+    }
+
 }
