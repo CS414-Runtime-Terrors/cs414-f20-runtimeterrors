@@ -622,4 +622,29 @@ public class ChessBoard {
 
         return colRow;
     }
+
+    public void save() {
+        // save black pieces
+        // TODO
+
+        // save white pieces
+        // TODO
+
+        // save moves
+        // TODO
+    }
+
+    public void load() {
+        // load black pieces
+        // TODO
+
+        // load white pieces
+        // TODO
+
+        // load moves
+        // TODO
+
+        // reconstruct board
+        // TODO
+    }
 }
