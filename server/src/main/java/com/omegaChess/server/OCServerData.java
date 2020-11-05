@@ -36,6 +36,8 @@ public class OCServerData {
     archive.add(game);
   }
 
+  public ArrayList<GameRecord> getArchive() { return archive; }
+
   public boolean createProfile(String nick, String pass, String email) {
     if (!isNicknameTaken(nick) && !isEmailTaken(email)) {
       UserProfile profile = new UserProfile(nick, pass, email);

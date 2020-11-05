@@ -102,12 +102,12 @@ Message Template:
 Return Message Template Success:
 + "success": "true"
 + "amount": "#"
-- for each invite:
-+ "object0": "invite"
-+ "inviter0": "inviterName"
-+ "invitee0": "inviteeName"
-+ "accepted0": "accepted"
-+ "declined0": "declined"
+> for each invite:
++ "object#": "invite"
++ "inviter#": "inviterName"
++ "invitee#": "inviteeName"
++ "accepted#": "false"
++ "declined#": "false"
 
 Return Message Template Failure:
 + "success": "false"
@@ -124,12 +124,12 @@ Message Template:
 Return Message Template Success:
 + "success": "true"
 + "amount": "#"
-- for each invite:
-+ "object0": "invite"
-+ "inviter0": "inviterName"
-+ "invitee0": "inviteeName"
-+ "accepted0": "accepted"
-+ "declined0": "declined"
+> for each invite:
++ "object#": "invite"
++ "inviter#": "inviterName"
++ "invitee#": "inviteeName"
++ "accepted#": "false"
++ "declined#": "false"
 
 Return Message Template Failure:
 + "success": "false"
@@ -145,7 +145,7 @@ Message Template:
 Return Message Template 1:
 * "success": "true"
 * "count": "#"
-- for (count):
+> for (count):
 * "event#": "eventString"
 * "message#": "eventMessage"
 * "datestring#": "dateString"

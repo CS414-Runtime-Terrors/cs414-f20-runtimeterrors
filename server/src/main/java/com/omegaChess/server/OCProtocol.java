@@ -132,6 +132,39 @@ public class OCProtocol {
         System.out.println("Attempting to unregister user: " + nickname);
 
         Boolean success = serverData.removeProfile(nickname);
+        for (GameRecord game : serverData.getArchive()){
+            if (game.getLoser().equalsIgnoreCase(nickname))
+                game.setLoser("[deleted]");
+            if (game.getWinner().equalsIgnoreCase(nickname))
+                game.setWinner("[deleted]");
+        }
+        for (Match match : serverData.getMatches()){
+            if (match.getProfile1().equalsIgnoreCase(nickname)){
+                match.endMatch("[deleted]", match.getProfile2(), match.getBoard().getMoves().size());
+                serverData.getProfile(match.getProfile2()).getMailbox().addNotification("Match ended", "Other user deleted their account before the game ended.");
+            }
+            if (match.getProfile2().equalsIgnoreCase(nickname)){
+                match.endMatch("[deleted]", match.getProfile1(), match.getBoard().getMoves().size());
+                serverData.getProfile(match.getProfile1()).getMailbox().addNotification("Match ended", "Other user deleted their account before the game ended.");
+            }
+        }
+        for (UserProfile player : serverData.getProfiles()){
+            Mailbox mail = player.getMailbox();
+            for (Invite invite : mail.getReceived()){
+                if (invite.getInviter().equalsIgnoreCase(nickname)) {
+                    invite.Decline();
+                    mail.removeFromReceived(invite);
+                    mail.addNotification("Invite Canceled", "Other user deleted their account before a response was made.");
+                }
+            }for (Invite invite: mail.getSent()){
+                if (invite.getInvitee().equalsIgnoreCase(nickname)) {
+                    invite.Decline();
+                    mail.removeFromSent(invite);
+                    mail.addNotification("Declined Invite", "Other user deleted their account before responding.");
+                }
+            }
+        }
+
 
         OCMessage message = new OCMessage();
         if (success) {
@@ -346,7 +379,6 @@ public class OCProtocol {
        return message.toString();
    }
 
-
     private String inviteResponse(OCMessage receivedMessage){
         String response = receivedMessage.get("response"),
                 inviter = receivedMessage.get("inviter"),
@@ -382,5 +414,4 @@ public class OCProtocol {
         message.put("success", "true");
         return message.toString();
     }
-
 }
