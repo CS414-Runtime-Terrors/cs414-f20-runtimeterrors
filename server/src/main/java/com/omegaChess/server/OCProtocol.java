@@ -150,11 +150,13 @@ public class OCProtocol {
             for (Invite invite : mail.getReceived()){
                 if (invite.getInviter().equalsIgnoreCase(nickname)) {
                     invite.Decline();
+                    mail.removeFromReceived(invite);
                     mail.addNotification("Invite Canceled", "Other user deleted their account before a response was made.");
                 }
             }for (Invite invite: mail.getSent()){
                 if (invite.getInvitee().equalsIgnoreCase(nickname)) {
                     invite.Decline();
+                    mail.removeFromSent(invite);
                     mail.addNotification("Declined Invite", "Other user deleted their account before responding.");
                 }
             }
