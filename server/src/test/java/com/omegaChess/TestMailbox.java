@@ -43,4 +43,18 @@ public class TestMailbox {
         mailbox.addNotification("testEvent", "testMessage");
         assertEquals(1, mailbox.getNotifications().size());
     }
+
+    @Test
+    public void testRemoveInvites() {
+        Invite invite = new Invite("Death2Fall", "JuneDay");
+        Mailbox mailbox = new Mailbox();
+
+        mailbox.addToSent(invite);
+        mailbox.addToReceived(invite);
+
+        mailbox.removeFromSent(invite);
+        assertEquals(0, mailbox.getSent().size(), "Failed to remove from sent!");
+        mailbox.removeFromReceived(invite);
+        assertEquals(0, mailbox.getReceived().size(), "Failed to remove from received!");
+    }
 }
