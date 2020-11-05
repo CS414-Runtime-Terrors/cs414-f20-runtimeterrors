@@ -110,4 +110,28 @@ public class OCServerData {
     return null;
   }
 
+  public void save() {
+    // save user profiles
+    for (UserProfile p : getProfiles()) {
+      p.save();
+    }
+
+    // save matches
+    // TODO
+
+    // save game records
+    // TODO
+  }
+
+  public void load() {
+    // load user profiles
+    // TODO
+
+    // load matches
+    // TODO
+
+    // load game records
+    // TODO
+  }
+
 }
