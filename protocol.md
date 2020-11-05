@@ -153,3 +153,15 @@ Return Message Template 1:
 Return Message Template 2:
 * "success": "false"
 * "reason": "(reason for failure)"
+
+## Invite Response
+- This request accepts/declines an invitation
+
+Message Template:
+* "process": "invite response"
+* "response": "accept/decline"
+* "inviter": "nickname1"
+* "invitee": "nickname2"
+
+Return Message Template:
+* "success": "true"

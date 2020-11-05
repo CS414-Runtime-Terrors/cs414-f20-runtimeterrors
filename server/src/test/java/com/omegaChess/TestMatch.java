@@ -40,13 +40,6 @@ public class TestMatch {
         assertEquals(p2.getNickname(), match.getProfile2(), "Player 2 names are not the same.");
         match.setTurn(turn);
         assertEquals(turn.getCurrentTurnPlayer(), match.getTurn().getCurrentTurnPlayer(), "Turns do not match.");
-        match.setPlayer1Pieces(board.get_white_pieces());
-        match.setPlayer2Pieces(board.get_black_pieces());
-        assertEquals(board.get_white_pieces().toString(), match.getPlayer1Pieces().toString(), "White pieces do not match.");
-        assertEquals(board.get_black_pieces().toString(), match.getPlayer2Pieces().toString(), "Black pieces do not match.");
-
-
-
     }
 
     @Test
@@ -87,8 +80,6 @@ public class TestMatch {
         match = new Match(p1.getNickname(), p2.getNickname());
         TurnTracker turn = new TurnTracker(p1.getNickname(), p2.getNickname());
         match.setTurn(turn);
-        match.setPlayer1Pieces(board.get_white_pieces());
-        match.setPlayer2Pieces(board.get_black_pieces());
         match.setBoard(board);
 
         assertTrue(match.checkCheckmate(), "Black should be checkmate.");
