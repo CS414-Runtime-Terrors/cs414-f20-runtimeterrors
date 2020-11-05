@@ -25,4 +25,12 @@ public class Move {
     public String getMovedToPosition() {
         return this.toPosition;
     }
+
+    public void save() {
+        // TODO
+    }
+
+    public void load() {
+        // TODO
+    }
 }

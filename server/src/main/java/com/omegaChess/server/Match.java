@@ -87,4 +87,19 @@ public class Match {
     public TurnTracker getTurn() { return turn; }
 
     public void setTurn(TurnTracker turn) { this.turn = turn; }
+
+    public void save() {
+        // save primitives
+        // TODO
+
+        // save board
+        board.save();
+
+        // save turn tracker
+        turn.save();
+    }
+
+    public void load() {
+        // TODO
+    }
 }

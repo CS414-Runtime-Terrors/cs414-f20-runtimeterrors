@@ -36,4 +36,13 @@ public class Invite {
         message.put("declined", "" + declined);
         return message.toString();
     }
+
+    public void save() {
+        // save primitives
+        // TODO
+    }
+
+    public void load() {
+        // TODO
+    }
 }

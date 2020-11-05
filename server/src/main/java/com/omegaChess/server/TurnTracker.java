@@ -30,4 +30,13 @@ public class TurnTracker {
             this.currentTurnColor = ChessPiece.Color.WHITE;
         }
     }
+
+    public void save() {
+        // save primitives
+        // TODO
+    }
+
+    public void load() {
+        // TODO
+    }
 }

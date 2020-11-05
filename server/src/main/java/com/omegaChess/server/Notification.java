@@ -26,4 +26,13 @@ public class Notification {
         return date.toString();
     }
 
+    public void save() {
+        // save primitives
+        // TODO
+    }
+
+    public void load() {
+        // TODO
+    }
+
 }
