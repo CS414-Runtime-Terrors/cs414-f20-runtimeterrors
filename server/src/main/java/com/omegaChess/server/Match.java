@@ -6,7 +6,10 @@ import com.omegaChess.exceptions.*;
 import com.omegaChess.server.*;
 
 import javax.swing.*;
+import java.io.File;
 import java.util.ArrayList;
+
+import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class Match {
 
@@ -101,15 +104,24 @@ public class Match {
 
     public void setTurn(TurnTracker turn) { this.turn = turn; }
 
-    public void save() {
+    public void save(String saveLocation) {
+
+        createDirectoryIfNonExistent(saveLocation);
+
+        final String matchSaveLocation = saveLocation + profile1 + "-" + profile2 + "/";
+
+        createDirectoryIfNonExistent(matchSaveLocation);
+
+        final String boardSaveLocation = matchSaveLocation + "board/";
+
         // save primitives
         // TODO
 
         // save board
-        board.save();
+        board.save(boardSaveLocation);
 
-        // save turn tracker
-        turn.save();
+        // save turn tracker in turn.txt
+        turn.save(saveLocation);
     }
 
     public void load() {
