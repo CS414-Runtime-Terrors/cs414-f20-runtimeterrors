@@ -343,4 +343,23 @@ public class OCProtocol {
        return message.toString();
    }
 
+   private String inviteResponse(OCMessage receivedMessage){
+        String response = receivedMessage.get("response"),
+                inviter = receivedMessage.get("inviter"),
+                invitee = receivedMessage.get("invitee");
+        if (response.equals("accept")) {
+            for (UserProfile profile : serverData.getProfiles()){
+                Mailbox mail = profile.getMailbox();
+                for (Invite invite : mail.getSent()){
+                    if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)){
+                        invite.Accept();
+                        mail.removeFromSent(invite);
+                        invite.makeMatch();
+                    }
+                }
+            }
+        }
+        return null;
+   }
+
 }
