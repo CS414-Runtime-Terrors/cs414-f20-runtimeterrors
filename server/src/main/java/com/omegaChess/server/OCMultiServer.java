@@ -9,6 +9,8 @@ public class OCMultiServer {
 
         OCServerData serverData = new OCServerData();
 
+        serverData.load();
+
         int portNumber = 8484;
 
         boolean listening = true;
