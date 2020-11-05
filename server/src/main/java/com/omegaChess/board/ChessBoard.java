@@ -5,9 +5,12 @@ import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
 
 import javax.sound.midi.SysexMessage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class ChessBoard {
     private ChessPiece[][] board;
@@ -623,15 +626,28 @@ public class ChessBoard {
         return colRow;
     }
 
-    public void save() {
-        // save black pieces
-        // TODO
+    public void save(String saveLocation) {
 
-        // save white pieces
-        // TODO
+        createDirectoryIfNonExistent(saveLocation);
 
-        // save moves
-        // TODO
+        final String blackPiecesSaveLocation = saveLocation + "black-pieces/";
+        final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
+        final String movesSaveLocation = saveLocation + "moves/";
+
+        // save black pieces black-pieces directory
+        for (ChessPiece p : black_pieces) {
+            p.save(blackPiecesSaveLocation);
+        }
+
+        // save white pieces in white-pieces directory
+        for (ChessPiece p : white_pieces) {
+            p.save(whitePiecesSaveLocation);
+        }
+
+        // save moves in moves directory
+        for (Move m : moves) {
+            m.save(movesSaveLocation);
+        }
     }
 
     public void load() {

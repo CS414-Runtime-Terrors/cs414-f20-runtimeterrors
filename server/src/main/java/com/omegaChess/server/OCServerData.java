@@ -4,6 +4,7 @@ package com.omegaChess.server;
 //import com.sun.org.slf4j.internal.Logger;
 //import com.sun.org.slf4j.internal.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class OCServerData {
@@ -112,21 +113,38 @@ public class OCServerData {
 
   public void save() {
     System.out.println("Saving server data...");
+
+    final String rootSaveLocation = "./server-data/";
+
+    createDirectoryIfNonExistent(rootSaveLocation);
+
+    final String profilesSaveLocation = rootSaveLocation + "user-profiles/";
+    final String matchesSaveLocation = rootSaveLocation + "matches/";
+    final String gameRecordsSaveLocation = rootSaveLocation + "game-records/";
+
     // save user profiles
     for (UserProfile p : getProfiles()) {
-      p.save();
+      p.save(profilesSaveLocation);
     }
 
     // save matches
     for (Match m : getMatches()) {
-      m.save();
+      m.save(matchesSaveLocation);
     }
 
     // save game records
     for (GameRecord r : archive) {
-      r.save();
+      r.save(gameRecordsSaveLocation);
     }
     System.out.println("Saved!");
+  }
+
+  public static void createDirectoryIfNonExistent(String location) {
+    File directory = new File(location);
+    if (!directory.exists()) {
+      System.out.println("Creating directory: " + location);
+      directory.mkdir();
+    }
   }
 
   public void load() {

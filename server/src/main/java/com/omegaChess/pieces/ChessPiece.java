@@ -5,6 +5,8 @@ import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
 
+import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
+
 public abstract class ChessPiece {
     public enum Color {WHITE, BLACK}
 
@@ -140,4 +142,15 @@ public abstract class ChessPiece {
     * position. Assumed that kingPos is within piece's valid move-set, since only called after
     * the king's isKingInCheck method. */
     abstract public LegalMoves movesToBlockCheckingPiece(String kingPos);
+
+    public void save(String saveLocation) {
+
+        createDirectoryIfNonExistent(saveLocation);
+
+        // TODO
+    }
+
+    public void load(String saveLocation) {
+        // TODO
+    }
 }
