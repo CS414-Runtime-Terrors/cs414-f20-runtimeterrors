@@ -1,8 +1,6 @@
 package com.omegaChess;
 
-import com.omegaChess.server.OCMessage;
-import com.omegaChess.server.OCProtocol;
-import com.omegaChess.server.OCServerData;
+import com.omegaChess.server.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -61,21 +59,52 @@ public class TestOCProtocol {
         OCProtocol protocol = new OCProtocol(data);
 
         data.createProfile("Daniel", "pass", "daniel@gmail.com");
+        data.createProfile("John", "word", "john@omegachess.com");
+
+        // Send invites between the users
+        OCMessage message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", "John");
+        message.put("inviter", "Daniel");
+
+        String input = message.toString();
+
+        protocol.processInput(input);
+
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("inviter", "John");
+        message.put("invitee", "Daniel");
+
+        input = message.toString();
+
+        protocol.processInput(input);
+
+        // Create a test match between the users
+        data.addMatch(new Match("Daniel", "john"));
+
+        // Create a test archive between the users
+        data.addToArchive(new GameRecord("Daniel", "John", 45, false));
 
         // unregister profile
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
         message.put("process", "unregister");
         message.put("nickname", "Daniel");
 
-        String input = message.toString();
+        input = message.toString();
 
         String output = protocol.processInput(input);
 
         OCMessage receivedMessage = new OCMessage();
         receivedMessage.fromString(output);
 
-        // assert non-existence
+        // assert non-existence in all states
         assertFalse(data.profileExists("Daniel"));
+        assertEquals(0, data.getProfile("John").getMailbox().getReceived().size(), "Failed to remove invite from Daniel.");
+        assertEquals(0, data.getProfile("John").getMailbox().getSent().size(), "Failed to remove invite to Daniel.");
+        assertEquals(0, data.getMatches().size(), "Failed to end match between users.");
+        assertEquals("[deleted]", data.getArchive().get(0).getWinner(), "Failed to remove Daniel as winner from archive.");
+
     }
 
     @Test
@@ -161,14 +190,14 @@ public class TestOCProtocol {
         receivedMessage.fromString(output);
 
         OCMessage invite = new OCMessage();
-        if (receivedMessage.get("object0").toString().equalsIgnoreCase("invite")){
-            invite.put("inviter", receivedMessage.get("inviter0").toString());
-            invite.put("invitee", receivedMessage.get("invitee0").toString());
-            invite.put("accepted", receivedMessage.get("accepted0").toString());
-            invite.put("declined", receivedMessage.get("declined0").toString());
+        if (receivedMessage.get("object0").equalsIgnoreCase("invite")){
+            invite.put("inviter", receivedMessage.get("inviter0"));
+            invite.put("invitee", receivedMessage.get("invitee0"));
+            invite.put("accepted", receivedMessage.get("accepted0"));
+            invite.put("declined", receivedMessage.get("declined0"));
         }
 
-        assertEquals("italian", invite.get("inviter").toString(), "Failed to get sent invite");
+        assertEquals("italian", invite.get("inviter"), "Failed to get sent invite");
 
         // get received invites
         message = new OCMessage();
@@ -257,6 +286,75 @@ public class TestOCProtocol {
         assertEquals("Event 2", receivedMessage.get("event2"));
         assertEquals("Message 2", receivedMessage.get("message2"));
         assertNotNull(receivedMessage.get("datestring2"));
+    }
+
+    @Test
+    public void testInviteResponse(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("jae", "wing", "adskfjlhasd@omegachess.com");
+        data.createProfile("Shing", "shaw", "asdfasdwes@omegachess.com");
+
+        // Send an invite between the users
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "jae");
+        invite.put("inviter", "shing");
+
+        String input = invite.toString();
+
+        protocol.processInput(input);
+
+        System.out.println("Testing accepting an invite between two users");
+
+        // Testing accept
+        OCMessage message = new OCMessage();
+        message.put("process", "invite response");
+        message.put("response", "accept");
+        message.put("inviter", "shing");
+        message.put("invitee", "jae");
+
+        input = message.toString();
+
+        String out = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        assertEquals("true", receivedMessage.get("success"), "Something went wrong");
+        assertEquals(0, data.getProfile("jae").getMailbox().getReceived().size(), "Failed to remove invite from mailbox.");
+        assertEquals(0, data.getProfile("shing").getMailbox().getSent().size(), "Failed to remove invite from mailbox.");
+        assertEquals(1, data.getMatches().size(), "Failed to add a new match to the server.");
+
+        // Send an invite between the users
+        invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "jae");
+        invite.put("inviter", "shing");
+
+        input = invite.toString();
+
+        protocol.processInput(input);
+
+        System.out.println("Testing declining an invite between two users");
+
+        // Testing decline
+        message = new OCMessage();
+        message.put("process", "invite response");
+        message.put("response", "decline");
+        message.put("inviter", "shing");
+        message.put("invitee", "jae");
+
+        input = message.toString();
+
+        out = protocol.processInput(input);
+
+        receivedMessage.fromString(out);
+
+        assertEquals("true", receivedMessage.get("success"), "Something went wrong");
+        assertEquals(0, data.getProfile("jae").getMailbox().getReceived().size(), "Failed to remove invite from mailbox.");
+        assertEquals(0, data.getProfile("shing").getMailbox().getSent().size(), "Failed to remove invite from mailbox.");
     }
 
 }
