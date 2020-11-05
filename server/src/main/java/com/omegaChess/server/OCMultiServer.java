@@ -11,6 +11,12 @@ public class OCMultiServer {
 
         serverData.load();
 
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                serverData.save();
+            }
+        });
+
         int portNumber = 8484;
 
         boolean listening = true;
