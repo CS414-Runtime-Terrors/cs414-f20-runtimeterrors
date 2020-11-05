@@ -98,6 +98,7 @@ public class OCServerData {
   }
 
   public void save() {
+    System.out.println("Saving server data...");
     // save user profiles
     for (UserProfile p : getProfiles()) {
       p.save();
@@ -110,9 +111,11 @@ public class OCServerData {
 
     // save game records
     // TODO
+    System.out.println("Saved!");
   }
 
   public void load() {
+    System.out.println("Loading server data...");
     // load user profiles
     // TODO
 
@@ -121,6 +124,7 @@ public class OCServerData {
 
     // load game records
     // TODO
+    System.out.println("Loaded!");
   }
 
 }
