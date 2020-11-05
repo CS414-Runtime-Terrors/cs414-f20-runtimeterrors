@@ -16,7 +16,11 @@ public class Mailbox {
 
     public void addToSent(Invite invite) { sent.add(invite); }
 
+    public void removeFromSent(Invite invite) { sent.remove(invite); }
+
     public void addToReceived(Invite invite) { received.add(invite); }
+
+    public void removeFromReceived(Invite invite) { received.remove(invite); }
 
     public ArrayList<Invite> getReceived() { return received; }
 
