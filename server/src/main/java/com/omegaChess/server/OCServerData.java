@@ -191,7 +191,7 @@ public class OCServerData {
 
     // load game records
     // TODO
-    System.out.println("Loaded!");
+    System.out.println("Done loading!");
   }
 
 }
