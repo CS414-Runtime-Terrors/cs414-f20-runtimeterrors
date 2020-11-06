@@ -150,12 +150,12 @@ public class OCServerData {
 
     // save matches
     for (Match m : getMatches()) {
-      m.save();
+      m.save(matchesSaveLocation);
     }
 
     // save game records
     for (GameRecord r : archive) {
-      r.save();
+      r.save(gameRecordsSaveLocation);
     }
     System.out.println("Saved!");
   }
