@@ -175,6 +175,7 @@ public class UserProfile {
         }
 
         // load mailbox
-        // TODO
+        // TODO: make this actually load the mailbox instead of creating a new one
+        mailbox = new Mailbox(); // temporary solution
     }
 }
