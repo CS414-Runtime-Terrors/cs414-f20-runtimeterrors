@@ -2,10 +2,8 @@ package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -17,12 +15,11 @@ import javax.swing.*;
 public class MailboxScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private Skin skin;
-    private TextButton inboxBtn, outboxBtn;
+    private Skin skin, btnSkin;
+    private TextButton inboxBtn, outboxBtn, refreshBtn, lobbyBtn;
     private String nickname;
     private Table mailboxTable;
-
-    // small view/expand button on far right
+    private ButtonGroup optionsGrp;
 
     public MailboxScreen(OmegaChess omegachess){
         parent = omegachess;
@@ -38,15 +35,11 @@ public class MailboxScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
-        TextField.TextFieldStyle style = new TextField.TextFieldStyle();
-        style.font = new BitmapFont();
-        style.fontColor = Color.PURPLE;
-        style.font.getData().setScale(3f);
+        btnSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         inboxBtn = new TextButton("Inbox", skin, "toggle");
         outboxBtn = new TextButton("Outbox", skin, "toggle");
-        ButtonGroup optionsGrp = new ButtonGroup(inboxBtn, outboxBtn);
+        optionsGrp = new ButtonGroup(inboxBtn, outboxBtn);
         optionsGrp.setMinCheckCount(1);
         optionsGrp.setMaxCheckCount(1);
         optionsGrp.setChecked("Inbox");
@@ -61,6 +54,21 @@ public class MailboxScreen implements Screen {
         outboxBtn.setWidth(320);
         stage.addActor(outboxBtn);
 
+        lobbyBtn = new TextButton("Lobby", btnSkin);
+        refreshBtn = new TextButton("Refresh", btnSkin);
+
+        // set up lobby button
+        lobbyBtn.setTransform(true);
+        lobbyBtn.setScale(0.4f);
+        lobbyBtn.setPosition(50, 15);
+        stage.addActor(lobbyBtn);
+
+        // set up refresh button
+        refreshBtn.setTransform(true);
+        refreshBtn.setScale(0.4f);
+        refreshBtn.setPosition(450, 15);
+        stage.addActor(refreshBtn);
+
         // default is inbox
         populateInbox();
 
@@ -69,7 +77,7 @@ public class MailboxScreen implements Screen {
     }
 
     private void addListeners() {
-        // unregister button will handle unregistering the user and returning to main menu screen
+        // inbox button will show inbox
         inboxBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -78,7 +86,7 @@ public class MailboxScreen implements Screen {
             };
         });
 
-        // back button will return user to main menu screen
+        // outbox button will show outbox
         outboxBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -86,6 +94,33 @@ public class MailboxScreen implements Screen {
                 populateOutbox();
             };
         });
+
+        // refresh button will refresh current screen
+        refreshBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if( optionsGrp.getCheckedIndex() == 0 )
+                {
+                    clearStage();
+                    populateInbox();
+                }
+                else
+                {
+                    clearStage();
+                    populateOutbox();
+                }
+            };
+        });
+
+        // outbox button will show outbox
+        lobbyBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.clear();
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+            };
+        });
+
     }
 
     private void clearStage() {
@@ -219,15 +254,21 @@ public class MailboxScreen implements Screen {
                                     JOptionPane.YES_NO_OPTION,
                                     JOptionPane.QUESTION_MESSAGE);
                             if(result == JOptionPane.YES_OPTION){
-                                // unregister
+                                // send request to send the accept response
+                                parent.getClient().acceptInvite(nickname, inviter);
+                                stage.clear();
+                                parent.changeScreen(OmegaChess.SCREEN.MATCH);
+                            }
+                            else if(result == JOptionPane.NO_OPTION){
+                                // send request to send the decline response
+                                parent.getClient().declineInvite(nickname, inviter);
 
-                                //parent.getClient().sendUnregisterRequest(nickname);
-                                parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
+                                // refresh inbox
+                                clearStage();
+                                populateInbox();
                             }
                         };
                     });
-
-
 
                     labels.add(tmpLabel);
                     labels.row();
@@ -259,26 +300,21 @@ public class MailboxScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
-
     }
 }

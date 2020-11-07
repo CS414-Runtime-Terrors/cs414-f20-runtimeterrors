@@ -41,7 +41,7 @@ public class InviteScreen implements Screen {
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.PURPLE;
+        style.fontColor = Color.WHITE;
         style.font.getData().setScale(1.75f);
 
         TextField title = new TextField("Invite another player to play Omega Chess with!", style);

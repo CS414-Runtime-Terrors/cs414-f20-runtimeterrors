@@ -38,7 +38,7 @@ public class ProfileScreen implements Screen {
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.PURPLE;
+        style.fontColor = Color.WHITE;
         style.font.getData().setScale(3f);
 
         style_label = new Label.LabelStyle();
