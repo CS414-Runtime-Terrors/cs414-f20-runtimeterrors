@@ -82,7 +82,7 @@ public class MatchScreen implements Screen {
     }
 
     private void initializeBoard() {
-        board = new GameBoard();
+        board = new GameBoard(parent);
         for (int i = 0; i <= 11; i++) {
             for (int j = 0; j <=11; j++) {
                 table.add(board.getSquare(i, j));

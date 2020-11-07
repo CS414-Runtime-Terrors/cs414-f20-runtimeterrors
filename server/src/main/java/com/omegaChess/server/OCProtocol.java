@@ -1,5 +1,10 @@
 package com.omegaChess.server;
 
+import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalPositionException;
+import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.LegalMoves;
+
 import java.util.ArrayList;
 
 // this class is responsible for actually processing any input from a client
@@ -50,6 +55,8 @@ public class OCProtocol {
                 case "invite response":
                     toReturn  = inviteResponse(receivedMessage);
                     break;
+                case "get legal moves":
+                    toReturn = getLegalMoves(receivedMessage);
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -412,6 +419,36 @@ public class OCProtocol {
             }
         }
         message.put("success", "true");
+        return message.toString();
+    }
+
+    private String getLegalMoves(OCMessage receivedMessage) {
+        int matchID = Integer.parseInt(receivedMessage.get("matchID"));
+        int row = Integer.parseInt(receivedMessage.get("row"));
+        int column = Integer.parseInt(receivedMessage.get("column"));
+        OCMessage message = new OCMessage();
+
+        Match match = serverData.getMatch(matchID);
+        ChessBoard board = match.getBoard();
+        String position = board.reverseParse(row, column);
+        ChessPiece piece = null;
+        try {
+            piece = board.getPiece(position);
+        } catch(IllegalPositionException e) {
+            e.printStackTrace();
+        }
+
+        LegalMoves moves;
+        if (piece == null) {
+            message.put("success", "false");
+            message.put("reason", "no piece at specified position");
+            return message.toString();
+        } else {
+            moves = piece.getNormalOrCheckMoves();
+        }
+        message.put("success", "true");
+        message.put("legal moves", moves.getListOfMoves().toString());
+
         return message.toString();
     }
 }

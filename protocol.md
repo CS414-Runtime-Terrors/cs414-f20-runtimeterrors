@@ -165,3 +165,20 @@ Message Template:
 
 Return Message Template:
 * "success": "true"
+
+## Get Legal Moves
+- This request returns a piece's legal moves
+
+Message Template:
+* "process": "get legal moves"
+* "matchID": any int that corresponds to a match
+* "row": any int 0-11
+* "column": any int 0-11
+
+Return Message Template 1:
+* "success": "true"
+* "legal moves": "a3, a4, a5"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "no piece at specified position"

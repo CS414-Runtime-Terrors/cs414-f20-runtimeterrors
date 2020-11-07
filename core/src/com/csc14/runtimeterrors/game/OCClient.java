@@ -216,4 +216,22 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // get legal moves request
+    public OCMessage getLegalMoves(int matchID, int[] position) {
+        System.out.println("Sending request to get legal moves for matchID: " + matchID + " and piece at position: " + position[0] + "," + position[1]);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get legal moves");
+        message.put("matchID", Integer.toString(matchID));
+        message.put("row", Integer.toString(position[0]));
+        message.put("column", Integer.toString(position[1]));
+
+        // Send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
 }

@@ -24,6 +24,14 @@ public class OCServerData {
 
   public ArrayList<Match> getMatches() { return matches; }
 
+  public Match getMatch(int matchID) {
+    for (Match match : matches) {
+      if (matchID == match.getMatchID())
+        return match;
+    }
+    return null;
+  }
+
   public void removeMatch(Match target) {
     for (Match match: getMatches())
       if (match == target) {
