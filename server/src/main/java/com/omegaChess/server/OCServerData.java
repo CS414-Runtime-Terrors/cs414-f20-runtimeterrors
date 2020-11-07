@@ -13,18 +13,33 @@ import java.util.Scanner;
 public class OCServerData {
 
   // storage fields
-  final String rootSaveLocation = "./server-data/";
-  final String profilesSaveLocation = rootSaveLocation + "user-profiles/";
-  final String matchesSaveLocation = rootSaveLocation + "matches/";
-  final String gameRecordsSaveLocation = rootSaveLocation + "game-records/";
+  private final String rootSaveLocation;
+  private final String profilesSaveLocation;
+  private final String matchesSaveLocation;
+  private final String gameRecordsSaveLocation;
 
  // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
   private ArrayList<UserProfile> profiles = new ArrayList<>();
   private ArrayList<Match> matches = new ArrayList<>();
   private ArrayList<GameRecord> archive = new ArrayList<>();
 
-  // methods
+    // regular constructor
+    public OCServerData() {
+        rootSaveLocation = "./server-data/";
+        profilesSaveLocation = rootSaveLocation + "user-profiles/";
+        matchesSaveLocation = rootSaveLocation + "matches/";
+        gameRecordsSaveLocation = rootSaveLocation + "game-records/";
+    }
 
+    // test constructor
+    public OCServerData(String saveLocation) {
+        rootSaveLocation = saveLocation;
+        profilesSaveLocation = rootSaveLocation + "user-profiles/";
+        matchesSaveLocation = rootSaveLocation + "matches/";
+        gameRecordsSaveLocation = rootSaveLocation + "game-records/";
+    }
+
+  // methods
   public ArrayList<UserProfile> getProfiles() {
     return profiles;
   }
@@ -181,6 +196,14 @@ public class OCServerData {
     // load game records
     // TODO
     System.out.println("Done loading!");
+  }
+
+  public void deleteRootSaveFolder() {
+        deleteFolder(rootSaveLocation);
+  }
+
+  private void deleteFolder(String folderToDelete) {
+        // TODO
   }
 
 }
