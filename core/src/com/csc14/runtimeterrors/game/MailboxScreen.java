@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import javax.swing.*;
+
 public class MailboxScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
@@ -173,7 +175,7 @@ public class MailboxScreen implements Screen {
         mailboxTable.row();
         mailboxTable.add(new Label(label, skin));
 
-        OCMessage receivedMessage = parent.getClient().getReceivedInvites(nickname);
+        final OCMessage receivedMessage = parent.getClient().getReceivedInvites(nickname);
 
         int spacingSeparation = 30;                   // number of spaces between columns
         int longest = Integer.parseInt(receivedMessage.get("maxNicknameLength"));  // length of the widest column
@@ -199,13 +201,35 @@ public class MailboxScreen implements Screen {
                     String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
                             receivedMessage.get("inviter" + i), "Invite Request");
 
-                    labels.add(new Label(tmp, skin) {
+                    final String inviter = receivedMessage.get("inviter" + i);
 
+                    Label tmpLabel = new Label(tmp, skin){
                         public void draw(Batch batch, float parentAlpha) {
-
                             super.draw(batch, parentAlpha);
                         }
+                    };
+
+                    tmpLabel.addListener( new ClickListener() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            // first bring confirmation box to make sure user wants to unregister
+                            int result = JOptionPane.showConfirmDialog(null, inviter +
+                                            " wants to play OmegaChess! Would you like to play?",
+                                    "Accept/Decline Invitation",
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
+                            if(result == JOptionPane.YES_OPTION){
+                                // unregister
+
+                                //parent.getClient().sendUnregisterRequest(nickname);
+                                parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
+                            }
+                        };
                     });
+
+
+
+                    labels.add(tmpLabel);
                     labels.row();
                 }
             }
