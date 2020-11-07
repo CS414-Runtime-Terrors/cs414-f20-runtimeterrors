@@ -206,4 +206,9 @@ public class OCServerData {
         // TODO
   }
 
+    public boolean rootSaveFolderExists() {
+        File directory = new File(rootSaveLocation);
+        return directory.exists();
+    }
+
 }

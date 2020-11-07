@@ -4,6 +4,7 @@ import com.omegaChess.server.OCServerData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("JUnit OCServerData Class Test")
@@ -24,11 +25,14 @@ public class TestOCServerData {
         OCServerData loadedData = new OCServerData("./test-data/");
         loadedData.load();
 
-        // make assertions
+        // make assertions to ensure loading worked properly
         assertTrue(loadedData.profileExists("Daniel"));
 
         // delete data
         loadedData.deleteRootSaveFolder();
+
+        // assert folder no longer exists
+        assertFalse(loadedData.rootSaveFolderExists());
 
     }
 
