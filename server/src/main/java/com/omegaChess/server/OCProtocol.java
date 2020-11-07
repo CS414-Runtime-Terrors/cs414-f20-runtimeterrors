@@ -53,7 +53,7 @@ public class OCProtocol {
                     toReturn = getNotifications(receivedMessage);
                     break;
                 case "invite response":
-                    toReturn  = inviteResponse(receivedMessage);
+                    toReturn = inviteResponse(receivedMessage);
                     break;
                 case "get legal moves":
                     toReturn = getLegalMoves(receivedMessage);
@@ -148,12 +148,16 @@ public class OCProtocol {
         for (Match match : serverData.getMatches()){
             if (match.getProfile1().equalsIgnoreCase(nickname)){
                 match.endMatch("[deleted]", match.getProfile2(), match.getBoard().getMoves().size());
+                serverData.removeMatch(match);
                 serverData.getProfile(match.getProfile2()).getMailbox().addNotification("Match ended", "Other user deleted their account before the game ended.");
             }
             if (match.getProfile2().equalsIgnoreCase(nickname)){
                 match.endMatch("[deleted]", match.getProfile1(), match.getBoard().getMoves().size());
+                serverData.removeMatch(match);
                 serverData.getProfile(match.getProfile1()).getMailbox().addNotification("Match ended", "Other user deleted their account before the game ended.");
             }
+            if (serverData.getMatches().size() == 0)
+                break;
         }
         for (UserProfile player : serverData.getProfiles()){
             Mailbox mail = player.getMailbox();
@@ -163,12 +167,17 @@ public class OCProtocol {
                     mail.removeFromReceived(invite);
                     mail.addNotification("Invite Canceled", "Other user deleted their account before a response was made.");
                 }
-            }for (Invite invite: mail.getSent()){
+                if (mail.getReceived().size() == 0)
+                    break;
+            }
+            for (Invite invite: mail.getSent()){
                 if (invite.getInvitee().equalsIgnoreCase(nickname)) {
                     invite.Decline();
                     mail.removeFromSent(invite);
                     mail.addNotification("Declined Invite", "Other user deleted their account before responding.");
                 }
+                if (mail.getSent().size() == 0)
+                    break;
             }
         }
 
@@ -273,6 +282,11 @@ public class OCProtocol {
 
        UserProfile player1 = serverData.getProfile(inviter);
        UserProfile player2 = serverData.getProfile(invitee);
+       Mailbox mail = player1.getMailbox();
+       if (lookForInvite(inviter, invitee, mail, true) != null){
+           message.put("success", "false");
+           message.put("reason", "already sent an invite to " + invitee);
+       }
        Invite invite = new Invite(inviter, invitee);
        player1.getMailbox().addToSent(invite);
        player2.getMailbox().addToReceived(invite);
@@ -316,6 +330,9 @@ public class OCProtocol {
             count++;
         }
 
+       message.put("totalCount", String.valueOf(count));
+       message.put("maxNicknameLength", String.valueOf(serverData.getLongestNickname()));
+
        System.out.println("Recovered sent invites!");
         return message.toString();
    }
@@ -352,6 +369,8 @@ public class OCProtocol {
             message.put("declined" + count, in.get("declined"));
             count++;
         }
+        message.put("totalCount", String.valueOf(count));
+        message.put("maxNicknameLength", String.valueOf(serverData.getLongestNickname()));
 
        System.out.println("Recovered received invites!");
         return message.toString();
@@ -391,17 +410,23 @@ public class OCProtocol {
                 inviter = receivedMessage.get("inviter"),
                 invitee = receivedMessage.get("invitee");
         OCMessage message = new OCMessage();
+
+        System.out.println("Attempting to " + response + " invite from " + inviter + " to " + invitee);
+
         if (response.equals("accept")) {
             for (UserProfile profile : serverData.getProfiles()){
                 Mailbox mail = profile.getMailbox();
                 for (Invite invite : mail.getSent()){
                     if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)){
+                        Invite inviteF = lookForInvite(inviter, invitee, serverData.getProfile(invitee).getMailbox(), false);
                         invite.Accept();
                         mail.removeFromSent(invite);
-                        serverData.getProfile(invitee).getMailbox().removeFromReceived(invite);
+                        serverData.getProfile(invitee).getMailbox().removeFromReceived(inviteF);
                         Match match = invite.makeMatch();
                         serverData.addMatch(match);
                         mail.addNotification("Invite accepted", invitee + " accepted your invite request.");
+                        message.put("success", "true");
+                        return message.toString();
                     }
                 }
             }
@@ -410,15 +435,17 @@ public class OCProtocol {
                 Mailbox mail = profile.getMailbox();
                 for (Invite invite : mail.getSent()){
                     if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)){
+                        Invite inviteF = lookForInvite(inviter, invitee, serverData.getProfile(invitee).getMailbox(), false);
                         invite.Decline();
                         mail.removeFromSent(invite);
-                        serverData.getProfile(invitee).getMailbox().removeFromReceived(invite);
+                        serverData.getProfile(invitee).getMailbox().removeFromReceived(inviteF);
                         mail.addNotification("Invite declined", invitee + " declined your invite request.");
+                        message.put("success", "true");
+                        return message.toString();
                     }
                 }
             }
         }
-        message.put("success", "true");
         return message.toString();
     }
 
@@ -434,7 +461,7 @@ public class OCProtocol {
         ChessPiece piece = null;
         try {
             piece = board.getPiece(position);
-        } catch(IllegalPositionException e) {
+        } catch (IllegalPositionException e) {
             e.printStackTrace();
         }
 
@@ -450,5 +477,21 @@ public class OCProtocol {
         message.put("legal moves", moves.getListOfMoves().toString());
 
         return message.toString();
+    }
+
+    // Helper method to grab an invite between users
+    public Invite lookForInvite(String inviter, String invitee, Mailbox mail, boolean sent){
+        if (sent) {
+            for (Invite invite : mail.getSent()) {
+                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
+                    return invite;
+            }
+        }else {
+            for (Invite invite : mail.getReceived()) {
+                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
+                    return invite;
+            }
+        }
+        return null;
     }
 }

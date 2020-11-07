@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
         // set up title text widget
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.PURPLE;
+        style.fontColor = Color.WHITE;
         style.font.getData().setScale(2f);
         title = new TextField("Omega Chess Main Menu", style);
 

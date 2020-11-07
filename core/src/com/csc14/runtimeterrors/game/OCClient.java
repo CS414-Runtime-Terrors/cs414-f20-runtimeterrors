@@ -216,6 +216,7 @@ public class OCClient {
         return receivedMessage;
     }
 
+
     // get legal moves request
     public OCMessage getLegalMoves(int matchID, int[] position) {
         System.out.println("Sending request to get legal moves for matchID: " + matchID + " and piece at position: " + position[0] + "," + position[1]);
@@ -227,6 +228,38 @@ public class OCClient {
         message.put("column", Integer.toString(position[1]));
 
         // Send and receive results
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // Accept an invite from another user
+    public OCMessage acceptInvite(String user, String inviter){
+        System.out.println("Accepting an invitation from " + inviter);
+        OCMessage message = new OCMessage();
+        message.put("process", "invite response");
+        message.put("response", "accept");
+        message.put("inviter", inviter);
+        message.put("invitee", user);
+
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // Decline an invite from another user
+    public OCMessage declineInvite(String user, String inviter){
+        System.out.println("Accepting an invitation from " + inviter);
+        OCMessage message = new OCMessage();
+        message.put("process", "invite response");
+        message.put("response", "decline");
+        message.put("inviter", inviter);
+        message.put("invitee", user);
+
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
         printResult(receivedMessage);
