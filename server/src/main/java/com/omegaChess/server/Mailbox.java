@@ -1,6 +1,10 @@
 package com.omegaChess.server;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
@@ -54,13 +58,57 @@ public class Mailbox {
             i.save(receivedInvitationsSaveLocation);
         }
 
+        // save notification timestamps
+        try {
+            File saveFile = new File(notificationsSaveLocation + "timestamps.txt");
+
+            createDirectoryIfNonExistent(notificationsSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (Notification n : notifications) {
+                saveWriter.write(n.getDateString() + "\n");
+            }
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         // save notifications
         for (Notification n : notifications) {
             n.save(notificationsSaveLocation);
         }
     }
 
-    public void load() {
+    public void load(String saveLocation) {
 
+        final String sentInvitationsSaveLocation = saveLocation + "sent-invitations/";
+        final String receivedInvitationsSaveLocation = saveLocation + "received-invitations/";
+        final String notificationsSaveLocation = saveLocation + "notifications/";
+
+        // load sent invites
+        // TODO
+
+        // load received invites
+        // TODO
+
+        // load notifications
+        try {
+            File loadFile = new File(notificationsSaveLocation + "timestamps.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextTimeStamp = loadReader.nextLine();
+                Notification temp = new Notification();
+                temp.load(notificationsSaveLocation + nextTimeStamp + ".txt");
+                notifications.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + notificationsSaveLocation);
+        }
     }
 }
