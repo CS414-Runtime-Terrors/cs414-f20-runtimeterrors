@@ -1,8 +1,12 @@
 package com.omegaChess.server;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
@@ -47,16 +51,57 @@ public class Notification {
 
     }
 
-    public void save(String saveLocation) {
+    public void save(String notificationsSaveLocation) {
 
-        createDirectoryIfNonExistent(saveLocation);
+        createDirectoryIfNonExistent(notificationsSaveLocation);
 
-        // save primitives
-        // TODO
+        // save primitives to notifications save folder in primitives.txt
+        try {
+            File saveFile = new File(notificationsSaveLocation + "primitives.txt");
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            saveWriter.write(event + "\n");
+            saveWriter.write(message + "\n");
+            saveWriter.write(getDateString() + "\n");
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void load(String saveLocation) {
-        // TODO
+        // load primitives
+        try {
+            File loadFile = new File(saveLocation + "primitives.txt");
+            Scanner loadReader = new Scanner(loadFile);
+
+            // actual loading
+            if (loadReader.hasNextLine()) {
+                setEvent(loadReader.nextLine());
+            }
+            if (loadReader.hasNextLine()) {
+                setMessage(loadReader.nextLine());
+            }
+            if (loadReader.hasNextLine()) {
+                fromDateString(loadReader.nextLine());
+            }
+
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + saveLocation);
+        }
+    }
+
+    private void setEvent(String s) {
+        event = s;
+    }
+
+    private void setMessage(String s) {
+        message = s;
     }
 
 }
