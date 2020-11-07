@@ -34,7 +34,7 @@ public class LobbyScreen implements Screen {
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.PURPLE;
+        style.fontColor = Color.WHITE;
         style.font.getData().setScale(2f);
 
         TextField title = new TextField("Welcome to Omega Chess", style);

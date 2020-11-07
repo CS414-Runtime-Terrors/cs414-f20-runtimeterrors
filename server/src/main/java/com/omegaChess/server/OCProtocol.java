@@ -323,6 +323,9 @@ public class OCProtocol {
             count++;
         }
 
+       message.put("totalCount", String.valueOf(count));
+       message.put("maxNicknameLength", String.valueOf(serverData.getLongestNickname()));
+
        System.out.println("Recovered sent invites!");
         return message.toString();
    }
@@ -359,6 +362,8 @@ public class OCProtocol {
             message.put("declined" + count, in.get("declined"));
             count++;
         }
+        message.put("totalCount", String.valueOf(count));
+        message.put("maxNicknameLength", String.valueOf(serverData.getLongestNickname()));
 
        System.out.println("Recovered received invites!");
         return message.toString();

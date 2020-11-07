@@ -15,7 +15,8 @@ import javax.swing.*;
 public class ProfileScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private TextButton unregisterBtn, lobbyBtn, changePwBtn, changeNicknameBtn;
+    private TextButton unregisterBtn, lobbyBtn, mailboxBtn;
+    //private TextButton changePwBtn, changeNicknameBtn; todo decide if implement or remove
     private Skin skin;
     private Label.LabelStyle style_label;
     private String nickname;
@@ -37,7 +38,7 @@ public class ProfileScreen implements Screen {
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.PURPLE;
+        style.fontColor = Color.WHITE;
         style.font.getData().setScale(3f);
 
         style_label = new Label.LabelStyle();
@@ -67,11 +68,14 @@ public class ProfileScreen implements Screen {
     private void addButtonsToStage() {
         unregisterBtn = new TextButton("Unregister", skin);
         lobbyBtn = new TextButton("Lobby", skin);
-        changePwBtn = new TextButton("Change Password", skin);
-        changeNicknameBtn = new TextButton("Change Nickname", skin);
+        mailboxBtn = new TextButton("Mailbox", skin);
+
+        // // todo decide if implement or remove
+        //changePwBtn = new TextButton("Change Password", skin);
+        //changeNicknameBtn = new TextButton("Change Nickname", skin);
 
         // set up change nickname button
-        changeNicknameBtn.setTransform(true);
+        /*changeNicknameBtn.setTransform(true);
         changeNicknameBtn.setScale(0.4f);
         changeNicknameBtn.setPosition(30, 180);
         stage.addActor(changeNicknameBtn);
@@ -80,7 +84,13 @@ public class ProfileScreen implements Screen {
         changePwBtn.setTransform(true);
         changePwBtn.setScale(0.4f);
         changePwBtn.setPosition(30, 130);
-        stage.addActor(changePwBtn);
+        stage.addActor(changePwBtn); */
+
+        // set up mailbox button
+        mailboxBtn.setTransform(true);
+        mailboxBtn.setScale(0.4f);
+        mailboxBtn.setPosition(30, 130);
+        stage.addActor(mailboxBtn);
 
         // set up unregister button
         unregisterBtn.setTransform(true);
@@ -200,8 +210,17 @@ public class ProfileScreen implements Screen {
             };
         });
 
+        // back button will return user to main menu screen
+        mailboxBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.MAILBOX);
+            };
+        });
+
+        // todo decide if implementing this or not
         // change password button will handle changing the user's password
-        changePwBtn.addListener( new ClickListener() {
+        /*changePwBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             };
@@ -212,7 +231,7 @@ public class ProfileScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             };
-        });
+        });*/
 
     }
 
