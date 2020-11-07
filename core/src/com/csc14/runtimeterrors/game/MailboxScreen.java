@@ -18,20 +18,12 @@ public class MailboxScreen implements Screen {
     private Skin skin;
     private TextButton inboxBtn, outboxBtn;
     private String nickname;
-    private Label.LabelStyle style_label;
-    private Table inboxTable, outboxTable, mailboxTable;
-    private ScrollPane scrollView;
-
-    // columns for inbox : "Sent By:", "Date Received", "Message Type"
-    // sent by will be nickname, date received will be date, message type notification/invite
-
-    // columns for outbox : "Sent To:", "Date Sent", "Message Type"
-    // sent to will be nickname, date sent will be date, message type notification/invite
+    private Table mailboxTable;
 
     // small view/expand button on far right
 
     public MailboxScreen(OmegaChess omegachess){
-        parent = omegachess;     // setting the argument to our field.
+        parent = omegachess;
         nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -50,16 +42,12 @@ public class MailboxScreen implements Screen {
         style.fontColor = Color.PURPLE;
         style.font.getData().setScale(3f);
 
-        style_label = new Label.LabelStyle();
-        style_label.font = new BitmapFont();
-        style_label.fontColor = Color.WHITE;
-        style_label.font.getData().setScale(2f);
-
         inboxBtn = new TextButton("Inbox", skin, "toggle");
         outboxBtn = new TextButton("Outbox", skin, "toggle");
         ButtonGroup optionsGrp = new ButtonGroup(inboxBtn, outboxBtn);
         optionsGrp.setMinCheckCount(1);
         optionsGrp.setMaxCheckCount(1);
+        optionsGrp.setChecked("Inbox");
 
         inboxBtn.setTransform(true);
         inboxBtn.setPosition(0, 450);
@@ -70,6 +58,9 @@ public class MailboxScreen implements Screen {
         outboxBtn.setPosition(320, 450);
         outboxBtn.setWidth(320);
         stage.addActor(outboxBtn);
+
+        // default is inbox
+        populateInbox();
 
         // add listener for buttons
         addListeners();
@@ -103,10 +94,8 @@ public class MailboxScreen implements Screen {
     }
 
     private void populateOutbox() {
-    }
-
-    private void populateInbox() {
-        String label = nickname + "'s Mailbox";
+        int num_rows = 15;
+        String label = nickname + "'s Outbox";
         mailboxTable = new Table();
         mailboxTable.setWidth(525);
         mailboxTable.setHeight(400);
@@ -114,22 +103,123 @@ public class MailboxScreen implements Screen {
         stage.addActor(mailboxTable);
 
         Table labels = new Table();
-        mailboxTable.add(new ScrollPane(labels, skin)).expand().fill();
+        ScrollPane scroll = new ScrollPane(labels, skin);
+        mailboxTable.add(scroll).expand().fill();
         mailboxTable.row();
         mailboxTable.add(new Label(label, skin));
 
-        // this will loop through the inbox messages
-        for (int i = 0; i < 50; i++) {
-            labels.add(new Label("Label: " + i, skin) {
+        OCMessage receivedMessage = parent.getClient().getSentInvites(nickname);
 
-                public void draw(Batch batch, float parentAlpha) {
-                    
-                    super.draw(batch, parentAlpha);
-                    int drawn = 0;
-                    drawn++;
+        int spacingSeparation = 30;                   // number of spaces between columns
+        int longest = Integer.parseInt(receivedMessage.get("maxNicknameLength"));  // length of the widest column
+        int spacing = longest + spacingSeparation;
+
+        String columns = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                "Sent To:", "Message Type");
+
+        labels.add(new Label(columns, skin));
+        labels.row();
+
+        if(receivedMessage.get("success").equals("true"))
+        {
+            int count = Integer.parseInt(receivedMessage.get("totalCount"));
+            int activeCount = 1;
+            for(int i = 0; i < count; i++)
+            {
+                // only show in inbox if it hasn't been accepted or declined
+                if( receivedMessage.get("accepted" + i).equals("false") &&
+                        receivedMessage.get("declined" + i).equals("false"))
+                {
+                    activeCount++;
+                    String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                            receivedMessage.get("invitee" + i), "Invite Request");
+
+                    labels.add(new Label(tmp, skin) {
+
+                        public void draw(Batch batch, float parentAlpha) {
+
+                            super.draw(batch, parentAlpha);
+                        }
+                    });
+                    labels.row();
                 }
-            });
-            labels.row();
+            }
+
+            // add empty rows to put text at the top of scroll pane rather than middle
+            for(int i = 0; i < num_rows-activeCount; i++)
+            {
+                labels.add(new Label("", skin) {
+                    public void draw(Batch batch, float parentAlpha) {
+                        super.draw(batch, parentAlpha);
+                    }
+                });
+                labels.row();
+            }
+        }
+    }
+
+    private void populateInbox() {
+        int num_rows = 15;
+        String label = nickname + "'s Inbox";
+        mailboxTable = new Table();
+        mailboxTable.setWidth(525);
+        mailboxTable.setHeight(400);
+        mailboxTable.setPosition(50, 50);
+        stage.addActor(mailboxTable);
+
+        Table labels = new Table();
+        ScrollPane scroll = new ScrollPane(labels, skin);
+        mailboxTable.add(scroll).expand().fill();
+        mailboxTable.row();
+        mailboxTable.add(new Label(label, skin));
+
+        OCMessage receivedMessage = parent.getClient().getReceivedInvites(nickname);
+
+        int spacingSeparation = 30;                   // number of spaces between columns
+        int longest = Integer.parseInt(receivedMessage.get("maxNicknameLength"));  // length of the widest column
+        int spacing = longest + spacingSeparation;
+
+        String columns = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                "Sent By:", "Message Type");
+
+        labels.add(new Label(columns, skin));
+        labels.row();
+
+        if(receivedMessage.get("success").equals("true"))
+        {
+            int count = Integer.parseInt(receivedMessage.get("totalCount"));
+            int activeCount = 1;
+            for(int i = 0; i < count; i++)
+            {
+                // only show in inbox if it hasn't been accepted or declined
+                if( receivedMessage.get("accepted" + i).equals("false") &&
+                    receivedMessage.get("declined" + i).equals("false"))
+                {
+                    activeCount++;
+                    String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                            receivedMessage.get("inviter" + i), "Invite Request");
+
+                    labels.add(new Label(tmp, skin) {
+
+                        public void draw(Batch batch, float parentAlpha) {
+
+                            super.draw(batch, parentAlpha);
+                        }
+                    });
+                    labels.row();
+                }
+            }
+
+            // add empty rows to put text at the top of scroll pane rather than middle
+            for(int i = 0; i < num_rows-activeCount; i++)
+            {
+                labels.add(new Label("", skin) {
+                    public void draw(Batch batch, float parentAlpha) {
+                        super.draw(batch, parentAlpha);
+                    }
+                });
+                labels.row();
+            }
         }
     }
 

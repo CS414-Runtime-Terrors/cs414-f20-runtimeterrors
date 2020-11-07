@@ -47,6 +47,17 @@ public class OCServerData {
     return false;
   }
 
+  public Integer getLongestNickname() {
+    int max_length = 0;
+    for( UserProfile profile : getProfiles()) {
+      if( profile.getNickname().length() > max_length)
+      {
+        max_length = profile.getNickname().length();
+      }
+    }
+    return max_length;
+  }
+
   private boolean isNicknameTaken(String nick) {
     for (UserProfile profile : getProfiles()) {
       if (profile.getNickname().equalsIgnoreCase(nick)) {
