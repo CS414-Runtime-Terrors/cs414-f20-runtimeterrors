@@ -216,4 +216,36 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // Accept an invite from another user
+    public OCMessage acceptInvite(String user, String inviter){
+        System.out.println("Accepting an invitation from " + inviter);
+        OCMessage message = new OCMessage();
+        message.put("process", "invite response");
+        message.put("response", "accept");
+        message.put("inviter", inviter);
+        message.put("invitee", user);
+
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // Decline an invite from another user
+    public OCMessage declineInvite(String user, String inviter){
+        System.out.println("Accepting an invitation from " + inviter);
+        OCMessage message = new OCMessage();
+        message.put("process", "invite response");
+        message.put("response", "decline");
+        message.put("inviter", inviter);
+        message.put("invitee", user);
+
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
 }
