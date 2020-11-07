@@ -28,10 +28,10 @@ public class TestOCServerData {
         // make assertions to ensure loading worked properly
         assertTrue(loadedData.profileExists("Daniel"));
 
-        // delete data
+        // cleanup
         loadedData.deleteRootSaveFolder();
 
-        // assert folder no longer exists
+        // make sure cleanup worked
         assertFalse(loadedData.rootSaveFolderExists());
 
     }

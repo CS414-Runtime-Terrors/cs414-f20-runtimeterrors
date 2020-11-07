@@ -8,20 +8,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class OCServerData {
 
-  // storage fields
-  private final String rootSaveLocation;
-  private final String profilesSaveLocation;
-  private final String matchesSaveLocation;
-  private final String gameRecordsSaveLocation;
+    // storage fields
+    private final String rootSaveLocation;
+    private final String profilesSaveLocation;
+    private final String matchesSaveLocation;
+    private final String gameRecordsSaveLocation;
 
- // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
-  private ArrayList<UserProfile> profiles = new ArrayList<>();
-  private ArrayList<Match> matches = new ArrayList<>();
-  private ArrayList<GameRecord> archive = new ArrayList<>();
+    // private final Logger log = LoggerFactory.getLogger(MicroServer.class);
+    private final ArrayList<UserProfile> profiles = new ArrayList<>();
+    private final ArrayList<Match> matches = new ArrayList<>();
+    private final ArrayList<GameRecord> archive = new ArrayList<>();
 
     // regular constructor
     public OCServerData() {
@@ -39,37 +40,43 @@ public class OCServerData {
         gameRecordsSaveLocation = rootSaveLocation + "game-records/";
     }
 
-  // methods
-  public ArrayList<UserProfile> getProfiles() {
-    return profiles;
-  }
-
-  public void addMatch(Match match){ matches.add(match); }
-
-  public ArrayList<Match> getMatches() { return matches; }
-
-  public void removeMatch(Match target) {
-    for (Match match: getMatches())
-      if (match == target) {
-        matches.remove(match);
-        break;
-      }
-  }
-
-  public void addToArchive(GameRecord game) {
-    archive.add(game);
-  }
-
-  public ArrayList<GameRecord> getArchive() { return archive; }
-
-  public boolean createProfile(String nick, String pass, String email) {
-    if (!isNicknameTaken(nick) && !isEmailTaken(email)) {
-      UserProfile profile = new UserProfile(nick, pass, email);
-      getProfiles().add(profile);
-      return true;
+    // methods
+    public ArrayList<UserProfile> getProfiles() {
+        return profiles;
     }
-    return false;
-  }
+
+    public void addMatch(Match match) {
+        matches.add(match);
+    }
+
+    public ArrayList<Match> getMatches() {
+        return matches;
+    }
+
+    public void removeMatch(Match target) {
+        for (Match match : getMatches())
+            if (match == target) {
+                matches.remove(match);
+                break;
+            }
+    }
+
+    public void addToArchive(GameRecord game) {
+        archive.add(game);
+    }
+
+    public ArrayList<GameRecord> getArchive() {
+        return archive;
+    }
+
+    public boolean createProfile(String nick, String pass, String email) {
+        if (!isNicknameTaken(nick) && !isEmailTaken(email)) {
+            UserProfile profile = new UserProfile(nick, pass, email);
+            getProfiles().add(profile);
+            return true;
+        }
+        return false;
+    }
 
   public Integer getLongestNickname() {
     int max_length = 0;
@@ -91,132 +98,138 @@ public class OCServerData {
     return false;
   }
 
-  private boolean isEmailTaken(String email) {
-    for (UserProfile profile : getProfiles()) {
-      if (profile.getEmailAddress().equalsIgnoreCase(email)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean removeProfile(String nick) {
-    for (UserProfile profile : getProfiles()) {
-      if (profile.getNickname().equalsIgnoreCase(nick)) {
-        getProfiles().remove(profile);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean checkPassword(String nick, String pass) {
-    for (UserProfile profile : getProfiles()) {
-      if (profile.getNickname().equalsIgnoreCase(nick)) {
-        if (profile.getPassword().equals(pass)) { // case sensitive
-          return true;
+    private boolean isEmailTaken(String email) {
+        for (UserProfile profile : getProfiles()) {
+            if (profile.getEmailAddress().equalsIgnoreCase(email)) {
+                return true;
+            }
         }
-      }
-    }
-    return false;
-  }
-
-  public boolean profileExists(String nick) {
-    return isNicknameTaken(nick);
-  }
-
-  public UserProfile getProfile(String nick) {
-    for (UserProfile profile : getProfiles()) {
-      if (profile.getNickname().equalsIgnoreCase(nick)) {
-        return profile;
-      }
-    }
-    return null;
-  }
-
-  public void save() {
-    System.out.println("Saving server data...");
-
-    createDirectoryIfNonExistent(rootSaveLocation);
-
-    // save user profile nicknames
-    try {
-      File saveFile = new File(profilesSaveLocation + "profile-nicknames.txt");
-
-      createDirectoryIfNonExistent(profilesSaveLocation);
-
-      saveFile.createNewFile();
-
-      FileWriter saveWriter = new FileWriter(saveFile);
-
-      for (UserProfile p : getProfiles()) {
-        saveWriter.write(p.getNickname() + "\n");
-      }
-
-      saveWriter.close();
-    } catch(Exception e) {
-      e.printStackTrace();
+        return false;
     }
 
-    // save user profiles
-    for (UserProfile p : getProfiles()) {
-      p.save(profilesSaveLocation);
+    public boolean removeProfile(String nick) {
+        for (UserProfile profile : getProfiles()) {
+            if (profile.getNickname().equalsIgnoreCase(nick)) {
+                getProfiles().remove(profile);
+                return true;
+            }
+        }
+        return false;
     }
 
-    // save matches
-    for (Match m : getMatches()) {
-      m.save(matchesSaveLocation);
+    public boolean checkPassword(String nick, String pass) {
+        for (UserProfile profile : getProfiles()) {
+            if (profile.getNickname().equalsIgnoreCase(nick)) {
+                if (profile.getPassword().equals(pass)) { // case sensitive
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    // save game records
-    for (GameRecord r : archive) {
-      r.save(gameRecordsSaveLocation);
-    }
-    System.out.println("Saved!");
-  }
-
-  public static void createDirectoryIfNonExistent(String location) {
-    File directory = new File(location);
-    if (!directory.exists()) {
-      System.out.println("Creating directory: " + location);
-      directory.mkdir();
-    }
-  }
-
-  public void load() {
-    System.out.println("Loading server data...");
-    // load user profiles
-    try {
-      File loadFile = new File(profilesSaveLocation + "profile-nicknames.txt");
-      Scanner loadReader = new Scanner(loadFile);
-      // actual loading
-      while (loadReader.hasNextLine()) {
-        String nextNickname = loadReader.nextLine();
-        UserProfile temp = new UserProfile();
-        temp.load(profilesSaveLocation + nextNickname + "/");
-        profiles.add(temp);
-      }
-      loadReader.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found in " + profilesSaveLocation);
+    public boolean profileExists(String nick) {
+        return isNicknameTaken(nick);
     }
 
-    // load matches
-    // TODO
+    public UserProfile getProfile(String nick) {
+        for (UserProfile profile : getProfiles()) {
+            if (profile.getNickname().equalsIgnoreCase(nick)) {
+                return profile;
+            }
+        }
+        return null;
+    }
 
-    // load game records
-    // TODO
+    public void save() {
+        System.out.println("Saving server data...");
 
-    System.out.println("Done loading!");
-  }
+        createDirectoryIfNonExistent(rootSaveLocation);
 
-  public void deleteRootSaveFolder() {
-        deleteFolder(rootSaveLocation);
-  }
+        // save user profile nicknames
+        try {
+            File saveFile = new File(profilesSaveLocation + "profile-nicknames.txt");
 
-  private void deleteFolder(String folderToDelete) {
+            createDirectoryIfNonExistent(profilesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (UserProfile p : getProfiles()) {
+                saveWriter.write(p.getNickname() + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // save user profiles
+        for (UserProfile p : getProfiles()) {
+            p.save(profilesSaveLocation);
+        }
+
+        // save matches
+        for (Match m : getMatches()) {
+            m.save(matchesSaveLocation);
+        }
+
+        // save game records
+        for (GameRecord r : archive) {
+            r.save(gameRecordsSaveLocation);
+        }
+        System.out.println("Saved!");
+    }
+
+    public static void createDirectoryIfNonExistent(String location) {
+        File directory = new File(location);
+        if (!directory.exists()) {
+            System.out.println("Creating directory: " + location);
+            directory.mkdir();
+        }
+    }
+
+    public void load() {
+        System.out.println("Loading server data...");
+        // load user profiles
+        try {
+            File loadFile = new File(profilesSaveLocation + "profile-nicknames.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextNickname = loadReader.nextLine();
+                UserProfile temp = new UserProfile();
+                temp.load(profilesSaveLocation + nextNickname + "/");
+                profiles.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + profilesSaveLocation);
+        }
+
+        // load matches
         // TODO
-  }
+
+        // load game records
+        // TODO
+
+        System.out.println("Done loading!");
+    }
+
+    public void deleteRootSaveFolder() {
+        deleteFolder(rootSaveLocation);
+    }
+
+    private void deleteFolder(String location) {
+        File f = new File(location);
+        if (f.listFiles() != null) {
+            for (File file : Objects.requireNonNull(f.listFiles())) {
+                deleteFolder(file.getPath());
+            }
+        }
+        f.delete();
+    }
 
     public boolean rootSaveFolderExists() {
         File directory = new File(rootSaveLocation);
