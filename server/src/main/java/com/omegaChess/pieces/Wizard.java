@@ -28,31 +28,101 @@ public class Wizard extends ChessPiece {
             }
         }
 
-        String pos = this.getPosition();
-        int[] rc;
-        try {
-            rc = board.parsePosition(pos);
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-            return new LegalMoves(moves, false, false);
-        }
-
-
         for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
-            moves.add(board.reverseParse(rc[0]+i, rc[1]-1));
+            if (row+i > 11 || column-1 < 0)
+                break;
+            String loc = board.reverseParse(row+i, column-1);
+            ChessPiece piece = null;
+            try{
+                board.getPiece(loc);
+            }catch (IllegalPositionException e){
+                e.printStackTrace();
+            }
+            if (((piece != null && piece.getColor() != this.color)
+                    && !(piece instanceof InvalidSpace)) || piece == null)
+                moves.add(loc);
         } for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
-            moves.add(board.reverseParse(rc[0]+1, rc[1]+i));
+            if (row+1 > 11 || column+i > 11)
+                break;
+            String loc = board.reverseParse(row+1, column+i);
+            ChessPiece piece = null;
+            try{
+                board.getPiece(loc);
+            }catch (IllegalPositionException e){
+                e.printStackTrace();
+            }
+            if (((piece != null && piece.getColor() != this.color)
+                    && !(piece instanceof InvalidSpace)) || piece == null)
+                moves.add(loc);
         } for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
-            moves.add(board.reverseParse(rc[0]-i, rc[1]+1));
+            if (row-i < 0 || column+1 > 11)
+                break;
+            String loc = board.reverseParse(row-i, column+1);
+            ChessPiece piece = null;
+            try{
+                board.getPiece(loc);
+            }catch (IllegalPositionException e){
+                e.printStackTrace();
+            }
+            if (((piece != null && piece.getColor() != this.color)
+                    && !(piece instanceof InvalidSpace)) || piece == null)
+                moves.add(loc);
         } for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
-            moves.add(board.reverseParse(rc[0]-1, rc[1]-i));
+            if (row-1 < 0 || column-i < 0)
+                break;
+            String loc = board.reverseParse(row-1, column-i);
+            ChessPiece piece = null;
+            try{
+                board.getPiece(loc);
+            }catch (IllegalPositionException e){
+                e.printStackTrace();
+            }
+            if (((piece != null && piece.getColor() != this.color)
+                    && !(piece instanceof InvalidSpace)) || piece == null)
+                moves.add(loc);
         }
-        moves.add(board.reverseParse(rc[0]+3, rc[1]+1)); moves.add(board.reverseParse(rc[0]-1, rc[1]+3));
-        moves.add(board.reverseParse(rc[0]-3, rc[1]-1)); moves.add(board.reverseParse(rc[0]+1, rc[1]-3));
+        ArrayList<String> diagStr = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            switch (i) {
+                case 0:
+                    if (row + 3 > 11 || column + 1 > 11)
+                        break;
+                    diagStr.add(board.reverseParse(row + 3, column + 1));
+                    break;
+                case 1:
+                    if (row - 1 < 0 || column + 3 > 11)
+                        break;
+                    diagStr.add(board.reverseParse(row - 1, column + 3));
+                    break;
+                case 2:
+                    if (row - 3 < 0 || column - 1 < 0)
+                        break;
+                    diagStr.add(board.reverseParse(row - 3, column - 1));
+                    break;
+                case 3:
+                    if (row + 1 > 11 || column - 3 < 0)
+                        break;
+                    diagStr.add(board.reverseParse(row + 1, column - 3));
+                    break;
+            }
+        }
+        ArrayList<ChessPiece> diags = new ArrayList<>();
+        try{
+            for (String str : diagStr)
+                diags.add(board.getPiece(str));
+        }catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < diags.size(); i++){
+            ChessPiece piece = diags.get(i);
+            if (((piece != null && piece.getColor() != this.color)
+                    && !(piece instanceof InvalidSpace)) || piece == null)
+                moves.add(diagStr.get(i));
+        }
         return new LegalMoves(moves, false, false);
     }
 
