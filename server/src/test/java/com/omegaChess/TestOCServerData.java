@@ -17,6 +17,7 @@ public class TestOCServerData {
 
         // add data
         dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
+        dataToSave.getProfile("Daniel").getMailbox().addNotification("invited", "You were invited by someone!");
 
         // save data
         dataToSave.save();
@@ -27,6 +28,7 @@ public class TestOCServerData {
 
         // make assertions to ensure loading worked properly
         assertTrue(loadedData.profileExists("Daniel"));
+        assertTrue(loadedData.getProfile("Daniel").getMailbox().getNotifications().get(0).getEvent().equals("invited"));
 
         // cleanup
         loadedData.deleteRootSaveFolder();

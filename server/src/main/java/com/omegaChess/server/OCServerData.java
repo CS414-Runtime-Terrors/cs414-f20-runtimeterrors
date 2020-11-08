@@ -133,6 +133,8 @@ public class OCServerData {
     public void save() {
         System.out.println("Saving server data...");
 
+        deleteRootSaveFolder(); // delete outdated data
+
         createDirectoryIfNonExistent(rootSaveLocation);
 
         // save user profile nicknames

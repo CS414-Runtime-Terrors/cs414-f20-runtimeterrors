@@ -175,8 +175,8 @@ public class UserProfile {
         }
 
         // load mailbox
-        // TODO: make this actually load the mailbox instead of creating a new one
-        mailbox = new Mailbox(); // temporary solution
+        mailbox = new Mailbox();
+        mailbox.load(saveFolder + "mailbox/");
         System.out.println("Loaded user profile for '" + getNickname()  + "'");
     }
 }
