@@ -57,7 +57,7 @@ public class Notification {
 
         // save primitives to notifications save folder in primitives.txt
         try {
-            File saveFile = new File(notificationsSaveLocation + "primitives.txt");
+            File saveFile = new File(notificationsSaveLocation + getDateString() + ".txt");
 
             saveFile.createNewFile();
 
@@ -76,7 +76,7 @@ public class Notification {
     public void load(String saveLocation) {
         // load primitives
         try {
-            File loadFile = new File(saveLocation + "primitives.txt");
+            File loadFile = new File(saveLocation);
             Scanner loadReader = new Scanner(loadFile);
 
             // actual loading
