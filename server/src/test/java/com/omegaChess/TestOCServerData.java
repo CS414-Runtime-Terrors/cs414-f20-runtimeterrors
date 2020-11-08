@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestOCServerData {
 
     @Test
-    public void testSavingAndLoading() {
+    public void testSavingAndLoadingUserProfiles() {
+        boolean cleanup = true;
+
         // create data object to save
         OCServerData dataToSave = new OCServerData("./test-data/");
 
@@ -35,12 +37,24 @@ public class TestOCServerData {
         assertTrue(loadedData.getProfile("Daniel").getMailbox().getSent().get(0).getInvitee().equals("Falkyn"));
         assertTrue(loadedData.getProfile("Daniel").getMailbox().getReceived().get(0).getInviter().equals("Patrick"));
 
-        // cleanup
-        loadedData.deleteRootSaveFolder();
+        if (cleanup) {
+            // cleanup
+            loadedData.deleteRootSaveFolder();
 
-        // make sure cleanup worked
-        assertFalse(loadedData.rootSaveFolderExists());
+            // make sure cleanup worked
+            assertFalse(loadedData.rootSaveFolderExists());
+        }
 
+    }
+
+    @Test
+    public void testSavingAndLoadingMatches() {
+        // TODO
+    }
+
+    @Test
+    public void testSavingAndLoadingGameRecords() {
+        // TODO
     }
 
 }
