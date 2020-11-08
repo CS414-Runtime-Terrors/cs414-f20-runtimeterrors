@@ -48,9 +48,47 @@ public class Mailbox {
         final String receivedInvitationsSaveLocation = saveLocation + "received-invitations/";
         final String notificationsSaveLocation = saveLocation + "notifications/";
 
+        // save sent invite filenames
+        try {
+            File saveFile = new File(sentInvitationsSaveLocation + "filenames.txt");
+
+            createDirectoryIfNonExistent(sentInvitationsSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (Invite i : sent) {
+                saveWriter.write(i.getInviter() + "-" + i.getInvitee() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         // save sent invitations
         for (Invite i : sent) {
             i.save(sentInvitationsSaveLocation);
+        }
+
+        // save received invite filenames
+        try {
+            File saveFile = new File(receivedInvitationsSaveLocation + "filenames.txt");
+
+            createDirectoryIfNonExistent(receivedInvitationsSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (Invite i : received) {
+                saveWriter.write(i.getInviter() + "-" + i.getInvitee() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
         // save received invitations
@@ -90,10 +128,36 @@ public class Mailbox {
         final String notificationsSaveLocation = saveLocation + "notifications/";
 
         // load sent invites
-        // TODO
+        try {
+            File loadFile = new File(sentInvitationsSaveLocation + "filenames.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextFileName = loadReader.nextLine();
+                Invite temp = new Invite();
+                temp.load(sentInvitationsSaveLocation + nextFileName);
+                sent.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + sentInvitationsSaveLocation);
+        }
 
         // load received invites
-        // TODO
+        try {
+            File loadFile = new File(receivedInvitationsSaveLocation + "filenames.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextFileName = loadReader.nextLine();
+                Invite temp = new Invite();
+                temp.load(receivedInvitationsSaveLocation + nextFileName);
+                received.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + receivedInvitationsSaveLocation);
+        }
 
         // load notifications
         try {

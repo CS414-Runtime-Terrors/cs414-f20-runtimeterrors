@@ -20,6 +20,11 @@ public class Invite {
         declined = false;
     }
 
+    // storage constructor
+    public Invite() {
+
+    }
+
     public void Accept(){ accepted = true; }
 
     public void Decline() { declined = true; }
