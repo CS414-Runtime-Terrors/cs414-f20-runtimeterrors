@@ -36,10 +36,10 @@ public class TestOCServerData {
         assertTrue(loadedData.getProfile("Daniel").getMailbox().getReceived().get(0).getInviter().equals("Patrick"));
 
         // cleanup
-//        loadedData.deleteRootSaveFolder();
+        loadedData.deleteRootSaveFolder();
 
         // make sure cleanup worked
-//        assertFalse(loadedData.rootSaveFolderExists());
+        assertFalse(loadedData.rootSaveFolderExists());
 
     }
 
