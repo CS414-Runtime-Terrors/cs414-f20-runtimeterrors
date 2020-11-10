@@ -248,4 +248,35 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // request the matches a user can resume
+    public OCMessage getResumeMatches(String nickname) {
+        System.out.println("Sending get in-progress matches request for " + nickname);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get in-progress matches");
+        message.put("nickname", nickname);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // request the matches a user can resume
+    public OCMessage resumeMatch(String matchID) {
+        System.out.println("Sending resume match request for match ID " + matchID);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "resume match");
+        message.put("matchID", matchID);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }

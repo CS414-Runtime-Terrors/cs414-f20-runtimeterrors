@@ -50,6 +50,12 @@ public class OCProtocol {
                 case "invite response":
                     toReturn = inviteResponse(receivedMessage);
                     break;
+                case "get in-progress matches":
+                    toReturn = resumeMatchesListResponse(receivedMessage);
+                    break;
+                case "resume match":
+                    toReturn = resumeMatchResponse(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -456,5 +462,15 @@ public class OCProtocol {
             }
         }
         return null;
+    }
+
+    public String resumeMatchesListResponse(OCMessage receivedMessage) {
+        String user = receivedMessage.get("nickname");
+        return "";
+    }
+
+    public String resumeMatchResponse(OCMessage receivedMessage) {
+        int matchID = Integer.parseInt(receivedMessage.get("mathcID"));
+        return "";
     }
 }
