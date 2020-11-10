@@ -77,7 +77,7 @@ public class Match {
     }
 
     // forfeit a match
-    public GameRecord endMatch(String quitter, String winner, int moves){ return new GameRecord(winner, quitter, moves, false); }
+    public GameRecord endMatch(String loser, String winner, int moves){ return new GameRecord(winner, loser, moves, false); }
 
     public ChessBoard getBoard() { return board; }
 

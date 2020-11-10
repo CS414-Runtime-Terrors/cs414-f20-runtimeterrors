@@ -17,5 +17,8 @@ public class InvalidSpace extends ChessPiece{
     }
 
     @Override
+    public LegalMoves getNormalOrCheckMoves() { return null; }
+
+    @Override
     public LegalMoves movesToBlockCheckingPiece(String kingPos) { return null; }
 }
