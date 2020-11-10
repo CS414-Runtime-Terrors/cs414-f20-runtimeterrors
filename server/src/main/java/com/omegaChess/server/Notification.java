@@ -12,14 +12,19 @@ import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class Notification {
 
+    private static int numInstances = 0;
+    private int ID;
+
     private String event;
     private String message;
     private Date date;
 
     public Notification(String eventToSet, String messageToSet) {
+        numInstances++;
         event = eventToSet;
         message = messageToSet;
         date = new Date();
+        ID = numInstances;
     }
 
     // storage constructor
@@ -51,18 +56,23 @@ public class Notification {
 
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public void save(String notificationsSaveLocation) {
 
         createDirectoryIfNonExistent(notificationsSaveLocation);
 
         // save primitives to notifications save folder in primitives.txt
         try {
-            File saveFile = new File(notificationsSaveLocation + getDateString() + ".txt");
+            File saveFile = new File(notificationsSaveLocation + getID() + ".txt");
 
             saveFile.createNewFile();
 
             FileWriter saveWriter = new FileWriter(saveFile);
 
+            saveWriter.write(ID + "\n");
             saveWriter.write(event + "\n");
             saveWriter.write(message + "\n");
             saveWriter.write(getDateString() + "\n");
@@ -80,6 +90,9 @@ public class Notification {
             Scanner loadReader = new Scanner(loadFile);
 
             // actual loading
+            if (loadReader.hasNextLine()) {
+                ID = Integer.parseInt(loadReader.nextLine());
+            }
             if (loadReader.hasNextLine()) {
                 setEvent(loadReader.nextLine());
             }
