@@ -223,7 +223,7 @@ public class GameBoard {
     public void addListeners() {
         for (ArrayList<BoardSquare> row : gameBoard) {
             for (final BoardSquare square : row) {
-                //currently, you can click a piece and move it wherever you want
+                //currently, you can click a piece in its starting position and move it to a legal spot
                 square.addListener( new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
