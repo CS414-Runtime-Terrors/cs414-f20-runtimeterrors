@@ -71,7 +71,7 @@ public class ResumeScreen implements Screen {
     private void listMatches() {
         // request list of matches user is in
         OCMessage receivedMessage = parent.getClient().getResumeMatches(nickname);
-        //temp line to see list until server response is finalized
+        //temp line to see dummy list until server response is finalized
         receivedMessage.put("success", "true");
 
         if (receivedMessage.get("success").equals("true")) {
@@ -160,23 +160,5 @@ public class ResumeScreen implements Screen {
     @Override
     public void dispose() {
 
-    }
-}
-
-class MatchListItem {
-    private final String opponent;
-    private final String matchIndex;
-
-    public MatchListItem(String op, String index) {
-        opponent = op;
-        matchIndex = index;
-    }
-
-    public String getOpponent() {
-        return opponent;
-    }
-
-    public String getMatchIndex() {
-        return matchIndex;
     }
 }
