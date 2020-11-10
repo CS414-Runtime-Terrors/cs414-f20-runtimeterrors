@@ -22,7 +22,8 @@ public class Match {
         this.profile2 = profile2;
         board = new ChessBoard();
         turn = null;
-        matchID = ++matchCount;
+//        matchID = ++matchCount;
+        matchID = 1;
     }
 
     public int getMatchID() {

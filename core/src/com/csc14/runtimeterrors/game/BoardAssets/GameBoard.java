@@ -7,12 +7,14 @@ import com.csc14.runtimeterrors.game.OCMessage;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameBoard {
 
     private OmegaChess parent;
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
+    private List<String> highlightedSquares;
 
     public GameBoard(OmegaChess omegaChess) {
         parent = omegaChess;
@@ -192,18 +194,18 @@ public class GameBoard {
         row11.add(blank);
         row11.add(new BoardSquare(Color.WHITE, 11, 11, "blackWizard.png"));
 
-        gameBoard.add(row11);
-        gameBoard.add(row10);
-        gameBoard.add(row9);
-        gameBoard.add(row8);
-        gameBoard.add(row7);
-        gameBoard.add(row6);
-        gameBoard.add(row5);
-        gameBoard.add(row4);
-        gameBoard.add(row3);
-        gameBoard.add(row2);
-        gameBoard.add(row1);
         gameBoard.add(row0);
+        gameBoard.add(row1);
+        gameBoard.add(row2);
+        gameBoard.add(row3);
+        gameBoard.add(row4);
+        gameBoard.add(row5);
+        gameBoard.add(row6);
+        gameBoard.add(row7);
+        gameBoard.add(row8);
+        gameBoard.add(row9);
+        gameBoard.add(row10);
+        gameBoard.add(row11);
     }
 
     //get square with chess position string (i.e. "a3", "f5", etc.)
@@ -225,14 +227,42 @@ public class GameBoard {
                 square.addListener( new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
                         if (square.hasPiece() && clickedPiece == null) {
+                            // set square as clicked
                             clickedPiece = square;
 
-//                            OCMessage receivedMessage = parent.getClient().getLegalMoves()
-                        } else if (clickedPiece != null) {
+                            // get legal moves from server
+                            OCMessage receivedMessage = parent.getClient().getLegalMoves(1, clickedPiece.getPosition());
+                            List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
+
+                            // highlight legal moves
+                            for (String position : legalMoves) {
+                                getSquare(position).highlight();
+                            }
+                            highlightedSquares = legalMoves;
+                        }
+                        // if second click is on a highlighted square, move piece and unhighlight squares
+                        else if (clickedPiece != null && square.isHighlighted()) {
+                            // move piece
                             square.setPiece(clickedPiece.getCurrentPiece());
                             clickedPiece.removePiece();
                             clickedPiece = null;
+
+                            // unhighlight squares
+                            for (String position : highlightedSquares) {
+                                getSquare(position).unHighlight();
+                            }
+                        }
+                        // if second click is on a non-highlighted square, reset first click and unhighlight squares
+                        else if (clickedPiece != null && !square.isHighlighted()) {
+                            // reset clicked pieces
+                            clickedPiece = null;
+
+                            // unhighlight squares
+                            for (String position : highlightedSquares) {
+                                getSquare(position).unHighlight();
+                            }
                         }
                     }
                 });

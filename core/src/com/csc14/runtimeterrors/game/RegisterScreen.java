@@ -133,7 +133,7 @@ public class RegisterScreen implements Screen {
                     String errorMsg = "Error! Email is not a valid format!";
                     JOptionPane.showMessageDialog(null, errorMsg, "Email Error!", JOptionPane.ERROR_MESSAGE);
 
-                    // return if invalid emailo
+                    // return if invalid email
                     return;
                 }
 

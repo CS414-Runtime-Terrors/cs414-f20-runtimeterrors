@@ -57,6 +57,7 @@ public class OCProtocol {
                     break;
                 case "get legal moves":
                     toReturn = getLegalMoves(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -455,8 +456,13 @@ public class OCProtocol {
         int column = Integer.parseInt(receivedMessage.get("column"));
         OCMessage message = new OCMessage();
 
-        Match match = serverData.getMatch(matchID);
-        ChessBoard board = match.getBoard();
+        // get correct match and board
+//        Match match = serverData.getMatch(matchID);
+//        ChessBoard board = match.getBoard();
+        ChessBoard board = new ChessBoard();
+        board.initialize();
+
+        // get piece at specified position on board
         String position = board.reverseParse(row, column);
         ChessPiece piece = null;
         try {
@@ -465,6 +471,7 @@ public class OCProtocol {
             e.printStackTrace();
         }
 
+        // get legal moves for that piece
         LegalMoves moves;
         if (piece == null) {
             message.put("success", "false");
@@ -473,8 +480,14 @@ public class OCProtocol {
         } else {
             moves = piece.getNormalOrCheckMoves();
         }
+        String legalMoves = "/";
+        for (String move : moves.getListOfMoves()) {
+            legalMoves += move;
+            legalMoves += "/";
+        }
         message.put("success", "true");
-        message.put("legal moves", moves.getListOfMoves().toString());
+        message.put("legal moves", legalMoves);
+        System.out.println("Sending legal moves: " + legalMoves);
 
         return message.toString();
     }
