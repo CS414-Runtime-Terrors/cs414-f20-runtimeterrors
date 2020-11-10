@@ -214,7 +214,20 @@ public class OCServerData {
         // TODO
 
         // load game records
-        // TODO
+        try {
+            File loadFile = new File(gameRecordsSaveLocation + "primitives.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextFilename = loadReader.nextLine();
+                GameRecord temp = new GameRecord();
+                temp.load(gameRecordsSaveLocation + nextFilename + "/");
+                archive.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + gameRecordsSaveLocation);
+        }
 
         System.out.println("Done loading!");
     }
