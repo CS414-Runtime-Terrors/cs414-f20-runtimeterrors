@@ -33,7 +33,7 @@ public class GameRecord {
 
     // storage constructor
     public GameRecord() {
-
+        players = new ArrayList<>();
     }
 
     //getters and setters
@@ -64,16 +64,11 @@ public class GameRecord {
     }
 
     public void save(String saveLocation) {
-
         createDirectoryIfNonExistent(saveLocation);
 
-        final String gameRecordSaveLocation = saveLocation + winner + "-" + loser + "-" + numMoves + "-" + draw + "/";
-
-        createDirectoryIfNonExistent(gameRecordSaveLocation);
-
-// save primitives to game record save folder in primitives.txt
+        // save primitives to file named (ID).txt
         try {
-            File saveFile = new File(gameRecordSaveLocation + "primitives.txt");
+            File saveFile = new File(saveLocation + getID() + ".txt");
 
             saveFile.createNewFile();
 

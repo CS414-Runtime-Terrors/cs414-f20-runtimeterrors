@@ -234,13 +234,13 @@ public class OCServerData {
 
         // load game records
         try {
-            File loadFile = new File(gameRecordsSaveLocation + "primitives.txt");
+            File loadFile = new File(gameRecordsSaveLocation + "filenames.txt");
             Scanner loadReader = new Scanner(loadFile);
             // actual loading
             while (loadReader.hasNextLine()) {
                 String nextFilename = loadReader.nextLine();
                 GameRecord temp = new GameRecord();
-                temp.load(gameRecordsSaveLocation + nextFilename + "/");
+                temp.load(gameRecordsSaveLocation + nextFilename + ".txt");
                 archive.add(temp);
             }
             loadReader.close();

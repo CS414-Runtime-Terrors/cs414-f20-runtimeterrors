@@ -77,9 +77,9 @@ public class TestOCServerData {
         loadedData.load();
 
         // make assertions to ensure loading worked properly
-        assertEquals("Falkyn", dataToSave.getArchive().get(0).getWinner());
-        assertEquals("Daniel", dataToSave.getArchive().get(0).getLoser());
-        assertEquals(50, dataToSave.getArchive().get(0).getNumMoves());
+        assertEquals("Falkyn", loadedData.getArchive().get(0).getWinner());
+        assertEquals("Daniel", loadedData.getArchive().get(0).getLoser());
+        assertEquals(50, loadedData.getArchive().get(0).getNumMoves());
 
         if (cleanup) {
             // cleanup

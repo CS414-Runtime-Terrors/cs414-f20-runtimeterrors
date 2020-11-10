@@ -3,7 +3,6 @@ package com.omegaChess.server;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
