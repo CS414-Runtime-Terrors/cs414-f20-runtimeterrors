@@ -35,7 +35,7 @@ public class Wizard extends ChessPiece {
             String loc = board.reverseParse(row+i, column-1);
             ChessPiece piece = null;
             try{
-                board.getPiece(loc);
+                piece = board.getPiece(loc);
             }catch (IllegalPositionException e){
                 e.printStackTrace();
             }
@@ -49,7 +49,7 @@ public class Wizard extends ChessPiece {
             String loc = board.reverseParse(row+1, column+i);
             ChessPiece piece = null;
             try{
-                board.getPiece(loc);
+                piece = board.getPiece(loc);
             }catch (IllegalPositionException e){
                 e.printStackTrace();
             }
@@ -63,7 +63,7 @@ public class Wizard extends ChessPiece {
             String loc = board.reverseParse(row-i, column+1);
             ChessPiece piece = null;
             try{
-                board.getPiece(loc);
+                piece = board.getPiece(loc);
             }catch (IllegalPositionException e){
                 e.printStackTrace();
             }
@@ -77,7 +77,7 @@ public class Wizard extends ChessPiece {
             String loc = board.reverseParse(row-1, column-i);
             ChessPiece piece = null;
             try{
-                board.getPiece(loc);
+                piece = board.getPiece(loc);
             }catch (IllegalPositionException e){
                 e.printStackTrace();
             }
