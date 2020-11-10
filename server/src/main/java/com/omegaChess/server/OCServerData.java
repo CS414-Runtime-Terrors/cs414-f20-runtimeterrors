@@ -177,6 +177,25 @@ public class OCServerData {
             m.save(matchesSaveLocation);
         }
 
+        // save game record filenames
+        try {
+            File saveFile = new File(gameRecordsSaveLocation + "filenames.txt");
+
+            createDirectoryIfNonExistent(gameRecordsSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (GameRecord g : archive) {
+                saveWriter.write(g.getID() + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // save game records
         for (GameRecord r : archive) {
             r.save(gameRecordsSaveLocation);
