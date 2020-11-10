@@ -211,8 +211,10 @@ public class ChessBoard {
     }
 
     public ChessPiece getPiece(String position) throws IllegalPositionException {
-        int[] pos = new int[0];
+        int[] pos;
         pos = parsePosition(position);
+        if ((pos[0] < 0 || pos[0] > 11 || pos[1] < 0 || pos[1] > 11))
+            throw new IllegalPositionException("Invalid position!");
 
         return board[pos[0]][pos[1]];
     }

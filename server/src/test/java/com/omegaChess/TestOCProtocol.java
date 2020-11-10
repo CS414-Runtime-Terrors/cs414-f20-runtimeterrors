@@ -357,4 +357,61 @@ public class TestOCProtocol {
         assertEquals(0, data.getProfile("shing").getMailbox().getSent().size(), "Failed to remove invite from mailbox.");
     }
 
+    @Test
+    public void testGetLegalMoves() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        // test white pawn in starting position
+        OCMessage message = new OCMessage();
+        message.put("process", "get legal moves");
+        message.put("matchID", "1");
+        message.put("row", "2");
+        message.put("column", "1");
+        String input = message.toString();
+        String out = protocol.processInput(input);
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+        assertEquals("true", receivedMessage.get("success"));
+        assertEquals("/a3/a4/a5/", receivedMessage.get("legal moves"));
+
+        // test black pawn in starting position
+        message = new OCMessage();
+        message.put("process", "get legal moves");
+        message.put("matchID", "1");
+        message.put("row", "9");
+        message.put("column", "10");
+        input = message.toString();
+        out = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+        assertEquals("true", receivedMessage.get("success"));
+        assertEquals("/j8/j7/j6/", receivedMessage.get("legal moves"));
+
+        // test knight in starting position
+        message = new OCMessage();
+        message.put("process", "get legal moves");
+        message.put("matchID", "1");
+        message.put("row", "1");
+        message.put("column", "8");
+        input = message.toString();
+        out = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+        assertEquals("true", receivedMessage.get("success"));
+        assertEquals("/g3/i3/", receivedMessage.get("legal moves"));
+
+        // test black square
+        message = new OCMessage();
+        message.put("process", "get legal moves");
+        message.put("matchID", "1");
+        message.put("row", "5");
+        message.put("column", "5");
+        input = message.toString();
+        out = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+        assertEquals("false", receivedMessage.get("success"));
+    }
+
 }

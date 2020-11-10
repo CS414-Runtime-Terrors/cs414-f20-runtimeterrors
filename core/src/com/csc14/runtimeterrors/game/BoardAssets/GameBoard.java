@@ -181,7 +181,7 @@ public class GameBoard {
         row10.add(new BoardSquare(Color.WHITE, 10, 10, "blackChampion.png"));
         row10.add(blank);
 
-        row11.add(new BoardSquare(Color.GRAY, 11, 1, "blackWizard.png"));
+        row11.add(new BoardSquare(Color.GRAY, 11, 0, "blackWizard.png"));
         row11.add(blank);
         row11.add(blank);
         row11.add(blank);
