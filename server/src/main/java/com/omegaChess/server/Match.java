@@ -7,6 +7,7 @@ import com.omegaChess.server.*;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
@@ -114,14 +115,28 @@ public class Match {
 
         final String boardSaveLocation = matchSaveLocation + "board/";
 
-        // save primitives
-        // TODO
+        // save primitives to match save location in primitives.txt
+        try {
+            File saveFile = new File(matchSaveLocation + "primitives.txt");
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            saveWriter.write(profile1 + "\n");
+            saveWriter.write(profile2 + "\n");
+            saveWriter.write(matchID + "\n");
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         // save board
         board.save(boardSaveLocation);
 
         // save turn tracker in turn.txt
-        turn.save(saveLocation);
+        turn.save(matchSaveLocation);
     }
 
     public void load(String saveLocation) {
