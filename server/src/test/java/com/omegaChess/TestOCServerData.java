@@ -50,13 +50,44 @@ public class TestOCServerData {
 
     @Test
     public void testSavingAndLoadingMatches() {
+        boolean cleanup = true;
+
+        // create data object to save
+        OCServerData dataToSave = new OCServerData("./test-data/");
+
+        // add data
+        dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
+        dataToSave.createProfile("Falkyn", "pass", "falkyn@gmail.com");
+        Match match = new Match("Daniel", "Falkyn");
+        int ID = match.getMatchID();
+        match.initialize();
+        dataToSave.addMatch(match);
+
+        // save data
+        dataToSave.save();
+
+        // create data object to load
+        OCServerData loadedData = new OCServerData("./test-data/");
+        loadedData.load();
+
         // ensure primitives loaded correctly
+        assertEquals(ID, loadedData.getMatches().get(0).getMatchID());
+        assertEquals("Daniel", loadedData.getMatch(ID).getProfile1());
+        assertEquals("Falkyn", loadedData.getMatch(ID).getProfile2());
 
         // ensure board loaded correctly
+        // TODO
 
         // ensure turn tracker loaded correctly
+        // TODO
 
+        if (cleanup) {
+            // cleanup
+            loadedData.deleteRootSaveFolder();
 
+            // make sure cleanup worked
+            assertFalse(loadedData.rootSaveFolderExists());
+        }
     }
 
     @Test

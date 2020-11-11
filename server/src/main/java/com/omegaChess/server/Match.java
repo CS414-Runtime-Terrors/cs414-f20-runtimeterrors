@@ -7,8 +7,10 @@ import com.omegaChess.server.*;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
@@ -141,7 +143,25 @@ public class Match {
 
     public void load(String saveLocation) {
         // load primitives
-        // TODO
+        try {
+            File loadFile = new File(saveLocation + "primitives.txt");
+            Scanner loadReader = new Scanner(loadFile);
+
+            // actual loading
+            if (loadReader.hasNextLine()) {
+                profile1 = loadReader.nextLine();
+            }
+            if (loadReader.hasNextLine()) {
+                profile2 = loadReader.nextLine();
+            }
+            if (loadReader.hasNextLine()) {
+                matchID = Integer.parseInt(loadReader.nextLine());
+            }
+
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + saveLocation);
+        }
 
         // load board
         // TODO
