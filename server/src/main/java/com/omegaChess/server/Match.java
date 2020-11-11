@@ -142,6 +142,9 @@ public class Match {
     }
 
     public void load(String saveLocation) {
+
+        final String matchSaveLocation = saveLocation + profile1 + "-" + profile2 + "/";
+
         // load primitives
         try {
             File loadFile = new File(saveLocation + "primitives.txt");
@@ -167,6 +170,6 @@ public class Match {
         // TODO
 
         // load turn
-        // TODO
+        turn.load(matchSaveLocation);
     }
 }
