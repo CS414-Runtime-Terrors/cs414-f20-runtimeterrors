@@ -167,9 +167,11 @@ public class Match {
         }
 
         // load board
-        // TODO
+        board = new ChessBoard();
+        board.load(matchSaveLocation);
 
         // load turn
+        turn = new TurnTracker(profile1, profile2);
         turn.load(matchSaveLocation);
     }
 }

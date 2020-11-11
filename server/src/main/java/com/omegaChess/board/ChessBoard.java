@@ -652,7 +652,7 @@ public class ChessBoard {
         }
     }
 
-    public void load() {
+    public void load(String saveLocation) {
         // load black pieces
         // TODO
 

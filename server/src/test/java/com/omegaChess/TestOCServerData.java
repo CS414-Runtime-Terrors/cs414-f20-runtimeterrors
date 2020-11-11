@@ -59,7 +59,9 @@ public class TestOCServerData {
         dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
         dataToSave.createProfile("Falkyn", "pass", "falkyn@gmail.com");
         Match match = new Match("Daniel", "Falkyn");
+        match.initialize();
         int ID = match.getMatchID();
+        String playerWhoseTurnItIs = match.getTurn().getCurrentTurnPlayer();
         match.initialize();
         dataToSave.addMatch(match);
 
@@ -79,7 +81,7 @@ public class TestOCServerData {
         // TODO
 
         // ensure turn tracker loaded correctly
-        // TODO
+        assertEquals(playerWhoseTurnItIs, loadedData.getMatch(ID).getTurn().getCurrentTurnPlayer());
 
         if (cleanup) {
             // cleanup
