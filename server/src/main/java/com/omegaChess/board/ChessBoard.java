@@ -4,8 +4,6 @@ import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
 
-import javax.sound.midi.SysexMessage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -23,17 +21,20 @@ public class ChessBoard {
     // Create a class constructor for the ChessBoard.java class
     public ChessBoard() {
         // create 12x12 board and initialize to all nulls
-        board = new ChessPiece[12][12];
-        for( ChessPiece[] array : board )
-        {
-            Arrays.fill(array, null);
-        }
-
+        createAndInitializeToNulls();
 
         black_pieces = new ArrayList<>();
         white_pieces = new ArrayList<>();
         moves = new ArrayList<>();
 
+    }
+
+    private void createAndInitializeToNulls() {
+        board = new ChessPiece[12][12];
+        for( ChessPiece[] array : board )
+        {
+            Arrays.fill(array, null);
+        }
     }
 
     public void initialize()
@@ -653,16 +654,26 @@ public class ChessBoard {
     }
 
     public void load(String saveLocation) {
-        // load black pieces
-        // TODO
+
+        final String blackPiecesSaveLocation = saveLocation + "black-pieces/";
+        final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
+        final String movesSaveLocation = saveLocation + "moves/";
+
+
+        moves = new ArrayList<>();
 
         // load white pieces
+        white_pieces = new ArrayList<>();
         // TODO
 
         // load moves
+        black_pieces = new ArrayList<>();
         // TODO
 
-        // reconstruct board
+        // initialize board to nulls
+        createAndInitializeToNulls();
+
+        // place pieces onto board
         // TODO
     }
 }

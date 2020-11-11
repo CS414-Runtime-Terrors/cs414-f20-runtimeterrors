@@ -35,6 +35,11 @@ public abstract class ChessPiece {
             board.white_pieces.add(this);
     }
 
+    // storage constructor
+    public ChessPiece(ChessBoard board) {
+        this.board = board;
+    }
+
     // Returns the color of the current piece
     public Color getColor()
     {
@@ -151,6 +156,16 @@ public abstract class ChessPiece {
     }
 
     public void load(String saveLocation) {
+        // set color
         // TODO
+
+        // set moved
+        // TODO
+
+        // add to board
+        if(color == Color.BLACK)
+            board.black_pieces.add(this);
+        if(color == Color.WHITE)
+            board.white_pieces.add(this);
     }
 }
