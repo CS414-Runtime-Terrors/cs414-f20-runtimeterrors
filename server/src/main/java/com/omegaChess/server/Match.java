@@ -29,6 +29,11 @@ public class Match {
         matchID = 1;
     }
 
+    // storage constructor
+    public Match() {
+
+    }
+
     public int getMatchID() {
         return matchID;
     }
@@ -119,7 +124,14 @@ public class Match {
         turn.save(saveLocation);
     }
 
-    public void load() {
+    public void load(String saveLocation) {
+        // load primitives
+        // TODO
+
+        // load board
+        // TODO
+
+        // load turn
         // TODO
     }
 }
