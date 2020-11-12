@@ -61,16 +61,16 @@ public class Move {
             FileWriter saveWriter = new FileWriter(saveFile);
 
             // save piece type
-            saveWriter.write(piece);
+            saveWriter.write(piece + "\n");
 
             // save from
-            saveWriter.write(fromPosition);
+            saveWriter.write(fromPosition + "\n");
 
             // save to
-            saveWriter.write(toPosition);
+            saveWriter.write(toPosition + "\n");
 
             // save ID
-            saveWriter.write(ID);
+            saveWriter.write(ID + "\n");
 
             saveWriter.close();
         } catch(Exception e) {

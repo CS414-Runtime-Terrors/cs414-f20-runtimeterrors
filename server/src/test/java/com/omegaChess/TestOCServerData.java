@@ -1,5 +1,6 @@
 package com.omegaChess;
 
+import com.omegaChess.board.ChessBoard;
 import com.omegaChess.board.Move;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.Pawn;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JUnit OCServerData Class Test")
 public class TestOCServerData {
-
+/*
     @Test
     public void testSavingAndLoadingUserProfiles() {
         boolean cleanup = true;
@@ -52,10 +53,10 @@ public class TestOCServerData {
         }
 
     }
-
+*/
     @Test
     public void testSavingAndLoadingMatches() {
-        boolean cleanup = true;
+        boolean cleanup = false;
 
         // create data object to save
         OCServerData dataToSave = new OCServerData("./test-data/");
@@ -91,7 +92,10 @@ public class TestOCServerData {
         assertEquals(white_pieces.toString(), loadedData.getMatch(ID).getBoard().get_white_pieces().toString());
 
         // ensure board moves loaded correctly
-        assertEquals(moves.size(), loadedData.getMatch(ID).getBoard().getMoves().size());
+        assertEquals(moves.get(0).getID(), loadedData.getMatch(ID).getBoard().getMoves().get(0).getID());
+        assertEquals(moves.get(0).getMovedFromPosition(), loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedFromPosition());
+        assertEquals(moves.get(0).getMovedToPosition(), loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedToPosition());
+        assertEquals(ChessBoard.getType(moves.get(0).getMovedPiece()), ChessBoard.getType(loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedPiece()));
 
         // ensure turn tracker loaded correctly
         assertEquals(playerWhoseTurnItIs, loadedData.getMatch(ID).getTurn().getCurrentTurnPlayer());
@@ -104,7 +108,7 @@ public class TestOCServerData {
             assertFalse(loadedData.rootSaveFolderExists());
         }
     }
-
+/*
     @Test
     public void testSavingAndLoadingGameRecords() {
         boolean cleanup = true;
@@ -140,5 +144,5 @@ public class TestOCServerData {
             assertFalse(loadedData.rootSaveFolderExists());
         }
     }
-
+*/
 }
