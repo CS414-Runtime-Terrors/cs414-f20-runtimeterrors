@@ -183,3 +183,7 @@ Return Message Success:
 * "y9": "InvalidSpace.toString()"
 * "y10": "InvalidSpace.toString()"
 * "w4": "piece.toString() | null"
+
+Return Message Failure:
+* "success": "false"
+* "reason": "reason for failure"
