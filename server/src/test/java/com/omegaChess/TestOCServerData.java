@@ -2,6 +2,7 @@ package com.omegaChess;
 
 import com.omegaChess.board.Move;
 import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.Pawn;
 import com.omegaChess.server.Invite;
 import com.omegaChess.server.Match;
 import com.omegaChess.server.OCServerData;
@@ -63,6 +64,9 @@ public class TestOCServerData {
         dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
         dataToSave.createProfile("Falkyn", "pass", "falkyn@gmail.com");
         Match match = new Match("Daniel", "Falkyn");
+
+        match.getBoard().getMoves().add(new Move(new Pawn(), "A2","A3"));
+
         int ID = match.getMatchID();
         String playerWhoseTurnItIs = match.getTurn().getCurrentTurnPlayer();
         ArrayList<ChessPiece> black_pieces = match.getBoard().get_black_pieces();
@@ -87,7 +91,7 @@ public class TestOCServerData {
         assertEquals(white_pieces.toString(), loadedData.getMatch(ID).getBoard().get_white_pieces().toString());
 
         // ensure board moves loaded correctly
-        assertEquals(moves.toString(), loadedData.getMatch(ID).getBoard().getMoves().toString());
+        assertEquals(moves.size(), loadedData.getMatch(ID).getBoard().getMoves().size());
 
         // ensure turn tracker loaded correctly
         assertEquals(playerWhoseTurnItIs, loadedData.getMatch(ID).getTurn().getCurrentTurnPlayer());
