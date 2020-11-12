@@ -3,6 +3,7 @@ package com.omegaChess.board;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
+import com.omegaChess.server.OCMessage;
 
 import javax.sound.midi.SysexMessage;
 import java.io.File;
@@ -464,6 +465,25 @@ public class ChessBoard {
 
         chess+=bottomLine;
         return chess;
+    }
+
+    public String boardString(){
+        OCMessage message = new OCMessage();
+        int r = 0;
+        for (ChessPiece[] row: board){
+            int c = 0;
+            for (ChessPiece piece: row){
+                if (piece == null){
+                    message.put(reverseParse(r, c), null);
+                }else {
+                    message.put(reverseParse(r, c), piece.toString());
+                }
+                c++;
+            }
+            r++;
+        }
+
+        return message.toString();
     }
 
     public static void main(String[] args) {
