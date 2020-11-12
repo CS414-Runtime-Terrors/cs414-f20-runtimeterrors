@@ -63,7 +63,6 @@ public class TestOCServerData {
         dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
         dataToSave.createProfile("Falkyn", "pass", "falkyn@gmail.com");
         Match match = new Match("Daniel", "Falkyn");
-        match.initialize();
         int ID = match.getMatchID();
         String playerWhoseTurnItIs = match.getTurn().getCurrentTurnPlayer();
         ArrayList<ChessPiece> black_pieces = match.getBoard().get_black_pieces();

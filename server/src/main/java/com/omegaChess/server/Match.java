@@ -20,7 +20,7 @@ public class Match {
     private String profile1, profile2;
     private TurnTracker turn;
     private static int matchCount = 0;
-    private final int matchID;
+    private int matchID;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
@@ -34,7 +34,7 @@ public class Match {
 
     // storage constructor
     public Match() {
-//      matchID = ++matchCount;
+        matchID = ++matchCount;
     }
 
     public int getMatchID() {
