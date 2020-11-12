@@ -358,14 +358,61 @@ public class TestOCProtocol {
     }
 
     @Test
+    public void testGetBoard(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("this", "one", "thisOne@omegachess.com");
+        data.createProfile("that", "one", "thatOne@omegachess.com");
+
+        Match match = new Match("this", "that");
+        data.addMatch(match);
+
+        OCMessage message = new OCMessage();
+
+        message.put("process", "get board data");
+        message.put("ID", String.valueOf(match.getMatchID()));
+        String input = message.toString();
+
+        String out = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        assertEquals("true", receivedMessage.get("success"), "Failed to get board data because " + receivedMessage.get("reason"));
+    }
+
+    @Test
     public void testGetLegalMoves() {
         OCServerData data = new OCServerData();
         OCProtocol protocol = new OCProtocol(data);
 
+        // create profiles
+        data.createProfile("pete", "zoop", "asdf@mail.com");
+        data.createProfile("kyle", "zoop", "fdsa@mail.com");
+
+        // send invite
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "kyle");
+        invite.put("inviter", "pete");
+        protocol.processInput(invite.toString());
+
+        // accept invite and get matchID
+        OCMessage accept = new OCMessage();
+        accept.put("process", "invite response");
+        accept.put("response", "accept");
+        accept.put("inviter", "pete");
+        accept.put("invitee", "kyle");
+        String acceptString = protocol.processInput(accept.toString());
+        OCMessage acceptResponse = new OCMessage();
+        acceptResponse.fromString(acceptString);
+        String matchID = acceptResponse.get("matchID");
+
         // test white pawn in starting position
         OCMessage message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "2");
         message.put("column", "1");
         String input = message.toString();
@@ -378,7 +425,7 @@ public class TestOCProtocol {
         // test black pawn in starting position
         message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "9");
         message.put("column", "10");
         input = message.toString();
@@ -391,7 +438,7 @@ public class TestOCProtocol {
         // test knight in starting position
         message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "1");
         message.put("column", "8");
         input = message.toString();
@@ -401,10 +448,10 @@ public class TestOCProtocol {
         assertEquals("true", receivedMessage.get("success"));
         assertEquals("/g3/i3/", receivedMessage.get("legal moves"));
 
-        // test black square
+        // test blank square
         message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "5");
         message.put("column", "5");
         input = message.toString();
@@ -413,5 +460,4 @@ public class TestOCProtocol {
         receivedMessage.fromString(out);
         assertEquals("false", receivedMessage.get("success"));
     }
-
 }

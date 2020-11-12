@@ -15,6 +15,7 @@ public class GameBoard {
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
+    private int matchID;
 
     public GameBoard(OmegaChess omegaChess) {
         parent = omegaChess;
@@ -219,6 +220,8 @@ public class GameBoard {
         return gameBoard.get(row).get(column);
     }
 
+    public void setMatchID(int id) { matchID = id; }
+
     //add click listener to each square
     public void addListeners() {
         for (ArrayList<BoardSquare> row : gameBoard) {
@@ -233,7 +236,7 @@ public class GameBoard {
                             clickedPiece = square;
 
                             // get legal moves from server
-                            OCMessage receivedMessage = parent.getClient().getLegalMoves(1, clickedPiece.getPosition());
+                            OCMessage receivedMessage = parent.getClient().getLegalMoves(matchID, clickedPiece.getPosition());
                             List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
 
                             // highlight legal moves

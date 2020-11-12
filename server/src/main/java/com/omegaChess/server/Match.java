@@ -20,16 +20,16 @@ public class Match {
     private String profile1, profile2;
     private TurnTracker turn;
     private static int matchCount = 0;
-    private int matchID;
+    private final int matchID;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
         this.profile1 = profile1;
         this.profile2 = profile2;
         board = new ChessBoard();
-        turn = null;
-//        matchID = ++matchCount;
-        matchID = 1;
+        board.initialize();
+        turn = new TurnTracker(profile1, profile2);
+        matchID = ++matchCount;
     }
 
     // storage constructor
@@ -39,11 +39,6 @@ public class Match {
 
     public int getMatchID() {
         return matchID;
-    }
-
-    public void initialize(){
-        board.initialize();
-        turn = new TurnTracker(profile1, profile2);
     }
 
     public boolean checkCheckmate(){
