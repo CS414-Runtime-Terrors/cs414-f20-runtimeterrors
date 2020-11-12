@@ -768,14 +768,19 @@ public class ChessBoard {
             System.out.println("File not found in " + whitePiecesSaveLocation);
         }
 
-        // load moves
-        moves = new ArrayList<>();
-        // TODO
-
         // initialize board to nulls
         createAndInitializeToNulls();
 
         // place pieces onto board
+        for (ChessPiece p : black_pieces) {
+            placePiece(p, p.getPosition());
+        }
+        for (ChessPiece p : white_pieces) {
+            placePiece(p, p.getPosition());
+        }
+
+        // load moves
+        moves = new ArrayList<>();
         // TODO
     }
 
