@@ -248,4 +248,17 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // Get board data from server for a match
+    public OCMessage getBoardData(int ID){
+        System.out.println("Getting board data for match with ID="+ID);
+        OCMessage message = new OCMessage();
+        message.put("process", "get board data");
+        message.put("ID", String.valueOf(ID));
+
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }

@@ -50,6 +50,9 @@ public class OCProtocol {
                 case "invite response":
                     toReturn = inviteResponse(receivedMessage);
                     break;
+                case "get board data":
+                    toReturn = getBoardData(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -439,6 +442,35 @@ public class OCProtocol {
                 }
             }
         }
+        return message.toString();
+    }
+
+    public String getBoardData(OCMessage receivedMessage){
+        int ID = Integer.parseInt(receivedMessage.get("ID"));
+        OCMessage message = new OCMessage();
+
+        System.out.println("Attempting to get board for match " + ID);
+
+        Match match = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+        }
+        for (Match mat : serverData.getMatches()){
+            if (mat.getID() == ID) {
+                message.put("success", "true");
+                match = mat;
+                break;
+            }
+        }
+        if (match == null) {
+            message.put("success", "false");
+            message.put("reason", "No match found that has ID=" + ID);
+            return message.toString();
+        }
+
+        message.fromString(match.getBoard().boardString());
+
         return message.toString();
     }
 
