@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -23,6 +24,7 @@ public class OCServerData {
     private final ArrayList<UserProfile> profiles = new ArrayList<>();
     private final ArrayList<Match> matches = new ArrayList<>();
     private final ArrayList<GameRecord> archive = new ArrayList<>();
+   // private final Map<String, Notification>
 
     // regular constructor
     public OCServerData() {

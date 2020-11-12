@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
+import javax.swing.*;
+
 public class MatchScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
@@ -70,6 +72,11 @@ public class MatchScreen implements Screen {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             }
         });
+    }
+
+    public void showNotification(){
+        JOptionPane.showMessageDialog(null, "Testing Popup!",
+                "New Notification!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override

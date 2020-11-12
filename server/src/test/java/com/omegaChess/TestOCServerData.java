@@ -1,9 +1,6 @@
 package com.omegaChess;
 
-import com.omegaChess.server.Invite;
-import com.omegaChess.server.Match;
-import com.omegaChess.server.OCServerData;
-import com.omegaChess.server.UserProfile;
+import com.omegaChess.server.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +18,7 @@ public class TestOCServerData {
 
         // add data
         dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
-        dataToSave.getProfile("Daniel").getMailbox().addNotification("invited", "You were invited by someone!");
+        dataToSave.getProfile("Daniel").getMailbox().addNotification(Notification.NotificationType.INVITE_REQUEST, "You were invited by someone!");
         dataToSave.getProfile("Daniel").getMailbox().addToSent(new Invite("Daniel", "Falkyn"));
         dataToSave.getProfile("Daniel").getMailbox().addToReceived(new Invite("Patrick", "Daniel"));
 
@@ -34,7 +31,7 @@ public class TestOCServerData {
 
         // make assertions to ensure loading worked properly
         assertTrue(loadedData.profileExists("Daniel"));
-        assertTrue(loadedData.getProfile("Daniel").getMailbox().getNotifications().get(0).getEvent().equals("invited"));
+        assertTrue(loadedData.getProfile("Daniel").getMailbox().getNotifications().get(0).getEvent().name().equals("INVITE_REQUEST"));
         assertTrue(loadedData.getProfile("Daniel").getMailbox().getSent().get(0).getInvitee().equals("Falkyn"));
         assertTrue(loadedData.getProfile("Daniel").getMailbox().getReceived().get(0).getInviter().equals("Patrick"));
 

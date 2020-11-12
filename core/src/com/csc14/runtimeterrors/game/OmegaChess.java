@@ -1,6 +1,7 @@
 package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 
 public class OmegaChess extends Game {
 
@@ -55,6 +56,30 @@ public class OmegaChess extends Game {
 	public String getUser() { return user; }
 
 	public void setUser(String newUser) { user =newUser; }
+
+	public void showNotification() {
+		Screen screen = this.getScreen();
+
+		if(screen instanceof MainMenuScreen ) {
+		}
+		else if( screen instanceof LoginScreen ) {
+		}
+		else if( screen instanceof  RegisterScreen ) {
+		}
+		else if( screen instanceof LobbyScreen ) {
+		}
+		else if( screen instanceof InviteScreen ) {
+		}
+		else if( screen instanceof MatchScreen ) {
+			matchScreen.showNotification();
+		}
+		else if( screen instanceof ProfileScreen ) {
+		}
+		else if( screen instanceof MailboxScreen ) {
+		}
+
+
+	}
 
 	public void changeScreen(SCREEN screen){
 		switch(screen){
