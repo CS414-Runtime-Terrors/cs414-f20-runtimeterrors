@@ -424,9 +424,11 @@ public class OCProtocol {
                         mail.removeFromSent(invite);
                         serverData.getProfile(invitee).getMailbox().removeFromReceived(inviteF);
                         Match match = invite.makeMatch();
+                        int matchID = match.getMatchID();
                         serverData.addMatch(match);
                         mail.addNotification("Invite accepted", invitee + " accepted your invite request.");
                         message.put("success", "true");
+                        message.put("matchID", Integer.toString(matchID));
                         return message.toString();
                     }
                 }
@@ -457,10 +459,8 @@ public class OCProtocol {
         OCMessage message = new OCMessage();
 
         // get correct match and board
-//        Match match = serverData.getMatch(matchID);
-//        ChessBoard board = match.getBoard();
-        ChessBoard board = new ChessBoard();
-        board.initialize();
+        Match match = serverData.getMatch(matchID);
+        ChessBoard board = match.getBoard();
 
         // get piece at specified position on board
         String position = board.reverseParse(row, column);
