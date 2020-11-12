@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JUnit OCServerData Class Test")
 public class TestOCServerData {
-/*
+
     @Test
     public void testSavingAndLoadingUserProfiles() {
         boolean cleanup = true;
@@ -53,10 +53,10 @@ public class TestOCServerData {
         }
 
     }
-*/
+
     @Test
     public void testSavingAndLoadingMatches() {
-        boolean cleanup = false;
+        boolean cleanup = true;
 
         // create data object to save
         OCServerData dataToSave = new OCServerData("./test-data/");
@@ -108,7 +108,7 @@ public class TestOCServerData {
             assertFalse(loadedData.rootSaveFolderExists());
         }
     }
-/*
+
     @Test
     public void testSavingAndLoadingGameRecords() {
         boolean cleanup = true;
@@ -144,5 +144,5 @@ public class TestOCServerData {
             assertFalse(loadedData.rootSaveFolderExists());
         }
     }
-*/
+
 }
