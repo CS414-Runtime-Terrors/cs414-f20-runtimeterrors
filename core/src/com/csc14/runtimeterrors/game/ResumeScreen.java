@@ -71,12 +71,8 @@ public class ResumeScreen implements Screen {
     private void listMatches() {
         // request list of matches user is in
         OCMessage receivedMessage = parent.getClient().getResumeMatches(nickname);
-        //temp line to see dummy list until server response is finalized
-        receivedMessage.put("success", "true");
 
         if (receivedMessage.get("success").equals("true")) {
-            //matchOpponents = new ArrayList<>(Arrays.asList("opponent1", "opponent2", "opponent3"));
-            //matchIDs = new ArrayList<>(Arrays.asList("2", "4", "9"));
             String[] opponents = receivedMessage.get("opponents").split(", ");
             String[] IDs = receivedMessage.get("matchIDs").split(", ");
             matchOpponents = new ArrayList<>(Arrays.asList(opponents));
