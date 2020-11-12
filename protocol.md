@@ -162,6 +162,7 @@ Message Template:
 * "response": "accept/decline"
 * "inviter": "nickname1"
 * "invitee": "nickname2"
+* "matchID": int that corresponds to the created match (if response = accept)
 
 Return Message Template:
 * "success": "true"
