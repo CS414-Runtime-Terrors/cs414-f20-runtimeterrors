@@ -280,4 +280,20 @@ public class OCClient {
 
         return receivedMessage;
     }
+
+    // request the matches a user can resume
+    public OCMessage getResumeMatches(String nickname) {
+        System.out.println("Sending get in-progress matches request for " + nickname);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get in-progress matches");
+        message.put("nickname", nickname);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }
