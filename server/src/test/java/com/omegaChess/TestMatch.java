@@ -29,7 +29,6 @@ public class TestMatch {
                 p2 = new UserProfile("JimmyJam", "PB&Jay", "sandwitchLover@hotmail.com");
 
         Match match = new Match(p1.getNickname(), p2.getNickname());
-        match.initialize();
         ChessBoard board = new ChessBoard();
         board.initialize();
         TurnTracker turn = new TurnTracker(p1.getNickname(), p2.getNickname());
@@ -48,7 +47,6 @@ public class TestMatch {
                 p2 = new UserProfile("Italian", "italianhandshake", "needsmorecheese@omegachess.com");
 
         Match match = new Match(p1.getNickname(), p2.getNickname());
-        match.initialize();
 
         assertNotNull(match.endMatch(p2.getNickname(), p1.getNickname(), 15));
     }
@@ -59,7 +57,6 @@ public class TestMatch {
                 p2 = new UserProfile("ClASSes", "Schollsux", "Fallingoutoftherealm@omegachess.com");
 
         Match match = new Match(p1.getNickname(), p2.getNickname());
-        match.initialize();
 
         assertFalse(match.checkCheckmate(), "There are no pieces in checkmate.");
 

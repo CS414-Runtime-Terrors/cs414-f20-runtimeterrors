@@ -56,6 +56,8 @@ public class OmegaChess extends Game {
 
 	public void setUser(String newUser) { user =newUser; }
 
+	public void setMatchID(int matchID) { matchScreen.setMatchID(matchID); }
+
 	public void changeScreen(SCREEN screen){
 		switch(screen){
 			case MAIN_MENU:

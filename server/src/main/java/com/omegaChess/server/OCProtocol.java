@@ -1,5 +1,10 @@
 package com.omegaChess.server;
 
+import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalPositionException;
+import com.omegaChess.pieces.ChessPiece;
+import com.omegaChess.pieces.LegalMoves;
+
 import java.util.ArrayList;
 
 // this class is responsible for actually processing any input from a client
@@ -49,6 +54,9 @@ public class OCProtocol {
                     break;
                 case "invite response":
                     toReturn = inviteResponse(receivedMessage);
+                    break;
+                case "get legal moves":
+                    toReturn = getLegalMoves(receivedMessage);
                     break;
                 case "get board data":
                     toReturn = getBoardData(receivedMessage);
@@ -419,9 +427,11 @@ public class OCProtocol {
                         mail.removeFromSent(invite);
                         serverData.getProfile(invitee).getMailbox().removeFromReceived(inviteF);
                         Match match = invite.makeMatch();
+                        int matchID = match.getMatchID();
                         serverData.addMatch(match);
                         mail.addNotification("Invite accepted", invitee + " accepted your invite request.");
                         message.put("success", "true");
+                        message.put("matchID", Integer.toString(matchID));
                         return message.toString();
                     }
                 }
@@ -470,6 +480,46 @@ public class OCProtocol {
         }
 
         message.fromString(match.getBoard().boardString());
+
+        return message.toString();
+    }
+
+    private String getLegalMoves(OCMessage receivedMessage) {
+        int matchID = Integer.parseInt(receivedMessage.get("matchID"));
+        int row = Integer.parseInt(receivedMessage.get("row"));
+        int column = Integer.parseInt(receivedMessage.get("column"));
+        OCMessage message = new OCMessage();
+
+        // get correct match and board
+        Match match = serverData.getMatch(matchID);
+        ChessBoard board = match.getBoard();
+
+        // get piece at specified position on board
+        String position = board.reverseParse(row, column);
+        ChessPiece piece = null;
+        try {
+            piece = board.getPiece(position);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+
+        // get legal moves for that piece
+        LegalMoves moves;
+        if (piece == null) {
+            message.put("success", "false");
+            message.put("reason", "no piece at specified position");
+            return message.toString();
+        } else {
+            moves = piece.getNormalOrCheckMoves();
+        }
+        String legalMoves = "/";
+        for (String move : moves.getListOfMoves()) {
+            legalMoves += move;
+            legalMoves += "/";
+        }
+        message.put("success", "true");
+        message.put("legal moves", legalMoves);
+        System.out.println("Sending legal moves: " + legalMoves);
 
         return message.toString();
     }

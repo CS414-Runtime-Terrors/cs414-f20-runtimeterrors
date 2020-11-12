@@ -96,9 +96,9 @@ public class Mailbox {
             i.save(receivedInvitationsSaveLocation);
         }
 
-        // save notification timestamps
+        // save notification filenames
         try {
-            File saveFile = new File(notificationsSaveLocation + "timestamps.txt");
+            File saveFile = new File(notificationsSaveLocation + "filenames.txt");
 
             createDirectoryIfNonExistent(notificationsSaveLocation);
 
@@ -107,7 +107,7 @@ public class Mailbox {
             FileWriter saveWriter = new FileWriter(saveFile);
 
             for (Notification n : notifications) {
-                saveWriter.write(n.getDateString() + "\n");
+                saveWriter.write(n.getID() + "\n");
             }
 
             saveWriter.close();
@@ -161,13 +161,13 @@ public class Mailbox {
 
         // load notifications
         try {
-            File loadFile = new File(notificationsSaveLocation + "timestamps.txt");
+            File loadFile = new File(notificationsSaveLocation + "filenames.txt");
             Scanner loadReader = new Scanner(loadFile);
             // actual loading
             while (loadReader.hasNextLine()) {
-                String nextTimeStamp = loadReader.nextLine();
+                String nextFilename = loadReader.nextLine();
                 Notification temp = new Notification();
-                temp.load(notificationsSaveLocation + nextTimeStamp + ".txt");
+                temp.load(notificationsSaveLocation + nextFilename + ".txt");
                 notifications.add(temp);
             }
             loadReader.close();

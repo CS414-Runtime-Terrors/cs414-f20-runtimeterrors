@@ -16,18 +16,21 @@ public class Match {
     private ChessBoard board;
     private String profile1, profile2;
     private TurnTracker turn;
+    private static int matchCount = 0;
+    private final int matchID;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
         this.profile1 = profile1;
         this.profile2 = profile2;
         board = new ChessBoard();
-        turn = null;
-    }
-
-    public void initialize(){
         board.initialize();
         turn = new TurnTracker(profile1, profile2);
+        matchID = ++matchCount;
+    }
+
+    public int getMatchID() {
+        return matchID;
     }
 
     public boolean checkCheckmate(){
@@ -77,7 +80,7 @@ public class Match {
     }
 
     // forfeit a match
-    public GameRecord endMatch(String quitter, String winner, int moves){ return new GameRecord(winner, quitter, moves, false); }
+    public GameRecord endMatch(String loser, String winner, int moves){ return new GameRecord(winner, loser, moves, false); }
 
     public ChessBoard getBoard() { return board; }
 

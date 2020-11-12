@@ -165,6 +165,8 @@ Message Template:
 
 Return Message Template:
 * "success": "true"
+* "matchID": int that corresponds to the created match (if response = accept)
+
 
 ## Get Board Data
 - This request returns the data for what pieces are
@@ -187,3 +189,20 @@ Return Message Success:
 Return Message Failure:
 * "success": "false"
 * "reason": "reason for failure"
+
+## Get Legal Moves
+- This request returns a piece's legal moves
+
+Message Template:
+* "process": "get legal moves"
+* "matchID": any int that corresponds to a match
+* "row": any int 0-11
+* "column": any int 0-11
+
+Return Message Template 1:
+* "success": "true"
+* "legal moves": "a3, a4, a5"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "no piece at specified position"

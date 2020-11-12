@@ -53,13 +53,21 @@ public class OCServerData {
         return matches;
     }
 
-    public void removeMatch(Match target) {
-        for (Match match : getMatches())
-            if (match == target) {
-                matches.remove(match);
-                break;
-            }
+  public Match getMatch(int matchID) {
+    for (Match match : matches) {
+      if (matchID == match.getMatchID())
+        return match;
     }
+    return null;
+  }
+
+  public void removeMatch(Match target) {
+    for (Match match: getMatches())
+      if (match == target) {
+        matches.remove(match);
+        break;
+      }
+  }
 
     public void addToArchive(GameRecord game) {
         archive.add(game);
@@ -177,6 +185,25 @@ public class OCServerData {
             m.save(matchesSaveLocation);
         }
 
+        // save game record filenames
+        try {
+            File saveFile = new File(gameRecordsSaveLocation + "filenames.txt");
+
+            createDirectoryIfNonExistent(gameRecordsSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (GameRecord g : archive) {
+                saveWriter.write(g.getID() + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // save game records
         for (GameRecord r : archive) {
             r.save(gameRecordsSaveLocation);
@@ -214,7 +241,20 @@ public class OCServerData {
         // TODO
 
         // load game records
-        // TODO
+        try {
+            File loadFile = new File(gameRecordsSaveLocation + "filenames.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextFilename = loadReader.nextLine();
+                GameRecord temp = new GameRecord();
+                temp.load(gameRecordsSaveLocation + nextFilename + ".txt");
+                archive.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + gameRecordsSaveLocation);
+        }
 
         System.out.println("Done loading!");
     }
