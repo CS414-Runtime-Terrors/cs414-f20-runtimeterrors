@@ -358,6 +358,31 @@ public class TestOCProtocol {
     }
 
     @Test
+    public void testGetBoard(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("this", "one", "thisOne@omegachess.com");
+        data.createProfile("that", "one", "thatOne@omegachess.com");
+
+        Match match = new Match("this", "that");
+        data.addMatch(match);
+
+        OCMessage message = new OCMessage();
+
+        message.put("process", "get board data");
+        message.put("ID", String.valueOf(match.getMatchID()));
+        String input = message.toString();
+
+        String out = protocol.processInput(input);
+
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        assertEquals("true", receivedMessage.get("success"), "Failed to get board data because " + receivedMessage.get("reason"));
+    }
+
+    @Test
     public void testGetLegalMoves() {
         OCServerData data = new OCServerData();
         OCProtocol protocol = new OCProtocol(data);
@@ -435,5 +460,4 @@ public class TestOCProtocol {
         receivedMessage.fromString(out);
         assertEquals("false", receivedMessage.get("success"));
     }
-
 }
