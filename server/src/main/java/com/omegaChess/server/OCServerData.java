@@ -24,7 +24,6 @@ public class OCServerData {
     private final ArrayList<UserProfile> profiles = new ArrayList<>();
     private final ArrayList<Match> matches = new ArrayList<>();
     private final ArrayList<GameRecord> archive = new ArrayList<>();
-   // private final Map<String, Notification>
 
     // regular constructor
     public OCServerData() {

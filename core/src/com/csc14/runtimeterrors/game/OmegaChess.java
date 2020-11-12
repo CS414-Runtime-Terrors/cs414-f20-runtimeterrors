@@ -3,6 +3,20 @@ package com.csc14.runtimeterrors.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+class getNotifications extends TimerTask {
+	private OmegaChess chessClass;
+	public getNotifications(OmegaChess chess){
+		chessClass = chess;
+	}
+	public void run() {
+		chessClass.showNotification();
+		System.out.println("Hello World!");
+	}
+}
+
 public class OmegaChess extends Game {
 
 	private OCClient client;
@@ -16,6 +30,7 @@ public class OmegaChess extends Game {
 	private ProfileScreen profileScreen;
 	private MailboxScreen mailboxScreen;
 	private boolean useLocal;
+	private String currentDate;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX
@@ -26,6 +41,8 @@ public class OmegaChess extends Game {
 	public OmegaChess(boolean useLocalArg)
 	{
 		useLocal = useLocalArg;
+		Timer timer = new Timer();
+		timer.schedule(new getNotifications(this), 0, 30);
 	}
 
 	@Override
@@ -71,6 +88,9 @@ public class OmegaChess extends Game {
 		else if( screen instanceof InviteScreen ) {
 		}
 		else if( screen instanceof MatchScreen ) {
+			// maybe have a function that first checks if a notification
+			// is shown. If it is, don't call the popup. If not, bring the
+			// popup up.
 			matchScreen.showNotification();
 		}
 		else if( screen instanceof ProfileScreen ) {
