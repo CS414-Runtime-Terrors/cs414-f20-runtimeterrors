@@ -467,7 +467,7 @@ public class OCProtocol {
             message.put("reason", "There are no matches available");
         }
         for (Match mat : serverData.getMatches()){
-            if (mat.getID() == ID) {
+            if (mat.getMatchID() == ID) {
                 message.put("success", "true");
                 match = mat;
                 break;
