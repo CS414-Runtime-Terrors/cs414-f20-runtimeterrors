@@ -75,8 +75,12 @@ public class ResumeScreen implements Screen {
         receivedMessage.put("success", "true");
 
         if (receivedMessage.get("success").equals("true")) {
-            matchOpponents = new ArrayList<>(Arrays.asList("opponent1", "opponent2", "opponent3"));
-            matchIDs = new ArrayList<>(Arrays.asList("2", "4", "9"));
+            //matchOpponents = new ArrayList<>(Arrays.asList("opponent1", "opponent2", "opponent3"));
+            //matchIDs = new ArrayList<>(Arrays.asList("2", "4", "9"));
+            String[] opponents = receivedMessage.get("opponents").split(", ");
+            String[] IDs = receivedMessage.get("matchIDs").split(", ");
+            matchOpponents = new ArrayList<>(Arrays.asList(opponents));
+            matchIDs = new ArrayList<>(Arrays.asList(IDs));
 
             if (matchOpponents.size() > 0) {
                 matches.setItems(matchOpponents.toArray(new String[0]));
@@ -118,11 +122,9 @@ public class ResumeScreen implements Screen {
            @Override
            public void clicked(InputEvent event, float x, float y) {
                if (!resumeBtn.isDisabled()) {
-                   String selectedID = matchIDs.get(matchOpponents.indexOf(matches.getSelected()));
-
-                   OCMessage receivedMessage = parent.getClient().resumeMatch(selectedID);
-
-                   // response handling
+                   int selectedID = Integer.valueOf(matchIDs.get(matchOpponents.indexOf(matches.getSelected())));
+                   parent.changeScreen(OmegaChess.SCREEN.MATCH);
+                   parent.setMatchID(selectedID);
                }
            };
         });

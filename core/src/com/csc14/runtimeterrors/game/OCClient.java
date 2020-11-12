@@ -282,20 +282,4 @@ public class OCClient {
 
         return receivedMessage;
     }
-
-    // request the matches a user can resume
-    public OCMessage resumeMatch(String matchID) {
-        System.out.println("Sending resume match request for match ID " + matchID);
-
-        OCMessage message = new OCMessage();
-        message.put("process", "resume match");
-        message.put("matchID", matchID);
-
-        // receive message
-        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
-
-        printResult(receivedMessage);
-
-        return receivedMessage;
-    }
 }
