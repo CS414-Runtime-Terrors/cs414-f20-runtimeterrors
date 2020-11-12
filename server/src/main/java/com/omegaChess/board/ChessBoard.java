@@ -469,9 +469,9 @@ public class ChessBoard {
 
     public String boardString(){
         OCMessage message = new OCMessage();
-        int c = 0;
+        int r = 0;
         for (ChessPiece[] row: board){
-            int r = 0;
+            int c = 0;
             for (ChessPiece piece: row){
                 if (piece == null){
                     message.put(reverseParse(r, c), null);
