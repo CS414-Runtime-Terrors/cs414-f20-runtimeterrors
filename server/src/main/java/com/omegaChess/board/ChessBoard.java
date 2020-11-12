@@ -641,9 +641,9 @@ public class ChessBoard {
         final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
         final String movesSaveLocation = saveLocation + "moves/";
 
-        // save directory names and associated types of black pieces
+        // save file names and associated types of black pieces
         try {
-            File saveFile = new File(blackPiecesSaveLocation + "directory-names-and-associated-types.txt");
+            File saveFile = new File(blackPiecesSaveLocation + "file-names-and-associated-types.txt");
 
             createDirectoryIfNonExistent(blackPiecesSaveLocation);
 
@@ -666,9 +666,9 @@ public class ChessBoard {
             p.save(blackPiecesSaveLocation);
         }
 
-        // save directory names and associated types of white pieces
+        // save file names and associated types of white pieces
         try {
-            File saveFile = new File(whitePiecesSaveLocation + "directory-names-and-associated-types.txt");
+            File saveFile = new File(whitePiecesSaveLocation + "file-names-and-associated-types.txt");
 
             createDirectoryIfNonExistent(whitePiecesSaveLocation);
 
@@ -737,14 +737,14 @@ public class ChessBoard {
         // load black pieces
         black_pieces = new ArrayList<>();
         try {
-            File loadFile = new File(blackPiecesSaveLocation + "directory-names-and-associated-types.txt");
+            File loadFile = new File(blackPiecesSaveLocation + "file-names-and-associated-types.txt");
             Scanner loadReader = new Scanner(loadFile);
             // actual loading
             while (loadReader.hasNextLine()) {
                 String nextType = loadReader.nextLine();
-                String nextDirectoryName = loadReader.nextLine();
+                String nextFilename = loadReader.nextLine();
                 ChessPiece temp = getPieceByType(nextType, this);
-                temp.load(blackPiecesSaveLocation + nextDirectoryName + "/", ChessPiece.Color.BLACK);
+                temp.load(blackPiecesSaveLocation + nextFilename, ChessPiece.Color.BLACK);
             }
             loadReader.close();
         } catch (FileNotFoundException e) {
@@ -754,14 +754,14 @@ public class ChessBoard {
         // load white pieces
         white_pieces = new ArrayList<>();
         try {
-            File loadFile = new File(whitePiecesSaveLocation + "directory-names-and-associated-types.txt");
+            File loadFile = new File(whitePiecesSaveLocation + "file-names-and-associated-types.txt");
             Scanner loadReader = new Scanner(loadFile);
             // actual loading
             while (loadReader.hasNextLine()) {
                 String nextType = loadReader.nextLine();
-                String nextDirectoryName = loadReader.nextLine();
+                String nextFilename = loadReader.nextLine();
                 ChessPiece temp = getPieceByType(nextType, this);
-                temp.load(whitePiecesSaveLocation + nextDirectoryName + "/", ChessPiece.Color.WHITE);
+                temp.load(whitePiecesSaveLocation + nextFilename, ChessPiece.Color.WHITE);
             }
             loadReader.close();
         } catch (FileNotFoundException e) {
