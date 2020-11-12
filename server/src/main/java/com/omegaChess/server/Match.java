@@ -25,17 +25,12 @@ public class Match {
         this.profile2 = profile2;
         board = new ChessBoard();
         board.initialize();
-        turn = null;
+        turn = new TurnTracker(profile1, profile2);
         matchID = ++matchCount;
     }
 
     public int getMatchID() {
         return matchID;
-    }
-
-    public void initialize(){
-        board.initialize();
-        turn = new TurnTracker(profile1, profile2);
     }
 
     public boolean checkCheckmate(){
