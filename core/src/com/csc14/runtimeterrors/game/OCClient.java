@@ -134,6 +134,23 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // login request
+    public OCMessage sendLogoutRequest(String nickname) {
+        System.out.println("Sending logout request for " + nickname + "!");
+
+        OCMessage message = new OCMessage();
+        message.put("process", "logout");
+        message.put("nickname", nickname);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+
     // get profile data request
     public OCMessage sendGetProfileDataRequest(String nickname) {
         System.out.println("Sending get profile data request for " + nickname + "!");

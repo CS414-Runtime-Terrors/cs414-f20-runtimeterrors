@@ -37,6 +37,9 @@ public class OCProtocol {
                 case "login":
                     toReturn = loginUser(receivedMessage);
                     break;
+                case "logout":
+                    toReturn = logoutUser(receivedMessage);
+                    break;
                 case "get profile data":
                     toReturn = getProfileData(receivedMessage);
                     break;
@@ -122,6 +125,8 @@ public class OCProtocol {
 
             System.out.println("Registered!");
 
+            serverData.getProfile(nickname).setLoggedInStatus(true);
+
         }
         else {
             message.put("success", "false");
@@ -130,6 +135,7 @@ public class OCProtocol {
             System.out.println("Nickname or email was taken.");
 
         }
+
         return message.toString();
     }
 
@@ -233,6 +239,33 @@ public class OCProtocol {
             System.out.println("Wrong password.");
 
         }
+
+        serverData.getProfile(nickname).setLoggedInStatus(true);
+
+        return message.toString();
+    }
+
+    private String logoutUser(OCMessage receivedMessage) {
+
+        String nickname = receivedMessage.get("nickname");
+
+        System.out.println("Logging user: " + nickname + " out.");
+
+        OCMessage message = new OCMessage();
+
+        if (!serverData.profileExists(nickname)) {
+            // profile doesn't exist
+            message.put("success", "false");
+            message.put("reason", "nickname wasn't found");
+
+            System.out.println("Nickname wasn't found.");
+            return message.toString();
+        }
+
+        serverData.getProfile(nickname).setLoggedInStatus(false);   // set logged out
+
+        message.put("success", "true");
+
         return message.toString();
     }
 

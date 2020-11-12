@@ -17,6 +17,7 @@ public class UserProfile {
     private int gamesLost = -1;
     private int gamesTied = -1;
     private Mailbox mailbox = null;
+    private boolean loggedIn = false;
 
     // constructor
     public UserProfile(String nick, String pass, String email) {
@@ -85,6 +86,10 @@ public class UserProfile {
     public int getGamesTied() {
         return gamesTied;
     }
+
+    public boolean getLoggedInStatus() { return loggedIn; }
+
+    public void setLoggedInStatus(boolean status) { loggedIn = status; }
 
     // incrementers
 

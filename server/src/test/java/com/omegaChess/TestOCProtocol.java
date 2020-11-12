@@ -414,4 +414,16 @@ public class TestOCProtocol {
         assertEquals("false", receivedMessage.get("success"));
     }
 
+    @Test
+    public void testGetLongestNickname()
+    {
+        // todo : update register, login tests to check login status
+    }
+
+    @Test
+    public void testLogoutUser()
+    {
+
+    }
+
 }

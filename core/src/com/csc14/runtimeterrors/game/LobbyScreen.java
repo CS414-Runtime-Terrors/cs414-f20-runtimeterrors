@@ -119,6 +119,7 @@ public class LobbyScreen implements Screen {
         logoutBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                parent.getClient().sendLogoutRequest(parent.getUser());
                 parent.setUser("");
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };
