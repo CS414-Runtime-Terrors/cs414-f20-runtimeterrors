@@ -64,7 +64,6 @@ public class TestOCServerData {
         dataToSave.createProfile("Daniel", "pass", "daniel@gmail.com");
         dataToSave.createProfile("Falkyn", "pass", "falkyn@gmail.com");
         Match match = new Match("Daniel", "Falkyn");
-        match.initialize();
         dataToSave.addMatch(match);
 
         dataToSave.addToArchive(dataToSave.getMatches().get(0).endMatch("Daniel", "Falkyn", 50));
