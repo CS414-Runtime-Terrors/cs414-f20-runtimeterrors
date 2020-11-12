@@ -40,6 +40,8 @@ public abstract class ChessPiece {
         this.board = board;
     }
 
+    // default constructor
+
     // Returns the color of the current piece
     public Color getColor()
     {
@@ -152,14 +154,27 @@ public abstract class ChessPiece {
 
         createDirectoryIfNonExistent(saveLocation);
 
+        // save row
+        // TODO
+
+        // save column
+        // TODO
+
+        // save moved
         // TODO
     }
 
-    public void load(String saveLocation) {
-        // set color
+    public void load(String saveLocation, ChessPiece.Color color) {
+        // set row
+        // TODO
+
+        // set column
         // TODO
 
         // set moved
+        // TODO
+
+        // set color
         // TODO
 
         // add to board

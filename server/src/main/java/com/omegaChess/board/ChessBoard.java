@@ -3,7 +3,11 @@ package com.omegaChess.board;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
+import com.omegaChess.server.Match;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -637,9 +641,49 @@ public class ChessBoard {
         final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
         final String movesSaveLocation = saveLocation + "moves/";
 
-        // save black pieces black-pieces directory
+        // save directory names and associated types of black pieces
+        try {
+            File saveFile = new File(blackPiecesSaveLocation + "directory-names-and-associated-types.txt");
+
+            createDirectoryIfNonExistent(blackPiecesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (ChessPiece c : black_pieces) {
+                saveWriter.write(getType(c) + "\n");
+                saveWriter.write(c.getPosition() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // save black pieces in black-pieces directory
         for (ChessPiece p : black_pieces) {
             p.save(blackPiecesSaveLocation);
+        }
+
+        // save directory names and associated types of white pieces
+        try {
+            File saveFile = new File(whitePiecesSaveLocation + "directory-names-and-associated-types.txt");
+
+            createDirectoryIfNonExistent(whitePiecesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (ChessPiece c : white_pieces) {
+                saveWriter.write(getType(c) + "\n");
+                saveWriter.write(c.getPosition() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // save white pieces in white-pieces directory
@@ -653,21 +697,79 @@ public class ChessBoard {
         }
     }
 
+    private String getType(ChessPiece piece) {
+        if (piece instanceof Bishop) {
+            return "bishop";
+        }
+        if (piece instanceof Champion) {
+            return "champion";
+        }
+        if (piece instanceof InvalidSpace) {
+            return "invalid";
+        }
+        if (piece instanceof King) {
+            return "King";
+        }
+        if (piece instanceof Knight) {
+            return "knight";
+        }
+        if (piece instanceof Pawn) {
+            return "pawn";
+        }
+        if (piece instanceof Queen) {
+            return "queen";
+        }
+        if (piece instanceof Rook) {
+            return "rook";
+        }
+        if (piece instanceof Wizard) {
+            return "wizard";
+        }
+        return null;
+    }
+
     public void load(String saveLocation) {
 
         final String blackPiecesSaveLocation = saveLocation + "black-pieces/";
         final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
         final String movesSaveLocation = saveLocation + "moves/";
 
-
-        moves = new ArrayList<>();
+        // load black pieces
+        black_pieces = new ArrayList<>();
+        try {
+            File loadFile = new File(blackPiecesSaveLocation + "directory-names-and-associated-types.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextType = loadReader.nextLine();
+                String nextDirectoryName = loadReader.nextLine();
+                ChessPiece temp = getPieceByType(nextType, this);
+                temp.load(blackPiecesSaveLocation + nextDirectoryName + "/", ChessPiece.Color.BLACK);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + blackPiecesSaveLocation);
+        }
 
         // load white pieces
         white_pieces = new ArrayList<>();
-        // TODO
+        try {
+            File loadFile = new File(whitePiecesSaveLocation + "directory-names-and-associated-types.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextType = loadReader.nextLine();
+                String nextDirectoryName = loadReader.nextLine();
+                ChessPiece temp = getPieceByType(nextType, this);
+                temp.load(whitePiecesSaveLocation + nextDirectoryName + "/", ChessPiece.Color.WHITE);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + whitePiecesSaveLocation);
+        }
 
         // load moves
-        black_pieces = new ArrayList<>();
+        moves = new ArrayList<>();
         // TODO
 
         // initialize board to nulls
@@ -675,5 +777,30 @@ public class ChessBoard {
 
         // place pieces onto board
         // TODO
+    }
+
+    private ChessPiece getPieceByType(String type, ChessBoard board) {
+        switch(type) {
+            case "bishop":
+                return new Bishop(board);
+            case "champion":
+                return new Champion(board);
+            case "invalid":
+                return new InvalidSpace(board);
+            case "king":
+                return new King(board);
+            case "knight":
+                return new Knight(board);
+            case "pawn":
+                return new Pawn(board);
+            case "queen":
+                return new Queen(board);
+            case "rook":
+                return new Rook(board);
+            case "wizard":
+                return new Wizard(board);
+            default:
+                return null;
+        }
     }
 }

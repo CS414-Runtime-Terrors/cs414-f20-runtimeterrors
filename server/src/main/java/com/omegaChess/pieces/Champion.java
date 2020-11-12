@@ -9,6 +9,10 @@ public class Champion extends ChessPiece{
 
     public Champion(ChessBoard board, ChessPiece.Color color){super(board, color);}
 
+    public Champion(ChessBoard board) {
+        super(board);
+    }
+
     @Override
     public String toString(){
         if (this.color == Color.WHITE)
