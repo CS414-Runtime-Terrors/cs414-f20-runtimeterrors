@@ -11,8 +11,8 @@ public class Pawn extends ChessPiece {
         // TODO Auto-generated constructor stub
     }
 
-    public Pawn(ChessBoard board) {
-        super(board);
+    public Pawn() {
+        super();
     }
 
     /*

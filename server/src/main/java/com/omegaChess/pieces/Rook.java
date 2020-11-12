@@ -11,8 +11,8 @@ public class Rook extends ChessPiece {
         // TODO Auto-generated constructor stub
     }
 
-    public Rook(ChessBoard board) {
-        super(board);
+    public Rook() {
+        super();
     }
 
 

@@ -1,11 +1,15 @@
 package com.omegaChess;
 
+import com.omegaChess.board.Move;
+import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.server.Invite;
 import com.omegaChess.server.Match;
 import com.omegaChess.server.OCServerData;
 import com.omegaChess.server.UserProfile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,7 +66,9 @@ public class TestOCServerData {
         match.initialize();
         int ID = match.getMatchID();
         String playerWhoseTurnItIs = match.getTurn().getCurrentTurnPlayer();
-        match.initialize();
+        ArrayList<ChessPiece> black_pieces = match.getBoard().get_black_pieces();
+        ArrayList<ChessPiece> white_pieces = match.getBoard().get_white_pieces();
+        ArrayList<Move> moves = match.getBoard().getMoves();
         dataToSave.addMatch(match);
 
         // save data
@@ -77,8 +83,12 @@ public class TestOCServerData {
         assertEquals("Daniel", loadedData.getMatch(ID).getProfile1());
         assertEquals("Falkyn", loadedData.getMatch(ID).getProfile2());
 
-        // ensure board loaded correctly
-        // TODO
+        // ensure board pieces loaded correctly
+        assertEquals(black_pieces.toString(), loadedData.getMatch(ID).getBoard().get_black_pieces().toString());
+        assertEquals(white_pieces.toString(), loadedData.getMatch(ID).getBoard().get_white_pieces().toString());
+
+        // ensure board moves loaded correctly
+        assertEquals(moves.toString(), loadedData.getMatch(ID).getBoard().getMoves().toString());
 
         // ensure turn tracker loaded correctly
         assertEquals(playerWhoseTurnItIs, loadedData.getMatch(ID).getTurn().getCurrentTurnPlayer());

@@ -40,8 +40,8 @@ public abstract class ChessPiece {
     }
 
     // storage constructor
-    public ChessPiece(ChessBoard board) {
-        this.board = board;
+    public ChessPiece() {
+
     }
 
     // default constructor
@@ -181,7 +181,9 @@ public abstract class ChessPiece {
         }
     }
 
-    public void load(String saveLocation, ChessPiece.Color c) {
+    public void load(String saveLocation, ChessPiece.Color c, ChessBoard board) {
+
+        this.board = board;
 
         try {
             File loadFile = new File(saveLocation);

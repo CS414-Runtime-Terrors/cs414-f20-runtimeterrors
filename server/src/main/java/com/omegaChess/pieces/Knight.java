@@ -11,8 +11,8 @@ public class Knight extends ChessPiece {
         // TODO Auto-generated constructor stub
     }
 
-    public Knight(ChessBoard board) {
-        super(board);
+    public Knight() {
+        super();
     }
 
 

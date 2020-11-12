@@ -9,8 +9,8 @@ public class Wizard extends ChessPiece {
 
     public Wizard(ChessBoard board, ChessPiece.Color color){super(board, color);}
 
-    public Wizard(ChessBoard board) {
-        super(board);
+    public Wizard() {
+        super();
     }
 
     @Override

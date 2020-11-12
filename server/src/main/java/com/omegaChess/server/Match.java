@@ -34,7 +34,7 @@ public class Match {
 
     // storage constructor
     public Match() {
-
+//      matchID = ++matchCount;
     }
 
     public int getMatchID() {
@@ -108,14 +108,11 @@ public class Match {
     public void setTurn(TurnTracker turn) { this.turn = turn; }
 
     public void save(String saveLocation) {
-
         createDirectoryIfNonExistent(saveLocation);
 
         final String matchSaveLocation = saveLocation + profile1 + "-" + profile2 + "/";
 
         createDirectoryIfNonExistent(matchSaveLocation);
-
-        final String boardSaveLocation = matchSaveLocation + "board/";
 
         // save primitives to match save location in primitives.txt
         try {
@@ -135,19 +132,17 @@ public class Match {
         }
 
         // save board
-        board.save(boardSaveLocation);
+        board.save(matchSaveLocation);
 
         // save turn tracker in turn.txt
         turn.save(matchSaveLocation);
     }
 
-    public void load(String saveLocation) {
-
-        final String matchSaveLocation = saveLocation + profile1 + "-" + profile2 + "/";
+    public void load(String matchSaveLocation, String prof1, String prof2) {
 
         // load primitives
         try {
-            File loadFile = new File(saveLocation + "primitives.txt");
+            File loadFile = new File(matchSaveLocation + "primitives.txt");
             Scanner loadReader = new Scanner(loadFile);
 
             // actual loading
@@ -163,7 +158,7 @@ public class Match {
 
             loadReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found in " + saveLocation);
+            System.out.println("File not found in " + matchSaveLocation);
         }
 
         // load board

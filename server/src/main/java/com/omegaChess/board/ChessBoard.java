@@ -4,6 +4,7 @@ import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
 import com.omegaChess.server.Match;
+import com.omegaChess.server.Notification;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -691,13 +692,32 @@ public class ChessBoard {
             p.save(whitePiecesSaveLocation);
         }
 
+        // save moves filenames
+        try {
+            File saveFile = new File(movesSaveLocation + "filenames.txt");
+
+            createDirectoryIfNonExistent(movesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (Move m : moves) {
+                saveWriter.write(m.getID() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         // save moves in moves directory
         for (Move m : moves) {
             m.save(movesSaveLocation);
         }
     }
 
-    private String getType(ChessPiece piece) {
+    public static String getType(ChessPiece piece) {
         if (piece instanceof Bishop) {
             return "bishop";
         }
@@ -708,7 +728,7 @@ public class ChessBoard {
             return "invalid";
         }
         if (piece instanceof King) {
-            return "King";
+            return "king";
         }
         if (piece instanceof Knight) {
             return "knight";
@@ -729,7 +749,6 @@ public class ChessBoard {
     }
 
     public void load(String saveLocation) {
-
         final String blackPiecesSaveLocation = saveLocation + "black-pieces/";
         final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
         final String movesSaveLocation = saveLocation + "moves/";
@@ -743,8 +762,8 @@ public class ChessBoard {
             while (loadReader.hasNextLine()) {
                 String nextType = loadReader.nextLine();
                 String nextFilename = loadReader.nextLine();
-                ChessPiece temp = getPieceByType(nextType, this);
-                temp.load(blackPiecesSaveLocation + nextFilename, ChessPiece.Color.BLACK);
+                ChessPiece temp = getPieceByType(nextType);
+                temp.load(blackPiecesSaveLocation + nextFilename, ChessPiece.Color.BLACK, this);
             }
             loadReader.close();
         } catch (FileNotFoundException e) {
@@ -760,8 +779,8 @@ public class ChessBoard {
             while (loadReader.hasNextLine()) {
                 String nextType = loadReader.nextLine();
                 String nextFilename = loadReader.nextLine();
-                ChessPiece temp = getPieceByType(nextType, this);
-                temp.load(whitePiecesSaveLocation + nextFilename, ChessPiece.Color.WHITE);
+                ChessPiece temp = getPieceByType(nextType);
+                temp.load(whitePiecesSaveLocation + nextFilename, ChessPiece.Color.WHITE, this);
             }
             loadReader.close();
         } catch (FileNotFoundException e) {
@@ -781,29 +800,42 @@ public class ChessBoard {
 
         // load moves
         moves = new ArrayList<>();
-        // TODO
+        try {
+            File loadFile = new File(movesSaveLocation + "filenames.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextFilename = loadReader.nextLine();
+                Move temp = new Move();
+                temp.load(movesSaveLocation + nextFilename);
+                moves.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + movesSaveLocation);
+        }
     }
 
-    private ChessPiece getPieceByType(String type, ChessBoard board) {
+    public static ChessPiece getPieceByType(String type) {
         switch(type) {
             case "bishop":
-                return new Bishop(board);
+                return new Bishop();
             case "champion":
-                return new Champion(board);
+                return new Champion();
             case "invalid":
-                return new InvalidSpace(board);
+                return new InvalidSpace();
             case "king":
-                return new King(board);
+                return new King();
             case "knight":
-                return new Knight(board);
+                return new Knight();
             case "pawn":
-                return new Pawn(board);
+                return new Pawn();
             case "queen":
-                return new Queen(board);
+                return new Queen();
             case "rook":
-                return new Rook(board);
+                return new Rook();
             case "wizard":
-                return new Wizard(board);
+                return new Wizard();
             default:
                 return null;
         }

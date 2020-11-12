@@ -10,8 +10,8 @@ public class Bishop extends ChessPiece {
         super(board, color);
     }
 
-    public Bishop(ChessBoard board) {
-        super(board);
+    public Bishop() {
+        super();
     }
 
     /*

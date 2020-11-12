@@ -191,6 +191,8 @@ public class OCServerData {
             FileWriter saveWriter = new FileWriter(saveFile);
 
             for (Match m : getMatches()) {
+                saveWriter.write(m.getProfile1() + "\n");
+                saveWriter.write(m.getProfile2() + "\n");
                 saveWriter.write(m.getProfile1() + "-" + m.getProfile2() + "/" + "\n");
             }
 
@@ -262,9 +264,11 @@ public class OCServerData {
             Scanner loadReader = new Scanner(loadFile);
             // actual loading
             while (loadReader.hasNextLine()) {
+                String profile1 = loadReader.nextLine();
+                String profile2 = loadReader.nextLine();
                 String nextDirectoryName = loadReader.nextLine();
                 Match temp = new Match();
-                temp.load(matchesSaveLocation + nextDirectoryName + "/");
+                temp.load(matchesSaveLocation + nextDirectoryName, profile1, profile2);
                 matches.add(temp);
             }
             loadReader.close();
