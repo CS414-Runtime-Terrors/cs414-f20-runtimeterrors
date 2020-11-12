@@ -16,6 +16,8 @@ public class Match {
     private ChessBoard board;
     private String profile1, profile2;
     private TurnTracker turn;
+    private static int matchCount = 0;
+    private int matchID;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
@@ -23,6 +25,12 @@ public class Match {
         this.profile2 = profile2;
         board = new ChessBoard();
         turn = null;
+//        matchID = ++matchCount;
+        matchID = 1;
+    }
+
+    public int getMatchID() {
+        return matchID;
     }
 
     public void initialize(){

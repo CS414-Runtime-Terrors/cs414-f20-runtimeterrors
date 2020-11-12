@@ -102,17 +102,24 @@ public class Pawn extends ChessPiece {
                 m3 = board.reverseParse(row+(3*increment), column);
         ChessPiece p1 = null, p2 = null, p3 = null, pl = null, pr = null;
         // need to make sure diagLeft doesn't go out of bounds
-        try {
-            pl = this.board.getPiece(ml);
-        }catch (IllegalPositionException e){ e.printStackTrace(); }
+        if (row+increment >= 1 && row+increment <= 10 && column-1 >= 1) {
+            try {
+                pl = this.board.getPiece(ml);
+            }catch (IllegalPositionException e){ e.printStackTrace(); }
+        }
         // need to make sure diagRight doesn't go out of bounds
-        try {
-            pr = this.board.getPiece(mr);
-            //System.out.println(this.getColor());
-        }catch (IllegalPositionException e){ e.printStackTrace(); }
-        try {
-            p1 = this.board.getPiece(m1);
-        }catch (IllegalPositionException e){ e.printStackTrace(); }
+        if (row+increment >= 1 && row+increment <= 10 && column+1 <= 10) {
+            try {
+                pr = this.board.getPiece(mr);
+                //System.out.println(this.getColor());
+            }catch (IllegalPositionException e){ e.printStackTrace(); }
+        }
+        // need to make sure one in front doesn't go out of bounds
+        if (row+increment >= 1 && row+increment <= 10) {
+            try {
+                p1 = this.board.getPiece(m1);
+            }catch (IllegalPositionException e){ e.printStackTrace(); }
+        }
         // if a chess piece is here and it is an opponent's piece
         if (pl != null)
             if( pl.getColor() != this.getColor()) moves.add(ml);
