@@ -488,7 +488,13 @@ public class TestOCProtocol {
     @Test
     public void testGetLongestNickname()
     {
-        // todo : update register
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("jae", "wing", "adskfjlhasd@omegachess.com");
+        data.createProfile("Shing", "shaw", "asdfasdwes@omegachess.com");
+
+        assertEquals(data.getLongestNickname(), 5);
     }
 
     public void testMatchMove() {

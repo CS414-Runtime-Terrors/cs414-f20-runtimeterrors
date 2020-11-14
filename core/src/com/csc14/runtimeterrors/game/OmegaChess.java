@@ -25,10 +25,6 @@ public class OmegaChess extends Game {
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX, RESUME_GAME
 	}
-	public enum NotificationType {
-		NEW_MATCH, INVITE_REQUEST, ACCEPTED_INVITE, DECLINED_INVITE, MATCH_ENDED,
-		INVITE_CANCELLED
-	}
 
 	private String user = "";
 

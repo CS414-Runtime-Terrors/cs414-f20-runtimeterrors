@@ -15,12 +15,6 @@ import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 import sun.rmi.runtime.Log;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MatchScreen implements Screen {
     private OmegaChess parent;
