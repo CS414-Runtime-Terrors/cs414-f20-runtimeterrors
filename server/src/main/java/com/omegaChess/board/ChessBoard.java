@@ -3,8 +3,6 @@ package com.omegaChess.board;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
-import com.omegaChess.server.Match;
-import com.omegaChess.server.Notification;
 import com.omegaChess.server.OCMessage;
 
 import java.io.File;
