@@ -460,4 +460,53 @@ public class TestOCProtocol {
         receivedMessage.fromString(out);
         assertEquals("false", receivedMessage.get("success"));
     }
+
+    @Test
+    public void testInProgressMatchRequest() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        // create profiles
+        data.createProfile("pete", "zoop", "asdf@mail.com");
+        data.createProfile("kyle", "zoop", "fdsa@mail.com");
+
+        // test no matches available
+        String opponents = "";
+        String IDs = "";
+        OCMessage matches = new OCMessage();
+        matches.put("process", "get in-progress matches");
+        matches.put("nickname", "pete");
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(protocol.processInput(matches.toString()));
+        assertEquals(opponents, receivedMessage.get("opponents"));
+        assertEquals(IDs, receivedMessage.get("matchIDs"));
+
+        // send invite
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "kyle");
+        invite.put("inviter", "pete");
+        protocol.processInput(invite.toString());
+
+        // accept invite
+        OCMessage accept = new OCMessage();
+        accept.put("process", "invite response");
+        accept.put("response", "accept");
+        accept.put("inviter", "pete");
+        accept.put("invitee", "kyle");
+        String acceptString = protocol.processInput(accept.toString());
+        OCMessage acceptResponse = new OCMessage();
+        acceptResponse.fromString(acceptString);
+
+        // test match available
+        opponents = "kyle";
+        IDs = acceptResponse.get("matchID");
+        matches = new OCMessage();
+        matches.put("process", "get in-progress matches");
+        matches.put("nickname", "pete");
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(protocol.processInput(matches.toString()));
+        assertEquals(opponents, receivedMessage.get("opponents"));
+        assertEquals(IDs, receivedMessage.get("matchIDs"));
+    }
 }

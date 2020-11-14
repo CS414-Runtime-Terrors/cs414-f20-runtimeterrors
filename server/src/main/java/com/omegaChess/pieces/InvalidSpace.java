@@ -6,6 +6,10 @@ public class InvalidSpace extends ChessPiece{
 
     public InvalidSpace(ChessBoard board, ChessPiece.Color color){ super(board, color); }
 
+    public InvalidSpace() {
+        super();
+    }
+
     @Override
     public String toString() {
         return "\u2613";

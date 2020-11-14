@@ -11,6 +11,11 @@ public class Rook extends ChessPiece {
         // TODO Auto-generated constructor stub
     }
 
+    public Rook() {
+        super();
+    }
+
+
     /*
      * This is an abstract function that will be implemented in the
      * concrete subclasses corresponding to  each chess piece. It returns

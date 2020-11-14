@@ -3,7 +3,11 @@ package com.omegaChess.pieces;
 import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
@@ -34,6 +38,13 @@ public abstract class ChessPiece {
         if(color == Color.WHITE)
             board.white_pieces.add(this);
     }
+
+    // storage constructor
+    public ChessPiece() {
+
+    }
+
+    // default constructor
 
     // Returns the color of the current piece
     public Color getColor()
@@ -147,10 +158,66 @@ public abstract class ChessPiece {
 
         createDirectoryIfNonExistent(saveLocation);
 
-        // TODO
+        // save primitives to save location
+        try {
+            File saveFile = new File(saveLocation + getPosition() + ".txt");
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            // save row
+            saveWriter.write(row + "\n");
+
+            // save column
+            saveWriter.write(column + "\n");
+
+            // save moved
+            saveWriter.write(moved + "\n");
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void load(String saveLocation) {
-        // TODO
+    public void load(String saveLocation, ChessPiece.Color c, ChessBoard board) {
+
+        this.board = board;
+
+        try {
+            File loadFile = new File(saveLocation);
+            Scanner loadReader = new Scanner(loadFile);
+
+            // actual loading
+
+            // set row
+            if (loadReader.hasNextLine()) {
+                row = Integer.parseInt(loadReader.nextLine());
+            }
+
+            // set column
+            if (loadReader.hasNextLine()) {
+                column = Integer.parseInt(loadReader.nextLine());
+            }
+
+            // set moved
+            if (loadReader.hasNextLine()) {
+                setMoved(Boolean.parseBoolean(loadReader.nextLine()));
+            }
+
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + saveLocation);
+        }
+
+        // set color
+        color = c;
+
+        // add to board
+        if(color == Color.BLACK)
+            board.black_pieces.add(this);
+        if(color == Color.WHITE)
+            board.white_pieces.add(this);
     }
 }

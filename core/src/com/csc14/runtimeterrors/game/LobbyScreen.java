@@ -103,7 +103,7 @@ public class LobbyScreen implements Screen {
         resumeGameBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                parent.changeScreen(OmegaChess.SCREEN.RESUME_GAME);
             };
         });
 

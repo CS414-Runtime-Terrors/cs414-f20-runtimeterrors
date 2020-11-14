@@ -13,6 +13,10 @@ public class King extends ChessPiece {
         // TODO Auto-generated constructor stub
     }
 
+    public King() {
+        super();
+    }
+
     public ChessPiece getCheckingPiece() {
         return checkingPiece;
     }

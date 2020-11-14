@@ -282,6 +282,7 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // send move to be made on the server
     public OCMessage matchMove(int matchID, int[] fromPosition, int[] toPosition){
         System.out.println("Sending move from "+ Arrays.toString(fromPosition) +" to "+ Arrays.toString(toPosition) +" to the server");
         OCMessage message = new OCMessage();
@@ -292,6 +293,23 @@ public class OCClient {
         message.put("toRow", Integer.toString(toPosition[0]));
         message.put("toColumn", Integer.toString(toPosition[1]));
 
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // request the matches a user can resume
+    public OCMessage getResumeMatches(String nickname) {
+        System.out.println("Sending get in-progress matches request for " + nickname);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get in-progress matches");
+        message.put("nickname", nickname);
+
+        // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
         printResult(receivedMessage);

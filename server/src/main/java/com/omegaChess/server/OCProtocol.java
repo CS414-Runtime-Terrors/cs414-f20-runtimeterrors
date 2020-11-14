@@ -65,6 +65,9 @@ public class OCProtocol {
                 case "match move":
                     toReturn = matchMove(receivedMessage);
                     break;
+                case "get in-progress matches":
+                    toReturn = resumeMatchesListResponse(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -581,5 +584,34 @@ public class OCProtocol {
             }
         }
         return null;
+    }
+
+    public String resumeMatchesListResponse(OCMessage receivedMessage) {
+        String user = receivedMessage.get("nickname");
+        String opponents = "";
+        String IDs = "";
+        ArrayList<Match> matches = serverData.getMatches();
+        OCMessage message = new OCMessage();
+
+        for (Match m : matches) {
+            if (m.getProfile1().equals(user)) {
+                opponents += m.getProfile2() + ", ";
+                IDs += m.getMatchID() + ", ";
+            }
+            else if (m.getProfile2().equals(user)) {
+                opponents += m.getProfile1() + ", ";
+                IDs += m.getMatchID() + ", ";
+            }
+        }
+
+        if (!opponents.equals("")) {
+            opponents = opponents.substring(0, opponents.length() - 2);
+            IDs = IDs.substring(0, IDs.length() - 2);
+        }
+
+        message.put("opponents", opponents);
+        message.put("matchIDs", IDs);
+        message.put("success", "true");
+        return message.toString();
     }
 }
