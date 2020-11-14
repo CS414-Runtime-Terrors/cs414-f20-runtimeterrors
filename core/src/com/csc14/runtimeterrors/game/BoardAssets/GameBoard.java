@@ -248,6 +248,7 @@ public class GameBoard {
                         // if second click is on a highlighted square, move piece and unhighlight squares
                         else if (clickedPiece != null && square.isHighlighted()) {
                             // move piece
+                            parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
                             square.setPiece(clickedPiece.getCurrentPiece());
                             clickedPiece.removePiece();
                             clickedPiece = null;

@@ -206,3 +206,21 @@ Return Message Template 1:
 Return Message Template 2:
 * "success": "false"
 * "reason": "no piece at specified position"
+
+## Match Move
+- This request sends a move to be made on the server
+
+Message Template:
+* "process": "match move"
+* "matchID": any int that corresponds to a match
+* "fromRow": the row of the from position
+* "fromColumn": the column of the from position
+* "toRow": the row of the to position
+* "toColumn": the column of the to position
+
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "Invalid move!"

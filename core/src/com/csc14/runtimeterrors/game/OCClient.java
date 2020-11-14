@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class OCClient {
 
@@ -274,6 +275,25 @@ public class OCClient {
         message.put("process", "get board data");
         message.put("ID", String.valueOf(ID));
 
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // send move to be made on the server
+    public OCMessage matchMove(int matchID, int[] fromPosition, int[] toPosition){
+        System.out.println("Sending move from "+ Arrays.toString(fromPosition) +" to "+ Arrays.toString(toPosition) +" to the server");
+        OCMessage message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", Integer.toString(matchID));
+        message.put("fromRow", Integer.toString(fromPosition[0]));
+        message.put("fromColumn", Integer.toString(fromPosition[1]));
+        message.put("toRow", Integer.toString(toPosition[0]));
+        message.put("toColumn", Integer.toString(toPosition[1]));
+
+        // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
         printResult(receivedMessage);
