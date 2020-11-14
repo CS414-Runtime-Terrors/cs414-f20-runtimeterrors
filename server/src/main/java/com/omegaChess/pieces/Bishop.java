@@ -10,6 +10,10 @@ public class Bishop extends ChessPiece {
         super(board, color);
     }
 
+    public Bishop() {
+        super();
+    }
+
     /*
      * This is an abstract function that will be implemented in the
      * concrete subclasses corresponding to each chess piece. It returns

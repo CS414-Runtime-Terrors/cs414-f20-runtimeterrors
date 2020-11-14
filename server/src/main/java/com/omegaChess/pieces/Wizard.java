@@ -9,6 +9,10 @@ public class Wizard extends ChessPiece {
 
     public Wizard(ChessBoard board, ChessPiece.Color color){super(board, color);}
 
+    public Wizard() {
+        super();
+    }
+
     @Override
     public String toString(){
         if (this.color == Color.WHITE)

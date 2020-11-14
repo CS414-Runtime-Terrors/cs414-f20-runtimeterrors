@@ -29,7 +29,7 @@ public class Notification {
 
     // storage constructor
     public Notification() {
-
+        numInstances++;
     }
 
     public String getEvent() {

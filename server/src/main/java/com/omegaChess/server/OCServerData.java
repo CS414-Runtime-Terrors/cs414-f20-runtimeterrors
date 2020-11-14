@@ -180,6 +180,27 @@ public class OCServerData {
             p.save(profilesSaveLocation);
         }
 
+        // save match directory names
+        try {
+            File saveFile = new File(matchesSaveLocation + "directory-names.txt");
+
+            createDirectoryIfNonExistent(matchesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (Match m : getMatches()) {
+                saveWriter.write(m.getProfile1() + "\n");
+                saveWriter.write(m.getProfile2() + "\n");
+                saveWriter.write(m.getProfile1() + "-" + m.getProfile2() + "/" + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // save matches
         for (Match m : getMatches()) {
             m.save(matchesSaveLocation);
@@ -238,7 +259,22 @@ public class OCServerData {
         }
 
         // load matches
-        // TODO
+        try {
+            File loadFile = new File(matchesSaveLocation + "directory-names.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String profile1 = loadReader.nextLine();
+                String profile2 = loadReader.nextLine();
+                String nextDirectoryName = loadReader.nextLine();
+                Match temp = new Match();
+                temp.load(matchesSaveLocation + nextDirectoryName, profile1, profile2);
+                matches.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + matchesSaveLocation);
+        }
 
         // load game records
         try {

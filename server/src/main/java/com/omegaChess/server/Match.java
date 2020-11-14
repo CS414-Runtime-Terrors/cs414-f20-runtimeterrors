@@ -7,7 +7,10 @@ import com.omegaChess.server.*;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
@@ -17,7 +20,7 @@ public class Match {
     private String profile1, profile2;
     private TurnTracker turn;
     private static int matchCount = 0;
-    private final int matchID;
+    private int matchID;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
@@ -26,6 +29,11 @@ public class Match {
         board = new ChessBoard();
         board.initialize();
         turn = new TurnTracker(profile1, profile2);
+        matchID = ++matchCount;
+    }
+
+    // storage constructor
+    public Match() {
         matchID = ++matchCount;
     }
 
@@ -95,26 +103,65 @@ public class Match {
     public void setTurn(TurnTracker turn) { this.turn = turn; }
 
     public void save(String saveLocation) {
-
         createDirectoryIfNonExistent(saveLocation);
 
         final String matchSaveLocation = saveLocation + profile1 + "-" + profile2 + "/";
 
         createDirectoryIfNonExistent(matchSaveLocation);
 
-        final String boardSaveLocation = matchSaveLocation + "board/";
+        // save primitives to match save location in primitives.txt
+        try {
+            File saveFile = new File(matchSaveLocation + "primitives.txt");
 
-        // save primitives
-        // TODO
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            saveWriter.write(profile1 + "\n");
+            saveWriter.write(profile2 + "\n");
+            saveWriter.write(matchID + "\n");
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         // save board
-        board.save(boardSaveLocation);
+        board.save(matchSaveLocation);
 
         // save turn tracker in turn.txt
-        turn.save(saveLocation);
+        turn.save(matchSaveLocation);
     }
 
-    public void load() {
-        // TODO
+    public void load(String matchSaveLocation, String prof1, String prof2) {
+
+        // load primitives
+        try {
+            File loadFile = new File(matchSaveLocation + "primitives.txt");
+            Scanner loadReader = new Scanner(loadFile);
+
+            // actual loading
+            if (loadReader.hasNextLine()) {
+                profile1 = loadReader.nextLine();
+            }
+            if (loadReader.hasNextLine()) {
+                profile2 = loadReader.nextLine();
+            }
+            if (loadReader.hasNextLine()) {
+                matchID = Integer.parseInt(loadReader.nextLine());
+            }
+
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + matchSaveLocation);
+        }
+
+        // load board
+        board = new ChessBoard();
+        board.load(matchSaveLocation);
+
+        // load turn
+        turn = new TurnTracker(profile1, profile2);
+        turn.load(matchSaveLocation);
     }
 }
