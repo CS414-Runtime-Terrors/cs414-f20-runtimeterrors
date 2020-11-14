@@ -1,6 +1,9 @@
 package com.csc14.runtimeterrors.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimerTask;
 
 public class OmegaChess extends Game {
@@ -17,10 +20,14 @@ public class OmegaChess extends Game {
 	private MailboxScreen mailboxScreen;
 	private ResumeScreen resumeScreen;
 	private boolean useLocal;
-	private String currentDate;
+	private Date currentDate = null;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX, RESUME_GAME
+	}
+	public enum NotificationType {
+		NEW_MATCH, INVITE_REQUEST, ACCEPTED_INVITE, DECLINED_INVITE, MATCH_ENDED,
+		INVITE_CANCELLED
 	}
 
 	private String user = "";
@@ -33,6 +40,7 @@ public class OmegaChess extends Game {
 		final TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
+				System.out.println("Hello World");
 				showNotification();
 			}
 		};
@@ -69,43 +77,71 @@ public class OmegaChess extends Game {
 	public void setUser(String newUser) { user =newUser; }
 
 	public void showNotification() {
-		Screen screen = this.getScreen();
+		if(client != null)
+		{
+			OCMessage receivedMessage = client.getNotifications(user);	// get the notifications from the user
+			System.out.println(receivedMessage.get("success"));
+			if(receivedMessage.get("success").equals("true")) {
+				System.out.println("Received message successfully");
+				int num_messages = Integer.parseInt(receivedMessage.get("count"));
 
-		if( screen instanceof LobbyScreen ) {
-			// only show the popup if it isn't already displayed
-			if(!lobbyScreen.isPopupShown())
-			{
-				lobbyScreen.showNotification();
+				for (int i = 0; i < num_messages; i++) {
+					System.out.println("Message: " + i);
+					Date date = getDateFromString(receivedMessage.get("datestring" + i));
+					if (currentDate == null || date.compareTo(currentDate) > 0) {
+						currentDate = date;    // update current date
+
+						String event = receivedMessage.get("event" + (i+1));
+						String message = receivedMessage.get("message" + (i+1));
+
+						Screen screen = this.getScreen();
+
+						if (screen instanceof LobbyScreen) {
+							// only show the popup if it isn't already displayed
+							if (!lobbyScreen.isPopupShown()) {
+								lobbyScreen.showNotification(message);
+							}
+						} else if (screen instanceof InviteScreen) {
+							// only show the popup if it isn't already displayed
+							if (!inviteScreen.isPopupShown()) {
+								inviteScreen.showNotification();
+							}
+						} else if (screen instanceof MatchScreen) {
+							// only show the popup if it isn't already displayed
+							if (!matchScreen.isPopupShown()) {
+								matchScreen.showNotification();
+							}
+						} else if (screen instanceof ProfileScreen) {
+							// only show the popup if it isn't already displayed
+							if (!profileScreen.isPopupShown()) {
+								profileScreen.showNotification();
+							}
+						} else if (screen instanceof MailboxScreen) {
+							// only show the popup if it isn't already displayed
+							if (!mailboxScreen.isPopupShown()) {
+								mailboxScreen.showNotification();
+							}
+						}
+					}
+				}
 			}
 		}
-		else if( screen instanceof InviteScreen ) {
-			// only show the popup if it isn't already displayed
-			if(!inviteScreen.isPopupShown())
-			{
-				inviteScreen.showNotification();
-			}
+
+
+
+	}
+
+	private Date getDateFromString(String s) {
+		Date date = null;
+		System.out.println("date string: " + s);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+		try {
+			date = formatter.parse(s);
+		} catch(Exception e) {
+			System.out.println("Something went wrong parsing date string: " + s);
+			e.printStackTrace();
 		}
-		else if( screen instanceof MatchScreen ) {
-			// only show the popup if it isn't already displayed
-			if(!matchScreen.isPopupShown())
-			{
-				matchScreen.showNotification();
-			}
-		}
-		else if( screen instanceof ProfileScreen ) {
-			// only show the popup if it isn't already displayed
-			if(!profileScreen.isPopupShown())
-			{
-				profileScreen.showNotification();
-			}
-		}
-		else if( screen instanceof MailboxScreen ) {
-			// only show the popup if it isn't already displayed
-			if(!mailboxScreen.isPopupShown())
-			{
-				mailboxScreen.showNotification();
-			}
-		}
+		return date;
 	}
 
 	public void setMatchID(int matchID) { matchScreen.setMatchID(matchID); }

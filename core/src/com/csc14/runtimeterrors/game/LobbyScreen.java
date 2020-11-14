@@ -100,9 +100,9 @@ public class LobbyScreen implements Screen {
         }, 0,10000);*/
     }
 
-    public void showNotification(){
+    public void showNotification(String message){
         isPopupDisplayed = true;
-        JOptionPane.showMessageDialog(null, "Testing Popup!",
+        JOptionPane.showMessageDialog(null, message,
                 "New Notification!", JOptionPane.INFORMATION_MESSAGE);
         isPopupDisplayed = false;
     }
