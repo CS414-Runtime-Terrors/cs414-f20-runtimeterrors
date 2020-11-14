@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TimerTask;
 
-class getNotifications extends TimerTask {
+/*class getNotifications extends TimerTask {
 	private OmegaChess chessClass;
 	public getNotifications(OmegaChess chess){
 		chessClass = chess;
@@ -17,7 +17,7 @@ class getNotifications extends TimerTask {
 		chessClass.showNotification();
 		System.out.println("Hello World!");
 	}
-}
+}*/
 
 public class OmegaChess extends Game {
 
@@ -34,7 +34,6 @@ public class OmegaChess extends Game {
 	private ResumeScreen resumeScreen;
 	private boolean useLocal;
 	private String currentDate;
-	private Timer timer;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX, RESUME_GAME
@@ -45,18 +44,18 @@ public class OmegaChess extends Game {
 	public OmegaChess(boolean useLocalArg)
 	{
 		useLocal = useLocalArg;
-		//Timer timer = new Timer();
-		//timer.schedule(new getNotifications(this), 30000, 30000);
 
-		ActionListener taskPerformer = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
+		final java.util.Timer t = new java.util.Timer(true);
+		final TimerTask tt = new TimerTask() {
+			@Override
+			public void run() {
 				showNotification();
+				System.out.println("Hey");
+
 			}
 		};
 
-		//timer = new Timer(30000, taskPerformer);
-		//timer.setInitialDelay(20000);
-		//timer.start();
+		t.scheduleAtFixedRate(tt, 0,30000);
 	}
 
 	@Override
@@ -98,6 +97,11 @@ public class OmegaChess extends Game {
 		else if( screen instanceof  RegisterScreen ) {
 		}
 		else if( screen instanceof LobbyScreen ) {
+			// only show the popup if it isn't already displayed
+			if(!lobbyScreen.isPopupShown())
+			{
+				lobbyScreen.showNotification();
+			}
 		}
 		else if( screen instanceof InviteScreen ) {
 		}

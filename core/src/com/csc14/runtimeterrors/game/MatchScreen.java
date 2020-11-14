@@ -103,7 +103,7 @@ public class MatchScreen implements Screen {
         //     showNotification();
         // }
 
-        Timer t = new Timer( );
+        /*Timer t = new Timer( );
         t.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -111,7 +111,7 @@ public class MatchScreen implements Screen {
                 System.out.println("Hey");
 
             }
-        }, 0,10000);
+        }, 0,10000);*/
     }
 
     private void addListeners() {

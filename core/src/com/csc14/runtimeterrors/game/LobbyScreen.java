@@ -13,10 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class LobbyScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
     private TextButton createGameBtn, resumeGameBtn, logoutBtn, profileBtn, exitBtn;
+    private boolean isPopupDisplayed = false;
 
     public LobbyScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -83,6 +88,27 @@ public class LobbyScreen implements Screen {
 
         // add listeners
         addListeners();
+
+        /*Timer t = new Timer( );
+        t.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                System.out.println("Hey");
+
+            }
+        }, 0,10000);*/
+    }
+
+    public void showNotification(){
+        isPopupDisplayed = true;
+        JOptionPane.showMessageDialog(null, "Testing Popup!",
+                "New Notification!", JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     private void addListeners() {
