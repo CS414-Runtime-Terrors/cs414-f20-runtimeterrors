@@ -88,16 +88,6 @@ public class LobbyScreen implements Screen {
 
         // add listeners
         addListeners();
-
-        /*Timer t = new Timer( );
-        t.scheduleAtFixedRate(new TimerTask() {
-
-            @Override
-            public void run() {
-                System.out.println("Hey");
-
-            }
-        }, 0,10000);*/
     }
 
     public void showNotification(String message, int messageCount){
