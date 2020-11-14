@@ -1,6 +1,7 @@
 package com.omegaChess.server;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.LegalMoves;
@@ -61,6 +62,9 @@ public class OCProtocol {
                 case "get board data":
                     toReturn = getBoardData(receivedMessage);
                     break;
+                case "match move":
+                    toReturn = matchMove(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -76,6 +80,7 @@ public class OCProtocol {
 
             toReturn = message.toString();
 
+            e.printStackTrace();
             System.out.println("Something went wrong when processing input.");
         }
 
@@ -521,6 +526,44 @@ public class OCProtocol {
         message.put("legal moves", legalMoves);
         System.out.println("Sending legal moves: " + legalMoves);
 
+        return message.toString();
+    }
+
+    private String matchMove(OCMessage receivedMessage) {
+        int matchID = Integer.parseInt(receivedMessage.get("matchID"));
+        int[] fromArray = new int[2];
+        int[] toArray = new int[2];
+        fromArray[0] = Integer.parseInt(receivedMessage.get("fromRow"));
+        fromArray[1] = Integer.parseInt(receivedMessage.get("fromColumn"));
+        toArray[0] = Integer.parseInt(receivedMessage.get("toRow"));
+        toArray[1] = Integer.parseInt(receivedMessage.get("toColumn"));
+        OCMessage message = new OCMessage();
+
+        // get correct match and board
+        System.out.println("Attempting to get match and board");
+        Match match = serverData.getMatch(matchID);
+        ChessBoard board = match.getBoard();
+        String fromPosition = board.reverseParse(fromArray[0], fromArray[1]);
+        String toPosition = board.reverseParse(toArray[0], toArray[1]);
+
+        // make move
+        System.out.println("Attempting to make move");
+        boolean moveMade = false;
+        try {
+            board.move(fromPosition, toPosition);
+            moveMade = true;
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
+
+        if (moveMade) {
+            message.put("success", "true");
+            System.out.println("Move was successful!");
+        } else {
+            message.put("success", "false");
+            message.put("reason", "invalid move");
+            System.out.println("Invalid move!");
+        }
         return message.toString();
     }
 
