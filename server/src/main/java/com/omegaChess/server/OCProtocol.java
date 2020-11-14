@@ -38,9 +38,6 @@ public class OCProtocol {
                 case "login":
                     toReturn = loginUser(receivedMessage);
                     break;
-                case "logout":
-                    toReturn = logoutUser(receivedMessage);
-                    break;
                 case "get profile data":
                     toReturn = getProfileData(receivedMessage);
                     break;
@@ -138,9 +135,6 @@ public class OCProtocol {
             message.put("success", "true");
 
             System.out.println("Registered!");
-
-            serverData.getProfile(nickname).setLoggedInStatus(true);
-
         }
         else {
             message.put("success", "false");
@@ -170,12 +164,14 @@ public class OCProtocol {
             if (match.getProfile1().equalsIgnoreCase(nickname)){
                 match.endMatch("[deleted]", match.getProfile2(), match.getBoard().getMoves().size());
                 serverData.removeMatch(match);
-                serverData.getProfile(match.getProfile2()).getMailbox().addNotification(Notification.NotificationType.MATCH_ENDED, "Other user deleted their account before the game ended.");
+                serverData.getProfile(match.getProfile2()).getMailbox().addNotification(Notification.NotificationType.MATCH_ENDED,
+                        "Other user deleted their account before the game ended.");
             }
             if (match.getProfile2().equalsIgnoreCase(nickname)){
                 match.endMatch("[deleted]", match.getProfile1(), match.getBoard().getMoves().size());
                 serverData.removeMatch(match);
-                serverData.getProfile(match.getProfile1()).getMailbox().addNotification(Notification.NotificationType.MATCH_ENDED, "Other user deleted their account before the game ended.");
+                serverData.getProfile(match.getProfile1()).getMailbox().addNotification(Notification.NotificationType.MATCH_ENDED,
+                        "Other user deleted their account before the game ended.");
             }
             if (serverData.getMatches().size() == 0)
                 break;
@@ -186,7 +182,8 @@ public class OCProtocol {
                 if (invite.getInviter().equalsIgnoreCase(nickname)) {
                     invite.Decline();
                     mail.removeFromReceived(invite);
-                    mail.addNotification(Notification.NotificationType.INVITE_CANCELLED, "Other user deleted their account before a response was made.");
+                    mail.addNotification(Notification.NotificationType.INVITE_CANCELLED,
+                            "Other user deleted their account before a response was made.");
                 }
                 if (mail.getReceived().size() == 0)
                     break;
@@ -195,7 +192,8 @@ public class OCProtocol {
                 if (invite.getInvitee().equalsIgnoreCase(nickname)) {
                     invite.Decline();
                     mail.removeFromSent(invite);
-                    mail.addNotification(Notification.NotificationType.DECLINED_INVITE, "Other user deleted their account before responding.");
+                    mail.addNotification(Notification.NotificationType.DECLINED_INVITE,
+                            "Other user deleted their account before responding.");
                 }
                 if (mail.getSent().size() == 0)
                     break;
@@ -254,32 +252,6 @@ public class OCProtocol {
 
         }
 
-        serverData.getProfile(nickname).setLoggedInStatus(true);
-
-        return message.toString();
-    }
-
-    private String logoutUser(OCMessage receivedMessage) {
-
-        String nickname = receivedMessage.get("nickname");
-
-        System.out.println("Logging user: " + nickname + " out.");
-
-        OCMessage message = new OCMessage();
-
-        if (!serverData.profileExists(nickname)) {
-            // profile doesn't exist
-            message.put("success", "false");
-            message.put("reason", "nickname wasn't found");
-
-            System.out.println("Nickname wasn't found.");
-            return message.toString();
-        }
-
-        serverData.getProfile(nickname).setLoggedInStatus(false);   // set logged out
-
-        message.put("success", "true");
-
         return message.toString();
     }
 
@@ -334,10 +306,14 @@ public class OCProtocol {
        if (lookForInvite(inviter, invitee, mail, true) != null){
            message.put("success", "false");
            message.put("reason", "already sent an invite to " + invitee);
+           return message.toString();   // return if invite was already sent
        }
        Invite invite = new Invite(inviter, invitee);
        player1.getMailbox().addToSent(invite);
        player2.getMailbox().addToReceived(invite);
+       player2.getMailbox().addNotification(Notification.NotificationType.INVITE_REQUEST,
+               "You have been invited to play OmegaChess by user: " + inviter +
+               ". Go to your mailbox to accept/decline this invite.");
        message.put("success", "true");
 
        System.out.println("Invite has been sent");
@@ -473,7 +449,8 @@ public class OCProtocol {
                         Match match = invite.makeMatch();
                         int matchID = match.getMatchID();
                         serverData.addMatch(match);
-                        mail.addNotification(Notification.NotificationType.ACCEPTED_INVITE, invitee + " accepted your invite request.");
+                        mail.addNotification(Notification.NotificationType.ACCEPTED_INVITE,
+                                invitee + " accepted your invite request.");
                         message.put("success", "true");
                         message.put("matchID", Integer.toString(matchID));
                         return message.toString();
@@ -489,7 +466,8 @@ public class OCProtocol {
                         invite.Decline();
                         mail.removeFromSent(invite);
                         serverData.getProfile(invitee).getMailbox().removeFromReceived(inviteF);
-                        mail.addNotification(Notification.NotificationType.DECLINED_INVITE, invitee + " declined your invite request.");
+                        mail.addNotification(Notification.NotificationType.DECLINED_INVITE,
+                                invitee + " declined your invite request.");
                         message.put("success", "true");
                         return message.toString();
                     }

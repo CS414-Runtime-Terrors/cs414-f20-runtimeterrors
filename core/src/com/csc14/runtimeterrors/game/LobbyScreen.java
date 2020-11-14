@@ -100,10 +100,17 @@ public class LobbyScreen implements Screen {
         }, 0,10000);*/
     }
 
-    public void showNotification(String message){
+    public void showNotification(String message, int messageCount){
         isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
         JOptionPane.showMessageDialog(null, message,
-                "New Notification!", JOptionPane.INFORMATION_MESSAGE);
+                title, JOptionPane.INFORMATION_MESSAGE);
         isPopupDisplayed = false;
     }
 
@@ -140,7 +147,6 @@ public class LobbyScreen implements Screen {
         logoutBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                parent.getClient().sendLogoutRequest(parent.getUser());
                 parent.setUser("");
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };

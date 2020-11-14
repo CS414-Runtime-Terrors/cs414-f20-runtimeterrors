@@ -488,13 +488,7 @@ public class TestOCProtocol {
     @Test
     public void testGetLongestNickname()
     {
-        // todo : update register, login tests to check login status
-    }
-
-    @Test
-    public void testLogoutUser()
-    {
-
+        // todo : update register
     }
 
     public void testMatchMove() {

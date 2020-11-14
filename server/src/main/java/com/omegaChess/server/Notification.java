@@ -45,12 +45,12 @@ public class Notification {
     }
 
     public String getDateString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return dateFormat.format(date);
     }
 
     public void fromDateString(String dateString) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         try {
             date = formatter.parse(dateString);
         } catch(Exception e) {

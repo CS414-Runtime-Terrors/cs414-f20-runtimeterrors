@@ -236,10 +236,17 @@ public class ProfileScreen implements Screen {
 
     }
 
-    public void showNotification(){
+    public void showNotification(String message, int messageCount){
         isPopupDisplayed = true;
-        JOptionPane.showMessageDialog(null, "Testing Popup!",
-                "New Notification!", JOptionPane.INFORMATION_MESSAGE);
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
         isPopupDisplayed = false;
     }
 
