@@ -543,14 +543,12 @@ public class OCProtocol {
         OCMessage message = new OCMessage();
 
         // get correct match and board
-        System.out.println("Attempting to get match and board");
         Match match = serverData.getMatch(matchID);
         ChessBoard board = match.getBoard();
         String fromPosition = board.reverseParse(fromArray[0], fromArray[1]);
         String toPosition = board.reverseParse(toArray[0], toArray[1]);
 
         // make move
-        System.out.println("Attempting to make move");
         boolean moveMade = false;
         try {
             board.move(fromPosition, toPosition);
