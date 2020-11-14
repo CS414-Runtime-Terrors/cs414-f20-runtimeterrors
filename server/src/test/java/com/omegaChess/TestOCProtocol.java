@@ -462,6 +462,76 @@ public class TestOCProtocol {
     }
 
     @Test
+    public void testMatchMove() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        // create profiles
+        data.createProfile("pete", "zoop", "asdf@mail.com");
+        data.createProfile("kyle", "zoop", "fdsa@mail.com");
+
+        // send invite
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "kyle");
+        invite.put("inviter", "pete");
+        protocol.processInput(invite.toString());
+
+        // accept invite and get matchID
+        OCMessage accept = new OCMessage();
+        accept.put("process", "invite response");
+        accept.put("response", "accept");
+        accept.put("inviter", "pete");
+        accept.put("invitee", "kyle");
+        String acceptString = protocol.processInput(accept.toString());
+        OCMessage acceptResponse = new OCMessage();
+        acceptResponse.fromString(acceptString);
+        String matchID = acceptResponse.get("matchID");
+
+        // test moving white wizard
+        OCMessage message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", matchID);
+        message.put("fromRow", "0");
+        message.put("fromColumn", "0");
+        message.put("toRow", "3");
+        message.put("toColumn", "1");
+        String input = message.toString();
+        String output = protocol.processInput(input);
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("true", receivedMessage.get("success"));
+
+        // test moving black pawn
+        message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", matchID);
+        message.put("fromRow", "9");
+        message.put("fromColumn", "5");
+        message.put("toRow", "6");
+        message.put("toColumn", "5");
+        input = message.toString();
+        output = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("true", receivedMessage.get("success"));
+
+        // test moving white knight
+        message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", matchID);
+        message.put("fromRow", "1");
+        message.put("fromColumn", "8");
+        message.put("toRow", "3");
+        message.put("toColumn", "9");
+        input = message.toString();
+        output = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("true", receivedMessage.get("success"));
+    }
+
+    @Test
     public void testInProgressMatchRequest() {
         OCServerData data = new OCServerData();
         OCProtocol protocol = new OCProtocol(data);
