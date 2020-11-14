@@ -3,9 +3,12 @@ package com.omegaChess.board;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
+import com.omegaChess.server.OCMessage;
+import com.omegaChess.server.TurnTracker;
 
-import javax.sound.midi.SysexMessage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -14,6 +17,7 @@ import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class ChessBoard {
     private ChessPiece[][] board;
+    private TurnTracker turn;
 
     public ArrayList<ChessPiece> black_pieces;
     public ArrayList<ChessPiece> white_pieces;
@@ -23,17 +27,21 @@ public class ChessBoard {
     // Create a class constructor for the ChessBoard.java class
     public ChessBoard() {
         // create 12x12 board and initialize to all nulls
+        createAndInitializeToNulls();
+
+        black_pieces = new ArrayList<>();
+        white_pieces = new ArrayList<>();
+        moves = new ArrayList<>();
+        turn = new TurnTracker("can't", "beNull");
+
+    }
+
+    private void createAndInitializeToNulls() {
         board = new ChessPiece[12][12];
         for( ChessPiece[] array : board )
         {
             Arrays.fill(array, null);
         }
-
-
-        black_pieces = new ArrayList<>();
-        white_pieces = new ArrayList<>();
-        moves = new ArrayList<>();
-
     }
 
     public void initialize()
@@ -404,6 +412,9 @@ public class ChessBoard {
 
             //push move to front of list for easier access of most recent move
             moves.add(0, new Move(piece, fromPosition, toPosition));
+
+            // Changes the turn to the other player
+            turn.switchTurn();
         }
         // otherwise, throw illegal move exception
         else
@@ -465,6 +476,29 @@ public class ChessBoard {
         chess+=bottomLine;
         return chess;
     }
+
+    public String boardString(){
+        OCMessage message = new OCMessage();
+        int r = 0;
+        for (ChessPiece[] row: board){
+            int c = 0;
+            for (ChessPiece piece: row){
+                if (piece == null){
+                    message.put(reverseParse(r, c), null);
+                }else {
+                    message.put(reverseParse(r, c), piece.toString());
+                }
+                c++;
+            }
+            r++;
+        }
+
+        return message.toString();
+    }
+
+    public TurnTracker getTurn() { return turn; }
+
+    public void setTurn(TurnTracker turn) { this.turn = turn; }
 
     public static void main(String[] args) {
         ChessBoard board = new ChessBoard();
@@ -636,9 +670,49 @@ public class ChessBoard {
         final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
         final String movesSaveLocation = saveLocation + "moves/";
 
-        // save black pieces black-pieces directory
+        // save file names and associated types of black pieces
+        try {
+            File saveFile = new File(blackPiecesSaveLocation + "file-names-and-associated-types.txt");
+
+            createDirectoryIfNonExistent(blackPiecesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (ChessPiece c : black_pieces) {
+                saveWriter.write(getType(c) + "\n");
+                saveWriter.write(c.getPosition() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // save black pieces in black-pieces directory
         for (ChessPiece p : black_pieces) {
             p.save(blackPiecesSaveLocation);
+        }
+
+        // save file names and associated types of white pieces
+        try {
+            File saveFile = new File(whitePiecesSaveLocation + "file-names-and-associated-types.txt");
+
+            createDirectoryIfNonExistent(whitePiecesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (ChessPiece c : white_pieces) {
+                saveWriter.write(getType(c) + "\n");
+                saveWriter.write(c.getPosition() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // save white pieces in white-pieces directory
@@ -646,23 +720,159 @@ public class ChessBoard {
             p.save(whitePiecesSaveLocation);
         }
 
+        // save moves filenames
+        try {
+            File saveFile = new File(movesSaveLocation + "filenames.txt");
+
+            createDirectoryIfNonExistent(movesSaveLocation);
+
+            saveFile.createNewFile();
+
+            FileWriter saveWriter = new FileWriter(saveFile);
+
+            for (Move m : moves) {
+                saveWriter.write(m.getID() + ".txt" + "\n");
+            }
+
+            saveWriter.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         // save moves in moves directory
         for (Move m : moves) {
             m.save(movesSaveLocation);
         }
+
+        // save turn tracker in turn.txt
+        turn.save(saveLocation);
     }
 
-    public void load() {
+    public static String getType(ChessPiece piece) {
+        if (piece instanceof Bishop) {
+            return "bishop";
+        }
+        if (piece instanceof Champion) {
+            return "champion";
+        }
+        if (piece instanceof InvalidSpace) {
+            return "invalid";
+        }
+        if (piece instanceof King) {
+            return "king";
+        }
+        if (piece instanceof Knight) {
+            return "knight";
+        }
+        if (piece instanceof Pawn) {
+            return "pawn";
+        }
+        if (piece instanceof Queen) {
+            return "queen";
+        }
+        if (piece instanceof Rook) {
+            return "rook";
+        }
+        if (piece instanceof Wizard) {
+            return "wizard";
+        }
+        return null;
+    }
+
+    public void load(String saveLocation) {
+        final String blackPiecesSaveLocation = saveLocation + "black-pieces/";
+        final String whitePiecesSaveLocation = saveLocation + "white-pieces/";
+        final String movesSaveLocation = saveLocation + "moves/";
+
         // load black pieces
-        // TODO
+        black_pieces = new ArrayList<>();
+        try {
+            File loadFile = new File(blackPiecesSaveLocation + "file-names-and-associated-types.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextType = loadReader.nextLine();
+                String nextFilename = loadReader.nextLine();
+                ChessPiece temp = getPieceByType(nextType);
+                temp.load(blackPiecesSaveLocation + nextFilename, ChessPiece.Color.BLACK, this);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + blackPiecesSaveLocation);
+        }
 
         // load white pieces
-        // TODO
+        white_pieces = new ArrayList<>();
+        try {
+            File loadFile = new File(whitePiecesSaveLocation + "file-names-and-associated-types.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextType = loadReader.nextLine();
+                String nextFilename = loadReader.nextLine();
+                ChessPiece temp = getPieceByType(nextType);
+                temp.load(whitePiecesSaveLocation + nextFilename, ChessPiece.Color.WHITE, this);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + whitePiecesSaveLocation);
+        }
+
+        // initialize board to nulls
+        createAndInitializeToNulls();
+
+        // place pieces onto board
+        for (ChessPiece p : black_pieces) {
+            placePiece(p, p.getPosition());
+        }
+        for (ChessPiece p : white_pieces) {
+            placePiece(p, p.getPosition());
+        }
 
         // load moves
-        // TODO
+        moves = new ArrayList<>();
+        try {
+            File loadFile = new File(movesSaveLocation + "filenames.txt");
+            Scanner loadReader = new Scanner(loadFile);
+            // actual loading
+            while (loadReader.hasNextLine()) {
+                String nextFilename = loadReader.nextLine();
+                Move temp = new Move();
+                temp.load(movesSaveLocation + nextFilename);
+                moves.add(temp);
+            }
+            loadReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found in " + movesSaveLocation);
+        }
 
-        // reconstruct board
-        // TODO
+        // load turn
+        turn = new TurnTracker();
+        turn.load(saveLocation);
+    }
+
+    public static ChessPiece getPieceByType(String type) {
+        switch(type) {
+            case "bishop":
+                return new Bishop();
+            case "champion":
+                return new Champion();
+            case "invalid":
+                return new InvalidSpace();
+            case "king":
+                return new King();
+            case "knight":
+                return new Knight();
+            case "pawn":
+                return new Pawn();
+            case "queen":
+                return new Queen();
+            case "rook":
+                return new Rook();
+            case "wizard":
+                return new Wizard();
+            default:
+                return null;
+        }
     }
 }

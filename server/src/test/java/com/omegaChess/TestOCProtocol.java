@@ -358,14 +358,85 @@ public class TestOCProtocol {
     }
 
     @Test
+    public void testGetBoard(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("this", "one", "thisOne@omegachess.com");
+        data.createProfile("that", "one", "thatOne@omegachess.com");
+
+        OCMessage message = new OCMessage(), receivedMessage = new OCMessage();
+        message.put("process", "get board data");
+        message.put("ID", "345");
+
+        String out = protocol.processInput(message.toString());
+
+        receivedMessage.fromString(out);
+        // Test no match available
+        assertEquals("false", receivedMessage.get("success"), "There should not be any matches in the data right now.");
+
+        Match match = new Match("this", "that");
+        data.addMatch(match);
+
+        message = new OCMessage();
+        message.put("process", "get board data");
+        message.put("ID", "123");
+
+        out = protocol.processInput(message.toString());
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        // Test match ID is invalid
+        assertEquals("false", receivedMessage.get("success"), "The match ID " + message.get("ID") + " shouldn't exist");
+        message = new OCMessage();
+
+        message.put("process", "get board data");
+        message.put("ID", String.valueOf(match.getMatchID()));
+        String input = message.toString();
+
+        out = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        // Test that the protocol returns board data
+        assertEquals("true", receivedMessage.get("success"), "Failed to get board data because " + receivedMessage.get("reason"));
+        assertNotNull(receivedMessage.get("w1"), "failed to return info for w1");
+        assertEquals("null", receivedMessage.get("c5"), "this space should return null");
+    }
+
+    @Test
     public void testGetLegalMoves() {
         OCServerData data = new OCServerData();
         OCProtocol protocol = new OCProtocol(data);
 
+        // create profiles
+        data.createProfile("pete", "zoop", "asdf@mail.com");
+        data.createProfile("kyle", "zoop", "fdsa@mail.com");
+
+        // send invite
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "kyle");
+        invite.put("inviter", "pete");
+        protocol.processInput(invite.toString());
+
+        // accept invite and get matchID
+        OCMessage accept = new OCMessage();
+        accept.put("process", "invite response");
+        accept.put("response", "accept");
+        accept.put("inviter", "pete");
+        accept.put("invitee", "kyle");
+        String acceptString = protocol.processInput(accept.toString());
+        OCMessage acceptResponse = new OCMessage();
+        acceptResponse.fromString(acceptString);
+        String matchID = acceptResponse.get("matchID");
+
         // test white pawn in starting position
         OCMessage message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "2");
         message.put("column", "1");
         String input = message.toString();
@@ -378,7 +449,7 @@ public class TestOCProtocol {
         // test black pawn in starting position
         message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "9");
         message.put("column", "10");
         input = message.toString();
@@ -391,7 +462,7 @@ public class TestOCProtocol {
         // test knight in starting position
         message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "1");
         message.put("column", "8");
         input = message.toString();
@@ -401,10 +472,10 @@ public class TestOCProtocol {
         assertEquals("true", receivedMessage.get("success"));
         assertEquals("/g3/i3/", receivedMessage.get("legal moves"));
 
-        // test black square
+        // test blank square
         message = new OCMessage();
         message.put("process", "get legal moves");
-        message.put("matchID", "1");
+        message.put("matchID", matchID);
         message.put("row", "5");
         message.put("column", "5");
         input = message.toString();
@@ -426,4 +497,168 @@ public class TestOCProtocol {
 
     }
 
+    public void testMatchMove() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        // create profiles
+        data.createProfile("pete", "zoop", "asdf@mail.com");
+        data.createProfile("kyle", "zoop", "fdsa@mail.com");
+
+        // send invite
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "kyle");
+        invite.put("inviter", "pete");
+        protocol.processInput(invite.toString());
+
+        // accept invite and get matchID
+        OCMessage accept = new OCMessage();
+        accept.put("process", "invite response");
+        accept.put("response", "accept");
+        accept.put("inviter", "pete");
+        accept.put("invitee", "kyle");
+        String acceptString = protocol.processInput(accept.toString());
+        OCMessage acceptResponse = new OCMessage();
+        acceptResponse.fromString(acceptString);
+        String matchID = acceptResponse.get("matchID");
+
+        // test moving white wizard
+        OCMessage message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", matchID);
+        message.put("fromRow", "0");
+        message.put("fromColumn", "0");
+        message.put("toRow", "3");
+        message.put("toColumn", "1");
+        String input = message.toString();
+        String output = protocol.processInput(input);
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("true", receivedMessage.get("success"));
+
+        // test moving black pawn
+        message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", matchID);
+        message.put("fromRow", "9");
+        message.put("fromColumn", "5");
+        message.put("toRow", "6");
+        message.put("toColumn", "5");
+        input = message.toString();
+        output = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("true", receivedMessage.get("success"));
+
+        // test moving white knight
+        message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", matchID);
+        message.put("fromRow", "1");
+        message.put("fromColumn", "8");
+        message.put("toRow", "3");
+        message.put("toColumn", "9");
+        input = message.toString();
+        output = protocol.processInput(input);
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("true", receivedMessage.get("success"));
+    }
+
+    @Test
+    public void testInProgressMatchRequest() {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        // create profiles
+        data.createProfile("pete", "zoop", "asdf@mail.com");
+        data.createProfile("kyle", "zoop", "fdsa@mail.com");
+
+        // test no matches available
+        String opponents = "";
+        String IDs = "";
+        OCMessage matches = new OCMessage();
+        matches.put("process", "get in-progress matches");
+        matches.put("nickname", "pete");
+        OCMessage receivedMessage = new OCMessage();
+        receivedMessage.fromString(protocol.processInput(matches.toString()));
+        assertEquals(opponents, receivedMessage.get("opponents"));
+        assertEquals(IDs, receivedMessage.get("matchIDs"));
+
+        // send invite
+        OCMessage invite = new OCMessage();
+        invite.put("process", "invite");
+        invite.put("invitee", "kyle");
+        invite.put("inviter", "pete");
+        protocol.processInput(invite.toString());
+
+        // accept invite
+        OCMessage accept = new OCMessage();
+        accept.put("process", "invite response");
+        accept.put("response", "accept");
+        accept.put("inviter", "pete");
+        accept.put("invitee", "kyle");
+        String acceptString = protocol.processInput(accept.toString());
+        OCMessage acceptResponse = new OCMessage();
+        acceptResponse.fromString(acceptString);
+
+        // test match available
+        opponents = "kyle";
+        IDs = acceptResponse.get("matchID");
+        matches = new OCMessage();
+        matches.put("process", "get in-progress matches");
+        matches.put("nickname", "pete");
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(protocol.processInput(matches.toString()));
+        assertEquals(opponents, receivedMessage.get("opponents"));
+        assertEquals(IDs, receivedMessage.get("matchIDs"));
+    }
+
+    @Test
+    private void testGetTurn(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("J", "Jonah", "JJJameson@omegachess.com");
+        data.createProfile("Peter", "Parker", "definitelynotspidey@omegachess.com");
+
+        OCMessage message = new OCMessage(), receivedMessage = new OCMessage();
+        message.put("process", "get turn");
+        message.put("ID", "345");
+
+        String out = protocol.processInput(message.toString());
+
+        receivedMessage.fromString(out);
+        // Test no match available
+        assertEquals("false", receivedMessage.get("success"), "There should not be any matches in the data right now.");
+
+        Match match = new Match("J", "Peter");
+        data.addMatch(match);
+
+        message = new OCMessage();
+        message.put("process", "get turn");
+        message.put("ID", String.valueOf(match.getMatchID()));
+
+        out = protocol.processInput(message.toString());
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        // Player returned equals the first player
+        assertEquals("true", receivedMessage.get("success"), "Failed to retrieve current turn because " + receivedMessage.get("reason"));
+        assertEquals("J", receivedMessage.get("user"), "The player's name doesn't match");
+
+        message = new OCMessage();
+        message.put("process", "get turn");
+        message.put("ID", "123");
+
+        out = protocol.processInput(message.toString());
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(out);
+
+        // Match ID is invalid
+        assertEquals("false", receivedMessage.get("success"), "The match ID " + message.get("ID") + " shouldn't exist");
+    }
 }

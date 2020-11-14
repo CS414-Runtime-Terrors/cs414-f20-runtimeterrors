@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class LobbyScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private TextButton createGameBtn, resumeGameBtn, logoutBtn, profileBtn, testMatchBtn, exitBtn;
+    private TextButton createGameBtn, resumeGameBtn, logoutBtn, profileBtn, exitBtn;
 
     public LobbyScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -45,7 +45,6 @@ public class LobbyScreen implements Screen {
         resumeGameBtn = new TextButton("Resume Game", skin);
         profileBtn = new TextButton("Profile", skin);
         logoutBtn = new TextButton("Logout", skin);
-        testMatchBtn = new TextButton("Test Match", skin);
         exitBtn = new TextButton("Exit", skin);
 
         // set title label
@@ -76,10 +75,6 @@ public class LobbyScreen implements Screen {
         logoutBtn.setPosition(150, 50);
         stage.addActor(logoutBtn);
 
-        testMatchBtn.setTransform(true);
-        testMatchBtn.setScale(0.2f);
-        testMatchBtn.setPosition(0, 0);
-        stage.addActor(testMatchBtn);
 
         exitBtn.setTransform(true);
         exitBtn.setScale(0.5f);
@@ -103,7 +98,7 @@ public class LobbyScreen implements Screen {
         resumeGameBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                parent.changeScreen(OmegaChess.SCREEN.RESUME_GAME);
             };
         });
 
@@ -123,14 +118,6 @@ public class LobbyScreen implements Screen {
                 parent.setUser("");
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
             };
-        });
-
-        // test match button will open the match screen
-        testMatchBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.SCREEN.MATCH);
-            }
         });
 
         // exit button will close application

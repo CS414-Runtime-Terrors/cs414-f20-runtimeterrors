@@ -1,6 +1,7 @@
 package com.omegaChess.server;
 
 import com.omegaChess.board.ChessBoard;
+import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.LegalMoves;
@@ -61,6 +62,18 @@ public class OCProtocol {
                 case "get legal moves":
                     toReturn = getLegalMoves(receivedMessage);
                     break;
+                case "get board data":
+                    toReturn = getBoardData(receivedMessage);
+                    break;
+                case "match move":
+                    toReturn = matchMove(receivedMessage);
+                    break;
+                case "get in-progress matches":
+                    toReturn = resumeMatchesListResponse(receivedMessage);
+                    break;
+                case "get turn":
+                    toReturn = getTurn(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -76,6 +89,7 @@ public class OCProtocol {
 
             toReturn = message.toString();
 
+            e.printStackTrace();
             System.out.println("Something went wrong when processing input.");
         }
 
@@ -457,9 +471,11 @@ public class OCProtocol {
                         mail.removeFromSent(invite);
                         serverData.getProfile(invitee).getMailbox().removeFromReceived(inviteF);
                         Match match = invite.makeMatch();
+                        int matchID = match.getMatchID();
                         serverData.addMatch(match);
                         mail.addNotification(Notification.NotificationType.ACCEPTED_INVITE, invitee + " accepted your invite request.");
                         message.put("success", "true");
+                        message.put("matchID", Integer.toString(matchID));
                         return message.toString();
                     }
                 }
@@ -483,6 +499,35 @@ public class OCProtocol {
         return message.toString();
     }
 
+    public String getBoardData(OCMessage receivedMessage){
+        int ID = Integer.parseInt(receivedMessage.get("ID"));
+        OCMessage message = new OCMessage();
+
+        System.out.println("Attempting to get board for match " + ID);
+
+        Match match = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+        }
+        for (Match mat : serverData.getMatches()){
+            if (mat.getMatchID() == ID) {
+                message.put("success", "true");
+                match = mat;
+                break;
+            }
+        }
+        if (match == null) {
+            message.put("success", "false");
+            message.put("reason", "No match found that has ID=" + ID);
+            return message.toString();
+        }
+
+        message.fromString(match.getBoard().boardString());
+
+        return message.toString();
+    }
+
     private String getLegalMoves(OCMessage receivedMessage) {
         int matchID = Integer.parseInt(receivedMessage.get("matchID"));
         int row = Integer.parseInt(receivedMessage.get("row"));
@@ -490,10 +535,8 @@ public class OCProtocol {
         OCMessage message = new OCMessage();
 
         // get correct match and board
-//        Match match = serverData.getMatch(matchID);
-//        ChessBoard board = match.getBoard();
-        ChessBoard board = new ChessBoard();
-        board.initialize();
+        Match match = serverData.getMatch(matchID);
+        ChessBoard board = match.getBoard();
 
         // get piece at specified position on board
         String position = board.reverseParse(row, column);
@@ -525,6 +568,42 @@ public class OCProtocol {
         return message.toString();
     }
 
+    private String matchMove(OCMessage receivedMessage) {
+        int matchID = Integer.parseInt(receivedMessage.get("matchID"));
+        int[] fromArray = new int[2];
+        int[] toArray = new int[2];
+        fromArray[0] = Integer.parseInt(receivedMessage.get("fromRow"));
+        fromArray[1] = Integer.parseInt(receivedMessage.get("fromColumn"));
+        toArray[0] = Integer.parseInt(receivedMessage.get("toRow"));
+        toArray[1] = Integer.parseInt(receivedMessage.get("toColumn"));
+        OCMessage message = new OCMessage();
+
+        // get correct match and board
+        Match match = serverData.getMatch(matchID);
+        ChessBoard board = match.getBoard();
+        String fromPosition = board.reverseParse(fromArray[0], fromArray[1]);
+        String toPosition = board.reverseParse(toArray[0], toArray[1]);
+
+        // make move
+        boolean moveMade = false;
+        try {
+            board.move(fromPosition, toPosition);
+            moveMade = true;
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
+
+        if (moveMade) {
+            message.put("success", "true");
+            System.out.println("Move was successful!");
+        } else {
+            message.put("success", "false");
+            message.put("reason", "invalid move");
+            System.out.println("Invalid move!");
+        }
+        return message.toString();
+    }
+
     // Helper method to grab an invite between users
     public Invite lookForInvite(String inviter, String invitee, Mailbox mail, boolean sent){
         if (sent) {
@@ -539,5 +618,61 @@ public class OCProtocol {
             }
         }
         return null;
+    }
+
+    public String resumeMatchesListResponse(OCMessage receivedMessage) {
+        String user = receivedMessage.get("nickname");
+        String opponents = "";
+        String IDs = "";
+        ArrayList<Match> matches = serverData.getMatches();
+        OCMessage message = new OCMessage();
+
+        for (Match m : matches) {
+            if (m.getProfile1().equals(user)) {
+                opponents += m.getProfile2() + ", ";
+                IDs += m.getMatchID() + ", ";
+            }
+            else if (m.getProfile2().equals(user)) {
+                opponents += m.getProfile1() + ", ";
+                IDs += m.getMatchID() + ", ";
+            }
+        }
+
+        if (!opponents.equals("")) {
+            opponents = opponents.substring(0, opponents.length() - 2);
+            IDs = IDs.substring(0, IDs.length() - 2);
+        }
+
+        message.put("opponents", opponents);
+        message.put("matchIDs", IDs);
+        message.put("success", "true");
+        return message.toString();
+    }
+
+    public String getTurn(OCMessage receivedMessage){
+        int ID = Integer.valueOf(receivedMessage.get("ID"));
+        OCMessage message = new OCMessage();
+
+        TurnTracker turn = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+        }
+        for (Match match : serverData.getMatches()){
+            if (match.getMatchID() == ID) {
+                message.put("success", "true");
+                turn = match.getBoard().getTurn();
+                break;
+            }
+        }
+        if (turn == null) {
+            message.put("success", "false");
+            message.put("reason", "No match found that has ID=" + ID);
+            return message.toString();
+        }
+
+        message.put("user", turn.getCurrentTurnPlayer());
+
+        return message.toString();
     }
 }

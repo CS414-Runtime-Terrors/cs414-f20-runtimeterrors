@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class OCClient {
 
@@ -284,4 +285,67 @@ public class OCClient {
         return receivedMessage;
     }
 
+    // Get board data from server for a match
+    public OCMessage getBoardData(int ID){
+        System.out.println("Getting board data for match with ID="+ID);
+        OCMessage message = new OCMessage();
+        message.put("process", "get board data");
+        message.put("ID", String.valueOf(ID));
+
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // send move to be made on the server
+    public OCMessage matchMove(int matchID, int[] fromPosition, int[] toPosition){
+        System.out.println("Sending move from "+ Arrays.toString(fromPosition) +" to "+ Arrays.toString(toPosition) +" to the server");
+        OCMessage message = new OCMessage();
+        message.put("process", "match move");
+        message.put("matchID", Integer.toString(matchID));
+        message.put("fromRow", Integer.toString(fromPosition[0]));
+        message.put("fromColumn", Integer.toString(fromPosition[1]));
+        message.put("toRow", Integer.toString(toPosition[0]));
+        message.put("toColumn", Integer.toString(toPosition[1]));
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // request the matches a user can resume
+    public OCMessage getResumeMatches(String nickname) {
+        System.out.println("Sending get in-progress matches request for " + nickname);
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get in-progress matches");
+        message.put("nickname", nickname);
+
+        // receive message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // Get current turn
+    public OCMessage getTurn(int ID){
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get turn");
+        message.put("ID", String.valueOf(ID));
+
+        // Received message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }

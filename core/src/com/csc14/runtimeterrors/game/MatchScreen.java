@@ -157,6 +157,10 @@ public class MatchScreen implements Screen {
         }
     }
 
+    public void setMatchID(int id) {
+        board.setMatchID(id);
+    }
+
     @Override
     public void resize(int width, int height) {
     }

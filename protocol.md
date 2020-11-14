@@ -165,6 +165,30 @@ Message Template:
 
 Return Message Template:
 * "success": "true"
+* "matchID": int that corresponds to the created match (if response = accept)
+
+
+## Get Board Data
+- This request returns the data for what pieces are
+ in what spaces on the board for the respective match ID.
+
+Message Template:
+* "process": "get board data" 
+* "ID": "match ID"
+
+Return Message Success:
+* "success": "true"
+* "w1": "piece.toString() | null"
+* "y1": "InvalidSpace.toString()"
+* "y2": "InvalidSpace.toString()"
+>...
+* "y9": "InvalidSpace.toString()"
+* "y10": "InvalidSpace.toString()"
+* "w4": "piece.toString() | null"
+
+Return Message Failure:
+* "success": "false"
+* "reason": "reason for failure"
 
 ## Get Legal Moves
 - This request returns a piece's legal moves
@@ -182,3 +206,21 @@ Return Message Template 1:
 Return Message Template 2:
 * "success": "false"
 * "reason": "no piece at specified position"
+
+## Match Move
+- This request sends a move to be made on the server
+
+Message Template:
+* "process": "match move"
+* "matchID": any int that corresponds to a match
+* "fromRow": the row of the from position
+* "fromColumn": the column of the from position
+* "toRow": the row of the to position
+* "toColumn": the column of the to position
+
+Return Message Template 1:
+* "success": "true"
+
+Return Message Template 2:
+* "success": "false"
+* "reason": "Invalid move!"

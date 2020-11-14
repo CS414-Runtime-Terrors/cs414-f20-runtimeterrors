@@ -33,7 +33,7 @@ public class Notification {
 
     // storage constructor
     public Notification() {
-
+        numInstances++;
     }
 
     public NotificationType getEvent() {

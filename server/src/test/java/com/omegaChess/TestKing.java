@@ -9,6 +9,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
+import com.omegaChess.server.TurnTracker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

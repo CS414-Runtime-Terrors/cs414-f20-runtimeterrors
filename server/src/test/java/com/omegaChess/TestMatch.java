@@ -29,7 +29,6 @@ public class TestMatch {
                 p2 = new UserProfile("JimmyJam", "PB&Jay", "sandwitchLover@hotmail.com");
 
         Match match = new Match(p1.getNickname(), p2.getNickname());
-        match.initialize();
         ChessBoard board = new ChessBoard();
         board.initialize();
         TurnTracker turn = new TurnTracker(p1.getNickname(), p2.getNickname());
@@ -38,8 +37,8 @@ public class TestMatch {
         assertEquals(board.toString(), match.getBoard().toString(), "Expected boards to be the same.");
         assertEquals(p1.getNickname(), match.getProfile1(), "Player 1 names are not the same.");
         assertEquals(p2.getNickname(), match.getProfile2(), "Player 2 names are not the same.");
-        match.setTurn(turn);
-        assertEquals(turn.getCurrentTurnPlayer(), match.getTurn().getCurrentTurnPlayer(), "Turns do not match.");
+        match.getBoard().setTurn(turn);
+        assertEquals(turn.getCurrentTurnPlayer(), match.getBoard().getTurn().getCurrentTurnPlayer(), "Turns do not match.");
     }
 
     @Test
@@ -48,7 +47,6 @@ public class TestMatch {
                 p2 = new UserProfile("Italian", "italianhandshake", "needsmorecheese@omegachess.com");
 
         Match match = new Match(p1.getNickname(), p2.getNickname());
-        match.initialize();
 
         assertNotNull(match.endMatch(p2.getNickname(), p1.getNickname(), 15));
     }
@@ -59,7 +57,6 @@ public class TestMatch {
                 p2 = new UserProfile("ClASSes", "Schollsux", "Fallingoutoftherealm@omegachess.com");
 
         Match match = new Match(p1.getNickname(), p2.getNickname());
-        match.initialize();
 
         assertFalse(match.checkCheckmate(), "There are no pieces in checkmate.");
 
@@ -79,7 +76,7 @@ public class TestMatch {
 
         match = new Match(p1.getNickname(), p2.getNickname());
         TurnTracker turn = new TurnTracker(p1.getNickname(), p2.getNickname());
-        match.setTurn(turn);
+        match.getBoard().setTurn(turn);
         match.setBoard(board);
 
         assertTrue(match.checkCheckmate(), "Black should be checkmate.");
