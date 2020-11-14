@@ -207,17 +207,20 @@ Return Message Template 2:
 * "success": "false"
 * "reason": "no piece at specified position"
 
-## Get Turn
-- This request will return the name of the user for the current turn
+## Match Move
+- This request sends a move to be made on the server
 
 Message Template:
-* "process": "get turn"
-* "ID": the current matchID
+* "process": "match move"
+* "matchID": any int that corresponds to a match
+* "fromRow": the row of the from position
+* "fromColumn": the column of the from position
+* "toRow": the row of the to position
+* "toColumn": the column of the to position
 
-Return Message Success:
+Return Message Template 1:
 * "success": "true"
-* "user": "nickname of current user"
 
-Return Message Failure:
+Return Message Template 2:
 * "success": "false"
-* "reason": "There is no match with this ID/There are no matches to look through"
+* "reason": "Invalid move!"
