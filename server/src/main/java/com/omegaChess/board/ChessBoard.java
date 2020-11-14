@@ -4,6 +4,7 @@ import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
 import com.omegaChess.server.OCMessage;
+import com.omegaChess.server.TurnTracker;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +17,7 @@ import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class ChessBoard {
     private ChessPiece[][] board;
+    private TurnTracker turn;
 
     public ArrayList<ChessPiece> black_pieces;
     public ArrayList<ChessPiece> white_pieces;
@@ -409,6 +411,9 @@ public class ChessBoard {
 
             //push move to front of list for easier access of most recent move
             moves.add(0, new Move(piece, fromPosition, toPosition));
+
+            // Changes the turn to the other player
+            turn.switchTurn();
         }
         // otherwise, throw illegal move exception
         else
@@ -489,6 +494,10 @@ public class ChessBoard {
 
         return message.toString();
     }
+
+    public TurnTracker getTurn() { return turn; }
+
+    public void setTurn(TurnTracker turn) { this.turn = turn; }
 
     public static void main(String[] args) {
         ChessBoard board = new ChessBoard();
@@ -733,6 +742,9 @@ public class ChessBoard {
         for (Move m : moves) {
             m.save(movesSaveLocation);
         }
+
+        // save turn tracker in turn.txt
+        turn.save(saveLocation);
     }
 
     public static String getType(ChessPiece piece) {
@@ -832,6 +844,10 @@ public class ChessBoard {
         } catch (FileNotFoundException e) {
             System.out.println("File not found in " + movesSaveLocation);
         }
+
+        // load turn
+        turn = new TurnTracker();
+        turn.load(saveLocation);
     }
 
     public static ChessPiece getPieceByType(String type) {

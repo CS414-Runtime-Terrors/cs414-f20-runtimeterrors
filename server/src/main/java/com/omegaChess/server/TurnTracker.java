@@ -15,6 +15,8 @@ public class TurnTracker {
     private String currentTurnPlayer;
     private ChessPiece.Color currentTurnColor = ChessPiece.Color.WHITE;
 
+    public TurnTracker() {}
+
     public TurnTracker(String p1, String p2) {
         this.player1 = p1;
         this.player2 = p2;
