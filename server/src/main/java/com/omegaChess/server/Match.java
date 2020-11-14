@@ -18,7 +18,6 @@ public class Match {
 
     private ChessBoard board;
     private String profile1, profile2;
-    private TurnTracker turn;
     private static int matchCount = 0;
     private int matchID;
 
@@ -27,8 +26,8 @@ public class Match {
         this.profile1 = profile1;
         this.profile2 = profile2;
         board = new ChessBoard();
+        board.setTurn(new TurnTracker(profile1, profile2));
         board.initialize();
-        turn = new TurnTracker(profile1, profile2);
         matchID = ++matchCount;
     }
 
@@ -45,7 +44,7 @@ public class Match {
         ArrayList<ChessPiece> currentPieces = new ArrayList<>();
         // a boolean to track if the opponents king is in check, and if they have any piece to block the check.
         boolean check = true, noBlock = true;
-        switch (turn.getCurrentTurnColor()){
+        switch (board.getTurn().getCurrentTurnColor()){
             case WHITE:
                 currentPieces = board.get_black_pieces();
                 break;
@@ -98,10 +97,6 @@ public class Match {
 
     public String getProfile2() { return profile2; }
 
-    public TurnTracker getTurn() { return turn; }
-
-    public void setTurn(TurnTracker turn) { this.turn = turn; }
-
     public void save(String saveLocation) {
         createDirectoryIfNonExistent(saveLocation);
 
@@ -128,9 +123,6 @@ public class Match {
 
         // save board
         board.save(matchSaveLocation);
-
-        // save turn tracker in turn.txt
-        turn.save(matchSaveLocation);
     }
 
     public void load(String matchSaveLocation, String prof1, String prof2) {
@@ -159,9 +151,5 @@ public class Match {
         // load board
         board = new ChessBoard();
         board.load(matchSaveLocation);
-
-        // load turn
-        turn = new TurnTracker(profile1, profile2);
-        turn.load(matchSaveLocation);
     }
 }

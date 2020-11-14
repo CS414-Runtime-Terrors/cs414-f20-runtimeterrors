@@ -69,7 +69,7 @@ public class TestOCServerData {
         match.getBoard().getMoves().add(new Move(new Pawn(), "A2","A3"));
 
         int ID = match.getMatchID();
-        String playerWhoseTurnItIs = match.getTurn().getCurrentTurnPlayer();
+        String playerWhoseTurnItIs = match.getBoard().getTurn().getCurrentTurnPlayer();
         ArrayList<ChessPiece> black_pieces = match.getBoard().get_black_pieces();
         ArrayList<ChessPiece> white_pieces = match.getBoard().get_white_pieces();
         ArrayList<Move> moves = match.getBoard().getMoves();
@@ -98,7 +98,7 @@ public class TestOCServerData {
         assertEquals(ChessBoard.getType(moves.get(0).getMovedPiece()), ChessBoard.getType(loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedPiece()));
 
         // ensure turn tracker loaded correctly
-        assertEquals(playerWhoseTurnItIs, loadedData.getMatch(ID).getTurn().getCurrentTurnPlayer());
+        assertEquals(playerWhoseTurnItIs, loadedData.getMatch(ID).getBoard().getTurn().getCurrentTurnPlayer());
 
         if (cleanup) {
             // cleanup
