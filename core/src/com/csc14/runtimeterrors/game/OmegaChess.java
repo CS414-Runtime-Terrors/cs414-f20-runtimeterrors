@@ -41,11 +41,10 @@ public class OmegaChess extends Game {
 		final TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
-				System.out.println("Hello World");
 				showNotification();
 			}
 		};
-		t.scheduleAtFixedRate(tt, 0,30000);
+		t.scheduleAtFixedRate(tt, 0,15000);
 	}
 
 	@Override
@@ -93,8 +92,7 @@ public class OmegaChess extends Game {
 						currentDate = date;    // update current date
 						messageCount += 1;
 
-						message.append("\nNotification ").append(i + 1);
-						message.append(": ").append(receivedMessage.get("message" + (i + 1)));
+						message.append(receivedMessage.get("message" + (i + 1)));
 					}
 				}
 
