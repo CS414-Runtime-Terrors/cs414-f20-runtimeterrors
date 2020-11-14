@@ -64,6 +64,9 @@ public class OCProtocol {
                 case "get in-progress matches":
                     toReturn = resumeMatchesListResponse(receivedMessage);
                     break;
+                case "get turn":
+                    toReturn = getTurn(receivedMessage);
+                    break;
                 default:
                     OCMessage message = new OCMessage();
                     message.put("success", "false");
@@ -569,6 +572,33 @@ public class OCProtocol {
         message.put("opponents", opponents);
         message.put("matchIDs", IDs);
         message.put("success", "true");
+        return message.toString();
+    }
+
+    public String getTurn(OCMessage receivedMessage){
+        int ID = Integer.valueOf(receivedMessage.get("ID"));
+        OCMessage message = new OCMessage();
+
+        TurnTracker turn = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+        }
+        for (Match match : serverData.getMatches()){
+            if (match.getMatchID() == ID) {
+                message.put("success", "true");
+                turn = match.getBoard().getTurn();
+                break;
+            }
+        }
+        if (turn == null) {
+            message.put("success", "false");
+            message.put("reason", "No match found that has ID=" + ID);
+            return message.toString();
+        }
+
+        message.put("user", turn.getCurrentTurnPlayer());
+
         return message.toString();
     }
 }

@@ -296,4 +296,19 @@ public class OCClient {
 
         return receivedMessage;
     }
+
+    // Get current turn
+    public OCMessage getTurn(int ID){
+
+        OCMessage message = new OCMessage();
+        message.put("process", "get turn");
+        message.put("ID", String.valueOf(ID));
+
+        // Received message
+        OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }

@@ -32,6 +32,7 @@ public class ChessBoard {
         black_pieces = new ArrayList<>();
         white_pieces = new ArrayList<>();
         moves = new ArrayList<>();
+        turn = new TurnTracker("can't", "beNull");
 
     }
 

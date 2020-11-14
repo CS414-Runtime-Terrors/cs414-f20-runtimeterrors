@@ -206,3 +206,18 @@ Return Message Template 1:
 Return Message Template 2:
 * "success": "false"
 * "reason": "no piece at specified position"
+
+## Get Turn
+- This request will return the name of the user for the current turn
+
+Message Template:
+* "process": "get turn"
+* "ID": the current matchID
+
+Return Message Success:
+* "success": "true"
+* "user": "nickname of current user"
+
+Return Message Failure:
+* "success": "false"
+* "reason": "There is no match with this ID/There are no matches to look through"
