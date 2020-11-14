@@ -1,23 +1,7 @@
 package com.csc14.runtimeterrors.game;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.TimerTask;
-
-/*class getNotifications extends TimerTask {
-	private OmegaChess chessClass;
-	public getNotifications(OmegaChess chess){
-		chessClass = chess;
-	}
-	public void run() {
-		chessClass.showNotification();
-		System.out.println("Hello World!");
-	}
-}*/
 
 public class OmegaChess extends Game {
 
@@ -50,11 +34,8 @@ public class OmegaChess extends Game {
 			@Override
 			public void run() {
 				showNotification();
-				System.out.println("Hey");
-
 			}
 		};
-
 		t.scheduleAtFixedRate(tt, 0,30000);
 	}
 
@@ -90,13 +71,7 @@ public class OmegaChess extends Game {
 	public void showNotification() {
 		Screen screen = this.getScreen();
 
-		if(screen instanceof MainMenuScreen ) {
-		}
-		else if( screen instanceof LoginScreen ) {
-		}
-		else if( screen instanceof  RegisterScreen ) {
-		}
-		else if( screen instanceof LobbyScreen ) {
+		if( screen instanceof LobbyScreen ) {
 			// only show the popup if it isn't already displayed
 			if(!lobbyScreen.isPopupShown())
 			{
@@ -104,22 +79,33 @@ public class OmegaChess extends Game {
 			}
 		}
 		else if( screen instanceof InviteScreen ) {
+			// only show the popup if it isn't already displayed
+			if(!inviteScreen.isPopupShown())
+			{
+				inviteScreen.showNotification();
+			}
 		}
 		else if( screen instanceof MatchScreen ) {
-			System.out.println("Here");
 			// only show the popup if it isn't already displayed
 			if(!matchScreen.isPopupShown())
 			{
-				System.out.println("Here2");
 				matchScreen.showNotification();
 			}
 		}
 		else if( screen instanceof ProfileScreen ) {
+			// only show the popup if it isn't already displayed
+			if(!profileScreen.isPopupShown())
+			{
+				profileScreen.showNotification();
+			}
 		}
 		else if( screen instanceof MailboxScreen ) {
+			// only show the popup if it isn't already displayed
+			if(!mailboxScreen.isPopupShown())
+			{
+				mailboxScreen.showNotification();
+			}
 		}
-
-
 	}
 
 	public void setMatchID(int matchID) { matchScreen.setMatchID(matchID); }

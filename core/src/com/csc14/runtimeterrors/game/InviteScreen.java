@@ -23,6 +23,7 @@ public class InviteScreen implements Screen {
     private TextButton submit, home;
     private Label opponentName;
     private TextField anotherUser;
+    private boolean isPopupDisplayed = false;
 
     public InviteScreen(OmegaChess omegaChess){
         parent = omegaChess;
@@ -89,6 +90,17 @@ public class InviteScreen implements Screen {
         // add listener
         addListeners();
 
+    }
+
+    public void showNotification(){
+        isPopupDisplayed = true;
+        JOptionPane.showMessageDialog(null, "Testing Popup!",
+                "New Notification!", JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     private void addListeners() {
