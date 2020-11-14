@@ -13,7 +13,7 @@ import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 public class Notification {
     public enum NotificationType {
         NEW_MATCH, INVITE_REQUEST, ACCEPTED_INVITE, DECLINED_INVITE, MATCH_ENDED,
-        INVITE_CANCELLED
+        INVITE_CANCELLED, TURN_NOTIFY
     }
 
     private static int numInstances = 0;
@@ -138,6 +138,10 @@ public class Notification {
         else if( line.equals(NotificationType.INVITE_CANCELLED.name()))
         {
             return NotificationType.INVITE_CANCELLED;
+        }
+        else if( line.equals(NotificationType.TURN_NOTIFY.name()))
+        {
+            return NotificationType.TURN_NOTIFY;
         }
         return null;
     }
