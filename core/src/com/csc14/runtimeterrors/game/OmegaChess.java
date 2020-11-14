@@ -3,7 +3,9 @@ package com.csc14.runtimeterrors.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
-import java.util.Timer;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.TimerTask;
 
 class getNotifications extends TimerTask {
@@ -31,6 +33,7 @@ public class OmegaChess extends Game {
 	private MailboxScreen mailboxScreen;
 	private boolean useLocal;
 	private String currentDate;
+	private Timer timer;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX
@@ -41,8 +44,18 @@ public class OmegaChess extends Game {
 	public OmegaChess(boolean useLocalArg)
 	{
 		useLocal = useLocalArg;
-		Timer timer = new Timer();
-		timer.schedule(new getNotifications(this), 0, 30);
+		//Timer timer = new Timer();
+		//timer.schedule(new getNotifications(this), 30000, 30000);
+
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				showNotification();
+			}
+		};
+
+		//timer = new Timer(30000, taskPerformer);
+		//timer.setInitialDelay(20000);
+		//timer.start();
 	}
 
 	@Override
@@ -88,10 +101,13 @@ public class OmegaChess extends Game {
 		else if( screen instanceof InviteScreen ) {
 		}
 		else if( screen instanceof MatchScreen ) {
-			// maybe have a function that first checks if a notification
-			// is shown. If it is, don't call the popup. If not, bring the
-			// popup up.
-			matchScreen.showNotification();
+			System.out.println("Here");
+			// only show the popup if it isn't already displayed
+			if(!matchScreen.isPopupShown())
+			{
+				System.out.println("Here2");
+				matchScreen.showNotification();
+			}
 		}
 		else if( screen instanceof ProfileScreen ) {
 		}

@@ -12,8 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
+import sun.rmi.runtime.Log;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MatchScreen implements Screen {
     private OmegaChess parent;
@@ -21,6 +28,19 @@ public class MatchScreen implements Screen {
     private Table table;
     private GameBoard board;
     private TextButton backBtn;
+    private boolean isPopupDisplayed = false;
+    private Timer timer;
+
+    class getNotifications extends TimerTask {
+        private MatchScreen chessClass;
+        public getNotifications(MatchScreen chess){
+            chessClass = chess;
+        }
+        public void run() {
+            //chessClass.showNotification();
+            System.out.println("Hello World!");
+        }
+    }
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -62,6 +82,36 @@ public class MatchScreen implements Screen {
 
         //add listeners for all of the BoardSquare objects
         board.addListeners();
+
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                System.out.println("Hello World");
+                //if( !isPopupDisplayed )
+                //{
+                //    showNotification();
+                //}
+            }
+        };
+
+       // javax.swing.Timer timer = new javax.swing.Timer(30000, taskPerformer);
+        //timer.setInitialDelay(0);
+        //timer.start();
+      //  Timer timer = new Timer();
+       // timer.schedule(new getNotifications(this), 0, 30000);
+        // if( !isPopupDisplayed )
+        // {
+        //     showNotification();
+        // }
+
+        Timer t = new Timer( );
+        t.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                System.out.println("Hey");
+
+            }
+        }, 0,10000);
     }
 
     private void addListeners() {
@@ -75,8 +125,17 @@ public class MatchScreen implements Screen {
     }
 
     public void showNotification(){
+        isPopupDisplayed = true;
+        System.out.println("Popup shown...");
         JOptionPane.showMessageDialog(null, "Testing Popup!",
                 "New Notification!", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("Popup away..");
+        isPopupDisplayed = false;
+
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     @Override
