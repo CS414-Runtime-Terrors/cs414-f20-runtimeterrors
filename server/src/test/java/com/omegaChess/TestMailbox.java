@@ -28,19 +28,19 @@ public class TestMailbox {
 
     @Test
     public void testAddNotification() {
-        String expectedEventString = "testEvent";
+        Notification.NotificationType expectedEvent = Notification.NotificationType.NEW_MATCH;
         String expectedMessageString = "testMessage";
 
         Mailbox mailbox = new Mailbox();
-        mailbox.addNotification("testEvent", "testMessage");
-        assertEquals(expectedEventString, mailbox.getNotifications().get(0).getEvent());
+        mailbox.addNotification(Notification.NotificationType.NEW_MATCH, "testMessage");
+        assertEquals(expectedEvent, mailbox.getNotifications().get(0).getEvent());
         assertEquals(expectedMessageString, mailbox.getNotifications().get(0).getMessage());
     }
 
     @Test
     public void testGetNotifications() {
         Mailbox mailbox = new Mailbox();
-        mailbox.addNotification("testEvent", "testMessage");
+        mailbox.addNotification(Notification.NotificationType.NEW_MATCH, "testMessage");
         assertEquals(1, mailbox.getNotifications().size());
     }
 

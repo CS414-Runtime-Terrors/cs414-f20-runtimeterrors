@@ -12,6 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
+import sun.rmi.runtime.Log;
+
+import javax.swing.*;
 
 public class MatchScreen implements Screen {
     private OmegaChess parent;
@@ -19,6 +22,7 @@ public class MatchScreen implements Screen {
     private Table table;
     private GameBoard board;
     private TextButton backBtn;
+    private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -70,6 +74,24 @@ public class MatchScreen implements Screen {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             }
         });
+    }
+
+    public void showNotification(String message, int messageCount){
+        isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     @Override

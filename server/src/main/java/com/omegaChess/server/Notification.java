@@ -11,15 +11,19 @@ import java.util.Scanner;
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class Notification {
+    public enum NotificationType {
+        NEW_MATCH, INVITE_REQUEST, ACCEPTED_INVITE, DECLINED_INVITE, MATCH_ENDED,
+        INVITE_CANCELLED, TURN_NOTIFY
+    }
 
     private static int numInstances = 0;
     private int ID;
 
-    private String event;
+    private NotificationType event;
     private String message;
     private Date date;
 
-    public Notification(String eventToSet, String messageToSet) {
+    public Notification(NotificationType eventToSet, String messageToSet) {
         numInstances++;
         event = eventToSet;
         message = messageToSet;
@@ -32,7 +36,7 @@ public class Notification {
         numInstances++;
     }
 
-    public String getEvent() {
+    public NotificationType getEvent() {
         return event;
     }
 
@@ -41,12 +45,12 @@ public class Notification {
     }
 
     public String getDateString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return dateFormat.format(date);
     }
 
     public void fromDateString(String dateString) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         try {
             date = formatter.parse(dateString);
         } catch(Exception e) {
@@ -73,7 +77,7 @@ public class Notification {
             FileWriter saveWriter = new FileWriter(saveFile);
 
             saveWriter.write(ID + "\n");
-            saveWriter.write(event + "\n");
+            saveWriter.write(event.toString() + "\n");
             saveWriter.write(message + "\n");
             saveWriter.write(getDateString() + "\n");
 
@@ -94,7 +98,8 @@ public class Notification {
                 ID = Integer.parseInt(loadReader.nextLine());
             }
             if (loadReader.hasNextLine()) {
-                setEvent(loadReader.nextLine());
+                String line = loadReader.nextLine();
+                setEvent(getNotificationTypeFromString(line));
             }
             if (loadReader.hasNextLine()) {
                 setMessage(loadReader.nextLine());
@@ -109,7 +114,39 @@ public class Notification {
         }
     }
 
-    private void setEvent(String s) {
+    private NotificationType getNotificationTypeFromString(String line) {
+        if( line.equals(NotificationType.NEW_MATCH.name()))
+        {
+            return NotificationType.NEW_MATCH;
+        }
+        else if( line.equals(NotificationType.INVITE_REQUEST.name()))
+        {
+            return NotificationType.INVITE_REQUEST;
+        }
+        else if( line.equals(NotificationType.ACCEPTED_INVITE.name()))
+        {
+            return NotificationType.ACCEPTED_INVITE;
+        }
+        else if( line.equals(NotificationType.DECLINED_INVITE.name()))
+        {
+            return NotificationType.DECLINED_INVITE;
+        }
+        else if( line.equals(NotificationType.MATCH_ENDED.name()))
+        {
+            return NotificationType.MATCH_ENDED;
+        }
+        else if( line.equals(NotificationType.INVITE_CANCELLED.name()))
+        {
+            return NotificationType.INVITE_CANCELLED;
+        }
+        else if( line.equals(NotificationType.TURN_NOTIFY.name()))
+        {
+            return NotificationType.TURN_NOTIFY;
+        }
+        return null;
+    }
+
+    private void setEvent(NotificationType s) {
         event = s;
     }
 

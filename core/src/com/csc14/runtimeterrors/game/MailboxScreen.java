@@ -20,6 +20,7 @@ public class MailboxScreen implements Screen {
     private String nickname;
     private Table mailboxTable;
     private ButtonGroup optionsGrp;
+    private boolean isPopupDisplayed = false;
 
     public MailboxScreen(OmegaChess omegachess){
         parent = omegachess;
@@ -121,6 +122,24 @@ public class MailboxScreen implements Screen {
             };
         });
 
+    }
+
+    public void showNotification(String message, int messageCount){
+        isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     private void clearStage() {

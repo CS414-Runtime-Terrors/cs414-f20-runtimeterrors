@@ -20,6 +20,7 @@ public class ProfileScreen implements Screen {
     private Skin skin;
     private Label.LabelStyle style_label;
     private String nickname;
+    private boolean isPopupDisplayed = false;
 
     public ProfileScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
@@ -235,6 +236,23 @@ public class ProfileScreen implements Screen {
 
     }
 
+    public void showNotification(String message, int messageCount){
+        isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
+    }
 
     @Override
     public void render(float delta) {
