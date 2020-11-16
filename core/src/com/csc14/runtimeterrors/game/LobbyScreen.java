@@ -17,7 +17,7 @@ import javax.swing.*;
 public class LobbyScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private TextButton createGameBtn, resumeGameBtn, logoutBtn, profileBtn, exitBtn;
+    private TextButton createGameBtn, resumeGameBtn, logoutBtn, profileBtn, rulesBtn, exitBtn;
     private boolean isPopupDisplayed = false;
 
     public LobbyScreen(OmegaChess omegachess) {
@@ -47,6 +47,7 @@ public class LobbyScreen implements Screen {
         resumeGameBtn = new TextButton("Resume Game", skin);
         profileBtn = new TextButton("Profile", skin);
         logoutBtn = new TextButton("Logout", skin);
+        rulesBtn = new TextButton("Rules", skin);
         exitBtn = new TextButton("Exit", skin);
 
         // set title label
@@ -77,6 +78,10 @@ public class LobbyScreen implements Screen {
         logoutBtn.setPosition(150, 50);
         stage.addActor(logoutBtn);
 
+        rulesBtn.setTransform(true);
+        rulesBtn.setScale(0.30f);
+        rulesBtn.setPosition(540, 10);
+        stage.addActor(rulesBtn);
 
         exitBtn.setTransform(true);
         exitBtn.setScale(0.5f);
@@ -136,6 +141,14 @@ public class LobbyScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 parent.setUser("");
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
+            };
+        });
+
+        // rules button will open a screen displaying the rules
+        rulesBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.RULES);
             };
         });
 
