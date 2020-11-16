@@ -1,0 +1,21 @@
+Omega Chess is a fun variant of the classic board game.
+The game is played on an expanded 10x10 board with an additional
+diagonally adjacent square to each corner and has two new pieces:
+the Champion and the Wizard
+
+The rules and board layout of Omega Chess are the same as standard
+chess with the following additions:
+
+1. The Champions start at the corners of the 10x10 board next to
+     the Rooks
+
+2. The Wizards start at the additional squares diagonally adjacent
+     to the Champion
+
+3. The Pawns can move up to three squares forward on the first move
+
+4. The Champion can leap two squares in any direction or slide one
+     square orthogonally
+
+5. The Wizard, like Bishops, is color-bound and can slide one square
+     diagonally or leap in a three-by-one "L" pattern similar to a Knight
