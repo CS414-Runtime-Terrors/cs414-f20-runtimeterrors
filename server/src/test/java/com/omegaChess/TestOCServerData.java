@@ -63,7 +63,7 @@ public class TestOCServerData {
         dataToSave.createProfile("Falkyn", "pass", "falkyn@gmail.com");
         Match match = new Match("Daniel", "Falkyn");
 
-        match.getBoard().getMoves().add(new Move(new Pawn(), "A2","A3"));
+        match.getBoard().getMoves().add(new Move(new Pawn(), "A2","A3", true));
 
         int ID = match.getMatchID();
         String playerWhoseTurnItIs = match.getBoard().getTurn().getCurrentTurnPlayer();

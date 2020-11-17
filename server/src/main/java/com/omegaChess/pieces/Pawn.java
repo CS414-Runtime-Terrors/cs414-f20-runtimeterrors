@@ -74,16 +74,17 @@ public class Pawn extends ChessPiece {
         //check en pessant possibility
         if (!board.moves.isEmpty()) {
             ChessPiece lastMovePiece = board.moves.get(0).getMovedPiece();
-            if (lastMovePiece.getClass() == Pawn.class) {
+            boolean lastFirstMove = board.moves.get(0).isFirstMove();
+            if ((lastMovePiece.getClass() == Pawn.class) && lastFirstMove) {
                 try {
                     int pos[] = board.parsePosition(board.moves.get(0).getMovedToPosition());
-                    if (pos[1] == column + 1) {
+                    if ((pos[1] == column + 1) && (pos[0] == row)) {
                         String moveStr = board.reverseParse(row + increment, column + 1);
                         if (!validMoves.contains(moveStr)) {
                             validMoves.add(moveStr);
                             isEnPessant = true;
                         }
-                    } else if (pos[1] == column - 1) {
+                    } else if ((pos[1] == column - 1) && (pos[0] == row)) {
                         String moveStr = board.reverseParse(row + increment, column - 1);
                         if (!validMoves.contains(moveStr)) {
                             validMoves.add(moveStr);

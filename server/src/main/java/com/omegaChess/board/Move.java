@@ -15,16 +15,18 @@ public class Move {
     private String piece;
     private String fromPosition;
     private String toPosition;
+    private boolean firstMove;
 
     private static int numInstances = 0;
     private int ID;
 
-    public Move(ChessPiece piece, String from, String to) {
+    public Move(ChessPiece piece, String from, String to, boolean first) {
         numInstances++;
 
         this.piece = getType(piece);
         this.fromPosition = from;
         this.toPosition = to;
+        this.firstMove = first;
 
         ID = numInstances;
     }
@@ -35,9 +37,7 @@ public class Move {
     }
 
     // only has getters since nothing should be changed after initialization
-    public ChessPiece getMovedPiece() {
-        return getPieceByType(this.piece);
-    }
+    public ChessPiece getMovedPiece() { return getPieceByType(this.piece); }
 
     public String getMovedFromPosition() {
         return this.fromPosition;
@@ -46,6 +46,8 @@ public class Move {
     public String getMovedToPosition() {
         return this.toPosition;
     }
+
+    public boolean isFirstMove() { return firstMove; }
 
     public int getID() {
         return ID;
@@ -68,6 +70,9 @@ public class Move {
 
             // save to
             saveWriter.write(toPosition + "\n");
+
+            // save first move
+            saveWriter.write(firstMove + "\n");
 
             // save ID
             saveWriter.write(ID + "\n");
@@ -98,6 +103,11 @@ public class Move {
             // load to
             if (loadReader.hasNextLine()) {
                 toPosition = loadReader.nextLine();
+            }
+
+            // load first move
+            if (loadReader.hasNextLine()) {
+                firstMove = Boolean.parseBoolean(loadReader.nextLine());
             }
 
             if (loadReader.hasNextLine()) {

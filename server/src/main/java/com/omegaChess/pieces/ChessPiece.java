@@ -26,13 +26,14 @@ public abstract class ChessPiece {
     // Color of piece
     protected Color color;
 
-    protected boolean moved;
+    protected boolean moved, firstMove;
 
     // Sets board and color attributes
     public ChessPiece(ChessBoard board, Color color){
         this.board = board;
         this.color = color;
         this.moved = false;
+        this.firstMove = true;
         if(color == Color.BLACK)
             board.black_pieces.add(this);
         if(color == Color.WHITE)
@@ -77,6 +78,10 @@ public abstract class ChessPiece {
     public boolean isMoved() {
         return this.moved;
     }
+
+    public void setFirstMove(boolean isFirstMove) { this.firstMove = isFirstMove; }
+
+    public boolean isFirstMove() { return firstMove; }
 
     public LegalMoves getNormalOrCheckMoves() {
 
