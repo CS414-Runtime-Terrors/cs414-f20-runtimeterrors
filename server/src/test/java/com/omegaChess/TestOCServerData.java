@@ -92,6 +92,7 @@ public class TestOCServerData {
         assertEquals(moves.get(0).getID(), loadedData.getMatch(ID).getBoard().getMoves().get(0).getID());
         assertEquals(moves.get(0).getMovedFromPosition(), loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedFromPosition());
         assertEquals(moves.get(0).getMovedToPosition(), loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedToPosition());
+        assertEquals(moves.get(0).isFirstMove(), loadedData.getMatch(ID).getBoard().getMoves().get(0).isFirstMove());
         assertEquals(ChessBoard.getType(moves.get(0).getMovedPiece()), ChessBoard.getType(loadedData.getMatch(ID).getBoard().getMoves().get(0).getMovedPiece()));
 
         // ensure turn tracker loaded correctly
