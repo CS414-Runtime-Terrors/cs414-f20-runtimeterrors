@@ -40,8 +40,7 @@ Epics planned for this release.
 
 #### Completed user stories
 * #2 As a user, I can create a new match
-* #5 As a user, I can 
-* #18 As a user, when I choose to move a piece the board will show where I can move the piece.
+* #5 As a user, I can accept or reject an invitation, alerting the user
 
 #### Completed epics in Sprint Backlog 
 * #28 In-game new notification alert
@@ -55,10 +54,12 @@ Epics planned for this release.
 * #281 GameBoard move functions
 
 #### What went well
-(TBD)
+* Teamwork was good
+* Communication was good
 
 #### Problems encountered and resolutions
-(TBD)
+* Other classes taking up our time
+* Troubles figuring out new software
 
 ## Retrospective
 
