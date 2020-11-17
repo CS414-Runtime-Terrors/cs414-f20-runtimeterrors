@@ -13,12 +13,15 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
+import javax.swing.tree.AbstractLayoutCache;
+
 public class MatchScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
     private Table table;
     private GameBoard board;
     private TextButton backBtn;
+    private String whitePlayer, blackPlayer;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -94,6 +97,10 @@ public class MatchScreen implements Screen {
     public void setMatchID(int id) {
         board.setMatchID(id);
     }
+
+    public void setWhitePlayer(String whitePlayer) { this.whitePlayer = whitePlayer; }
+
+    public void setBlackPlayer(String blackPlayer) { this.blackPlayer = blackPlayer; }
 
     @Override
     public void resize(int width, int height) {

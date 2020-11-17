@@ -591,15 +591,19 @@ public class OCProtocol {
         String user = receivedMessage.get("nickname");
         String opponents = "";
         String IDs = "";
+        String playerIndex = "";
         ArrayList<Match> matches = serverData.getMatches();
         OCMessage message = new OCMessage();
 
+        // This allows us to figure out if the user requesting the match to resume is the first or second player
         for (Match m : matches) {
             if (m.getProfile1().equals(user)) {
+                playerIndex += "1, ";
                 opponents += m.getProfile2() + ", ";
                 IDs += m.getMatchID() + ", ";
             }
             else if (m.getProfile2().equals(user)) {
+                playerIndex += "2, ";
                 opponents += m.getProfile1() + ", ";
                 IDs += m.getMatchID() + ", ";
             }
@@ -610,6 +614,7 @@ public class OCProtocol {
             IDs = IDs.substring(0, IDs.length() - 2);
         }
 
+        message.put("playerIndex", playerIndex);
         message.put("opponents", opponents);
         message.put("matchIDs", IDs);
         message.put("success", "true");
