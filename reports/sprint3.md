@@ -2,7 +2,6 @@
 
 ## Goal
 
-### Where Am I?
 ### Sprint Leader: *Patrick Lee*
 ## Plan
 
@@ -11,6 +10,7 @@ Epics planned for this release.
 * #16 Accept/decline a match from a list to play 
 * #17 Select an in-progress game
 * #32 Screens
+* #28 In-game New Notifiaction Alert
 * #249 Server Requests - Match/Board
 * #280 Saving/Loading
 * #281 GameBoard move functions
@@ -20,9 +20,9 @@ Epics planned for this release.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *6* | *x* |
-| Tasks |  *30*   | *x* | 
-| Story Points |  *54*  | *x* | 
+| Epics | *7* | *2* |
+| Tasks |  *45*   | *36* | 
+| Story Points |  *73*  | *62* | 
 
 
 ## Scrums
@@ -39,13 +39,20 @@ Epics planned for this release.
 ## Review
 
 #### Completed user stories
-(TBD)
+* #2 As a user, I can create a new match
+* #5 As a user, I can 
+* #18 As a user, when I choose to move a piece the board will show where I can move the piece.
 
 #### Completed epics in Sprint Backlog 
-(TBD)
+* #28 In-game new notification alert
+* #280 Saving/Loading
 
 #### Incomplete epics in Sprint Backlog 
-(TBD)
+* #16 Accept/decline a match from a list to play
+* #17 Select an in-progress game
+* #32 Screens
+* #249 Server Requests - Match/Board
+* #281 GameBoard move functions
 
 #### What went well
 (TBD)
@@ -56,10 +63,15 @@ Epics planned for this release.
 ## Retrospective
 
 #### What went well
-(TBD)
+* Graphical components are working very well
+* The server can now save and load data, which adds persistence
+* The team is communicating well
+* We took more time out to code together this sprint
 
 #### Potential improvements
-(TBD)
+* The server data could be optimized for next time
+* Less in-progress tasks
 
 #### What we will change next time
-(TBD)
+* We will look for potential to optimize our code
+* We will lower the amount of tasks that we mark as in-progress
