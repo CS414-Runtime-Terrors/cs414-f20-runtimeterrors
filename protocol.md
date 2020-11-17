@@ -202,6 +202,7 @@ Message Template:
 Return Message Template 1:
 * "success": "true"
 * "legal moves": "a3, a4, a5"
+* "enPessant": "true | false"
 
 Return Message Template 2:
 * "success": "false"
@@ -224,3 +225,15 @@ Return Message Template 1:
 Return Message Template 2:
 * "success": "false"
 * "reason": "Invalid move!"
+
+## Get In-Progress Matches
+- This request returns data for the matches a user is currently in
+
+Message Template:
+* "process": "get in-progress matches"
+* "nickname": "exampleNickname"
+
+Return Message Template 1:
+* "success": "true"
+* "opponents": "opponentNickname1, opponentNickname2, opponentNickname3"
+* "matchIDs": "matchID1, matchID2, matchID3"
