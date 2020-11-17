@@ -176,6 +176,6 @@ public class Mailbox {
         }
 
 
-        System.out.println("Loaded mailbox for '" + getNickname()  + "'");
+        System.out.println("Loaded mailbox for this user");
     }
 }
