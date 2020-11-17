@@ -317,10 +317,14 @@ public class OCProtocol {
            System.out.println(message.get("reason"));
            return message.toString();
        }
-       Mailbox mail = player1.getMailbox();
-       if (lookForInvite(inviter, invitee, mail, true) != null){
+       if (lookForInvite(inviter, invitee, player1.getMailbox(), true) != null){
            message.put("success", "false");
            message.put("reason", "Already sent an invite to " + invitee);
+           System.out.println(message.get("reason"));
+           return message.toString();   // return if invite was already sent
+       }else if (lookForInvite(inviter, invitee, player1.getMailbox(), false) != null){
+           message.put("success", "false");
+           message.put("reason", "Already have an invite from " + inviter);
            System.out.println(message.get("reason"));
            return message.toString();   // return if invite was already sent
        }
@@ -659,12 +663,14 @@ public class OCProtocol {
     public Invite lookForInvite(String inviter, String invitee, Mailbox mail, boolean sent){
         if (sent) {
             for (Invite invite : mail.getSent()) {
-                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
+                if ((invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)) ||
+                        (invite.getInviter().equalsIgnoreCase(invitee) && invite.getInvitee().equalsIgnoreCase(inviter)))
                     return invite;
             }
         }else {
             for (Invite invite : mail.getReceived()) {
-                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
+                if ((invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee)) ||
+                        (invite.getInviter().equalsIgnoreCase(invitee) && invite.getInvitee().equalsIgnoreCase(inviter)))
                     return invite;
             }
         }
@@ -674,7 +680,8 @@ public class OCProtocol {
     // Helper method to grab a match between users
     public Match lookForMatch(String player1, String player2){
         for (Match match : serverData.getMatches()){
-            if ((match.getProfile1() == player1 && match.getProfile2() == player2) || (match.getProfile1() == player2 && match.getProfile2() == player1))
+            if ((match.getProfile1().equalsIgnoreCase(player1) && match.getProfile2().equalsIgnoreCase(player2)) ||
+                    (match.getProfile1().equalsIgnoreCase(player2) && match.getProfile2().equalsIgnoreCase(player1)))
                 return match;
         }
         return null;

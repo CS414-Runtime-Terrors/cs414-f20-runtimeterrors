@@ -157,6 +157,46 @@ public class TestOCProtocol {
         assertFalse(data.getProfile("pawpatrol").getMailbox().getSent().isEmpty(),
                 "Failed to add invite to mailbox sent!");
 
+        // test to not send an invite to yourself
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", "sweetfire");
+        message.put("inviter", "sweetfire");
+
+        input = message.toString();
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("false", receivedMessage.get("success"), "Invite was sent to yourself");
+
+        // test to not send an invite to a user that you already invited/ have been invited
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("inviter", "sweetfire");
+        message.put("invitee", "pawpatrol");
+
+        input = message.toString();
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("false", receivedMessage.get("success"), "Sent an invite to someone who is already in mailbox");
+
+        // test to not send an invite to someone you are in a match in
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("inviter", "sweetfire");
+        message.put("invitee", "pawpatrol");
+
+        data.addMatch(new Match("sweetfire", "pawpatrol"));
+        input = message.toString();
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("false", receivedMessage.get("success"), "Sent an invite to someone you are in a match with.");
+
     }
 
     @Test
