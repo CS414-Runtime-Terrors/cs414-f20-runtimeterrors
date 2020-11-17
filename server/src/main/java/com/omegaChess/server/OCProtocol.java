@@ -558,6 +558,12 @@ public class OCProtocol {
         }
         message.put("success", "true");
         message.put("legal moves", legalMoves);
+        if (moves.isEnPessant()) {
+            message.put("enPessant", "true");
+        }
+        else {
+            message.put("enPessant", "false");
+        }
         System.out.println("Sending legal moves: " + legalMoves);
 
         return message.toString();

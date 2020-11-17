@@ -322,7 +322,7 @@ public class ChessBoard {
                 String otherPiecePos = moves.get(0).getMovedToPosition();
                 String otherPieceCol = otherPiecePos.substring(0, 1);
 
-                if (pieceCol == otherPieceCol) {
+                if (pieceCol.equals(otherPieceCol)) {
                     this.placePiece(null, otherPiecePos);
                 }
             }
