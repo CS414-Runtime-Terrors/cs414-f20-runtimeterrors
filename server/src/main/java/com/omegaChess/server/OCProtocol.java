@@ -287,9 +287,18 @@ public class OCProtocol {
         String inviter = receivedMessage.get("inviter");
         String invitee = receivedMessage.get("invitee");
 
-       System.out.println("Attempting to send invite from " + inviter + " to " + invitee);
-
        OCMessage message = new OCMessage();
+
+        if (invitee.equalsIgnoreCase(inviter)){
+            // Can't send invite to yourself
+            message.put("success", "false");
+            message.put("reason", "Can't send an invite to yourself");
+
+            System.out.println(message.get("reason"));
+            return message.toString();
+        }
+
+       System.out.println("Attempting to send invite from " + inviter + " to " + invitee);
 
        if (!serverData.profileExists(invitee)){
            // Invitee doesn't exist
@@ -302,10 +311,17 @@ public class OCProtocol {
 
        UserProfile player1 = serverData.getProfile(inviter);
        UserProfile player2 = serverData.getProfile(invitee);
+       if (lookForMatch(inviter, invitee) != null){
+           message.put("success", "false");
+           message.put("reason", "Already in a match with " + invitee);
+           System.out.println(message.get("reason"));
+           return message.toString();
+       }
        Mailbox mail = player1.getMailbox();
        if (lookForInvite(inviter, invitee, mail, true) != null){
            message.put("success", "false");
-           message.put("reason", "already sent an invite to " + invitee);
+           message.put("reason", "Already sent an invite to " + invitee);
+           System.out.println(message.get("reason"));
            return message.toString();   // return if invite was already sent
        }
        Invite invite = new Invite(inviter, invitee);
@@ -513,6 +529,7 @@ public class OCProtocol {
         OCMessage message = new OCMessage();
 
         // get correct match and board
+
         Match match = serverData.getMatch(matchID);
         ChessBoard board = match.getBoard();
 
@@ -582,22 +599,6 @@ public class OCProtocol {
         return message.toString();
     }
 
-    // Helper method to grab an invite between users
-    public Invite lookForInvite(String inviter, String invitee, Mailbox mail, boolean sent){
-        if (sent) {
-            for (Invite invite : mail.getSent()) {
-                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
-                    return invite;
-            }
-        }else {
-            for (Invite invite : mail.getReceived()) {
-                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
-                    return invite;
-            }
-        }
-        return null;
-    }
-
     public String resumeMatchesListResponse(OCMessage receivedMessage) {
         String user = receivedMessage.get("nickname");
         String opponents = "";
@@ -652,5 +653,30 @@ public class OCProtocol {
         message.put("user", turn.getCurrentTurnPlayer());
 
         return message.toString();
+    }
+
+    // Helper method to grab an invite between users
+    public Invite lookForInvite(String inviter, String invitee, Mailbox mail, boolean sent){
+        if (sent) {
+            for (Invite invite : mail.getSent()) {
+                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
+                    return invite;
+            }
+        }else {
+            for (Invite invite : mail.getReceived()) {
+                if (invite.getInviter().equalsIgnoreCase(inviter) && invite.getInvitee().equalsIgnoreCase(invitee))
+                    return invite;
+            }
+        }
+        return null;
+    }
+
+    // Helper method to grab a match between users
+    public Match lookForMatch(String player1, String player2){
+        for (Match match : serverData.getMatches()){
+            if ((match.getProfile1() == player1 && match.getProfile2() == player2) || (match.getProfile1() == player2 && match.getProfile2() == player1))
+                return match;
+        }
+        return null;
     }
 }
