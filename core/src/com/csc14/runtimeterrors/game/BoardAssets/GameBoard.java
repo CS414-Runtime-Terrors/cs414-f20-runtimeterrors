@@ -223,6 +223,8 @@ public class GameBoard {
 
     public void setMatchID(int id) { matchID = id; }
 
+    public int getMatchID() { return matchID; }
+
     //add click listener to each square
     public void addListeners() {
         for (ArrayList<BoardSquare> row : gameBoard) {

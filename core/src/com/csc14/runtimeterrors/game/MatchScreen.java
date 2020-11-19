@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
-import sun.rmi.runtime.Log;
 
 import javax.swing.*;
 
@@ -52,17 +51,18 @@ public class MatchScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         backBtn = new TextButton("Back", skin);
+        forfeit = new TextButton("Forfeit", skin);
 
         //set up temporary back button
         backBtn.setTransform(true);
-        backBtn.setScale(0.2f);
-        backBtn.setPosition(0, 0);
+        backBtn.setScale(0.5f);
+        backBtn.setPosition(30, 0);
         stage.addActor(backBtn);
 
         // set up forfeit button
         forfeit.setTransform(true);
         forfeit.setScale(0.5f);
-        forfeit.setPosition(400, 0);
+        forfeit.setPosition(460, 0);
         stage.addActor(forfeit);
 
         //add listener for the back button
@@ -82,8 +82,12 @@ public class MatchScreen implements Screen {
         });
 
         // forfeit button will end the match between the users
-        /*forfeit.addListener({
-                parent.getClient().endMatch();
+        /*forfeit.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent even, float x, float y) {
+                if (parent.getUser() == )
+                parent.getClient().endMatch(board.getMatchID(), parent.getUser(), );
+        }
         });*/
     }
 
