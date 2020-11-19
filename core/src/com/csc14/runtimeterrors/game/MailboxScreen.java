@@ -175,11 +175,11 @@ public class MailboxScreen implements Screen {
 
         labels.add(new Label(columns, skin));
         labels.row();
+        int activeCount = 1;
 
         if(receivedMessage.get("success").equals("true"))
         {
             int count = Integer.parseInt(receivedMessage.get("totalCount"));
-            int activeCount = 1;
             for(int i = 0; i < count; i++)
             {
                 // only show in inbox if it hasn't been accepted or declined
@@ -229,22 +229,23 @@ public class MailboxScreen implements Screen {
         mailboxTable.row();
         mailboxTable.add(new Label(label, skin));
 
-        final OCMessage receivedMessage = parent.getClient().getReceivedInvites(nickname);
+        OCMessage receivedMessage = parent.getClient().getReceivedInvites(nickname);
 
         int spacingSeparation = 30;                   // number of spaces between columns
         int longest = Integer.parseInt(receivedMessage.get("maxNicknameLength"));  // length of the widest column
         int spacing = longest + spacingSeparation;
 
         String columns = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
-                "Sent By:", "Message Type");
+                "Message Type:", "Message Content");
 
         labels.add(new Label(columns, skin));
         labels.row();
 
+        int activeCount = 1;
+
         if(receivedMessage.get("success").equals("true"))
         {
             int count = Integer.parseInt(receivedMessage.get("totalCount"));
-            int activeCount = 1;
             for(int i = 0; i < count; i++)
             {
                 // only show in inbox if it hasn't been accepted or declined
@@ -252,8 +253,9 @@ public class MailboxScreen implements Screen {
                     receivedMessage.get("declined" + i).equals("false"))
                 {
                     activeCount++;
+                    String message = "Invited by: " + receivedMessage.get("inviter"+i);
                     String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
-                            receivedMessage.get("inviter" + i), "Invite Request");
+                            "Invite Request", message);
 
                     final String inviter = receivedMessage.get("inviter" + i);
 
@@ -293,6 +295,27 @@ public class MailboxScreen implements Screen {
 
                     labels.add(tmpLabel);
                     labels.row();
+                }
+            }
+
+            receivedMessage = parent.getClient().getNotifications(nickname);
+
+            if(receivedMessage.get("success").equals("true")) {
+                count = Integer.parseInt(receivedMessage.get("count"));
+                for (int i = 0; i < count; i++) {
+                    activeCount++;
+                    String event = receivedMessage.get("event" + (i+1));
+                    if (!event.equals("INVITE_REQUEST")) {
+                        String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                                "Notification", receivedMessage.get("message" + (i+1)));
+
+                        labels.add(new Label(tmp, skin) {
+                            public void draw(Batch batch, float parentAlpha) {
+                                super.draw(batch, parentAlpha);
+                            }
+                        });
+                        labels.row();
+                    }
                 }
             }
 
