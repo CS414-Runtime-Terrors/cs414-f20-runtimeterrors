@@ -18,7 +18,7 @@ import javax.swing.*;
 public class ArchiveScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private TextButton lobbyBtn;
+    private TextButton profileBtn;
     private Skin skin;
     private Label.LabelStyle style_label;
     private String nickname;
@@ -63,21 +63,21 @@ public class ArchiveScreen implements Screen {
     }
 
     private void addButtonsToStage() {
-        lobbyBtn = new TextButton("Lobby", skin);
+        profileBtn = new TextButton("Profile", skin);
 
         // set up lobby button
-        lobbyBtn.setTransform(true);
-        lobbyBtn.setScale(0.4f);
-        lobbyBtn.setPosition(450, 15);
-        stage.addActor(lobbyBtn);
+        profileBtn.setTransform(true);
+        profileBtn.setScale(0.4f);
+        profileBtn.setPosition(450, 15);
+        stage.addActor(profileBtn);
     }
 
     private void addListeners() {
         // back button will return user to main menu screen
-        lobbyBtn.addListener( new ClickListener() {
+        profileBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+                parent.changeScreen(OmegaChess.SCREEN.PROFILE);
             };
         });
     }
