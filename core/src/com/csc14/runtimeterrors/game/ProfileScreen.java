@@ -15,7 +15,7 @@ import javax.swing.*;
 public class ProfileScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
-    private TextButton unregisterBtn, lobbyBtn, mailboxBtn;
+    private TextButton unregisterBtn, lobbyBtn, mailboxBtn, historyBtn;
     //private TextButton changePwBtn, changeNicknameBtn; todo decide if implement or remove
     private Skin skin;
     private Label.LabelStyle style_label;
@@ -70,6 +70,7 @@ public class ProfileScreen implements Screen {
         unregisterBtn = new TextButton("Unregister", skin);
         lobbyBtn = new TextButton("Lobby", skin);
         mailboxBtn = new TextButton("Mailbox", skin);
+        historyBtn = new TextButton("History", skin);
 
         // // todo decide if implement or remove
         //changePwBtn = new TextButton("Change Password", skin);
@@ -93,10 +94,16 @@ public class ProfileScreen implements Screen {
         mailboxBtn.setPosition(30, 130);
         stage.addActor(mailboxBtn);
 
+        // set up history button
+        historyBtn.setTransform(true);
+        historyBtn.setScale(0.4f);
+        historyBtn.setPosition(30, 80);
+        stage.addActor(historyBtn);
+
         // set up unregister button
         unregisterBtn.setTransform(true);
         unregisterBtn.setScale(0.4f);
-        unregisterBtn.setPosition(30, 80);
+        unregisterBtn.setPosition(30, 30);
         stage.addActor(unregisterBtn);
 
         // set up lobby button
@@ -203,6 +210,14 @@ public class ProfileScreen implements Screen {
             };
         });
 
+        // history button will return user to archive screen
+        historyBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.ARCHIVE);
+            };
+        });
+
         // back button will return user to main menu screen
         lobbyBtn.addListener( new ClickListener() {
             @Override
@@ -211,7 +226,7 @@ public class ProfileScreen implements Screen {
             };
         });
 
-        // back button will return user to main menu screen
+        // mailbox button will take user to mailbox screen
         mailboxBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
