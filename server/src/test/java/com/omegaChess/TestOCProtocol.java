@@ -701,4 +701,28 @@ public class TestOCProtocol {
         // Match ID is invalid
         assertEquals("false", receivedMessage.get("success"), "The match ID " + message.get("ID") + " shouldn't exist");
     }
+
+    @Test
+    public void testEndMatch(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("this", "that", "thishat@omegachess.com");
+        data.createProfile("shoe", "cat", "shoecat@omegachess.com");
+
+        Match match = new Match("this", "shoe");
+        data.addMatch(match);
+
+        OCMessage message = new OCMessage(), receivedMessage = new OCMessage();
+        message.put("process", "end match");
+        message.put("winner", "this");
+        message.put("ID", String.valueOf(match.getMatchID()));
+        message.put("loser", "shoe");
+
+        String out = protocol.processInput(message.toString());
+
+        receivedMessage.fromString(out);
+        assertEquals("true", receivedMessage.get("success"), "The match was unable to end because " + receivedMessage.get("reason"));
+        assertEquals(0, data.getMatches().size(), "Failed to remove ended match");
+    }
 }

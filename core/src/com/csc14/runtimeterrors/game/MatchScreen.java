@@ -21,7 +21,7 @@ public class MatchScreen implements Screen {
     private Stage stage;
     private Table table;
     private GameBoard board;
-    private TextButton backBtn;
+    private TextButton backBtn, forfeit;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
@@ -59,6 +59,12 @@ public class MatchScreen implements Screen {
         backBtn.setPosition(0, 0);
         stage.addActor(backBtn);
 
+        // set up forfeit button
+        forfeit.setTransform(true);
+        forfeit.setScale(0.5f);
+        forfeit.setPosition(400, 0);
+        stage.addActor(forfeit);
+
         //add listener for the back button
         addListeners();
 
@@ -74,6 +80,11 @@ public class MatchScreen implements Screen {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             }
         });
+
+        // forfeit button will end the match between the users
+        /*forfeit.addListener({
+                parent.getClient().endMatch();
+        });*/
     }
 
     public void showNotification(String message, int messageCount){

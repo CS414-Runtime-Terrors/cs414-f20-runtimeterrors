@@ -12,9 +12,11 @@ import java.util.ArrayList;
 public class OCProtocol {
 
     private final OCServerData serverData;
+    private OCMessage message;
 
     public OCProtocol(OCServerData data) {
         serverData = data;
+        message = new OCMessage();
     }
 
     public String processInput(String input) {
@@ -71,8 +73,11 @@ public class OCProtocol {
                 case "get turn":
                     toReturn = getTurn(receivedMessage);
                     break;
+                case "end match":
+                    toReturn = endMatch(receivedMessage);
+                    break;
                 default:
-                    OCMessage message = new OCMessage();
+                    message = new OCMessage();
                     message.put("success", "false");
                     message.put("reason", "process not recognized");
 
@@ -80,7 +85,7 @@ public class OCProtocol {
                     break;
             }
         } catch (Exception e) {
-            OCMessage message = new OCMessage();
+            message = new OCMessage();
             message.put("success", "false");
             message.put("reason", "Something went wrong when processing input.");
 
@@ -102,7 +107,7 @@ public class OCProtocol {
         try {
             number = Integer.parseInt(inputLine);
         } catch (Exception e) {
-            OCMessage message = new OCMessage();
+            message = new OCMessage();
             message.put("success", "false");
             message.put("reason", "Wrong input!");
 
@@ -113,7 +118,7 @@ public class OCProtocol {
         System.out.println("Square: " + square);
 
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
         message.put("success", "true");
         message.put("answer", "Square of " + number + " is " + square);
 
@@ -130,7 +135,7 @@ public class OCProtocol {
 
         Boolean success = serverData.createProfile(nickname, password, email);
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
         if (success) {
             message.put("success", "true");
 
@@ -201,7 +206,7 @@ public class OCProtocol {
         }
 
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
         if (success) {
             message.put("success", "true");
 
@@ -225,7 +230,7 @@ public class OCProtocol {
 
         System.out.println("Attempting to login user: " + nickname);
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         if (!serverData.profileExists(nickname)) {
             // profile doesn't exist
@@ -261,7 +266,7 @@ public class OCProtocol {
 
         System.out.println("Attempting to get profile data for user: " + nickname);
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         if (!serverData.profileExists(nickname)) {
             // profile doesn't exist
@@ -287,7 +292,7 @@ public class OCProtocol {
         String inviter = receivedMessage.get("inviter");
         String invitee = receivedMessage.get("invitee");
 
-       OCMessage message = new OCMessage();
+       message = new OCMessage();
 
         if (invitee.equalsIgnoreCase(inviter)){
             // Can't send invite to yourself
@@ -347,7 +352,7 @@ public class OCProtocol {
 
         System.out.println("Attempting to recover sent invites from " + user);
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         if (!serverData.profileExists(user)){
             // target user doesn't exist
@@ -387,7 +392,7 @@ public class OCProtocol {
 
         System.out.println("Attempting to recover received invites from " + user);
 
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         if (!serverData.profileExists(user)){
             // target user doesn't exist
@@ -423,7 +428,7 @@ public class OCProtocol {
    private String getNotifications(OCMessage receivedMessage) {
        String user = receivedMessage.get("nickname");
 
-       OCMessage message = new OCMessage();
+       message = new OCMessage();
 
        if (!serverData.profileExists(user)){
            // target user doesn't exist
@@ -453,7 +458,7 @@ public class OCProtocol {
         String response = receivedMessage.get("response"),
                 inviter = receivedMessage.get("inviter"),
                 invitee = receivedMessage.get("invitee");
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         System.out.println("Attempting to " + response + " invite from " + inviter + " to " + invitee);
 
@@ -499,7 +504,7 @@ public class OCProtocol {
 
     public String getBoardData(OCMessage receivedMessage){
         int ID = Integer.parseInt(receivedMessage.get("ID"));
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         System.out.println("Attempting to get board for match " + ID);
 
@@ -530,7 +535,7 @@ public class OCProtocol {
         int matchID = Integer.parseInt(receivedMessage.get("matchID"));
         int row = Integer.parseInt(receivedMessage.get("row"));
         int column = Integer.parseInt(receivedMessage.get("column"));
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         // get correct match and board
 
@@ -575,7 +580,7 @@ public class OCProtocol {
         fromArray[1] = Integer.parseInt(receivedMessage.get("fromColumn"));
         toArray[0] = Integer.parseInt(receivedMessage.get("toRow"));
         toArray[1] = Integer.parseInt(receivedMessage.get("toColumn"));
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         // get correct match and board
         Match match = serverData.getMatch(matchID);
@@ -608,7 +613,7 @@ public class OCProtocol {
         String opponents = "";
         String IDs = "";
         ArrayList<Match> matches = serverData.getMatches();
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         for (Match m : matches) {
             if (m.getProfile1().equals(user)) {
@@ -634,7 +639,7 @@ public class OCProtocol {
 
     public String getTurn(OCMessage receivedMessage){
         int ID = Integer.valueOf(receivedMessage.get("ID"));
-        OCMessage message = new OCMessage();
+        message = new OCMessage();
 
         TurnTracker turn = null;
         if (serverData.getMatches().size() == 0){
@@ -655,6 +660,37 @@ public class OCProtocol {
         }
 
         message.put("user", turn.getCurrentTurnPlayer());
+
+        return message.toString();
+    }
+
+    public String endMatch(OCMessage receivedMessage){
+        int ID = Integer.valueOf(receivedMessage.get("ID")), moves = 0;
+        String loser = receivedMessage.get("loser"), winner = receivedMessage.get("winner");
+        message = new OCMessage();
+
+        Match end = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+            return message.toString();
+        }
+        for (Match match : serverData.getMatches()){
+            if (match.getMatchID() == ID) {
+                message.put("success", "true");
+                end = match;
+                break;
+            }
+        }
+        if (end == null){
+            message.put("success", "false");
+            message.put("reason", "there is no match with ID " + ID);
+            return message.toString();
+        }
+        moves = end.getBoard().getMoves().size();
+        end.endMatch(loser, winner, moves);
+        serverData.removeMatch(end);
+        message.put("ID", String.valueOf(serverData.getArchive().size()));
 
         return message.toString();
     }
