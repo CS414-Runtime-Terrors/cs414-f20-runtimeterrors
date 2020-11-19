@@ -13,7 +13,7 @@ public class GameBoardHelpers {
         System.out.println("List of legal moves received: " + message.get("legal moves"));
         String moveList = message.get("legal moves");
 
-        if (moveList.equals("/")) {
+        if ((moveList == null) || (moveList.equals("/"))) {
             return new ArrayList<>();
         }
 

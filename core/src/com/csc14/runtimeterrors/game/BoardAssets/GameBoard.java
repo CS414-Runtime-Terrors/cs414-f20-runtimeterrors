@@ -15,6 +15,7 @@ public class GameBoard {
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
+    private boolean isEnPessant;
     private int matchID;
 
     public GameBoard(OmegaChess omegaChess) {
@@ -222,6 +223,8 @@ public class GameBoard {
 
     public void setMatchID(int id) { matchID = id; }
 
+    public int getMatchID() { return matchID; }
+
     //add click listener to each square
     public void addListeners() {
         for (ArrayList<BoardSquare> row : gameBoard) {
@@ -238,6 +241,9 @@ public class GameBoard {
                             // get legal moves from server
                             OCMessage receivedMessage = parent.getClient().getLegalMoves(matchID, clickedPiece.getPosition());
                             List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
+                            if (receivedMessage.get("enPessant").equals("true")) {
+                                isEnPessant = true;
+                            }
 
                             // highlight legal moves
                             for (String position : legalMoves) {
@@ -251,7 +257,13 @@ public class GameBoard {
                             parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
                             square.setPiece(clickedPiece.getCurrentPiece());
                             clickedPiece.removePiece();
+                            if (isEnPessant) {
+                                int increment = clickedPiece.getPosition()[0] - square.getPosition()[0];
+                                BoardSquare enPesSq = getSquare(square.getPosition()[0]+increment, square.getPosition()[1]);
+                                enPesSq.removePiece();
+                            }
                             clickedPiece = null;
+                            isEnPessant = false;
 
                             // unhighlight squares
                             for (String position : highlightedSquares) {
@@ -262,6 +274,7 @@ public class GameBoard {
                         else if (clickedPiece != null && !square.isHighlighted()) {
                             // reset clicked pieces
                             clickedPiece = null;
+                            isEnPessant = false;
 
                             // unhighlight squares
                             for (String position : highlightedSquares) {

@@ -31,7 +31,7 @@ public class Mailbox {
 
     public ArrayList<Invite> getSent() { return sent; }
 
-    public void addNotification(String event, String message) {
+    public void addNotification(Notification.NotificationType event, String message) {
         Notification notification = new Notification(event, message);
         notifications.add(notification);
     }

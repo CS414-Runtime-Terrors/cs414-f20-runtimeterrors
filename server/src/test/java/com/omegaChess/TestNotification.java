@@ -10,30 +10,30 @@ public class TestNotification {
 
     @Test
     public void testConstructor() {
-        Notification notification = new Notification("new match", "You've been invited to a new match!");
+        Notification notification = new Notification(Notification.NotificationType.NEW_MATCH, "You've been invited to a new match!");
 
-        assertEquals("new match", notification.getEvent());
+        assertEquals("NEW_MATCH", notification.getEvent().name());
         assertEquals("You've been invited to a new match!", notification.getMessage());
         assertNotNull(notification.getDateString());
     }
 
     @Test
     public void testGetEvent() {
-        Notification notification = new Notification("won game", "You've won a match!");
+        Notification notification = new Notification(Notification.NotificationType.MATCH_ENDED, "You've won a match!");
 
-        assertEquals("won game", notification.getEvent());
+        assertEquals("MATCH_ENDED", notification.getEvent().name());
     }
 
     @Test
     public void testGetMessage() {
-        Notification notification = new Notification("invite accepted", "An invite of yours was accepted!");
+        Notification notification = new Notification(Notification.NotificationType.ACCEPTED_INVITE, "An invite of yours was accepted!");
 
         assertEquals("An invite of yours was accepted!", notification.getMessage());
     }
 
     @Test
     public void testGetDateString() {
-        Notification notification = new Notification("new match", "You've been invited to a new match!");
+        Notification notification = new Notification(Notification.NotificationType.NEW_MATCH, "You've been invited to a new match!");
 
         assertNotNull(notification.getDateString());
     }

@@ -322,7 +322,7 @@ public class ChessBoard {
                 String otherPiecePos = moves.get(0).getMovedToPosition();
                 String otherPieceCol = otherPiecePos.substring(0, 1);
 
-                if (pieceCol == otherPieceCol) {
+                if (pieceCol.equals(otherPieceCol)) {
                     this.placePiece(null, otherPiecePos);
                 }
             }
@@ -408,10 +408,13 @@ public class ChessBoard {
                 newPiece.setMoved(true);
             }
 
+            if (piece.isMoved() && piece.isFirstMove()) {
+                piece.setFirstMove(false);
+            }
             piece.setMoved(true);
 
             //push move to front of list for easier access of most recent move
-            moves.add(0, new Move(piece, fromPosition, toPosition));
+            moves.add(0, new Move(piece, fromPosition, toPosition, piece.isFirstMove()));
 
             // Changes the turn to the other player
             turn.switchTurn();

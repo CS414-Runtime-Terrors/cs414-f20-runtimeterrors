@@ -157,6 +157,46 @@ public class TestOCProtocol {
         assertFalse(data.getProfile("pawpatrol").getMailbox().getSent().isEmpty(),
                 "Failed to add invite to mailbox sent!");
 
+        // test to not send an invite to yourself
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("invitee", "sweetfire");
+        message.put("inviter", "sweetfire");
+
+        input = message.toString();
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("false", receivedMessage.get("success"), "Invite was sent to yourself");
+
+        // test to not send an invite to a user that you already invited/ have been invited
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("inviter", "sweetfire");
+        message.put("invitee", "pawpatrol");
+
+        input = message.toString();
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("false", receivedMessage.get("success"), "Sent an invite to someone who is already in mailbox");
+
+        // test to not send an invite to someone you are in a match in
+        message = new OCMessage();
+        message.put("process", "invite");
+        message.put("inviter", "sweetfire");
+        message.put("invitee", "pawpatrol");
+
+        data.addMatch(new Match("sweetfire", "pawpatrol"));
+        input = message.toString();
+        output = protocol.processInput(input);
+
+        receivedMessage = new OCMessage();
+        receivedMessage.fromString(output);
+        assertEquals("false", receivedMessage.get("success"), "Sent an invite to someone you are in a match with.");
+
     }
 
     @Test
@@ -258,8 +298,8 @@ public class TestOCProtocol {
 
         data.createProfile("Daniel", "pass", "daniel@gmail.com");
 
-        data.getProfile("Daniel").getMailbox().addNotification("Event 1", "Message 1");
-        data.getProfile("Daniel").getMailbox().addNotification("Event 2", "Message 2");
+        data.getProfile("Daniel").getMailbox().addNotification(Notification.NotificationType.NEW_MATCH, "Message 1");
+        data.getProfile("Daniel").getMailbox().addNotification(Notification.NotificationType.MATCH_ENDED, "Message 2");
 
         // get notifications
         OCMessage message = new OCMessage();
@@ -280,10 +320,10 @@ public class TestOCProtocol {
         int count = Integer.parseInt(receivedMessage.get("count"));
 
         assertEquals(2, count);
-        assertEquals("Event 1", receivedMessage.get("event1"));
+        assertEquals("NEW_MATCH", receivedMessage.get("event1"));
         assertEquals("Message 1", receivedMessage.get("message1"));
         assertNotNull(receivedMessage.get("datestring1"));
-        assertEquals("Event 2", receivedMessage.get("event2"));
+        assertEquals("MATCH_ENDED", receivedMessage.get("event2"));
         assertEquals("Message 2", receivedMessage.get("message2"));
         assertNotNull(receivedMessage.get("datestring2"));
     }
@@ -486,6 +526,17 @@ public class TestOCProtocol {
     }
 
     @Test
+    public void testGetLongestNickname()
+    {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("jae", "wing", "adskfjlhasd@omegachess.com");
+        data.createProfile("Shing", "shaw", "asdfasdwes@omegachess.com");
+
+        assertEquals(data.getLongestNickname(), 5);
+    }
+
     public void testMatchMove() {
         OCServerData data = new OCServerData();
         OCProtocol protocol = new OCProtocol(data);
@@ -649,5 +700,29 @@ public class TestOCProtocol {
 
         // Match ID is invalid
         assertEquals("false", receivedMessage.get("success"), "The match ID " + message.get("ID") + " shouldn't exist");
+    }
+
+    @Test
+    public void testEndMatch(){
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("this", "that", "thishat@omegachess.com");
+        data.createProfile("shoe", "cat", "shoecat@omegachess.com");
+
+        Match match = new Match("this", "shoe");
+        data.addMatch(match);
+
+        OCMessage message = new OCMessage(), receivedMessage = new OCMessage();
+        message.put("process", "end match");
+        message.put("winner", "this");
+        message.put("ID", String.valueOf(match.getMatchID()));
+        message.put("loser", "shoe");
+
+        String out = protocol.processInput(message.toString());
+
+        receivedMessage.fromString(out);
+        assertEquals("true", receivedMessage.get("success"), "The match was unable to end because " + receivedMessage.get("reason"));
+        assertEquals(0, data.getMatches().size(), "Failed to remove ended match");
     }
 }

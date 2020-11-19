@@ -13,15 +13,16 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
-import javax.swing.tree.AbstractLayoutCache;
+import javax.swing.*;
 
 public class MatchScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
     private Table table;
     private GameBoard board;
-    private TextButton backBtn;
     private String whitePlayer, blackPlayer;
+    private TextButton backBtn, forfeit;
+    private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -51,12 +52,19 @@ public class MatchScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         backBtn = new TextButton("Back", skin);
+        forfeit = new TextButton("Forfeit", skin);
 
         //set up temporary back button
         backBtn.setTransform(true);
-        backBtn.setScale(0.2f);
-        backBtn.setPosition(0, 0);
+        backBtn.setScale(0.5f);
+        backBtn.setPosition(30, 0);
         stage.addActor(backBtn);
+
+        // set up forfeit button
+        forfeit.setTransform(true);
+        forfeit.setScale(0.5f);
+        forfeit.setPosition(460, 0);
+        stage.addActor(forfeit);
 
         //add listener for the back button
         addListeners();
@@ -73,6 +81,33 @@ public class MatchScreen implements Screen {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             }
         });
+
+        // forfeit button will end the match between the users
+        /*forfeit.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent even, float x, float y) {
+                if (parent.getUser() == )
+                parent.getClient().endMatch(board.getMatchID(), parent.getUser(), );
+        }
+        });*/
+    }
+
+    public void showNotification(String message, int messageCount){
+        isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     @Override
