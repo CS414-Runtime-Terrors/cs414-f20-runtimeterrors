@@ -113,7 +113,7 @@ class TestQueen {
         validMoves.add("b5");
         validMoves.add("a5");
 
-        LegalMoves moves = queen.legalMoves(true);
+        LegalMoves moves = queen.legalMoves(true, false);
         ArrayList<String> queenValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(queenValid);

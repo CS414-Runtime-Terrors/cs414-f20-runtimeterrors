@@ -82,7 +82,7 @@ class TestPawn {
         validMoves.add("c4");
         validMoves.add("c5");
 
-        LegalMoves moves = pawn.legalMoves(true);
+        LegalMoves moves = pawn.legalMoves(true, false);
         ArrayList<String> pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -95,7 +95,7 @@ class TestPawn {
         validMoves.clear();
         validMoves.add("c3");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -107,7 +107,7 @@ class TestPawn {
 
         validMoves.clear();
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -131,7 +131,7 @@ class TestPawn {
         validMoves.add("c4");
         validMoves.add("c5");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -155,7 +155,7 @@ class TestPawn {
         validMoves.add("c6");
         validMoves.add("d8");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -175,7 +175,7 @@ class TestPawn {
         validMoves.clear();
         validMoves.add("c6");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -197,7 +197,7 @@ class TestPawn {
 
         validMoves.clear();
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -221,7 +221,7 @@ class TestPawn {
         validMoves.add("c5");
         validMoves.add("b5");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -246,7 +246,7 @@ class TestPawn {
         validMoves.clear();
         validMoves.add("d5");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -270,7 +270,7 @@ class TestPawn {
 
         validMoves.clear();
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -297,7 +297,7 @@ class TestPawn {
         validMoves.add("d5");
         validMoves.add("b5");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -328,7 +328,7 @@ class TestPawn {
         validMoves.add("d3");
         validMoves.add("c3");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);
@@ -359,7 +359,7 @@ class TestPawn {
         validMoves.add("b3");
         validMoves.add("c3");
 
-        moves = pawn.legalMoves(true);
+        moves = pawn.legalMoves(true, false);
         pawnValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(pawnValid);

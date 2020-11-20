@@ -91,7 +91,7 @@ class TestBishop {
         validMoves.add("b6");
         validMoves.add("a7");
 
-        LegalMoves moves = bishop.legalMoves(true);
+        LegalMoves moves = bishop.legalMoves(true, false);
         ArrayList<String> bishopValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(bishopValid);

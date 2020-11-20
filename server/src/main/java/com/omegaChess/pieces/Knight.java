@@ -46,7 +46,7 @@ public class Knight extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves(Boolean firstPass)
+    public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking)
     {
         ArrayList<String> legalMoves = new ArrayList<>();
 
@@ -88,7 +88,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }
@@ -105,7 +105,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }
@@ -122,7 +122,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }
@@ -139,7 +139,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }
@@ -156,7 +156,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }
@@ -173,7 +173,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }
@@ -190,7 +190,7 @@ public class Knight extends ChessPiece {
             }
 
             // can't move to a friend piece
-            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
+            if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
                 legalMoves.add(tmp_str);
             }

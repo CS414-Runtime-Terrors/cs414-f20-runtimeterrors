@@ -84,7 +84,7 @@ class TestKnight {
         validMoves.add("e3");
 
         // get kings valid moves
-        LegalMoves moves = knight.legalMoves(true);
+        LegalMoves moves = knight.legalMoves(true, false);
         ArrayList<String> knightValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
@@ -107,7 +107,7 @@ class TestKnight {
         validMoves.add("e3");
 
         // get kings valid moves
-        moves = knight.legalMoves(true);
+        moves = knight.legalMoves(true, false);
         knightValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order

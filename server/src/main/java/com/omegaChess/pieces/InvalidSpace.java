@@ -16,7 +16,7 @@ public class InvalidSpace extends ChessPiece{
     }
 
     @Override
-    public LegalMoves legalMoves(Boolean firstPass) {
+    public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking) {
         return null;
     }
 
