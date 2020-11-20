@@ -685,6 +685,7 @@ public class TestOCProtocol {
         // Player returned equals the first player
         assertEquals("true", receivedMessage.get("success"), "Failed to retrieve current turn because " + receivedMessage.get("reason"));
         assertEquals("J", receivedMessage.get("user"), "The player's name doesn't match");
+        assertEquals("White", receivedMessage.get("color"), "The current turn color is incorrect");
 
         message = new OCMessage();
         message.put("process", "get turn");

@@ -2,6 +2,7 @@ package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,13 +21,14 @@ public class MatchScreen implements Screen {
     private Stage stage;
     private Table table;
     private GameBoard board;
-    private String whitePlayer, blackPlayer;
     private int matchID;
     private TextButton backBtn, forfeit;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
+
+        board = new GameBoard(parent);
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -47,6 +49,34 @@ public class MatchScreen implements Screen {
 
         //create the chess board and add squares to table
         initializeBoard();
+
+        // set turn of current player
+        board.setTurn(parent.getClient().getTurn(board.getMatchID()).get("user"));
+        Color turnColor = null;
+        switch (parent.getClient().getTurn(board.getMatchID()).get("color")){
+            case "White":
+                turnColor = Color.WHITE;
+                break;
+            case "Black":
+                turnColor = Color.BLACK;
+                break;
+        }
+        board.setTurnColor(turnColor);
+
+        // A timer to refresh the board for a new move if it isn't their turn
+        /*if (!parent.getUser().equals(board.getTurn())) {
+            final java.util.Timer t = new java.util.Timer(true);
+            final TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    if (parent.getClient().getTurn(board.getMatchID()).get("user").equals(parent.getUser())){
+                        board.populateBoard(board.getMatchID());
+                    }
+
+                }
+            };
+            t.scheduleAtFixedRate(tt, 0, 15000);
+        }*/
 
         //add table to the stage
         stage.addActor(table);
@@ -87,10 +117,10 @@ public class MatchScreen implements Screen {
         forfeit.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent even, float x, float y) {
-                if (parent.getUser().equalsIgnoreCase(whitePlayer)) {
-                    parent.getClient().endMatch(matchID, parent.getUser(), blackPlayer);
+                if (parent.getUser().equalsIgnoreCase(board.getWhitePlayer())) {
+                    parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getBlackPlayer());
                 }else{
-                    parent.getClient().endMatch(matchID, parent.getUser(), whitePlayer);
+                    parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getWhitePlayer());
                 }
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
         }
@@ -125,7 +155,6 @@ public class MatchScreen implements Screen {
     }
 
     private void initializeBoard() {
-        board = new GameBoard(parent);
         board.populateBoard(matchID);
         for (int i = 11; i >= 0; i--) {
             for (int j = 0; j <=11; j++) {
@@ -135,13 +164,11 @@ public class MatchScreen implements Screen {
         }
     }
 
-    public void setMatchID(int id) {
-        matchID = id;
-    }
+    public void setMatchID(int id) { board.setMatchID(id); }
 
-    public void setWhitePlayer(String whitePlayer) { this.whitePlayer = whitePlayer; }
+    public void setWhitePlayer(String whitePlayer) { board.setWhitePlayer(whitePlayer); }
 
-    public void setBlackPlayer(String blackPlayer) { this.blackPlayer = blackPlayer; }
+    public void setBlackPlayer(String blackPlayer) { board.setBlackPlayer(blackPlayer); }
 
     @Override
     public void resize(int width, int height) {

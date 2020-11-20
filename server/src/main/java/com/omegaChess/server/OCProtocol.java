@@ -671,6 +671,7 @@ public class OCProtocol {
         }
 
         message.put("user", turn.getCurrentTurnPlayer());
+        message.put("color", turn.getCurrentTurnColor().toString());
 
         return message.toString();
     }
