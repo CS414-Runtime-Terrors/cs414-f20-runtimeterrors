@@ -22,7 +22,7 @@ public class Champion extends ChessPiece{
     }
 
     @Override
-    public LegalMoves legalMoves(Boolean firstPass){
+    public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking){
         ArrayList<String> moves = new ArrayList<>();
 
         //check if leaving position puts own king in check on first call
@@ -43,7 +43,8 @@ public class Champion extends ChessPiece{
                 e.printStackTrace();
             }
             if (((piece != null && piece.getColor() != this.color)
-                    && !(piece instanceof InvalidSpace)) || piece == null)
+                    && !(piece instanceof InvalidSpace)) || piece == null
+                    || (piece != null && !(piece instanceof InvalidSpace) && piece.getColor() == this.color && protectedPieceChecking))
                 moves.add(loc);
         } for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
@@ -56,7 +57,9 @@ public class Champion extends ChessPiece{
                 e.printStackTrace();
             }
             if (((piece != null && piece.getColor() != this.color)
-                    && !(piece instanceof InvalidSpace)) || piece == null)
+                    && !(piece instanceof InvalidSpace)) || piece == null
+                    || (piece != null && !(piece instanceof InvalidSpace)
+                    && piece.getColor() == this.color && protectedPieceChecking))
                 moves.add(loc);
         } for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
@@ -69,7 +72,9 @@ public class Champion extends ChessPiece{
                 e.printStackTrace();
             }
             if (((piece != null && piece.getColor() != this.color)
-                    && !(piece instanceof InvalidSpace)) || piece == null)
+                    && !(piece instanceof InvalidSpace)) || piece == null
+                    || (piece != null && !(piece instanceof InvalidSpace)
+                    && piece.getColor() == this.color && protectedPieceChecking))
                 moves.add(loc);
         } for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
@@ -82,7 +87,9 @@ public class Champion extends ChessPiece{
                 e.printStackTrace();
             }
             if (((piece != null && piece.getColor() != this.color)
-                    && !(piece instanceof InvalidSpace)) || piece == null)
+                    && !(piece instanceof InvalidSpace)) || piece == null
+                    || (piece != null && !(piece instanceof InvalidSpace)
+                    && piece.getColor() == this.color && protectedPieceChecking))
                 moves.add(loc);
         }
         ArrayList<String>  diagStr = new ArrayList<>();
@@ -120,7 +127,9 @@ public class Champion extends ChessPiece{
         for (int i = 0; i < diags.size(); i++){
             ChessPiece piece = diags.get(i);
             if (((piece != null && piece.getColor() != this.color)
-                    && !(piece instanceof InvalidSpace)) || piece == null)
+                    && !(piece instanceof InvalidSpace)) || piece == null
+                    || (piece != null && !(piece instanceof InvalidSpace)
+                    && piece.getColor() == this.color && protectedPieceChecking))
                 moves.add(diagStr.get(i));
         }
         return new LegalMoves(moves, false, false);

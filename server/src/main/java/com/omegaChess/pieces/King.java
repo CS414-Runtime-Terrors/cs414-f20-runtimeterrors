@@ -51,7 +51,7 @@ public class King extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves(Boolean firstPass)
+    public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking)
     {
         ArrayList<String> legalMoves = new ArrayList<>();
         boolean isCastle = false;
@@ -293,7 +293,7 @@ public class King extends ChessPiece {
                 if (new_pos.equals(diagLeft) || new_pos.equals(diagRight))
                     return true;
             // new_pos is somewhere a white piece can move, return true that king is in check
-            }else if (!(piece instanceof King) && piece.legalMoves(false).getListOfMoves().contains(new_pos)) {
+            }else if (!(piece instanceof King) && piece.legalMoves(false, true).getListOfMoves().contains(new_pos)) {
                 return true;
             }
             // handle king separately otherwise recursion and stackoverflow error occurs
@@ -340,7 +340,7 @@ public class King extends ChessPiece {
         }
 
         for (ChessPiece piece : opponentPieces) {
-            if (!(piece instanceof King) && piece.legalMoves(false).getListOfMoves().contains(myPos)) {
+            if (!(piece instanceof King) && piece.legalMoves(false, false).getListOfMoves().contains(myPos)) {
                 checkingPiece = piece;
                 return true;
             }

@@ -91,7 +91,7 @@ public abstract class ChessPiece {
             if (myKing.isKingInCheck()) {
                 LegalMoves inCheckLegal = myKing.getCheckingPiece().movesToBlockCheckingPiece(myKing.getPosition());
                 ArrayList<String> checkerLegal = inCheckLegal.getListOfMoves();
-                ArrayList<String> allLegal = this.legalMoves(false).getListOfMoves();
+                ArrayList<String> allLegal = this.legalMoves(false, false).getListOfMoves();
                 ArrayList<String> legalMoves = new ArrayList<>();
 
                 for (String al : allLegal) {
@@ -103,11 +103,11 @@ public abstract class ChessPiece {
                 return new LegalMoves(legalMoves, false, false);
             }
             else {
-                return this.legalMoves(true);
+                return this.legalMoves(true, false);
             }
         }
 
-        return this.legalMoves(true);
+        return this.legalMoves(true, false);
     }
 
     public King getMyKing() {
@@ -151,7 +151,7 @@ public abstract class ChessPiece {
     * piece can make. Each string in the arraylist should be the position of a possible destination
     * for the piece. Order of legal moves is irrelevant. Return an empty list if no moves are
     * available. */
-    abstract public LegalMoves legalMoves(Boolean firstPass);
+    abstract public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking);
 
     /* To be implemented in concrete subclasses. Returns the list of possible locations that the
     * piece checking the king can be at in between itself and the king, including its current
