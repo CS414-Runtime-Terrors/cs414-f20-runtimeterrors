@@ -155,7 +155,7 @@ public class MatchScreen implements Screen {
     }
 
     private void initializeBoard() {
-        board.populateBoard(matchID);
+        board.populateBoard();
         for (int i = 11; i >= 0; i--) {
             for (int j = 0; j <=11; j++) {
                 table.add(board.getSquare(i, j));

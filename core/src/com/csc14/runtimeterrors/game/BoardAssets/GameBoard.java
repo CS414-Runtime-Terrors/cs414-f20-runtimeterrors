@@ -221,8 +221,8 @@ public class GameBoard {
         return gameBoard.get(pos[0]).get(pos[1]);
     }
 
-    public void populateBoard(int ID){
-        OCMessage message = parent.getClient().getBoardData(ID);
+    public void populateBoard(){
+        OCMessage message = parent.getClient().getBoardData(matchID);
         ArrayList<String> locations = message.getKeys();
         locations.remove("success");
         for (String loc : locations){
