@@ -260,6 +260,26 @@ class TestKing {
 
         kingValid = king.legalMoves(true, false).getListOfMoves();
         assertEquals(validMoves, kingValid);
+
+        // test capture into check
+        board = new ChessBoard();
+        validMoves.clear();
+        king = new King(board, ChessPiece.Color.WHITE);
+        Pawn wPawn = new Pawn(board, ChessPiece.Color.WHITE);
+        Pawn wPawn2 = new Pawn(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bPawn = new Pawn(board, ChessPiece.Color.BLACK);
+        bRook = new Rook(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(wPawn, "e2");
+        board.placePiece(wPawn2, "g2");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bPawn, "f2");
+        board.placePiece(bRook, "f6");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
     }
 
     @Test
