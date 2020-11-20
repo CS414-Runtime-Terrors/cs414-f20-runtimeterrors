@@ -45,7 +45,7 @@ public class Pawn extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves(Boolean firstPass)
+    public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking)
     {
         ArrayList<String> validMoves = new ArrayList<>();
 

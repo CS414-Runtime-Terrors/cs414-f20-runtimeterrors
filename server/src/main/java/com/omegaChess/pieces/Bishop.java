@@ -44,7 +44,7 @@ public class Bishop extends ChessPiece {
      * moves in the ArrayList does not matter. If there are no legal moves, return
      * return an empty ArrayList, i.e., the size should be zero.
      */
-    public LegalMoves legalMoves(Boolean firstPass)
+    public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking)
     {
         ArrayList<String> validMoves = new ArrayList<>();
 
@@ -78,6 +78,12 @@ public class Bishop extends ChessPiece {
             }
             // if opponent piece - legal move but can't move in this direction anymore
             else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece, but king is checking protected piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() == this.color && protectedPieceChecking)
             {
                 validMoves.add(tmp_str);
                 break;
@@ -118,6 +124,12 @@ public class Bishop extends ChessPiece {
                 validMoves.add(tmp_str);
                 break;
             }
+            // if same color piece, but king is checking protected piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() == this.color && protectedPieceChecking)
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
             // if same color piece - can't move here or in this direction anymore
             else if( tmp_piece.getColor() == this.color )
             {
@@ -150,6 +162,12 @@ public class Bishop extends ChessPiece {
             }
             // if opponent piece - legal move but can't move in this direction anymore
             else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece, but king is checking protected piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() == this.color && protectedPieceChecking)
             {
                 validMoves.add(tmp_str);
                 break;
@@ -187,6 +205,12 @@ public class Bishop extends ChessPiece {
             }
             // if opponent piece - legal move but can't move in this direction anymore
             else if( tmp_piece.getColor() != this.color )
+            {
+                validMoves.add(tmp_str);
+                break;
+            }
+            // if same color piece, but king is checking protected piece - legal move but can't move in this direction anymore
+            else if( tmp_piece.getColor() == this.color && protectedPieceChecking)
             {
                 validMoves.add(tmp_str);
                 break;

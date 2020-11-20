@@ -92,7 +92,7 @@ class TestRook {
         validMoves.add("i2");
         validMoves.add("j2");
 
-        LegalMoves moves = rook.legalMoves(true);
+        LegalMoves moves = rook.legalMoves(true, false);
         ArrayList<String> rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
@@ -123,7 +123,7 @@ class TestRook {
         validMoves.add("i2");
         validMoves.add("j2");
 
-        moves = rook.legalMoves(true);
+        moves = rook.legalMoves(true, false);
         rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);
@@ -154,7 +154,7 @@ class TestRook {
         validMoves.add("f3");
         validMoves.add("f4");
 
-        moves = rook.legalMoves(true);
+        moves = rook.legalMoves(true, false);
         rookValid = moves.getListOfMoves();
         Collections.sort(validMoves);
         Collections.sort(rookValid);

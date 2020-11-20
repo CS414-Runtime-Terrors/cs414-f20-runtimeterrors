@@ -40,7 +40,7 @@ class TestChampion {
         expectedMoves.add("c8"); expectedMoves.add("c9"); expectedMoves.add("c6"); expectedMoves.add("c5");
         expectedMoves.add("d7"); expectedMoves.add("e7"); expectedMoves.add("b7"); expectedMoves.add("a7");
         expectedMoves.add("a9"); expectedMoves.add("e9"); expectedMoves.add("e5"); expectedMoves.add("a5");
-        LegalMoves moves = champ.legalMoves(true);
+        LegalMoves moves = champ.legalMoves(true, false);
         ArrayList<String> actualMoves = moves.getListOfMoves();
         assertEquals(expectedMoves, actualMoves, "Expected moves not provided");
     }

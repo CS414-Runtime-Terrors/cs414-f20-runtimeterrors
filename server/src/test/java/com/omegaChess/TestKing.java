@@ -9,7 +9,6 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalMoveException;
 import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.*;
-import com.omegaChess.server.TurnTracker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -81,7 +80,7 @@ class TestKing {
         validMoves.add("f1");
 
         // get kings valid moves
-        LegalMoves moves = king.legalMoves(true);
+        LegalMoves moves = king.legalMoves(true, false);
         ArrayList<String> kingValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
@@ -107,7 +106,7 @@ class TestKing {
         validMoves.add("c4");
 
         // get kings valid moves
-        moves = king.legalMoves(true);
+        moves = king.legalMoves(true, false);
         kingValid = moves.getListOfMoves();
 
         // Sort in case they come in a different order
@@ -154,12 +153,132 @@ class TestKing {
 
         // get kings valid moves
         assert king1 != null;
-        kingValid = king1.legalMoves(true).getListOfMoves();
+        kingValid = king1.legalMoves(true, false).getListOfMoves();
 
         // Sort in case they come in a different order
         Collections.sort(validMoves);
         Collections.sort(kingValid);
 
+        assertEquals(validMoves, kingValid);
+
+        // test in check, can only capture to leave check, and checking piece is protected
+        board = new ChessBoard();
+        validMoves.clear();
+        king = new King(board, ChessPiece.Color.WHITE);
+        King bKing = new King(board, ChessPiece.Color.BLACK);
+        Queen bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Rook bRook = new Rook(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bRook, "f6");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        board = new ChessBoard();
+        king = new King(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Bishop bBishop = new Bishop(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bBishop, "h4");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        board = new ChessBoard();
+        king = new King(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Pawn bPawn = new Pawn(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bPawn, "g3");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        board = new ChessBoard();
+        king = new King(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Knight bKnight = new Knight(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bKnight, "g4");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        board = new ChessBoard();
+        king = new King(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Wizard bWizard = new Wizard(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bWizard, "g5");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        board = new ChessBoard();
+        king = new King(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Champion bChamp = new Champion(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bChamp, "h4");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        board = new ChessBoard();
+        king = new King(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bQueen = new Queen(board, ChessPiece.Color.BLACK);
+        Queen bQueen2 = new Queen(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bQueen, "f2");
+        board.placePiece(bQueen2, "h4");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
+        assertEquals(validMoves, kingValid);
+
+        // test capture into check
+        board = new ChessBoard();
+        validMoves.clear();
+        king = new King(board, ChessPiece.Color.WHITE);
+        Pawn wPawn = new Pawn(board, ChessPiece.Color.WHITE);
+        Pawn wPawn2 = new Pawn(board, ChessPiece.Color.WHITE);
+        bKing = new King(board, ChessPiece.Color.BLACK);
+        bPawn = new Pawn(board, ChessPiece.Color.BLACK);
+        bRook = new Rook(board, ChessPiece.Color.BLACK);
+
+        board.placePiece(king, "f1");
+        board.placePiece(wPawn, "e2");
+        board.placePiece(wPawn2, "g2");
+        board.placePiece(bKing, "f10");
+        board.placePiece(bPawn, "f2");
+        board.placePiece(bRook, "f6");
+
+        kingValid = king.legalMoves(true, false).getListOfMoves();
         assertEquals(validMoves, kingValid);
     }
 
