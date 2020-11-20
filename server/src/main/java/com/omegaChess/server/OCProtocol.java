@@ -526,7 +526,7 @@ public class OCProtocol {
             return message.toString();
         }
 
-        message.fromString(match.getBoard().boardString());
+        message.fromString(match.getBoard().getPieces());
 
         return message.toString();
     }

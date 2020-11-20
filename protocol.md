@@ -178,13 +178,10 @@ Message Template:
 
 Return Message Success:
 * "success": "true"
-* "w1": "piece.toString() | null"
-* "y1": "InvalidSpace.toString()"
-* "y2": "InvalidSpace.toString()"
->...
-* "y9": "InvalidSpace.toString()"
-* "y10": "InvalidSpace.toString()"
-* "w4": "piece.toString() | null"
+> for each white piece:
+* "piece.getPosition()": "piece.toString()"
+> for each black piece:
+* "piece.getPosition()": "piece.toString()"
 
 Return Message Failure:
 * "success": "false"

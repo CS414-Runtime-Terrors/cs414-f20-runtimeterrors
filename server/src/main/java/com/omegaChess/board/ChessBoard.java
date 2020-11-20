@@ -480,22 +480,13 @@ public class ChessBoard {
         return chess;
     }
 
-    public String boardString(){
+    public String getPieces(){
         OCMessage message = new OCMessage();
-        int r = 0;
-        for (ChessPiece[] row: board){
-            int c = 0;
-            for (ChessPiece piece: row){
-                if (piece == null){
-                    message.put(reverseParse(r, c), null);
-                }else {
-                    message.put(reverseParse(r, c), piece.toString());
-                }
-                c++;
-            }
-            r++;
+        for (ChessPiece piece : white_pieces){
+            message.put(piece.getPosition(), piece.toString());
+        }for (ChessPiece piece : black_pieces){
+            message.put(piece.getPosition(), piece.toString());
         }
-
         return message.toString();
     }
 

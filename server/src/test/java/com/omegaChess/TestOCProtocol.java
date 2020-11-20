@@ -4,8 +4,6 @@ import com.omegaChess.server.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JUnit OCProtocol Class Test")
@@ -443,7 +441,6 @@ public class TestOCProtocol {
         // Test that the protocol returns board data
         assertEquals("true", receivedMessage.get("success"), "Failed to get board data because " + receivedMessage.get("reason"));
         assertNotNull(receivedMessage.get("w1"), "failed to return info for w1");
-        assertEquals("null", receivedMessage.get("c5"), "this space should return null");
     }
 
     @Test

@@ -21,6 +21,7 @@ public class MatchScreen implements Screen {
     private Table table;
     private GameBoard board;
     private String whitePlayer, blackPlayer;
+    private int matchID;
     private TextButton backBtn, forfeit;
     private boolean isPopupDisplayed = false;
 
@@ -83,13 +84,17 @@ public class MatchScreen implements Screen {
         });
 
         // forfeit button will end the match between the users
-        /*forfeit.addListener( new ClickListener() {
+        forfeit.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent even, float x, float y) {
-                if (parent.getUser() == )
-                parent.getClient().endMatch(board.getMatchID(), parent.getUser(), );
+                if (parent.getUser().equalsIgnoreCase(whitePlayer)) {
+                    parent.getClient().endMatch(matchID, parent.getUser(), blackPlayer);
+                }else{
+                    parent.getClient().endMatch(matchID, parent.getUser(), whitePlayer);
+                }
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
         }
-        });*/
+        });
     }
 
     public void showNotification(String message, int messageCount){
@@ -121,6 +126,7 @@ public class MatchScreen implements Screen {
 
     private void initializeBoard() {
         board = new GameBoard(parent);
+        board.populateBoard(matchID);
         for (int i = 11; i >= 0; i--) {
             for (int j = 0; j <=11; j++) {
                 table.add(board.getSquare(i, j));
@@ -130,7 +136,7 @@ public class MatchScreen implements Screen {
     }
 
     public void setMatchID(int id) {
-        board.setMatchID(id);
+        matchID = id;
     }
 
     public void setWhitePlayer(String whitePlayer) { this.whitePlayer = whitePlayer; }
