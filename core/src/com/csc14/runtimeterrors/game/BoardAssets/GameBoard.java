@@ -273,7 +273,7 @@ public class GameBoard {
             case "\u2617":
                 return "blackChampion.png";
             default:
-                return " ";
+                return "badlogic.jpg";
         }
     }
 
