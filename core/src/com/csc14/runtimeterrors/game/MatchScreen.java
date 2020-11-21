@@ -50,14 +50,17 @@ public class MatchScreen implements Screen {
         //create the chess board and add squares to table
         initializeBoard();
 
+        //add table to the stage
+        stage.addActor(table);
+
         // set turn of current player
         board.setTurn(parent.getClient().getTurn(board.getMatchID()).get("user"));
         Color turnColor = null;
         switch (parent.getClient().getTurn(board.getMatchID()).get("color")){
-            case "White":
+            case "WHITE":
                 turnColor = Color.WHITE;
                 break;
-            case "Black":
+            case "BLACK":
                 turnColor = Color.BLACK;
                 break;
         }
@@ -85,7 +88,7 @@ public class MatchScreen implements Screen {
         backBtn = new TextButton("Back", skin);
         forfeit = new TextButton("Forfeit", skin);
 
-        //set up temporary back button
+        // set up back button
         backBtn.setTransform(true);
         backBtn.setScale(0.5f);
         backBtn.setPosition(30, 0);
@@ -97,7 +100,7 @@ public class MatchScreen implements Screen {
         forfeit.setPosition(460, 0);
         stage.addActor(forfeit);
 
-        //add listener for the back button
+        //add listener for the back and forfeit buttons
         addListeners();
 
         //add listeners for all of the BoardSquare objects
@@ -155,6 +158,7 @@ public class MatchScreen implements Screen {
     }
 
     private void initializeBoard() {
+        board.initializeBoard();
         board.populateBoard();
         for (int i = 11; i >= 0; i--) {
             for (int j = 0; j <=11; j++) {

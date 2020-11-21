@@ -31,6 +31,7 @@ public class GameBoard {
 
     //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
+        gameBoard = new ArrayList<>();
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
         ArrayList<BoardSquare> row2 = new ArrayList<>();
@@ -271,7 +272,7 @@ public class GameBoard {
                 square.addListener( new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if (parent.getUser().equals(turn)) {
+                        if (parent.getUser().equalsIgnoreCase(turn)) {
                             // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
                             if (square.hasPiece() && clickedPiece == null && square.getPieceColor() == turnColor) {
                                 // set square as clicked
