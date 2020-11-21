@@ -4,24 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
 import javax.swing.*;
+import java.util.TimerTask;
 
 public class MatchScreen implements Screen {
     private OmegaChess parent;
     private Stage stage;
     private Table table;
     private GameBoard board;
-    private int matchID;
+    private TextField currentTurn;
     private TextButton backBtn, forfeit;
     private boolean isPopupDisplayed = false;
 
@@ -66,23 +69,15 @@ public class MatchScreen implements Screen {
         }
         board.setTurnColor(turnColor);
 
-        // A timer to refresh the board for a new move if it isn't their turn
-        /*if (!parent.getUser().equals(board.getTurn())) {
-            final java.util.Timer t = new java.util.Timer(true);
-            final TimerTask tt = new TimerTask() {
-                @Override
-                public void run() {
-                    if (parent.getClient().getTurn(board.getMatchID()).get("user").equals(parent.getUser())){
-                        board.populateBoard(board.getMatchID());
-                    }
-
-                }
-            };
-            t.scheduleAtFixedRate(tt, 0, 15000);
-        }*/
-
-        //add table to the stage
-        stage.addActor(table);
+        // Add a field that shows whose turn it is
+        /*TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+        style.font = new BitmapFont();
+        style.fontColor = Color.WHITE;
+        style.font.getData().scale(1f);
+        currentTurn = new TextField("Current turn:" + board.getTurn(), style);
+        currentTurn.setWidth(200);
+        currentTurn.setPosition(230, 420);
+        stage.addActor(currentTurn);*/
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         backBtn = new TextButton("Back", skin);
