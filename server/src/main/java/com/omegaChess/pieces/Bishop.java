@@ -25,11 +25,11 @@ public class Bishop extends ChessPiece {
     {
         if( this.color == Color.BLACK)
         {
-            return "\u265D";
+            return "blackBishop.png";
         }
         else if( this.color == Color.WHITE )
         {
-            return "\u2657";
+            return "whiteBishop.png";
         }
 
         return "";
