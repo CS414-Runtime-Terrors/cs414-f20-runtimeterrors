@@ -32,7 +32,7 @@ Epics planned for this release.
 | :--- | :--- | :--- | :--- |
 | *11/16/20* | *N/A* | *#44, #52, #62,  #65, #332, #334* | *none* |
 | *11/17/20* | *#44, #47, #333* | *#52, #62, #65, #103, #104, #332, #334, #347* | *none* |
-| *11/20/20* | *#52* | *#62, #65, #103, #104, #332, #334, #347* | *none* |
+| *11/20/20* | *#52* | *#62, #65, #103, #104, #332, #334, #347* | *Running into an error where windows won't read a unicode string properly where it works in linux.* |
 
 ## Review
 
