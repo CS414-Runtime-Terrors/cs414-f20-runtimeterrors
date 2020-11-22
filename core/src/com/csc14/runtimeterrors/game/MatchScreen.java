@@ -12,16 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
-import sun.rmi.runtime.Log;
 
 import javax.swing.*;
 
 public class MatchScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
+    private final OmegaChess parent;
+    private final Stage stage;
     private Table table;
     private GameBoard board;
-    private TextButton backBtn;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
@@ -51,7 +49,7 @@ public class MatchScreen implements Screen {
         stage.addActor(table);
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        backBtn = new TextButton("Back", skin);
+        TextButton backBtn = new TextButton("Back", skin);
 
         //set up temporary back button
         backBtn.setTransform(true);
@@ -59,21 +57,16 @@ public class MatchScreen implements Screen {
         backBtn.setPosition(0, 0);
         stage.addActor(backBtn);
 
-        //add listener for the back button
-        addListeners();
-
-        //add listeners for all of the BoardSquare objects
-        board.addListeners();
-    }
-
-    private void addListeners() {
         // back button will take user back to lobby screen
-        backBtn.addListener( new ClickListener() {
+        backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent even, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             }
         });
+
+        //add listeners for all of the BoardSquare objects
+        board.addListeners();
     }
 
     public void showNotification(String message, int messageCount){

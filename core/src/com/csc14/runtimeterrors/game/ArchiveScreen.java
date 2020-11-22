@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -16,17 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import javax.swing.*;
 
 public class ArchiveScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private TextButton profileBtn;
+    private final OmegaChess parent;
+    private final Stage stage;
     private Skin skin;
-    private Label.LabelStyle style_label;
-    private String nickname;
     private boolean isPopupDisplayed = false;
 
     public ArchiveScreen(OmegaChess omegachess){
         parent = omegachess;
-        nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -44,11 +39,6 @@ public class ArchiveScreen implements Screen {
         style.fontColor = Color.WHITE;
         style.font.getData().setScale(3f);
 
-        style_label = new Label.LabelStyle();
-        style_label.font = new BitmapFont();
-        style_label.fontColor = Color.PURPLE;
-        style_label.font.getData().setScale(2f);
-
         // set up archive label
         TextField profileLabel = new TextField("Archive", style);
         profileLabel.setWidth(400);
@@ -57,28 +47,23 @@ public class ArchiveScreen implements Screen {
 
         // add buttons to the screen
         addButtonsToStage();
-
-        // add listener for buttons
-        addListeners();
     }
 
     private void addButtonsToStage() {
-        profileBtn = new TextButton("Profile", skin);
+        TextButton profileBtn = new TextButton("Profile", skin);
 
         // set up lobby button
         profileBtn.setTransform(true);
         profileBtn.setScale(0.4f);
         profileBtn.setPosition(450, 15);
         stage.addActor(profileBtn);
-    }
 
-    private void addListeners() {
-        // back button will return user to main menu screen
+        // profile button will take user to profile screen
         profileBtn.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.PROFILE);
-            };
+            }
         });
     }
 
