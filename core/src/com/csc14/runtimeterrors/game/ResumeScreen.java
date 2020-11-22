@@ -18,7 +18,7 @@ public class ResumeScreen implements Screen {
     private Stage stage;
     private TextButton backBtn, resumeBtn;
     private List<String> matches;
-    private ArrayList<String> matchOpponents, matchIDs;
+    private ArrayList<String> matchOpponents, matchIDs, playerIDs;
     private String nickname;
 
     public ResumeScreen(OmegaChess omegachess) {
@@ -75,8 +75,10 @@ public class ResumeScreen implements Screen {
         if (receivedMessage.get("success").equals("true")) {
             String[] opponents = receivedMessage.get("opponents").split(", ");
             String[] IDs = receivedMessage.get("matchIDs").split(", ");
+            String[] playerIndex = receivedMessage.get("playerIndex").split(", ");
             matchOpponents = new ArrayList<>(Arrays.asList(opponents));
             matchIDs = new ArrayList<>(Arrays.asList(IDs));
+            playerIDs = new ArrayList<>(Arrays.asList(playerIndex));
 
             if (matchOpponents.size() > 0) {
                 matches.setItems(matchOpponents.toArray(new String[0]));
@@ -119,8 +121,17 @@ public class ResumeScreen implements Screen {
            public void clicked(InputEvent event, float x, float y) {
                if (!resumeBtn.isDisabled()) {
                    int selectedID = Integer.valueOf(matchIDs.get(matchOpponents.indexOf(matches.getSelected())));
+                   int playerID = Integer.valueOf(playerIDs.get(matchOpponents.indexOf(matches.getSelected())));
+                   String whitePlayer = "", blackPlayer = "";
+                   if (playerID == 1) {
+                       whitePlayer = parent.getUser();
+                       blackPlayer = matches.getSelected();
+                   }else {
+                       whitePlayer = matches.getSelected();
+                       blackPlayer = parent.getUser();
+                   }
+                   parent.setMatchInfo(selectedID, whitePlayer, blackPlayer);
                    parent.changeScreen(OmegaChess.SCREEN.MATCH);
-                   parent.setMatchID(selectedID);
                }
            };
         });

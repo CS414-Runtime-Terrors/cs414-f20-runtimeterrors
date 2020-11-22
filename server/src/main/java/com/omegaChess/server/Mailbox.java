@@ -174,5 +174,8 @@ public class Mailbox {
         } catch (FileNotFoundException e) {
             System.out.println("File not found in " + notificationsSaveLocation);
         }
+
+
+        System.out.println("Loaded mailbox for this user");
     }
 }

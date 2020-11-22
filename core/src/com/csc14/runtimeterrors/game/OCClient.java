@@ -331,4 +331,19 @@ public class OCClient {
 
         return receivedMessage;
     }
+
+    // End match
+    public OCMessage endMatch(int ID, String winner, String loser){
+        OCMessage message = new OCMessage(), receivedMessage;
+        message.put("process", "end match");
+        message.put("ID", String.valueOf(ID));
+        message.put("winner", winner);
+        message.put("loser", loser);
+
+        receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }

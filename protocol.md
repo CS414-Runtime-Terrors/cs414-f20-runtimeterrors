@@ -178,13 +178,10 @@ Message Template:
 
 Return Message Success:
 * "success": "true"
-* "w1": "piece.toString() | null"
-* "y1": "InvalidSpace.toString()"
-* "y2": "InvalidSpace.toString()"
->...
-* "y9": "InvalidSpace.toString()"
-* "y10": "InvalidSpace.toString()"
-* "w4": "piece.toString() | null"
+> for each white piece:
+* "piece.getPosition()": "piece.toString()"
+> for each black piece:
+* "piece.getPosition()": "piece.toString()"
 
 Return Message Failure:
 * "success": "false"
@@ -237,3 +234,20 @@ Return Message Template 1:
 * "success": "true"
 * "opponents": "opponentNickname1, opponentNickname2, opponentNickname3"
 * "matchIDs": "matchID1, matchID2, matchID3"
+* "playerIDs": "instances of 1 or 2 depending on if the user requesting is the white or black player of a match"
+
+## Get Turn
+- This request returns the name of the player whose turn it is, along with the turn color
+
+Message Template:
+* "process": "get turn"
+* "ID": "match ID"
+
+Return Message Success:
+* "success": "true"
+* "user": "nickname"
+* "color": "the current turn color"
+
+Return Message Failure:
+* "success": "false"
+* "reason": "there are no matches/invalid match ID"

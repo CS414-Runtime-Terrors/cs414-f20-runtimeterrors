@@ -27,11 +27,11 @@ public class Queen extends ChessPiece {
     {
         if( this.color == Color.BLACK)
         {
-            return "\u265B";
+            return "blackQueen.png";
         }
         else if( this.color == Color.WHITE )
         {
-            return "\u2655";
+            return "whiteQueen.png";
         }
 
         return "";
