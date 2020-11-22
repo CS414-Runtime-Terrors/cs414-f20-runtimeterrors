@@ -16,16 +16,20 @@ public class GameBoard {
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
     private boolean isEnPessant;
+    private String whitePlayer, blackPlayer;
     private int matchID;
 
     public GameBoard(OmegaChess omegaChess) {
         parent = omegaChess;
         gameBoard = new ArrayList<>();
         initializeBoard();
+        whitePlayer = "";
+        blackPlayer = "";
     }
 
     //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
+        gameBoard = new ArrayList<>();
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
         ArrayList<BoardSquare> row2 = new ArrayList<>();
@@ -40,7 +44,7 @@ public class GameBoard {
         ArrayList<BoardSquare> row11 = new ArrayList<>();
         BoardSquare blank = new BoardSquare(Color.BLACK, -1, -1);
 
-        row0.add(new BoardSquare(Color.WHITE,0, 0, "whiteWizard.png"));
+        row0.add(new BoardSquare(Color.WHITE,0, 0));
         row0.add(blank);
         row0.add(blank);
         row0.add(blank);
@@ -51,32 +55,32 @@ public class GameBoard {
         row0.add(blank);
         row0.add(blank);
         row0.add(blank);
-        row0.add(new BoardSquare(Color.GRAY,0, 11, "whiteWizard.png"));
+        row0.add(new BoardSquare(Color.GRAY,0, 11));
 
         row1.add(blank);
-        row1.add(new BoardSquare(Color.WHITE, 1, 1, "whiteChampion.png"));
-        row1.add(new BoardSquare(Color.GRAY, 1, 2, "whiteRook.png"));
-        row1.add(new BoardSquare(Color.WHITE, 1, 3, "whiteKnight.png"));
-        row1.add(new BoardSquare(Color.GRAY, 1, 4, "whiteBishop.png"));
-        row1.add(new BoardSquare(Color.WHITE, 1, 5, "whiteQueen.png"));
-        row1.add(new BoardSquare(Color.GRAY, 1, 6, "whiteKing.png"));
-        row1.add(new BoardSquare(Color.WHITE, 1, 7, "whiteBishop.png"));
-        row1.add(new BoardSquare(Color.GRAY, 1, 8, "whiteKnight.png"));
-        row1.add(new BoardSquare(Color.WHITE, 1, 9, "whiteRook.png"));
-        row1.add(new BoardSquare(Color.GRAY, 1, 10, "whiteChampion.png"));
+        row1.add(new BoardSquare(Color.WHITE, 1, 1));
+        row1.add(new BoardSquare(Color.GRAY, 1, 2));
+        row1.add(new BoardSquare(Color.WHITE, 1, 3));
+        row1.add(new BoardSquare(Color.GRAY, 1, 4));
+        row1.add(new BoardSquare(Color.WHITE, 1, 5));
+        row1.add(new BoardSquare(Color.GRAY, 1, 6));
+        row1.add(new BoardSquare(Color.WHITE, 1, 7));
+        row1.add(new BoardSquare(Color.GRAY, 1, 8));
+        row1.add(new BoardSquare(Color.WHITE, 1, 9));
+        row1.add(new BoardSquare(Color.GRAY, 1, 10));
         row1.add(blank);
 
         row2.add(blank);
-        row2.add(new BoardSquare(Color.GRAY, 2, 1, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.WHITE, 2, 2, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.GRAY, 2, 3, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.WHITE, 2, 4, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.GRAY, 2, 5, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.WHITE, 2, 6, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.GRAY, 2, 7, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.WHITE, 2, 8, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.GRAY, 2, 9, "whitePawn.png"));
-        row2.add(new BoardSquare(Color.WHITE, 2, 10, "whitePawn.png"));
+        row2.add(new BoardSquare(Color.GRAY, 2, 1));
+        row2.add(new BoardSquare(Color.WHITE, 2, 2));
+        row2.add(new BoardSquare(Color.GRAY, 2, 3));
+        row2.add(new BoardSquare(Color.WHITE, 2, 4));
+        row2.add(new BoardSquare(Color.GRAY, 2, 5));
+        row2.add(new BoardSquare(Color.WHITE, 2, 6));
+        row2.add(new BoardSquare(Color.GRAY, 2, 7));
+        row2.add(new BoardSquare(Color.WHITE, 2, 8));
+        row2.add(new BoardSquare(Color.GRAY, 2, 9));
+        row2.add(new BoardSquare(Color.WHITE, 2, 10));
         row2.add(blank);
 
         row3.add(blank);
@@ -158,32 +162,32 @@ public class GameBoard {
         row8.add(blank);
 
         row9.add(blank);
-        row9.add(new BoardSquare(Color.WHITE, 9, 1, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.GRAY, 9, 2, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.WHITE, 9, 3, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.GRAY, 9, 4, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.WHITE, 9, 5, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.GRAY, 9, 6, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.WHITE, 9, 7, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.GRAY, 9, 8, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.WHITE, 9, 9, "blackPawn.png"));
-        row9.add(new BoardSquare(Color.GRAY, 9, 10, "blackPawn.png"));
+        row9.add(new BoardSquare(Color.WHITE, 9, 1));
+        row9.add(new BoardSquare(Color.GRAY, 9, 2));
+        row9.add(new BoardSquare(Color.WHITE, 9, 3));
+        row9.add(new BoardSquare(Color.GRAY, 9, 4));
+        row9.add(new BoardSquare(Color.WHITE, 9, 5));
+        row9.add(new BoardSquare(Color.GRAY, 9, 6));
+        row9.add(new BoardSquare(Color.WHITE, 9, 7));
+        row9.add(new BoardSquare(Color.GRAY, 9, 8));
+        row9.add(new BoardSquare(Color.WHITE, 9, 9));
+        row9.add(new BoardSquare(Color.GRAY, 9, 10));
         row9.add(blank);
 
         row10.add(blank);
-        row10.add(new BoardSquare(Color.GRAY, 10, 1, "blackChampion.png"));
-        row10.add(new BoardSquare(Color.WHITE, 10, 2, "blackRook.png"));
-        row10.add(new BoardSquare(Color.GRAY, 10, 3, "blackKnight.png"));
-        row10.add(new BoardSquare(Color.WHITE, 10, 4, "blackBishop.png"));
-        row10.add(new BoardSquare(Color.GRAY, 10, 5, "blackQueen.png"));
-        row10.add(new BoardSquare(Color.WHITE, 10, 6, "blackKing.png"));
-        row10.add(new BoardSquare(Color.GRAY, 10, 7, "blackBishop.png"));
-        row10.add(new BoardSquare(Color.WHITE, 10, 8, "blackKnight.png"));
-        row10.add(new BoardSquare(Color.GRAY, 10, 9, "blackRook.png"));
-        row10.add(new BoardSquare(Color.WHITE, 10, 10, "blackChampion.png"));
+        row10.add(new BoardSquare(Color.GRAY, 10, 1));
+        row10.add(new BoardSquare(Color.WHITE, 10, 2));
+        row10.add(new BoardSquare(Color.GRAY, 10, 3));
+        row10.add(new BoardSquare(Color.WHITE, 10, 4));
+        row10.add(new BoardSquare(Color.GRAY, 10, 5));
+        row10.add(new BoardSquare(Color.WHITE, 10, 6));
+        row10.add(new BoardSquare(Color.GRAY, 10, 7));
+        row10.add(new BoardSquare(Color.WHITE, 10, 8));
+        row10.add(new BoardSquare(Color.GRAY, 10, 9));
+        row10.add(new BoardSquare(Color.WHITE, 10, 10));
         row10.add(blank);
 
-        row11.add(new BoardSquare(Color.GRAY, 11, 0, "blackWizard.png"));
+        row11.add(new BoardSquare(Color.GRAY, 11, 0));
         row11.add(blank);
         row11.add(blank);
         row11.add(blank);
@@ -194,7 +198,7 @@ public class GameBoard {
         row11.add(blank);
         row11.add(blank);
         row11.add(blank);
-        row11.add(new BoardSquare(Color.WHITE, 11, 11, "blackWizard.png"));
+        row11.add(new BoardSquare(Color.WHITE, 11, 11));
 
         gameBoard.add(row0);
         gameBoard.add(row1);
@@ -216,12 +220,39 @@ public class GameBoard {
         return gameBoard.get(pos[0]).get(pos[1]);
     }
 
+    public void populateBoard(){
+        OCMessage message = parent.getClient().getBoardData(matchID);
+        ArrayList<String> locations = message.getKeys();
+        locations.remove("success");
+        for (String loc : locations){
+            int[] pos = parsePosition(loc);
+            String piece = message.get(loc);
+            Color color;
+            if (piece.contains("white")){
+                color = Color.WHITE;
+            }else{
+                color = Color.BLACK;
+            }
+            gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color);
+        }
+    }
+
+    public void setWhitePlayer(String whitePlayer) { this.whitePlayer = whitePlayer; }
+
+    public String getWhitePlayer() { return whitePlayer; }
+
+    public void setBlackPlayer(String blackPlayer) { this.blackPlayer = blackPlayer; }
+
+    public String getBlackPlayer() { return blackPlayer; }
+
+    public void setMatchID(int matchID) { this.matchID = matchID; }
+
+    public int getMatchID() { return matchID; }
+
     //get square with integers (i.e. (1,3), (2,5), etc.)
     public BoardSquare getSquare(int row, int column) {
         return gameBoard.get(row).get(column);
     }
-
-    public void setMatchID(int id) { matchID = id; }
 
     //add click listener to each square
     public void addListeners() {
@@ -253,11 +284,11 @@ public class GameBoard {
                         else if (clickedPiece != null && square.isHighlighted()) {
                             // move piece
                             parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
-                            square.setPiece(clickedPiece.getCurrentPiece());
+                            square.setPiece(clickedPiece.getCurrentPiece(), clickedPiece.getPieceColor());
                             clickedPiece.removePiece();
                             if (isEnPessant) {
                                 int increment = clickedPiece.getPosition()[0] - square.getPosition()[0];
-                                BoardSquare enPesSq = getSquare(square.getPosition()[0]+increment, square.getPosition()[1]);
+                                BoardSquare enPesSq = getSquare(square.getPosition()[0] + increment, square.getPosition()[1]);
                                 enPesSq.removePiece();
                             }
                             clickedPiece = null;

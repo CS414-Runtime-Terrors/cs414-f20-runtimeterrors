@@ -27,11 +27,11 @@ public class Rook extends ChessPiece {
     {
         if( this.color == Color.BLACK)
         {
-            return "\u265C";
+            return "blackRook.png";
         }
         else if( this.color == Color.WHITE )
         {
-            return "\u2656";
+            return "whiteRook.png";
         }
 
         return "";

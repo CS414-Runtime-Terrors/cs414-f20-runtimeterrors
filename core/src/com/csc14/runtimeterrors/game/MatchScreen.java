@@ -2,6 +2,7 @@ package com.csc14.runtimeterrors.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
-import sun.rmi.runtime.Log;
 
 import javax.swing.*;
 
@@ -21,11 +21,13 @@ public class MatchScreen implements Screen {
     private Stage stage;
     private Table table;
     private GameBoard board;
-    private TextButton backBtn;
+    private TextButton backBtn, forfeit;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
+
+        board = new GameBoard(parent);
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -52,14 +54,21 @@ public class MatchScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         backBtn = new TextButton("Back", skin);
+        forfeit = new TextButton("Forfeit", skin);
 
-        //set up temporary back button
+        // set up back button
         backBtn.setTransform(true);
-        backBtn.setScale(0.2f);
-        backBtn.setPosition(0, 0);
+        backBtn.setScale(0.5f);
+        backBtn.setPosition(30, 0);
         stage.addActor(backBtn);
 
-        //add listener for the back button
+        // set up forfeit button
+        forfeit.setTransform(true);
+        forfeit.setScale(0.5f);
+        forfeit.setPosition(460, 0);
+        stage.addActor(forfeit);
+
+        //add listener for the back and forfeit buttons
         addListeners();
 
         //add listeners for all of the BoardSquare objects
@@ -73,6 +82,19 @@ public class MatchScreen implements Screen {
             public void clicked(InputEvent even, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             }
+        });
+
+        // forfeit button will end the match between the users
+        forfeit.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent even, float x, float y) {
+                if (parent.getUser().equalsIgnoreCase(board.getWhitePlayer())) {
+                    parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getBlackPlayer());
+                }else{
+                    parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getWhitePlayer());
+                }
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+        }
         });
     }
 
@@ -104,7 +126,8 @@ public class MatchScreen implements Screen {
     }
 
     private void initializeBoard() {
-        board = new GameBoard(parent);
+        board.initializeBoard();
+        board.populateBoard();
         for (int i = 11; i >= 0; i--) {
             for (int j = 0; j <=11; j++) {
                 table.add(board.getSquare(i, j));
@@ -113,9 +136,11 @@ public class MatchScreen implements Screen {
         }
     }
 
-    public void setMatchID(int id) {
-        board.setMatchID(id);
-    }
+    public void setMatchID(int id) { board.setMatchID(id); }
+
+    public void setWhitePlayer(String whitePlayer) { board.setWhitePlayer(whitePlayer); }
+
+    public void setBlackPlayer(String blackPlayer) { board.setBlackPlayer(blackPlayer); }
 
     @Override
     public void resize(int width, int height) {
