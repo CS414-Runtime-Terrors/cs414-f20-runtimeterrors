@@ -16,7 +16,8 @@ public class GameBoard {
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
     private boolean isEnPessant;
-    private String whitePlayer, blackPlayer;
+    private String whitePlayer, blackPlayer, turn;
+    private Color turnColor;
     private int matchID;
 
     public GameBoard(OmegaChess omegaChess) {
@@ -25,11 +26,11 @@ public class GameBoard {
         initializeBoard();
         whitePlayer = "";
         blackPlayer = "";
+        turn = "";
     }
 
     //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
-        gameBoard = new ArrayList<>();
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
         ArrayList<BoardSquare> row2 = new ArrayList<>();
@@ -220,13 +221,13 @@ public class GameBoard {
         return gameBoard.get(pos[0]).get(pos[1]);
     }
 
-    public void populateBoard(){
-        OCMessage message = parent.getClient().getBoardData(matchID);
+    public void populateBoard(int ID){
+        OCMessage message = parent.getClient().getBoardData(ID);
         ArrayList<String> locations = message.getKeys();
         locations.remove("success");
         for (String loc : locations){
             int[] pos = parsePosition(loc);
-            String piece = message.get(loc);
+            String piece = determinePiece(message.get(loc));
             Color color;
             if (piece.contains("white")){
                 color = Color.WHITE;
@@ -237,6 +238,45 @@ public class GameBoard {
         }
     }
 
+    private String determinePiece(String unicode){
+        switch (unicode){
+            case "\u2654":
+                return "whiteKing.png";
+            case "\u2655":
+                return "whiteQueen.png";
+            case "\u2656":
+                return "whiteRook.png";
+            case "\u2657":
+                return "whiteBishop.png";
+            case "\u2658":
+                return "whiteKnight.png";
+            case "\u2659":
+                return "whitePawn.png";
+            case "\u26AA":
+                return "whiteWizard.png";
+            case "\u2616":
+                return "whiteChampion.png";
+            case "\u265A":
+                return "blackKing.png";
+            case "\u265B":
+                return "blackQueen.png";
+            case "\u265C":
+                return "blackRook.png";
+            case "\u265D":
+                return "blackBishop.png";
+            case "\u265E":
+                return "blackKnight.png";
+            case "\u265F":
+                return "blackPawn.png";
+            case "\u26AB":
+                return "blackWizard.png";
+            case "\u2617":
+                return "blackChampion.png";
+            default:
+                return " ";
+        }
+    }
+
     public void setWhitePlayer(String whitePlayer) { this.whitePlayer = whitePlayer; }
 
     public String getWhitePlayer() { return whitePlayer; }
@@ -244,6 +284,14 @@ public class GameBoard {
     public void setBlackPlayer(String blackPlayer) { this.blackPlayer = blackPlayer; }
 
     public String getBlackPlayer() { return blackPlayer; }
+
+    public void setTurn(String turn) { this.turn = turn; }
+
+    public String getTurn() { return turn; }
+
+    public void setTurnColor(Color turnColor) { this.turnColor = turnColor; }
+
+    public Color getTurnColor() { return turnColor; }
 
     public void setMatchID(int matchID) { this.matchID = matchID; }
 
@@ -262,52 +310,63 @@ public class GameBoard {
                 square.addListener( new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
-                        if (square.hasPiece() && clickedPiece == null) {
-                            // set square as clicked
-                            clickedPiece = square;
+                        if (parent.getUser().equals(turn)) {
+                            // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
+                            if (square.hasPiece() && clickedPiece == null && square.getPieceColor() == turnColor) {
+                                // set square as clicked
+                                clickedPiece = square;
 
-                            // get legal moves from server
-                            OCMessage receivedMessage = parent.getClient().getLegalMoves(matchID, clickedPiece.getPosition());
-                            List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
-                            if (receivedMessage.get("enPessant").equals("true")) {
-                                isEnPessant = true;
-                            }
+                                // get legal moves from server
+                                OCMessage receivedMessage = parent.getClient().getLegalMoves(matchID, clickedPiece.getPosition());
+                                List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
+                                if (receivedMessage.get("enPessant").equals("true")) {
+                                    isEnPessant = true;
+                                }
 
-                            // highlight legal moves
-                            for (String position : legalMoves) {
-                                getSquare(position).highlight();
+                                // highlight legal moves
+                                for (String position : legalMoves) {
+                                    getSquare(position).highlight();
+                                }
+                                highlightedSquares = legalMoves;
                             }
-                            highlightedSquares = legalMoves;
-                        }
-                        // if second click is on a highlighted square, move piece and unhighlight squares
-                        else if (clickedPiece != null && square.isHighlighted()) {
-                            // move piece
-                            parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
-                            square.setPiece(clickedPiece.getCurrentPiece(), clickedPiece.getPieceColor());
-                            clickedPiece.removePiece();
-                            if (isEnPessant) {
-                                int increment = clickedPiece.getPosition()[0] - square.getPosition()[0];
-                                BoardSquare enPesSq = getSquare(square.getPosition()[0] + increment, square.getPosition()[1]);
-                                enPesSq.removePiece();
-                            }
-                            clickedPiece = null;
-                            isEnPessant = false;
+                            // if second click is on a highlighted square, move piece and unhighlight squares
+                            else if (clickedPiece != null && square.isHighlighted()) {
+                                // move piece
+                                parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
+                                square.setPiece(clickedPiece.getCurrentPiece(), clickedPiece.getPieceColor());
+                                clickedPiece.removePiece();
+                                if (isEnPessant) {
+                                    int increment = clickedPiece.getPosition()[0] - square.getPosition()[0];
+                                    BoardSquare enPesSq = getSquare(square.getPosition()[0] + increment, square.getPosition()[1]);
+                                    enPesSq.removePiece();
+                                }
+                                clickedPiece = null;
+                                isEnPessant = false;
+                                setTurn(parent.getClient().getTurn(matchID).get("user"));
+                                switch (parent.getClient().getTurn(matchID).get("color")){
+                                    case "White":
+                                        turnColor = Color.WHITE;
+                                        break;
+                                    case "Black":
+                                        turnColor = Color.BLACK;
+                                        break;
+                                }
 
-                            // unhighlight squares
-                            for (String position : highlightedSquares) {
-                                getSquare(position).unHighlight();
+                                // unhighlight squares
+                                for (String position : highlightedSquares) {
+                                    getSquare(position).unHighlight();
+                                }
                             }
-                        }
-                        // if second click is on a non-highlighted square, reset first click and unhighlight squares
-                        else if (clickedPiece != null && !square.isHighlighted()) {
-                            // reset clicked pieces
-                            clickedPiece = null;
-                            isEnPessant = false;
+                            // if second click is on a non-highlighted square, reset first click and unhighlight squares
+                            else if (clickedPiece != null && !square.isHighlighted()) {
+                                // reset clicked pieces
+                                clickedPiece = null;
+                                isEnPessant = false;
 
-                            // unhighlight squares
-                            for (String position : highlightedSquares) {
-                                getSquare(position).unHighlight();
+                                // unhighlight squares
+                                for (String position : highlightedSquares) {
+                                    getSquare(position).unHighlight();
+                                }
                             }
                         }
                     }
