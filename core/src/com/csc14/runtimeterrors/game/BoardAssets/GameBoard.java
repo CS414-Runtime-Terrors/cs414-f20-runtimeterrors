@@ -227,7 +227,7 @@ public class GameBoard {
         locations.remove("success");
         for (String loc : locations){
             int[] pos = parsePosition(loc);
-            String piece = determinePiece(message.get(loc));
+            String piece = message.get(loc);
             Color color;
             if (piece.contains("white")){
                 color = Color.WHITE;
@@ -235,45 +235,6 @@ public class GameBoard {
                 color = Color.BLACK;
             }
             gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color);
-        }
-    }
-
-    private String determinePiece(String unicode){
-        switch (unicode){
-            case "\u2654":
-                return "whiteKing.png";
-            case "\u2655":
-                return "whiteQueen.png";
-            case "\u2656":
-                return "whiteRook.png";
-            case "\u2657":
-                return "whiteBishop.png";
-            case "\u2658":
-                return "whiteKnight.png";
-            case "\u2659":
-                return "whitePawn.png";
-            case "\u26AA":
-                return "whiteWizard.png";
-            case "\u2616":
-                return "whiteChampion.png";
-            case "\u265A":
-                return "blackKing.png";
-            case "\u265B":
-                return "blackQueen.png";
-            case "\u265C":
-                return "blackRook.png";
-            case "\u265D":
-                return "blackBishop.png";
-            case "\u265E":
-                return "blackKnight.png";
-            case "\u265F":
-                return "blackPawn.png";
-            case "\u26AB":
-                return "blackWizard.png";
-            case "\u2617":
-                return "blackChampion.png";
-            default:
-                return " ";
         }
     }
 
