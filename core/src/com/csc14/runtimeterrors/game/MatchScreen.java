@@ -19,9 +19,8 @@ public class MatchScreen implements Screen {
     private final OmegaChess parent;
     private final Stage stage;
     private Table table;
-    private GameBoard board;
+    private final GameBoard board;
     private TextField currentTurn;
-    private TextButton backBtn, forfeit, refresh;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
@@ -63,10 +62,18 @@ public class MatchScreen implements Screen {
             currentTurn.setText("Current turn:" + board.getTurn());
         }
 
+        //add listener for the back and forfeit buttons
+        addButtons();
+
+        //add listeners for all of the BoardSquare objects
+        board.addListeners();
+    }
+
+    private void addButtons() {
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        backBtn = new TextButton("Back", skin);
-        forfeit = new TextButton("Forfeit", skin);
-        refresh = new TextButton("Refresh", skin);
+        TextButton backBtn = new TextButton("Back", skin);
+        TextButton forfeit = new TextButton("Forfeit", skin);
+        TextButton refresh = new TextButton("Refresh", skin);
 
         // set up back button
         backBtn.setTransform(true);
@@ -86,14 +93,6 @@ public class MatchScreen implements Screen {
         refresh.setPosition(0, 420);
         stage.addActor(refresh);
 
-        //add listener for the back and forfeit buttons
-        addListeners();
-
-        //add listeners for all of the BoardSquare objects
-        board.addListeners();
-    }
-
-    private void addListeners() {
         // back button will take user back to lobby screen
         backBtn.addListener(new ClickListener() {
             @Override
@@ -103,7 +102,7 @@ public class MatchScreen implements Screen {
         });
 
         // forfeit button will end the match between the users
-        forfeit.addListener( new ClickListener() {
+        forfeit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent even, float x, float y) {
                 if (parent.getUser().equalsIgnoreCase(board.getWhitePlayer())) {
@@ -115,7 +114,7 @@ public class MatchScreen implements Screen {
         }
         });
 
-        refresh.addListener( new ClickListener() {
+        refresh.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clearStage();
@@ -127,7 +126,7 @@ public class MatchScreen implements Screen {
                 board.addListeners();
 
                 currentTurn.setText("Current Turn: " + board.getTurn());
-            };
+            }
         });
     }
 
