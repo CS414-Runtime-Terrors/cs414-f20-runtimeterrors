@@ -19,7 +19,7 @@ public class MatchScreen implements Screen {
     private final OmegaChess parent;
     private final Stage stage;
     private Table table;
-    private GameBoard board;
+    private final GameBoard board;
     private TextField currentTurn;
     private boolean isPopupDisplayed = false;
 
@@ -62,6 +62,14 @@ public class MatchScreen implements Screen {
             currentTurn.setText("Current turn:" + board.getTurn());
         }
 
+        //add listener for the back and forfeit buttons
+        addButtons();
+
+        //add listeners for all of the BoardSquare objects
+        board.addListeners();
+    }
+
+    private void addButtons() {
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         TextButton backBtn = new TextButton("Back", skin);
         TextButton forfeit = new TextButton("Forfeit", skin);
@@ -94,7 +102,7 @@ public class MatchScreen implements Screen {
         });
 
         // forfeit button will end the match between the users
-        forfeit.addListener( new ClickListener() {
+        forfeit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent even, float x, float y) {
                 if (parent.getUser().equalsIgnoreCase(board.getWhitePlayer())) {
@@ -106,7 +114,7 @@ public class MatchScreen implements Screen {
         }
         });
 
-        refresh.addListener( new ClickListener() {
+        refresh.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clearStage();
@@ -118,7 +126,7 @@ public class MatchScreen implements Screen {
                 board.addListeners();
 
                 currentTurn.setText("Current Turn: " + board.getTurn());
-            };
+            }
         });
 
         //add listeners for all of the BoardSquare objects
