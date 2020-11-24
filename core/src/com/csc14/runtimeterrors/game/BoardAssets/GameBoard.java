@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GameBoard {
 
-    private OmegaChess parent;
+    private final OmegaChess parent;
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
@@ -31,6 +31,8 @@ public class GameBoard {
 
     //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
+        gameBoard = new ArrayList<>();
+
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
         ArrayList<BoardSquare> row2 = new ArrayList<>();
@@ -338,63 +340,68 @@ public class GameBoard {
 
     //turn chess string into integers ("c3" -> (3,3))
     private int[] parsePosition(String position) {
-        int pos[] = new int[2];
+        int[] pos = new int[2];
 
         // handle w squares since they are different
-        if (position.equals("w1")) {
-            pos[0] = 0;
-            pos[1] = 0;
-        } else if(position.equals("w2")) {
-            pos[0] = 0;
-            pos[1] = 11;
-        } else if(position.equals("w3")) {
-            pos[0] = 11;
-            pos[1] = 11;
-        } else if(position.equals("w4")) {
-            pos[0] = 11;
-            pos[1] = 0;
-        } else {
-            char col = position.charAt(0);
-            pos[0] = Integer.parseInt(position.substring(1));
+        switch (position) {
+            case "w1":
+                pos[0] = 0;
+                pos[1] = 0;
+                break;
+            case "w2":
+                pos[0] = 0;
+                pos[1] = 11;
+                break;
+            case "w3":
+                pos[0] = 11;
+                pos[1] = 11;
+                break;
+            case "w4":
+                pos[0] = 11;
+                pos[1] = 0;
+                break;
+            default:
+                char col = position.charAt(0);
+                pos[0] = Integer.parseInt(position.substring(1));
 
-            switch (col){
-                case 'a':
-                    pos[1] = 1;
-                    break;
-                case 'b':
-                    pos[1] = 2;
-                    break;
-                case 'c':
-                    pos[1] = 3;
-                    break;
-                case 'd':
-                    pos[1] = 4;
-                    break;
-                case 'e':
-                    pos[1] = 5;
-                    break;
-                case 'f':
-                    pos[1] = 6;
-                    break;
-                case 'g':
-                    pos[1] = 7;
-                    break;
-                case 'h':
-                    pos[1] = 8;
-                    break;
-                case 'i':
-                    pos[1] = 9;
-                    break;
-                case 'j':
-                    pos[1] = 10;
-                    break;
-                case 'x':
-                    pos[1] = 0;
-                    break;
-                case 'y':
-                    pos[1] = 11;
-                    break;
-            }
+                switch (col) {
+                    case 'a':
+                        pos[1] = 1;
+                        break;
+                    case 'b':
+                        pos[1] = 2;
+                        break;
+                    case 'c':
+                        pos[1] = 3;
+                        break;
+                    case 'd':
+                        pos[1] = 4;
+                        break;
+                    case 'e':
+                        pos[1] = 5;
+                        break;
+                    case 'f':
+                        pos[1] = 6;
+                        break;
+                    case 'g':
+                        pos[1] = 7;
+                        break;
+                    case 'h':
+                        pos[1] = 8;
+                        break;
+                    case 'i':
+                        pos[1] = 9;
+                        break;
+                    case 'j':
+                        pos[1] = 10;
+                        break;
+                    case 'x':
+                        break;
+                    case 'y':
+                        pos[1] = 11;
+                        break;
+                }
+                break;
         }
 
         return pos;
