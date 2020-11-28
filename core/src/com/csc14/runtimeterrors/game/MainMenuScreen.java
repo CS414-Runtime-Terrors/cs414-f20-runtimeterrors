@@ -41,21 +41,20 @@ public class MainMenuScreen implements Screen {
         style.font.getData().setScale(2f);
         title = new TextField("Omega Chess Main Menu", style);
 
-        // set up button widgets
-        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        loginBtn = new TextButton("Login", skin);
-        registerBtn = new TextButton("Register", skin);
-        exitBtn = new TextButton("Exit", skin);
-
-        // add button listeners
-        addListeners();
-
         // set up title label
         title.setHeight(30);
         title.setWidth(350);
         title.setPosition(175, 400);
         title.setDisabled(true);
         stage.addActor(title);
+    }
+
+    private void addButtons() {
+        // set up button widgets
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        loginBtn = new TextButton("Login", skin);
+        registerBtn = new TextButton("Register", skin);
+        exitBtn = new TextButton("Exit", skin);
 
         // set up login button
         loginBtn.setTransform(true);
@@ -73,10 +72,8 @@ public class MainMenuScreen implements Screen {
         exitBtn.setTransform(true);
         exitBtn.setScale(0.5f);
         exitBtn.setPosition(250, 100);
-        stage.addActor(exitBtn);
-    }
+        stage.addActor(exitBtn); 
 
-    private void addListeners() {
         // login button will change screen to login screen
         loginBtn.addListener( new ClickListener() {
             @Override
