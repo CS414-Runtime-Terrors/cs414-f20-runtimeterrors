@@ -10,16 +10,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ResumeScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private TextButton backBtn, resumeBtn;
+    private final OmegaChess parent;
+    private final Stage stage;
+    private TextButton resumeBtn;
     private List<String> matches;
     private ArrayList<String> matchOpponents, matchIDs, playerIDs;
-    private String nickname;
+    private final String nickname;
+    private boolean isPopupDisplayed = false;
 
     public ResumeScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -44,8 +46,6 @@ public class ResumeScreen implements Screen {
         TextField title = new TextField("Select a Game", style);
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        backBtn = new TextButton("Lobby", skin);
-        resumeBtn = new TextButton("Resume", skin);
 
         matches = new List<String>(skin);
 
@@ -53,19 +53,27 @@ public class ResumeScreen implements Screen {
         title.setPosition(230, 420);
         stage.addActor(title);
 
-        backBtn.setTransform(true);
-        backBtn.setScale(0.35f);
-        backBtn.setPosition(30, 15);
-        stage.addActor(backBtn);
-
-        resumeBtn.setTransform(true);
-        resumeBtn.setScale(0.5f);
-        resumeBtn.setPosition(250, 15);
-        stage.addActor(resumeBtn);
+       addButtons();
 
         listMatches();
+    }
 
-        addListeners();
+    public void showNotification(String message, int messageCount){
+        isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
     }
 
     private void listMatches() {
@@ -108,8 +116,22 @@ public class ResumeScreen implements Screen {
         }
     }
 
-    private void addListeners() {
-        backBtn.addListener( new ClickListener() {
+    private void addButtons() {
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        TextButton backBtn = new TextButton("Lobby", skin);
+        resumeBtn = new TextButton("Resume", skin);
+
+        backBtn.setTransform(true);
+        backBtn.setScale(0.35f);
+        backBtn.setPosition(30, 15);
+        stage.addActor(backBtn);
+
+        resumeBtn.setTransform(true);
+        resumeBtn.setScale(0.5f);
+        resumeBtn.setPosition(250, 15);
+        stage.addActor(resumeBtn);
+
+        backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);

@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 
 public class OCMultiServer {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         OCServerData serverData = new OCServerData();
 

@@ -13,11 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MainMenuScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-
-    private TextButton loginBtn, registerBtn, exitBtn;
-    private TextField title;
+    private final OmegaChess parent;
+    private final Stage stage;
 
     public MainMenuScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
@@ -39,7 +36,7 @@ public class MainMenuScreen implements Screen {
         style.font = new BitmapFont();
         style.fontColor = Color.WHITE;
         style.font.getData().setScale(2f);
-        title = new TextField("Omega Chess Main Menu", style);
+        TextField title = new TextField("Omega Chess Main Menu", style);
 
         // set up title label
         title.setHeight(30);
@@ -47,14 +44,16 @@ public class MainMenuScreen implements Screen {
         title.setPosition(175, 400);
         title.setDisabled(true);
         stage.addActor(title);
+
+        addButtons();
     }
 
     private void addButtons() {
         // set up button widgets
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        loginBtn = new TextButton("Login", skin);
-        registerBtn = new TextButton("Register", skin);
-        exitBtn = new TextButton("Exit", skin);
+        TextButton loginBtn = new TextButton("Login", skin);
+        TextButton registerBtn = new TextButton("Register", skin);
+        TextButton exitBtn = new TextButton("Exit", skin);
 
         // set up login button
         loginBtn.setTransform(true);
@@ -75,7 +74,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(exitBtn); 
 
         // login button will change screen to login screen
-        loginBtn.addListener( new ClickListener() {
+        loginBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.clear();
@@ -85,7 +84,7 @@ public class MainMenuScreen implements Screen {
         });
 
         // register button will change screen to register screen
-        registerBtn.addListener( new ClickListener() {
+        registerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.clear();
@@ -94,7 +93,7 @@ public class MainMenuScreen implements Screen {
         });
 
         // exit button will close application
-        exitBtn.addListener( new ClickListener() {
+        exitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.dispose();
@@ -110,8 +109,6 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
-
-        //parent.changeScreen(OmegaChess.MAIN_MENU_SCREEN);
     }
 
     @Override
@@ -134,6 +131,5 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }

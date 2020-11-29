@@ -1,9 +1,5 @@
 package com.omegaChess.server;
 
-//import com.csc14.runtimeterrors.game.UserProfile;
-//import com.sun.org.slf4j.internal.Logger;
-//import com.sun.org.slf4j.internal.LoggerFactory;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -268,7 +264,7 @@ public class OCServerData {
                 String profile2 = loadReader.nextLine();
                 String nextDirectoryName = loadReader.nextLine();
                 Match temp = new Match();
-                temp.load(matchesSaveLocation + nextDirectoryName, profile1, profile2);
+                temp.load(matchesSaveLocation + nextDirectoryName);
                 matches.add(temp);
             }
             loadReader.close();
