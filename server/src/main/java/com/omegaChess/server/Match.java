@@ -125,7 +125,7 @@ public class Match {
         board.save(matchSaveLocation);
     }
 
-    public void load(String matchSaveLocation, String prof1, String prof2) {
+    public void load(String matchSaveLocation) {
 
         // load primitives
         try {

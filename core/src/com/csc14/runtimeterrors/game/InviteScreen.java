@@ -18,10 +18,8 @@ import javax.swing.*;
 import java.awt.font.TextLayout;
 
 public class InviteScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private TextButton submit, home;
-    private Label opponentName;
+    private final OmegaChess parent;
+    private final Stage stage;
     private TextField anotherUser;
     private boolean isPopupDisplayed = false;
 
@@ -49,11 +47,8 @@ public class InviteScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        opponentName = new Label("Insert the nickname of another player. (This is not case-sensitive)", skin);
+        Label opponentName = new Label("Insert the nickname of another player. (This is not case-sensitive)", skin);
         anotherUser = new TextField("", skin);
-
-        submit = new TextButton("Invite Player", skin);
-        home = new TextButton("Lobby", skin);
 
         // set up title label
         title.setHeight(30);
@@ -75,20 +70,8 @@ public class InviteScreen implements Screen {
         anotherUser.setDisabled(false);
         stage.addActor(anotherUser);
 
-        // set up submit button
-        submit.setTransform(true);
-        submit.setScale(0.5f);
-        submit.setPosition(400, 30);
-        stage.addActor(submit);
-
-        // set up home button
-        home.setTransform(true);
-        home.setScale(0.5f);
-        home.setPosition(30, 30);
-        stage.addActor(home);
-
         // add listener
-        addListeners();
+        addButtons();
 
     }
 
@@ -110,9 +93,26 @@ public class InviteScreen implements Screen {
         return isPopupDisplayed;
     }
 
-    private void addListeners() {
+    private void addButtons() {
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
+        TextButton submit = new TextButton("Invite Player", skin);
+        TextButton home = new TextButton("Lobby", skin);
+
+        // set up submit button
+        submit.setTransform(true);
+        submit.setScale(0.5f);
+        submit.setPosition(400, 30);
+        stage.addActor(submit);
+
+        // set up home button
+        home.setTransform(true);
+        home.setScale(0.5f);
+        home.setPosition(30, 30);
+        stage.addActor(home);
+
         // register button will handle registering the user
-        submit.addListener( new ClickListener() {
+        submit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // 1. get text from anotherUser.
@@ -133,7 +133,7 @@ public class InviteScreen implements Screen {
         });
 
         // home button will return user to main menu screen
-        home.addListener( new ClickListener() {
+        home.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);

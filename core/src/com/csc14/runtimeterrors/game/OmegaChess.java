@@ -21,8 +21,8 @@ public class OmegaChess extends Game {
 	private ResumeScreen resumeScreen;
 	private RulesScreen rulesScreen;
 	private ArchiveScreen archiveScreen;
-	private boolean useLocal;
-	private Date currentDate = null;
+	private final boolean useLocal;
+	private Date currentDate;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX, RESUME_GAME, RULES, ARCHIVE
@@ -137,6 +137,11 @@ public class OmegaChess extends Game {
 						// only show the popup if it isn't already displayed
 						if (!archiveScreen.isPopupShown()) {
 							archiveScreen.showNotification(message.toString(), messageCount);
+						}
+					} else if( screen instanceof ResumeScreen) {
+						// only show the popup if it isn't already displayed
+						if (!resumeScreen.isPopupShown()) {
+							resumeScreen.showNotification(message.toString(), messageCount);
 						}
 					}
 				}

@@ -11,17 +11,14 @@ public class OCClient {
 
     private static final String serverHostName = "34.71.50.54"; // in order to test on production, OCMultiServer.java must be running on the server host
     private static final String localHostName = "localhost"; // set this to your hostname when testing locally
-    
-    private String hostName;
-    private int portNumber = 8484;
 
 
-    private Socket socket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private final PrintWriter out;
+    private final BufferedReader in;
 
     public OCClient(boolean useLocalArg) throws IOException {
-        if(useLocalArg == true )
+        String hostName;
+        if(useLocalArg)
         {
             hostName = localHostName;
         }
@@ -30,7 +27,8 @@ public class OCClient {
             hostName = serverHostName;
         }
 
-        socket = new Socket(hostName, portNumber);
+        int portNumber = 8484;
+        Socket socket = new Socket(hostName, portNumber);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
