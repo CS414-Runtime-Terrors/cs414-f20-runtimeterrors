@@ -1,7 +1,6 @@
 package com.omegaChess;
 
 import com.omegaChess.server.*;
-import javafx.beans.binding.IntegerBinding;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
