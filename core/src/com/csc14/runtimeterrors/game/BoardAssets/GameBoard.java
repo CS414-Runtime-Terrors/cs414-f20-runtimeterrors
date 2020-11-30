@@ -396,6 +396,7 @@ public class GameBoard {
                         pos[1] = 10;
                         break;
                     case 'x':
+                        pos[1] = 0;
                         break;
                     case 'y':
                         pos[1] = 11;
