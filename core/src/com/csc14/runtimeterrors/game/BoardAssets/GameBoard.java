@@ -273,7 +273,7 @@ public class GameBoard {
                 square.addListener( new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if (parent.getUser().equals(turn)) {
+                        if (parent.getUser().equalsIgnoreCase(turn)) {
                             // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
                             if (square.hasPiece() && clickedPiece == null && square.getPieceColor() == turnColor) {
                                 // set square as clicked
