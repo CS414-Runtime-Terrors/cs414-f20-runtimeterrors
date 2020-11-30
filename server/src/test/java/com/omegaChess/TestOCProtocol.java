@@ -1,8 +1,11 @@
 package com.omegaChess;
 
 import com.omegaChess.server.*;
+import javafx.beans.binding.IntegerBinding;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -613,15 +616,13 @@ public class TestOCProtocol {
         data.createProfile("kyle", "zoop", "fdsa@mail.com");
 
         // test no matches available
-        String opponents = "";
-        String IDs = "";
+        int count = 0;
         OCMessage matches = new OCMessage();
         matches.put("process", "get in-progress matches");
         matches.put("nickname", "pete");
         OCMessage receivedMessage = new OCMessage();
         receivedMessage.fromString(protocol.processInput(matches.toString()));
-        assertEquals(opponents, receivedMessage.get("opponents"));
-        assertEquals(IDs, receivedMessage.get("matchIDs"));
+        assertEquals(count, Integer.parseInt(receivedMessage.get("count")));
 
         // send invite
         OCMessage invite = new OCMessage();
@@ -641,15 +642,18 @@ public class TestOCProtocol {
         acceptResponse.fromString(acceptString);
 
         // test match available
-        opponents = "kyle";
-        IDs = acceptResponse.get("matchID");
         matches = new OCMessage();
         matches.put("process", "get in-progress matches");
         matches.put("nickname", "pete");
+        ArrayList<String> opponents = new ArrayList<>(), IDs = new ArrayList<>();
         receivedMessage = new OCMessage();
         receivedMessage.fromString(protocol.processInput(matches.toString()));
-        assertEquals(opponents, receivedMessage.get("opponents"));
-        assertEquals(IDs, receivedMessage.get("matchIDs"));
+        for (int i = 0; i < Integer.parseInt(receivedMessage.get("count")); i++){
+            opponents.add(receivedMessage.get("opponent"+i));
+            IDs.add(receivedMessage.get("ID"+i));
+        }
+        assertEquals(opponents.size(), Integer.parseInt(receivedMessage.get("count")));
+        assertEquals(IDs.size(), Integer.parseInt(receivedMessage.get("count")));
     }
 
     @Test

@@ -616,35 +616,28 @@ public class OCProtocol {
 
     public String resumeMatchesListResponse(OCMessage receivedMessage) {
         String user = receivedMessage.get("nickname");
-        String opponents = "";
-        String IDs = "";
-        String playerIndex = "";
+        int count = 0;
         ArrayList<Match> matches = serverData.getMatches();
         message = new OCMessage();
 
+        message.put("success", "true");
         // This allows us to figure out if the user requesting the match to resume is the first or second player
         for (Match m : matches) {
+            count++;
             if (m.getProfile1().equalsIgnoreCase(user)) {
-                playerIndex += 1 + ", ";
-                opponents += m.getProfile2() + ", ";
-                IDs += m.getMatchID() + ", ";
+                message.put("playerIndex"+count, String.valueOf(1));
+                message.put("opponent"+count, m.getProfile2());
+                message.put("ID"+count,String.valueOf(m.getMatchID()));
             }
             else if (m.getProfile2().equalsIgnoreCase(user)) {
-                playerIndex += 2 + ", ";
-                opponents += m.getProfile1() + ", ";
-                IDs += m.getMatchID() + ", ";
+                message.put("playerIndex"+count, String.valueOf(2));
+                message.put("opponent"+count, m.getProfile2());
+                message.put("ID"+count,String.valueOf(m.getMatchID()));
             }
         }
 
-        if (!opponents.equals("")) {
-            opponents = opponents.substring(0, opponents.length() - 2);
-            IDs = IDs.substring(0, IDs.length() - 2);
-        }
+        message.put("count", String.valueOf(count));
 
-        message.put("success", "true");
-        message.put("opponents", opponents);
-        message.put("matchIDs", IDs);
-        message.put("playerIndex", playerIndex);
         return message.toString();
     }
 

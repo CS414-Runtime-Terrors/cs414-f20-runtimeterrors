@@ -232,9 +232,11 @@ Message Template:
 
 Return Message Template 1:
 * "success": "true"
-* "opponents": "opponentNickname1, opponentNickname2, opponentNickname3"
-* "matchIDs": "matchID1, matchID2, matchID3"
-* "playerIDs": "instances of 1 or 2 depending on if the user requesting is the white or black player of a match"
+* "count": "number of matches"
+> for each match 
+* "opponent#": "opponentNickname"
+* "ID#": "matchID"
+* "playerID#": "instances of 1 or 2 depending on if the user requesting is the white or black player of a match"
 
 ## Get Turn
 - This request returns the name of the player whose turn it is, along with the turn color

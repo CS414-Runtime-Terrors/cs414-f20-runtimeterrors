@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import javafx.beans.binding.IntegerBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,12 +74,12 @@ public class ResumeScreen implements Screen {
         OCMessage receivedMessage = parent.getClient().getResumeMatches(nickname);
 
         if (receivedMessage.get("success").equals("true")) {
-            String[] opponents = receivedMessage.get("opponents").split(", ");
-            String[] IDs = receivedMessage.get("matchIDs").split(", ");
-            String[] playerIndex = receivedMessage.get("playerIndex").split(", ");
-            matchOpponents = new ArrayList<>(Arrays.asList(opponents));
-            matchIDs = new ArrayList<>(Arrays.asList(IDs));
-            playerIDs = new ArrayList<>(Arrays.asList(playerIndex));
+            System.out.println(receivedMessage);
+            for (int i = 0; i < Integer.parseInt(receivedMessage.get("count")); i++){
+                matchOpponents.add(receivedMessage.get("opponent"+i));
+                matchIDs.add(receivedMessage.get("ID"+i));
+                playerIDs.add(receivedMessage.get("playerIndex"+i));
+            }
 
             if (matchOpponents.size() > 0) {
                 matches.setItems(matchOpponents.toArray(new String[0]));
