@@ -86,7 +86,7 @@ public class ArchiveScreen implements Screen {
         int spacing = longest + spacingSeparation;
 
         String columns = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
-                "Date", "Info");
+                "Player", "Result & Moves");
 
         labels.add(new Label(columns, skin));
         labels.row();
