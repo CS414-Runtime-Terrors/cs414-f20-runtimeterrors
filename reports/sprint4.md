@@ -1,6 +1,7 @@
 # Sprint 4 - P3 - *Team Runtime Terrors*
 
 ## Goal
+Complete all must-have user stories.
 
 ### Sprint Leader: *Daniel Stephenson*
 ## Plan
