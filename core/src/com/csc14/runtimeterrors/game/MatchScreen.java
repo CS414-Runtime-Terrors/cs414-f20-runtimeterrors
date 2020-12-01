@@ -20,6 +20,7 @@ public class MatchScreen implements Screen {
     private final Stage stage;
     private Table table;
     private GameBoard board;
+    private TextField currentTurn;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
