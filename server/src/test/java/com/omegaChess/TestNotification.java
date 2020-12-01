@@ -12,7 +12,7 @@ public class TestNotification {
     public void testConstructor() {
         Notification notification = new Notification(Notification.NotificationType.NEW_MATCH, "You've been invited to a new match!");
 
-        assertEquals("NEW_MATCH", notification.getEvent().name());
+        assertEquals(Notification.NotificationType.NEW_MATCH, notification.getEvent());
         assertEquals("You've been invited to a new match!", notification.getMessage());
         assertNotNull(notification.getDateString());
     }
@@ -21,7 +21,7 @@ public class TestNotification {
     public void testGetEvent() {
         Notification notification = new Notification(Notification.NotificationType.MATCH_ENDED, "You've won a match!");
 
-        assertEquals("MATCH_ENDED", notification.getEvent().name());
+        assertEquals(Notification.NotificationType.MATCH_ENDED, notification.getEvent());
     }
 
     @Test

@@ -271,9 +271,10 @@ public class MailboxScreen implements Screen {
                                 // send request to send the accept response
                                 OCMessage message = parent.getClient().acceptInvite(nickname, inviter);
                                 stage.clear();
+                                String whitePlayer = message.get("inviter"), blackPlayer = message.get("invitee");
                                 int matchID = Integer.parseInt(message.get("matchID"));
+                                parent.setMatchInfo(matchID, whitePlayer, blackPlayer);
                                 parent.changeScreen(OmegaChess.SCREEN.MATCH);
-                                parent.setMatchID(matchID);
                             }
                             else if(result == JOptionPane.NO_OPTION){
                                 // send request to send the decline response

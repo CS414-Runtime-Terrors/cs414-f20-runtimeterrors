@@ -74,6 +74,13 @@ public class OmegaChess extends Game {
 
 	public void setUser(String newUser) { user =newUser; }
 
+	public void setMatchInfo(int matchID, String whitePlayer, String blackPlayer) {
+		if(matchScreen == null) matchScreen = new MatchScreen(this);
+		matchScreen.setMatchID(matchID);
+		matchScreen.setWhitePlayer(whitePlayer);
+		matchScreen.setBlackPlayer(blackPlayer);
+	}
+
 	public void showNotification() {
 		int messageCount = 0;
 		if(client != null)
@@ -174,7 +181,6 @@ public class OmegaChess extends Game {
 				this.setScreen(inviteScreen);
 				break;
 			case MATCH:
-				if(matchScreen == null) matchScreen = new MatchScreen(this);
 				this.setScreen(matchScreen);
 				break;
 			case PROFILE:

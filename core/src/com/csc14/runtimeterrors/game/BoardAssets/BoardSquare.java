@@ -12,6 +12,7 @@ public class BoardSquare extends Actor {
 
     private Sprite currentPiece = null;
     private final Color squareColor;
+    private Color pieceColor;
     private final int[] position = new int[2];
 
     public BoardSquare(Color squareColor, int row, int col) {
@@ -76,7 +77,18 @@ public class BoardSquare extends Actor {
 
     public Sprite getCurrentPiece() { return this.currentPiece; }
 
-    public void setPiece(Sprite piece) { this.currentPiece = piece; }
+    public Color getPieceColor() { return pieceColor; }
+
+    public void setPiece(Sprite piece, Color color) {
+        this.currentPiece = piece;
+        pieceColor = color;
+    }
+
+    public void setPiece(String piece, Color color) {
+        this.currentPiece = new Sprite(new Texture(Gdx.files.internal(piece)));
+        currentPiece.setSize(30, 30);
+        pieceColor = color;
+    }
 
     public void removePiece() {
         this.currentPiece = null;
