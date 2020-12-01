@@ -76,6 +76,9 @@ public class OCProtocol {
                 case "end match":
                     toReturn = endMatch(receivedMessage);
                     break;
+                case "get game records":
+                    toReturn = getGameRecords(receivedMessage);
+                    break;
                 default:
                     message = new OCMessage();
                     message.put("success", "false");
@@ -732,6 +735,12 @@ public class OCProtocol {
                     (match.getProfile1().equalsIgnoreCase(player2) && match.getProfile2().equalsIgnoreCase(player1)))
                 return match;
         }
+        return null;
+    }
+
+    private String getGameRecords(OCMessage receivedMessage) {
+
+
         return null;
     }
 }

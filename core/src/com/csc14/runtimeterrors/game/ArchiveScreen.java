@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import javax.swing.*;
@@ -23,6 +21,7 @@ public class ArchiveScreen implements Screen {
     private Label.LabelStyle style_label;
     private String nickname;
     private boolean isPopupDisplayed = false;
+    private Table archiveTable;
 
     public ArchiveScreen(OmegaChess omegachess){
         parent = omegachess;
@@ -58,8 +57,76 @@ public class ArchiveScreen implements Screen {
         // add buttons to the screen
         addButtonsToStage();
 
+        // populate archiveBox
+        populateArchiveBox();
+
         // add listener for buttons
         addListeners();
+    }
+
+    private void populateArchiveBox() {
+        int num_rows = 15;
+        String label = nickname + "'s Archive";
+        archiveTable = new Table();
+        archiveTable.setWidth(525);
+        archiveTable.setHeight(400);
+        archiveTable.setPosition(50, 50);
+        stage.addActor(archiveTable);
+
+        Table labels = new Table();
+        ScrollPane scroll = new ScrollPane(labels, skin);
+        archiveTable.add(scroll).expand().fill();
+        archiveTable.row();
+        archiveTable.add(new Label(label, skin));
+
+        OCMessage receivedMessage = parent.getClient().getSentInvites(nickname);
+
+        int spacingSeparation = 30;                   // number of spaces between columns
+        int longest = Integer.parseInt(receivedMessage.get("maxNicknameLength"));  // length of the widest column
+        int spacing = longest + spacingSeparation;
+
+        String columns = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                "Date", "Info");
+
+        labels.add(new Label(columns, skin));
+        labels.row();
+        int activeCount = 1;
+
+        if(receivedMessage.get("success").equals("true"))
+        {
+            int count = Integer.parseInt(receivedMessage.get("totalCount"));
+            for(int i = 0; i < count; i++)
+            {
+                // only show in inbox if it hasn't been accepted or declined
+                if( receivedMessage.get("accepted" + i).equals("false") &&
+                        receivedMessage.get("declined" + i).equals("false"))
+                {
+                    activeCount++;
+                    String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
+                            receivedMessage.get("invitee" + i), "Invite Request");
+
+                    labels.add(new Label(tmp, skin) {
+
+                        public void draw(Batch batch, float parentAlpha) {
+
+                            super.draw(batch, parentAlpha);
+                        }
+                    });
+                    labels.row();
+                }
+            }
+
+            // add empty rows to put text at the top of scroll pane rather than middle
+            for(int i = 0; i < num_rows-activeCount; i++)
+            {
+                labels.add(new Label("", skin) {
+                    public void draw(Batch batch, float parentAlpha) {
+                        super.draw(batch, parentAlpha);
+                    }
+                });
+                labels.row();
+            }
+        }
     }
 
     private void addButtonsToStage() {
