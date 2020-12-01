@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -21,7 +20,8 @@ public class MatchScreen implements Screen {
     private Stage stage;
     private Table table;
     private GameBoard board;
-    private TextButton backBtn, forfeit;
+    private TextField currentTurn;
+    private TextButton backBtn, forfeit, refresh;
     private boolean isPopupDisplayed = false;
 
     public MatchScreen(OmegaChess omegachess) {
@@ -40,21 +40,33 @@ public class MatchScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        //set up table to be at the center of the screen
-        table = new Table();
-        table.setWidth(stage.getWidth());
-        table.align(Align.center);
-        table.setPosition(0, Gdx.graphics.getHeight()/2);
-
         //create the chess board and add squares to table
         initializeBoard();
 
         //add table to the stage
         stage.addActor(table);
 
+        // set turn of current player
+        setTurn();
+
+        // Add a field that shows whose turn it is
+        if (currentTurn == null){
+            TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+            style.font = new BitmapFont();
+            style.fontColor = Color.WHITE;
+            style.font.getData().scale(.5f);
+            currentTurn = new TextField("Current Turn:" + board.getTurn(), style);
+            currentTurn.setWidth(300);
+            currentTurn.setPosition(230, 420);
+            stage.addActor(currentTurn);
+        }else{
+            currentTurn.setText("Current turn:" + board.getTurn());
+        }
+
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         backBtn = new TextButton("Back", skin);
         forfeit = new TextButton("Forfeit", skin);
+        refresh = new TextButton("Refresh", skin);
 
         // set up back button
         backBtn.setTransform(true);
@@ -67,6 +79,12 @@ public class MatchScreen implements Screen {
         forfeit.setScale(0.5f);
         forfeit.setPosition(460, 0);
         stage.addActor(forfeit);
+
+        // set up refresh button
+        refresh.setTransform(true);
+        refresh.setScale(0.5f);
+        refresh.setPosition(0, 420);
+        stage.addActor(refresh);
 
         //add listener for the back and forfeit buttons
         addListeners();
@@ -95,6 +113,21 @@ public class MatchScreen implements Screen {
                 }
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
         }
+        });
+
+        refresh.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                clearStage();
+
+                initializeBoard();
+                stage.addActor(table);
+
+                setTurn();
+                board.addListeners();
+
+                currentTurn.setText("Current Turn: " + board.getTurn());
+            };
         });
     }
 
@@ -126,6 +159,11 @@ public class MatchScreen implements Screen {
     }
 
     private void initializeBoard() {
+        //set up table to be at the center of the screen
+        table = new Table();
+        table.setWidth(stage.getWidth());
+        table.align(Align.center);
+        table.setPosition(0, Gdx.graphics.getHeight()/2);
         board.initializeBoard();
         board.populateBoard();
         for (int i = 11; i >= 0; i--) {
@@ -134,6 +172,26 @@ public class MatchScreen implements Screen {
             }
             table.row();
         }
+    }
+
+    private void clearStage(){
+        if (table != null){
+            table.remove();
+        }
+    }
+
+    private void setTurn(){
+        board.setTurn(parent.getClient().getTurn(board.getMatchID()).get("user"));
+        Color turnColor = null;
+        switch (parent.getClient().getTurn(board.getMatchID()).get("color")){
+            case "WHITE":
+                turnColor = Color.WHITE;
+                break;
+            case "BLACK":
+                turnColor = Color.BLACK;
+                break;
+        }
+        board.setTurnColor(turnColor);
     }
 
     public void setMatchID(int id) { board.setMatchID(id); }
