@@ -649,7 +649,7 @@ public class OCProtocol {
     }
 
     public String getTurn(OCMessage receivedMessage){
-        int ID = Integer.valueOf(receivedMessage.get("ID"));
+        int ID = Integer.parseInt(receivedMessage.get("ID"));
         message = new OCMessage();
 
         TurnTracker turn = null;

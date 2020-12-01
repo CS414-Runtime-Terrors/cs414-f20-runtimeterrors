@@ -13,11 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import javax.swing.*;
 
 public class MailboxScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private Skin skin, btnSkin;
-    private TextButton inboxBtn, outboxBtn, refreshBtn, lobbyBtn;
-    private String nickname;
+    private final OmegaChess parent;
+    private final Stage stage;
+    private Skin skin;
+    private final String nickname;
     private Table mailboxTable;
     private ButtonGroup optionsGrp;
     private boolean isPopupDisplayed = false;
@@ -36,10 +35,10 @@ public class MailboxScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        btnSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        Skin btnSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        inboxBtn = new TextButton("Inbox", skin, "toggle");
-        outboxBtn = new TextButton("Outbox", skin, "toggle");
+        TextButton inboxBtn = new TextButton("Inbox", skin, "toggle");
+        TextButton outboxBtn = new TextButton("Outbox", skin, "toggle");
         optionsGrp = new ButtonGroup(inboxBtn, outboxBtn);
         optionsGrp.setMinCheckCount(1);
         optionsGrp.setMaxCheckCount(1);
@@ -55,8 +54,8 @@ public class MailboxScreen implements Screen {
         outboxBtn.setWidth(320);
         stage.addActor(outboxBtn);
 
-        lobbyBtn = new TextButton("Lobby", btnSkin);
-        refreshBtn = new TextButton("Refresh", btnSkin);
+        TextButton lobbyBtn = new TextButton("Lobby", btnSkin);
+        TextButton refreshBtn = new TextButton("Refresh", btnSkin);
 
         // set up lobby button
         lobbyBtn.setTransform(true);
@@ -73,13 +72,8 @@ public class MailboxScreen implements Screen {
         // default is inbox
         populateInbox();
 
-        // add listener for buttons
-        addListeners();
-    }
-
-    private void addListeners() {
         // inbox button will show inbox
-        inboxBtn.addListener( new ClickListener() {
+        inboxBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clearStage();
@@ -88,7 +82,7 @@ public class MailboxScreen implements Screen {
         });
 
         // outbox button will show outbox
-        outboxBtn.addListener( new ClickListener() {
+        outboxBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clearStage();
@@ -97,7 +91,7 @@ public class MailboxScreen implements Screen {
         });
 
         // refresh button will refresh current screen
-        refreshBtn.addListener( new ClickListener() {
+        refreshBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if( optionsGrp.getCheckedIndex() == 0 )
@@ -114,14 +108,13 @@ public class MailboxScreen implements Screen {
         });
 
         // outbox button will show outbox
-        lobbyBtn.addListener( new ClickListener() {
+        lobbyBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.clear();
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);
             };
         });
-
     }
 
     public void showNotification(String message, int messageCount){

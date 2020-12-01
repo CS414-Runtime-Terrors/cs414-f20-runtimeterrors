@@ -7,8 +7,8 @@ import java.net.Socket;
 
 public class OCMultiServerThread extends Thread {
 
-    private Socket socket = null;
-    private OCServerData serverData;
+    private Socket socket;
+    private final OCServerData serverData;
 
     public OCMultiServerThread(Socket socket, OCServerData data) {
         super("OCMultiServerThread");

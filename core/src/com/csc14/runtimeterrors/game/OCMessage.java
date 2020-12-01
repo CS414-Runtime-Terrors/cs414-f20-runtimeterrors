@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class OCMessage {
 
-    private HashMap<String, String> map = new HashMap<>();
-    private ArrayList<String> keys = new ArrayList<>();
+    private final HashMap<String, String> map = new HashMap<>();
+    private final ArrayList<String> keys = new ArrayList<>();
 
     public void put(String key, String value) {
         map.put(key, value);

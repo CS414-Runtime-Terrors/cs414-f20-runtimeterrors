@@ -14,13 +14,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import javax.swing.*;
 
 public class RulesScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
+    private final OmegaChess parent;
+    private final Stage stage;
 
-    private String rules;
-    private TextButton lobbyBtn;
-    private Table rulesTable;
-    private Skin skin, btnSkin;
+    private final String rules;
     private boolean isPopupDisplayed = false;
 
     public RulesScreen(OmegaChess omegachess){
@@ -45,10 +42,10 @@ public class RulesScreen implements Screen {
 
         TextField title = new TextField("Rules", style);
 
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        btnSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Skin btnSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        lobbyBtn = new TextButton("Lobby", btnSkin);
+        TextButton lobbyBtn = new TextButton("Lobby", btnSkin);
 
         // set title label
         title.setHeight(30);
@@ -63,7 +60,7 @@ public class RulesScreen implements Screen {
         stage.addActor(lobbyBtn);
 
         //set rules text
-        rulesTable = new Table();
+        Table rulesTable = new Table();
         rulesTable.setWidth(575);
         rulesTable.setHeight(375);
         rulesTable.setPosition(35, 75);
@@ -75,11 +72,7 @@ public class RulesScreen implements Screen {
         scroll.setFadeScrollBars(false);
         rulesTable.add(scroll).expand().fill();
 
-        addListeners();
-    }
-
-    private void addListeners() {
-        lobbyBtn.addListener( new ClickListener() {
+        lobbyBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.LOBBY);

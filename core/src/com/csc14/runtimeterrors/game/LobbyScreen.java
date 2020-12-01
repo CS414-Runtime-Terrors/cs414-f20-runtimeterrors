@@ -15,9 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import javax.swing.*;
 
 public class LobbyScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private TextButton createGameBtn, resumeGameBtn, logoutBtn, profileBtn, rulesBtn, exitBtn;
+    private final OmegaChess parent;
+    private final Stage stage;
     private boolean isPopupDisplayed = false;
 
     public LobbyScreen(OmegaChess omegachess) {
@@ -41,21 +40,44 @@ public class LobbyScreen implements Screen {
 
         TextField title = new TextField("Welcome to Omega Chess", style);
 
-        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-
-        createGameBtn = new TextButton("New Game", skin);
-        resumeGameBtn = new TextButton("Resume Game", skin);
-        profileBtn = new TextButton("Profile", skin);
-        logoutBtn = new TextButton("Logout", skin);
-        rulesBtn = new TextButton("Rules", skin);
-        exitBtn = new TextButton("Exit", skin);
-
         // set title label
         title.setHeight(30);
         title.setWidth(450);
         title.setPosition(160, 450);
         title.setDisabled(true);
         stage.addActor(title);
+
+        // add listeners
+        addButtons();
+    }
+
+    public void showNotification(String message, int messageCount){
+        isPopupDisplayed = true;
+        String title = "New Notification!";
+
+        if( messageCount > 1 )
+        {
+            title = "New Notifications!";
+        }
+
+        JOptionPane.showMessageDialog(null, message,
+                title, JOptionPane.INFORMATION_MESSAGE);
+        isPopupDisplayed = false;
+    }
+
+    public boolean isPopupShown(){
+        return isPopupDisplayed;
+    }
+
+    private void addButtons() {
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
+        TextButton createGameBtn = new TextButton("New Game", skin);
+        TextButton resumeGameBtn = new TextButton("Resume Game", skin);
+        TextButton profileBtn = new TextButton("Profile", skin);
+        TextButton logoutBtn = new TextButton("Logout", skin);
+        TextButton rulesBtn = new TextButton("Rules", skin);
+        TextButton exitBtn = new TextButton("Exit", skin);
 
         // set buttons
         createGameBtn.setTransform(true);
@@ -88,77 +110,54 @@ public class LobbyScreen implements Screen {
         exitBtn.setPosition(350, 50);
         stage.addActor(exitBtn);
 
-        // add listeners
-        addListeners();
-    }
-
-    public void showNotification(String message, int messageCount){
-        isPopupDisplayed = true;
-        String title = "New Notification!";
-
-        if( messageCount > 1 )
-        {
-            title = "New Notifications!";
-        }
-
-        JOptionPane.showMessageDialog(null, message,
-                title, JOptionPane.INFORMATION_MESSAGE);
-        isPopupDisplayed = false;
-    }
-
-    public boolean isPopupShown(){
-        return isPopupDisplayed;
-    }
-
-    private void addListeners() {
         // create game button will open invitation screen to invite screen
-        createGameBtn.addListener( new ClickListener() {
+        createGameBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.INVITE);
-            };
+            }
         });
 
         // resume game will request user in-progress games and display for selection
-        resumeGameBtn.addListener( new ClickListener() {
+        resumeGameBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.RESUME_GAME);
-            };
+            }
         });
 
         // profile button will open the profile screen profile screen
-        profileBtn.addListener( new ClickListener() {
+        profileBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.PROFILE);
-            };
+            }
         });
 
         // logout button will clear user field and return to main menu
-        logoutBtn.addListener( new ClickListener() {
+        logoutBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.setUser("");
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
-            };
+            }
         });
 
         // rules button will open a screen displaying the rules
-        rulesBtn.addListener( new ClickListener() {
+        rulesBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.RULES);
-            };
+            }
         });
 
         // exit button will close application
-        exitBtn.addListener( new ClickListener() {
+        exitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.dispose();
                 Gdx.app.exit();
-            };
+            }
         });
     }
 
