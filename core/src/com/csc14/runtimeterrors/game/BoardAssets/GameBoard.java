@@ -11,12 +11,13 @@ import java.util.List;
 
 public class GameBoard {
 
-    private OmegaChess parent;
+    private final OmegaChess parent;
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
     private boolean isEnPessant;
-    private String whitePlayer, blackPlayer;
+    private String whitePlayer, blackPlayer, turn;
+    private Color turnColor;
     private int matchID;
 
     public GameBoard(OmegaChess omegaChess) {
@@ -25,11 +26,13 @@ public class GameBoard {
         initializeBoard();
         whitePlayer = "";
         blackPlayer = "";
+        turn = "";
     }
 
     //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
         gameBoard = new ArrayList<>();
+
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
         ArrayList<BoardSquare> row2 = new ArrayList<>();
@@ -245,6 +248,14 @@ public class GameBoard {
 
     public String getBlackPlayer() { return blackPlayer; }
 
+    public void setTurn(String turn) { this.turn = turn; }
+
+    public String getTurn() { return turn; }
+
+    public void setTurnColor(Color turnColor) { this.turnColor = turnColor; }
+
+    public Color getTurnColor() { return turnColor; }
+
     public void setMatchID(int matchID) { this.matchID = matchID; }
 
     public int getMatchID() { return matchID; }
@@ -262,52 +273,63 @@ public class GameBoard {
                 square.addListener( new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
-                        if (square.hasPiece() && clickedPiece == null) {
-                            // set square as clicked
-                            clickedPiece = square;
+                        if (parent.getUser().equalsIgnoreCase(turn)) {
+                            // if first click is on a square with a piece, get that piece ready to move and highlight legal moves
+                            if (square.hasPiece() && clickedPiece == null && square.getPieceColor() == turnColor) {
+                                // set square as clicked
+                                clickedPiece = square;
 
-                            // get legal moves from server
-                            OCMessage receivedMessage = parent.getClient().getLegalMoves(matchID, clickedPiece.getPosition());
-                            List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
-                            if (receivedMessage.get("enPessant").equals("true")) {
-                                isEnPessant = true;
-                            }
+                                // get legal moves from server
+                                OCMessage receivedMessage = parent.getClient().getLegalMoves(matchID, clickedPiece.getPosition());
+                                List<String> legalMoves = GameBoardHelpers.parseLegalMoves(receivedMessage);
+                                if (receivedMessage.get("enPessant").equals("true")) {
+                                    isEnPessant = true;
+                                }
 
-                            // highlight legal moves
-                            for (String position : legalMoves) {
-                                getSquare(position).highlight();
+                                // highlight legal moves
+                                for (String position : legalMoves) {
+                                    getSquare(position).highlight();
+                                }
+                                highlightedSquares = legalMoves;
                             }
-                            highlightedSquares = legalMoves;
-                        }
-                        // if second click is on a highlighted square, move piece and unhighlight squares
-                        else if (clickedPiece != null && square.isHighlighted()) {
-                            // move piece
-                            parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
-                            square.setPiece(clickedPiece.getCurrentPiece(), clickedPiece.getPieceColor());
-                            clickedPiece.removePiece();
-                            if (isEnPessant) {
-                                int increment = clickedPiece.getPosition()[0] - square.getPosition()[0];
-                                BoardSquare enPesSq = getSquare(square.getPosition()[0] + increment, square.getPosition()[1]);
-                                enPesSq.removePiece();
-                            }
-                            clickedPiece = null;
-                            isEnPessant = false;
+                            // if second click is on a highlighted square, move piece and unhighlight squares
+                            else if (clickedPiece != null && square.isHighlighted()) {
+                                // move piece
+                                parent.getClient().matchMove(matchID, clickedPiece.getPosition(), square.getPosition());
+                                square.setPiece(clickedPiece.getCurrentPiece(), clickedPiece.getPieceColor());
+                                clickedPiece.removePiece();
+                                if (isEnPessant) {
+                                    int increment = clickedPiece.getPosition()[0] - square.getPosition()[0];
+                                    BoardSquare enPesSq = getSquare(square.getPosition()[0] + increment, square.getPosition()[1]);
+                                    enPesSq.removePiece();
+                                }
+                                clickedPiece = null;
+                                isEnPessant = false;
+                                setTurn(parent.getClient().getTurn(matchID).get("user"));
+                                switch (parent.getClient().getTurn(matchID).get("color")){
+                                    case "White":
+                                        turnColor = Color.WHITE;
+                                        break;
+                                    case "Black":
+                                        turnColor = Color.BLACK;
+                                        break;
+                                }
 
-                            // unhighlight squares
-                            for (String position : highlightedSquares) {
-                                getSquare(position).unHighlight();
+                                // unhighlight squares
+                                for (String position : highlightedSquares) {
+                                    getSquare(position).unHighlight();
+                                }
                             }
-                        }
-                        // if second click is on a non-highlighted square, reset first click and unhighlight squares
-                        else if (clickedPiece != null && !square.isHighlighted()) {
-                            // reset clicked pieces
-                            clickedPiece = null;
-                            isEnPessant = false;
+                            // if second click is on a non-highlighted square, reset first click and unhighlight squares
+                            else if (clickedPiece != null && !square.isHighlighted()) {
+                                // reset clicked pieces
+                                clickedPiece = null;
+                                isEnPessant = false;
 
-                            // unhighlight squares
-                            for (String position : highlightedSquares) {
-                                getSquare(position).unHighlight();
+                                // unhighlight squares
+                                for (String position : highlightedSquares) {
+                                    getSquare(position).unHighlight();
+                                }
                             }
                         }
                     }
@@ -318,63 +340,69 @@ public class GameBoard {
 
     //turn chess string into integers ("c3" -> (3,3))
     private int[] parsePosition(String position) {
-        int pos[] = new int[2];
+        int[] pos = new int[2];
 
         // handle w squares since they are different
-        if (position.equals("w1")) {
-            pos[0] = 0;
-            pos[1] = 0;
-        } else if(position.equals("w2")) {
-            pos[0] = 0;
-            pos[1] = 11;
-        } else if(position.equals("w3")) {
-            pos[0] = 11;
-            pos[1] = 11;
-        } else if(position.equals("w4")) {
-            pos[0] = 11;
-            pos[1] = 0;
-        } else {
-            char col = position.charAt(0);
-            pos[0] = Integer.parseInt(position.substring(1));
+        switch (position) {
+            case "w1":
+                pos[0] = 0;
+                pos[1] = 0;
+                break;
+            case "w2":
+                pos[0] = 0;
+                pos[1] = 11;
+                break;
+            case "w3":
+                pos[0] = 11;
+                pos[1] = 11;
+                break;
+            case "w4":
+                pos[0] = 11;
+                pos[1] = 0;
+                break;
+            default:
+                char col = position.charAt(0);
+                pos[0] = Integer.parseInt(position.substring(1));
 
-            switch (col){
-                case 'a':
-                    pos[1] = 1;
-                    break;
-                case 'b':
-                    pos[1] = 2;
-                    break;
-                case 'c':
-                    pos[1] = 3;
-                    break;
-                case 'd':
-                    pos[1] = 4;
-                    break;
-                case 'e':
-                    pos[1] = 5;
-                    break;
-                case 'f':
-                    pos[1] = 6;
-                    break;
-                case 'g':
-                    pos[1] = 7;
-                    break;
-                case 'h':
-                    pos[1] = 8;
-                    break;
-                case 'i':
-                    pos[1] = 9;
-                    break;
-                case 'j':
-                    pos[1] = 10;
-                    break;
-                case 'x':
-                    pos[1] = 0;
-                    break;
-                case 'y':
-                    pos[1] = 11;
-                    break;
-            }
+                switch (col) {
+                    case 'a':
+                        pos[1] = 1;
+                        break;
+                    case 'b':
+                        pos[1] = 2;
+                        break;
+                    case 'c':
+                        pos[1] = 3;
+                        break;
+                    case 'd':
+                        pos[1] = 4;
+                        break;
+                    case 'e':
+                        pos[1] = 5;
+                        break;
+                    case 'f':
+                        pos[1] = 6;
+                        break;
+                    case 'g':
+                        pos[1] = 7;
+                        break;
+                    case 'h':
+                        pos[1] = 8;
+                        break;
+                    case 'i':
+                        pos[1] = 9;
+                        break;
+                    case 'j':
+                        pos[1] = 10;
+                        break;
+                    case 'x':
+                        pos[1] = 0;
+                        break;
+                    case 'y':
+                        pos[1] = 11;
+                        break;
+                }
+                break;
         }
 
         return pos;

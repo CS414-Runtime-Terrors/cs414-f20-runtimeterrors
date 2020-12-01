@@ -627,12 +627,12 @@ public class OCProtocol {
 
         // This allows us to figure out if the user requesting the match to resume is the first or second player
         for (Match m : matches) {
-            if (m.getProfile1().equals(user)) {
+            if (m.getProfile1().equalsIgnoreCase(user)) {
                 playerIndex += 1 + ", ";
                 opponents += m.getProfile2() + ", ";
                 IDs += m.getMatchID() + ", ";
             }
-            else if (m.getProfile2().equals(user)) {
+            else if (m.getProfile2().equalsIgnoreCase(user)) {
                 playerIndex += 2 + ", ";
                 opponents += m.getProfile1() + ", ";
                 IDs += m.getMatchID() + ", ";
