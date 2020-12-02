@@ -18,10 +18,12 @@ public class ArchiveScreen implements Screen {
     private final Stage stage;
     private Skin skin;
     private boolean isPopupDisplayed = false;
+    private String nickname;
     private Table archiveTable;
 
     public ArchiveScreen(OmegaChess omegachess){
         parent = omegachess;
+        nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
