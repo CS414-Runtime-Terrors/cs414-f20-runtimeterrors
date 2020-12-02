@@ -10,8 +10,9 @@ import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
 
 public class Mailbox {
 
-    private ArrayList<Invite> sent, received;
-    private ArrayList<Notification> notifications;
+    private final ArrayList<Invite> sent;
+    private final ArrayList<Invite> received;
+    private final ArrayList<Notification> notifications;
 
     public Mailbox() {
         sent = new ArrayList<>();

@@ -13,10 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import javax.swing.*;
 
 public class LoginScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private TextButton loginBtn;
-    private TextButton backBtn;
+    private final OmegaChess parent;
+    private final Stage stage;
 
     private TextField nicknameBox, passwordBox;
 
@@ -49,9 +47,6 @@ public class LoginScreen implements Screen {
         Label passwordLabel = new Label("Password:", skin);
         passwordBox = new TextField("", skin);
 
-        loginBtn = new TextButton("Login!", skin);
-        backBtn = new TextButton("Back", skin);
-
         // set up title label
         title.setHeight(30);
         title.setWidth(450);
@@ -83,6 +78,16 @@ public class LoginScreen implements Screen {
         passwordBox.setPasswordMode(true);
         stage.addActor(passwordBox);
 
+        // add listener for register button
+        addButtons();
+
+    }
+
+    private void addButtons() {
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        TextButton loginBtn = new TextButton("Login!", skin);
+        TextButton backBtn = new TextButton("Back", skin);
+
         // set up register button
         loginBtn.setTransform(true);
         loginBtn.setScale(0.5f);
@@ -94,14 +99,8 @@ public class LoginScreen implements Screen {
         backBtn.setPosition(50, 30);
         stage.addActor(backBtn);
 
-        // add listener for register button
-        addListeners();
-
-    }
-
-    private void addListeners() {
         // register button will handle registering the user
-        loginBtn.addListener( new ClickListener() {
+        loginBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // 1. get text from nickname, password.
@@ -141,7 +140,7 @@ public class LoginScreen implements Screen {
         });
 
         // back button will return user to main menu screen
-        backBtn.addListener( new ClickListener() {
+        backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);

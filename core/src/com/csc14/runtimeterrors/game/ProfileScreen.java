@@ -13,13 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import javax.swing.*;
 
 public class ProfileScreen implements Screen {
-    private OmegaChess parent;
-    private Stage stage;
-    private TextButton unregisterBtn, lobbyBtn, mailboxBtn, historyBtn;
+    private final OmegaChess parent;
+    private final Stage stage;
     //private TextButton changePwBtn, changeNicknameBtn; todo decide if implement or remove
-    private Skin skin;
-    private Label.LabelStyle style_label;
-    private String nickname;
+    private final String nickname;
     private boolean isPopupDisplayed = false;
 
     public ProfileScreen(OmegaChess omegachess){
@@ -35,17 +32,11 @@ public class ProfileScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = new BitmapFont();
         style.fontColor = Color.WHITE;
         style.font.getData().setScale(3f);
-
-        style_label = new Label.LabelStyle();
-        style_label.font = new BitmapFont();
-        style_label.fontColor = Color.PURPLE;
-        style_label.font.getData().setScale(2f);
 
         // set up profile label
         TextField profileLabel = new TextField("User Profile!", style);
@@ -61,16 +52,14 @@ public class ProfileScreen implements Screen {
 
         // add buttons to the screen
         addButtonsToStage();
-
-        // add listener for buttons
-        addListeners();
     }
 
     private void addButtonsToStage() {
-        unregisterBtn = new TextButton("Unregister", skin);
-        lobbyBtn = new TextButton("Lobby", skin);
-        mailboxBtn = new TextButton("Mailbox", skin);
-        historyBtn = new TextButton("History", skin);
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        TextButton unregisterBtn = new TextButton("Unregister", skin);
+        TextButton lobbyBtn = new TextButton("Lobby", skin);
+        TextButton mailboxBtn = new TextButton("Mailbox", skin);
+        TextButton historyBtn = new TextButton("History", skin);
 
         // // todo decide if implement or remove
         //changePwBtn = new TextButton("Change Password", skin);
@@ -111,9 +100,66 @@ public class ProfileScreen implements Screen {
         lobbyBtn.setScale(0.4f);
         lobbyBtn.setPosition(450, 15);
         stage.addActor(lobbyBtn);
+
+        // unregister button will handle unregistering the user and returning to main menu screen
+        unregisterBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // first bring confirmation box to make sure user wants to unregister
+                int result = JOptionPane.showConfirmDialog(null,"Are you sure you want to" +
+                                " unregister? This action cannot be undone.", "Confirm Unregister",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(result == JOptionPane.YES_OPTION){
+                    // unregister
+                    parent.getClient().sendUnregisterRequest(nickname);
+                    parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
+                }
+            }
+        });
+
+        // history button will return user to archive screen
+        historyBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.ARCHIVE);
+            }
+        });
+
+        // back button will return user to main menu screen
+        lobbyBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+            }
+        });
+
+        // mailbox button will take user to mailbox screen
+        mailboxBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parent.changeScreen(OmegaChess.SCREEN.MAILBOX);
+            }
+        });
+
+        // todo decide if implementing this or not
+        // change password button will handle changing the user's password
+        /*changePwBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            };
+        });
+
+        // change nickname button will handle changing the user's nickname
+        changeNicknameBtn.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            };
+        });*/
     }
 
     private void addStatsInfoToStage() {
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         String totalGames = "-", gamesWon = "-", gamesLost = "-", gamesDraw = "-";
 
         // send request to get profile data
@@ -121,13 +167,18 @@ public class ProfileScreen implements Screen {
 
         if(receivedMessage.get("success").equals("true"))
         {
-            gamesWon = receivedMessage.get("gamesWon").toString();
-            gamesLost = receivedMessage.get("gamesLost").toString();
-            gamesDraw = receivedMessage.get("gamesTied").toString();
+            gamesWon = receivedMessage.get("gamesWon");
+            gamesLost = receivedMessage.get("gamesLost");
+            gamesDraw = receivedMessage.get("gamesTied");
 
             totalGames = String.valueOf(Integer.parseInt(gamesWon) + Integer.parseInt(gamesLost) +
                     Integer.parseInt(gamesDraw));
         }
+
+        Label.LabelStyle style_label = new Label.LabelStyle();
+        style_label.font = new BitmapFont();
+        style_label.fontColor = Color.PURPLE;
+        style_label.font.getData().setScale(2f);
 
         Label totalGamesLabel = new Label("Total Games Played:", style_label);
         Label totalGamesText = new Label(totalGames, skin);
@@ -179,6 +230,12 @@ public class ProfileScreen implements Screen {
     }
 
     private void addNicknameToStage() {
+        Label.LabelStyle style_label = new Label.LabelStyle();
+        style_label.font = new BitmapFont();
+        style_label.fontColor = Color.PURPLE;
+        style_label.font.getData().setScale(2f);
+
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         Label nicknameLabel = new Label("Nickname:", style_label);
         Label nicknameText = new Label(nickname, skin);
         nicknameText.setFontScale(2f);
@@ -190,65 +247,6 @@ public class ProfileScreen implements Screen {
         nicknameText.setWidth(60);
         nicknameText.setPosition(250, 360);
         stage.addActor(nicknameText);
-    }
-
-    private void addListeners() {
-        // unregister button will handle unregistering the user and returning to main menu screen
-        unregisterBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // first bring confirmation box to make sure user wants to unregister
-                int result = JOptionPane.showConfirmDialog(null,"Are you sure you want to" +
-                                " unregister? This action cannot be undone.", "Confirm Unregister",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE);
-                if(result == JOptionPane.YES_OPTION){
-                    // unregister
-                    parent.getClient().sendUnregisterRequest(nickname);
-                    parent.changeScreen(OmegaChess.SCREEN.MAIN_MENU);
-                }
-            };
-        });
-
-        // history button will return user to archive screen
-        historyBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.SCREEN.ARCHIVE);
-            };
-        });
-
-        // back button will return user to main menu screen
-        lobbyBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
-            };
-        });
-
-        // mailbox button will take user to mailbox screen
-        mailboxBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                parent.changeScreen(OmegaChess.SCREEN.MAILBOX);
-            };
-        });
-
-        // todo decide if implementing this or not
-        // change password button will handle changing the user's password
-        /*changePwBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-            };
-        });
-
-        // change nickname button will handle changing the user's nickname
-        changeNicknameBtn.addListener( new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-            };
-        });*/
-
     }
 
     public void showNotification(String message, int messageCount){
