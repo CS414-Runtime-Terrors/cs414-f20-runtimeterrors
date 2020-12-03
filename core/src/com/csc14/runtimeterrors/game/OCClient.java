@@ -344,4 +344,17 @@ public class OCClient {
 
         return receivedMessage;
     }
+
+    // End match
+    public OCMessage getGameRecords(String nickname){
+        OCMessage message = new OCMessage(), receivedMessage;
+        message.put("process", "get game records");
+        message.put("user", "darla");
+
+        receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }

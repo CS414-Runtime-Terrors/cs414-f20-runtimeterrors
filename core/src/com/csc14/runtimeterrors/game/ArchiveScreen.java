@@ -18,8 +18,7 @@ public class ArchiveScreen implements Screen {
     private final Stage stage;
     private Skin skin;
     private boolean isPopupDisplayed = false;
-    private String nickname;
-    private Table archiveTable;
+    private final String nickname;
 
     public ArchiveScreen(OmegaChess omegachess){
         parent = omegachess;
@@ -41,12 +40,6 @@ public class ArchiveScreen implements Screen {
         style.fontColor = Color.WHITE;
         style.font.getData().setScale(3f);
 
-        // set up archive label
-        TextField profileLabel = new TextField("Archive", style);
-        profileLabel.setWidth(400);
-        profileLabel.setPosition(200, 420);
-        stage.addActor(profileLabel);
-
         // add buttons to the screen
         addButtonsToStage();
 
@@ -57,7 +50,7 @@ public class ArchiveScreen implements Screen {
     private void populateArchiveBox() {
         int num_rows = 15;
         String label = nickname + "'s Archive";
-        archiveTable = new Table();
+        Table archiveTable = new Table();
         archiveTable.setWidth(525);
         archiveTable.setHeight(400);
         archiveTable.setPosition(50, 50);
@@ -69,53 +62,52 @@ public class ArchiveScreen implements Screen {
         archiveTable.row();
         archiveTable.add(new Label(label, skin));
 
-        OCMessage receivedMessage = parent.getClient().getSentInvites(nickname);
+        OCMessage receivedMessage = parent.getClient().getGameRecords(nickname);
 
-        int spacingSeparation = 30;                   // number of spaces between columns
-        int longest = Integer.parseInt(receivedMessage.get("maxNicknameLength"));  // length of the widest column
-        int spacing = longest + spacingSeparation;
-
-        String columns = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
-                "Player", "Result & Moves");
-
-        labels.add(new Label(columns, skin));
+        labels.add(new Label("Game History", skin));
         labels.row();
         int activeCount = 1;
 
         if(receivedMessage.get("success").equals("true"))
         {
-            int count = Integer.parseInt(receivedMessage.get("totalCount"));
+            int count = Integer.parseInt(receivedMessage.get("number"));
             for(int i = 0; i < count; i++)
             {
-                // only show in inbox if it hasn't been accepted or declined
-                if( receivedMessage.get("accepted" + i).equals("false") &&
-                        receivedMessage.get("declined" + i).equals("false"))
+                activeCount++;
+                String str;
+                String otherPlayer = receivedMessage.get("user" + (i+1));
+                String totalMoves = receivedMessage.get("moves" + (i+1));
+                if( receivedMessage.get("result" + (i+1)).equals("tie"))
                 {
-                    activeCount++;
-                    String tmp = String.format("%-" + spacing + "s%-" + spacing + "s",  // format
-                            receivedMessage.get("invitee" + i), "Invite Request");
-
-                    labels.add(new Label(tmp, skin) {
-
-                        public void draw(Batch batch, float parentAlpha) {
-
-                            super.draw(batch, parentAlpha);
-                        }
-                    });
-                    labels.row();
+                    str = "You and " + otherPlayer + " tied! In " + totalMoves + " moves.";
                 }
-            }
+                else if( receivedMessage.get("result" + (i+1)).equals(nickname))
+                {
+                    str = "You won against " + otherPlayer + " in " + totalMoves + " moves.";
+                }
+                else
+                {
+                    str = "You lost to " + otherPlayer + " in " + totalMoves + " moves.";
+                }
 
-            // add empty rows to put text at the top of scroll pane rather than middle
-            for(int i = 0; i < num_rows-activeCount; i++)
-            {
-                labels.add(new Label("", skin) {
+                labels.add(new Label(str, skin) {
                     public void draw(Batch batch, float parentAlpha) {
                         super.draw(batch, parentAlpha);
                     }
                 });
                 labels.row();
             }
+        }
+
+        // add empty rows to put text at the top of scroll pane rather than middle
+        for(int i = 0; i < num_rows-activeCount; i++)
+        {
+            labels.add(new Label("", skin) {
+                public void draw(Batch batch, float parentAlpha) {
+                        super.draw(batch, parentAlpha);
+                    }
+            });
+            labels.row();
         }
     }
 

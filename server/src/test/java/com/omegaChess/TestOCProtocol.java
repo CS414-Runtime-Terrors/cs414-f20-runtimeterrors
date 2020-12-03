@@ -723,4 +723,31 @@ public class TestOCProtocol {
         assertEquals("true", receivedMessage.get("success"), "The match was unable to end because " + receivedMessage.get("reason"));
         assertEquals(0, data.getMatches().size(), "Failed to remove ended match");
     }
+
+    @Test
+    public void testGetArchives()
+    {
+        OCServerData data = new OCServerData();
+        OCProtocol protocol = new OCProtocol(data);
+
+        data.createProfile("darla", "cat", "shoecat@omegachess.com");
+
+        // add game records to archive
+        GameRecord r1 = new GameRecord("darla", "nathan", 12, false);
+        GameRecord r2 = new GameRecord("player1", "darla", 55, false);
+        GameRecord r3 = new GameRecord("darla", "player2", 60, false);
+        data.addToArchive(r1);
+        data.addToArchive(r2);
+        data.addToArchive(r3);
+
+        OCMessage message = new OCMessage(), receivedMessage = new OCMessage();
+        message.put("process", "get game records");
+        message.put("user", "darla");
+
+        String out = protocol.processInput(message.toString());
+
+        receivedMessage.fromString(out);
+        assertEquals("true", receivedMessage.get("success"), "Error getting archives due to: " + receivedMessage.get("reason"));
+        assertEquals(3, Integer.parseInt(receivedMessage.get("number")), "Failed to get correct number of archives");
+    }
 }

@@ -739,8 +739,49 @@ public class OCProtocol {
     }
 
     private String getGameRecords(OCMessage receivedMessage) {
+        String user = receivedMessage.get("user");
 
+        if (!serverData.profileExists(user)){
+            // target user doesn't exist
+            message.put("success", "false");
+            message.put("reason", "target user doesn't exist");
 
-        return null;
+            System.out.println("Target user doesn't exist");
+            return message.toString();
+        }
+
+        message.put("success", "true");
+
+        int countForUser = 0;
+        for( GameRecord record : serverData.getArchive()){
+            ArrayList<String> players = record.getPlayers();
+
+            if(user.equals(players.get(0)) || user.equals(players.get(1)))
+            {
+                if(user.equals(players.get(0)))
+                {
+                    message.put("user" + (countForUser + 1), players.get(1));
+                }
+                else
+                {
+                    message.put("user" + (countForUser + 1), players.get(0));
+                }
+
+                if(record.isDraw())
+                {
+                    message.put("result" + (countForUser + 1), "tie");
+                }
+                else
+                {
+                    message.put("result" + (countForUser + 1), record.getWinner());
+                }
+
+                message.put("moves" + (countForUser + 1), String.valueOf(record.getNumMoves()));
+                countForUser++;
+            }
+        }
+        message.put("number", "" + countForUser);
+
+        return message.toString();
     }
 }
