@@ -35,6 +35,7 @@ Epics planned for this release.
 | *11/17/20* | *#44, #47, #333* | *#52, #62, #65, #103, #104, #332, #334, #347* | *none* |
 | *11/20/20* | *#52* | *#62, #65, #103, #104, #332, #334, #347* | *Running into an error where windows won't read a unicode string properly where it works in linux.* |
 | *11/30/20* | *#62, #334* | *#65, #103, #104, #332, #347, #359* | *Figuring out crash on local servers, learning that it works on the deployed server* |
+| *12/2/20* | *#43, #295, #361, * | *#65, #103, #104, #332, #347, #359* | *none* |
 
 ## Review
 
