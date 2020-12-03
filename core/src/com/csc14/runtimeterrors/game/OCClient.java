@@ -349,7 +349,7 @@ public class OCClient {
     public OCMessage getGameRecords(String nickname){
         OCMessage message = new OCMessage(), receivedMessage;
         message.put("process", "get game records");
-        message.put("user", "darla");
+        message.put("user", nickname);
 
         receivedMessage = sendRequestAndReceiveMessage(message);
 
