@@ -4,12 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import javax.swing.*;
@@ -19,9 +18,11 @@ public class ArchiveScreen implements Screen {
     private final Stage stage;
     private Skin skin;
     private boolean isPopupDisplayed = false;
+    private final String nickname;
 
     public ArchiveScreen(OmegaChess omegachess){
         parent = omegachess;
+        nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -39,14 +40,75 @@ public class ArchiveScreen implements Screen {
         style.fontColor = Color.WHITE;
         style.font.getData().setScale(3f);
 
-        // set up archive label
-        TextField profileLabel = new TextField("Archive", style);
-        profileLabel.setWidth(400);
-        profileLabel.setPosition(200, 420);
-        stage.addActor(profileLabel);
-
         // add buttons to the screen
         addButtonsToStage();
+
+        // populate archiveBox
+        populateArchiveBox();
+    }
+
+    private void populateArchiveBox() {
+        int num_rows = 15;
+        String label = nickname + "'s Archive";
+        Table archiveTable = new Table();
+        archiveTable.setWidth(525);
+        archiveTable.setHeight(400);
+        archiveTable.setPosition(50, 50);
+        stage.addActor(archiveTable);
+
+        Table labels = new Table();
+        ScrollPane scroll = new ScrollPane(labels, skin);
+        archiveTable.add(scroll).expand().fill();
+        archiveTable.row();
+        archiveTable.add(new Label(label, skin));
+
+        OCMessage receivedMessage = parent.getClient().getGameRecords(nickname);
+
+        labels.add(new Label("Game History", skin));
+        labels.row();
+        int activeCount = 1;
+
+        if(receivedMessage.get("success").equals("true"))
+        {
+            int count = Integer.parseInt(receivedMessage.get("number"));
+            for(int i = 0; i < count; i++)
+            {
+                activeCount++;
+                String str;
+                String otherPlayer = receivedMessage.get("user" + (i+1));
+                String totalMoves = receivedMessage.get("moves" + (i+1));
+                if( receivedMessage.get("result" + (i+1)).equals("tie"))
+                {
+                    str = "You and " + otherPlayer + " tied! In " + totalMoves + " moves.";
+                }
+                else if( receivedMessage.get("result" + (i+1)).equals(nickname))
+                {
+                    str = "You won against " + otherPlayer + " in " + totalMoves + " moves.";
+                }
+                else
+                {
+                    str = "You lost to " + otherPlayer + " in " + totalMoves + " moves.";
+                }
+
+                labels.add(new Label(str, skin) {
+                    public void draw(Batch batch, float parentAlpha) {
+                        super.draw(batch, parentAlpha);
+                    }
+                });
+                labels.row();
+            }
+        }
+
+        // add empty rows to put text at the top of scroll pane rather than middle
+        for(int i = 0; i < num_rows-activeCount; i++)
+        {
+            labels.add(new Label("", skin) {
+                public void draw(Batch batch, float parentAlpha) {
+                        super.draw(batch, parentAlpha);
+                    }
+            });
+            labels.row();
+        }
     }
 
     private void addButtonsToStage() {

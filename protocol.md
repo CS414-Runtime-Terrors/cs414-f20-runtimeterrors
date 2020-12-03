@@ -167,7 +167,6 @@ Return Message Template:
 * "success": "true"
 * "matchID": int that corresponds to the created match (if response = accept)
 
-
 ## Get Board Data
 - This request returns the data for what pieces are
  in what spaces on the board for the respective match ID.
@@ -251,3 +250,22 @@ Return Message Success:
 Return Message Failure:
 * "success": "false"
 * "reason": "there are no matches/invalid match ID"
+
+## Get Game Records
+- This request returns the game records of a player, including who the game was with, the result and how many moves.
+
+Message Template:
+* "process": "get game records"
+* "user": "nickname"
+
+Return Message Success:
+* "success": "true"
+* "number": "number"
+> for each record
+* "user#": "nickname"
+* "result#": "winner"
+* "moves#": "number"
+
+Return Message Failure:
+* "success": "false"
+* "reason": "no records for that user"
