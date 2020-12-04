@@ -3,6 +3,7 @@ package com.csc14.runtimeterrors.game.BoardAssets;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.csc14.runtimeterrors.game.MatchScreen;
 import com.csc14.runtimeterrors.game.OCMessage;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
@@ -319,6 +320,9 @@ public class GameBoard {
                                 for (String position : highlightedSquares) {
                                     getSquare(position).unHighlight();
                                 }
+
+                                MatchScreen m = (MatchScreen) parent.getScreen();
+                                m.setJustFinishedTurnTrue();
                             }
                             // if second click is on a non-highlighted square, reset first click and unhighlight squares
                             else if (clickedPiece != null && !square.isHighlighted()) {

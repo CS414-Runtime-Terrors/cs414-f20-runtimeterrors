@@ -345,11 +345,24 @@ public class OCClient {
         return receivedMessage;
     }
 
-    // End match
+    // get game records
     public OCMessage getGameRecords(String nickname){
         OCMessage message = new OCMessage(), receivedMessage;
         message.put("process", "get game records");
         message.put("user", nickname);
+
+        receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
+
+    // request checkmate check
+    public OCMessage getCheckmate(int matchID) {
+        OCMessage message = new OCMessage(), receivedMessage;
+        message.put("process", "checkmate check");
+        message.put("ID", String.valueOf(matchID));
 
         receivedMessage = sendRequestAndReceiveMessage(message);
 

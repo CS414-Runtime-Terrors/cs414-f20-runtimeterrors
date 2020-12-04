@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
 import javax.swing.*;
+import java.util.TimerTask;
 
 public class MatchScreen implements Screen {
     private final OmegaChess parent;
@@ -21,7 +22,7 @@ public class MatchScreen implements Screen {
     private Table table;
     private final GameBoard board;
     private TextField currentTurn;
-    private boolean isPopupDisplayed = false;
+    private boolean isPopupDisplayed = false, justFinishedTurn = false;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -133,6 +134,50 @@ public class MatchScreen implements Screen {
         board.addListeners();
     }
 
+    private void refresh() {
+        if (!parent.getUser().equals(board.getTurn())) {
+            clearStage();
+
+            initializeBoard();
+            stage.addActor(table);
+
+            setTurn();
+            board.addListeners();
+
+            currentTurn.setText("Current Turn: " + board.getTurn());
+
+            // just switched turns, check checkmate
+            if (parent.getUser().equals(board.getTurn()) || justFinishedTurn) {
+                checkCheckmate(justFinishedTurn);
+            }
+            justFinishedTurn = false;
+        }
+    }
+
+    // called at the end of move by GameBoard
+    public void setJustFinishedTurnTrue() {
+        justFinishedTurn = true;
+    }
+
+    private void checkCheckmate(boolean startOfOppTurn) {
+        OCMessage receivedMessage = parent.getClient().getCheckmate(board.getMatchID());
+
+        if (receivedMessage.get("success").equals("true")) {
+            if (receivedMessage.get("checkmate").equals("true")) {
+                String title = "Checkmate!";
+                String message = "";
+                if (startOfOppTurn) {
+                    message = "You put " + receivedMessage.get("loser") + " in checkmate!";
+                } else {
+                    message = receivedMessage.get("winner") + " put you in checkmate!";
+                }
+                JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+                parent.getClient().endMatch(board.getMatchID(), receivedMessage.get("winner"), receivedMessage.get("loser"));
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+            }
+        }
+    }
+
     public void showNotification(String message, int messageCount){
         isPopupDisplayed = true;
         String title = "New Notification!";
@@ -155,6 +200,8 @@ public class MatchScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        refresh();
 
         stage.act();
         stage.draw();
