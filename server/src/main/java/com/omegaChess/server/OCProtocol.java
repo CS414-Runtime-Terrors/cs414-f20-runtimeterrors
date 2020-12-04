@@ -82,6 +82,9 @@ public class OCProtocol {
                 case "checkmate check":
                     toReturn = checkCheckmate(receivedMessage);
                     break;
+                case "forfeit check":
+                    toReturn = checkForfeit(receivedMessage);
+                    break;
                 default:
                     message = new OCMessage();
                     message.put("success", "false");
@@ -833,6 +836,39 @@ public class OCProtocol {
         }
         else {
             message.put("checkmate", "false");
+        }
+
+        return message.toString();
+    }
+
+    private String checkForfeit(OCMessage receivedMessage) {
+        int ID = Integer.valueOf(receivedMessage.get("ID"));
+        message = new OCMessage();
+
+        Match match = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+            return message.toString();
+        }
+        for (Match m : serverData.getMatches()){
+            if (m.getMatchID() == ID) {
+                message.put("success", "true");
+                match = m;
+                break;
+            }
+        }
+        if (match == null){
+            message.put("success", "false");
+            message.put("reason", "there is no match with ID " + ID);
+            return message.toString();
+        }
+
+        if (match.isAcknowledgeEnd()) {
+            message.put("forfeit", "true");
+        }
+        else {
+            message.put("forfeit", "false");
         }
 
         return message.toString();

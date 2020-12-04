@@ -370,4 +370,17 @@ public class OCClient {
 
         return receivedMessage;
     }
+
+    // request forfeit check
+    public OCMessage getForfeit(int matchID) {
+        OCMessage message = new OCMessage(), receivedMessage;
+        message.put("process", "forfeit check");
+        message.put("ID", String.valueOf(matchID));
+
+        receivedMessage = sendRequestAndReceiveMessage(message);
+
+        printResult(receivedMessage);
+
+        return receivedMessage;
+    }
 }
