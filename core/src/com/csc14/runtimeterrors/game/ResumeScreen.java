@@ -20,7 +20,7 @@ public class ResumeScreen implements Screen {
     private TextButton resumeBtn;
     private List<String> matches;
     private ArrayList<String> matchOpponents, matchIDs, playerIDs;
-    private final String nickname;
+    private String nickname;
     private boolean isPopupDisplayed = false;
 
     public ResumeScreen(OmegaChess omegachess) {
