@@ -710,6 +710,10 @@ public class OCProtocol {
         }
         if (end.isAcknowledgeEnd()) {
             moves = end.getBoard().getMoves().size();
+            UserProfile user = serverData.getProfile(winner);
+            user.increment("gamesWon");
+            user = serverData.getProfile(loser);
+            user.increment("gamesLost");
             serverData.addToArchive(end.endMatch(loser, winner, moves));
             serverData.removeMatch(end);
             message.put("ID", String.valueOf(serverData.getArchive().size()));
