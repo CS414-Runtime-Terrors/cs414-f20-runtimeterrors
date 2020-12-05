@@ -24,21 +24,6 @@ public class BoardSquare extends Actor {
         position[1] = col;
     }
 
-    public BoardSquare(Color squareColor, int row, int col, String piece) {
-        this.setColor(squareColor);
-        this.squareColor = squareColor;
-        this.setHeight(30);
-        this.setWidth(30);
-        position[0] = row;
-        position[1] = col;
-
-        //set piece depending on the file given
-        this.currentPiece = new Sprite(new Texture(Gdx.files.internal(piece)));
-
-        //set size to 30x30
-        currentPiece.setSize(30, 30);
-    }
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         float x = this.getX();

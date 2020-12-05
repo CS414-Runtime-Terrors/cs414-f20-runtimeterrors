@@ -194,13 +194,6 @@ public class OmegaChess extends Game {
 				break;
 			case MATCH:
 				this.setScreen(matchScreen);
-				//JFrame frame = new GameDemoTest();
-				//frame
-				//frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
-				//frame.pack();
-				//frame.setResizable(true);
-				//frame.setLocationRelativeTo( null );
-				//frame.setVisible(true);
 				break;
 			case PROFILE:
 				if(profileScreen == null) profileScreen = new ProfileScreen(this);

@@ -11,12 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimerTask;
 
 public class MatchScreen implements Screen {
@@ -26,7 +29,7 @@ public class MatchScreen implements Screen {
     private GameBoard board;
     private TextField currentTurn;
     Skin skin;
-    ArrayList<Texture> textures;
+    Map<String, Texture> textures;
     private boolean isPopupDisplayed = false, justFinishedTurn = false;
 
     public MatchScreen(OmegaChess omegachess) {
@@ -34,13 +37,34 @@ public class MatchScreen implements Screen {
 
         board = new GameBoard(parent, this);
 
-        textures = new ArrayList<>();
+        textures = new HashMap<>();
+        initalizeTextures();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+    }
+
+    private void initalizeTextures() {
+        textures.put("blackBishop.png", new Texture(Gdx.files.internal("blackBishop.png")));
+        textures.put("blackChampion.png", new Texture(Gdx.files.internal("blackChampion.png")));
+        textures.put("blackKing.png", new Texture(Gdx.files.internal("blackKing.png")));
+        textures.put("blackKnight.png", new Texture(Gdx.files.internal("blackKnight.png")));
+        textures.put("blackPawn.png", new Texture(Gdx.files.internal("blackPawn.png")));
+        textures.put("blackQueen.png", new Texture(Gdx.files.internal("blackQueen.png")));
+        textures.put("blackRook.png", new Texture(Gdx.files.internal("blackRook.png")));
+        textures.put("blackWizard.png", new Texture(Gdx.files.internal("blackWizard.png")));
+
+        textures.put("whitekBishop.png", new Texture(Gdx.files.internal("whiteBishop.png")));
+        textures.put("whiteChampion.png", new Texture(Gdx.files.internal("whiteChampion.png")));
+        textures.put("whiteKing.png", new Texture(Gdx.files.internal("whiteKing.png")));
+        textures.put("whiteKnight.png", new Texture(Gdx.files.internal("whiteKnight.png")));
+        textures.put("whitePawn.png", new Texture(Gdx.files.internal("whitePawn.png")));
+        textures.put("whiteQueen.png", new Texture(Gdx.files.internal("whiteQueen.png")));
+        textures.put("whiteRook.png", new Texture(Gdx.files.internal("whiteRook.png")));
+        textures.put("whiteWizard.png", new Texture(Gdx.files.internal("whiteWizard.png")));
     }
 
     @Override
@@ -77,14 +101,9 @@ public class MatchScreen implements Screen {
         board.addListeners();
     }
 
-    public void setTexture(String piece)
+    public Texture getTexture(String piece)
     {
-        textures.add(new Texture(Gdx.files.internal(piece)));
-    }
-
-    public Texture getTexture(int index)
-    {
-        return textures.get(index);
+        return textures.get(piece);
     }
 
     private void addButtons() {
@@ -249,7 +268,6 @@ public class MatchScreen implements Screen {
 
     private void initializeBoard() {
         //set up table to be at the center of the screen
-        table = new Table();
         table.setWidth(stage.getWidth());
         table.align(Align.center);
         table.setPosition(0, Gdx.graphics.getHeight()/2);
@@ -310,10 +328,8 @@ public class MatchScreen implements Screen {
 
     @Override
     public void dispose() {
-        for( Texture text : textures)
-        {
-            text.dispose();
-        }
+        for (String piece : textures.keySet())
+            textures.get(piece).dispose();
 
         table.remove();
         currentTurn.remove();

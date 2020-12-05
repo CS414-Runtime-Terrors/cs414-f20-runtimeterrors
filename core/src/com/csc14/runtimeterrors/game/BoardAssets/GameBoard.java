@@ -23,20 +23,21 @@ public class GameBoard {
     private Color turnColor;
     private int matchID;
     Texture texture;
+    private ArrayList<ArrayList<BoardSquare>> emptyBoard;
 
     public GameBoard(OmegaChess omegaChess, MatchScreen match) {
         parent = omegaChess;
         gameBoard = new ArrayList<>();
         matchParent = match;
+        createEmptyBoard();
         initializeBoard();
         whitePlayer = "";
         blackPlayer = "";
         turn = "";
     }
 
-    //create 2d arraylist of BoardSquare objects
-    public void initializeBoard() {
-        gameBoard = new ArrayList<>();
+    private void createEmptyBoard() {
+        emptyBoard = new ArrayList<>();
 
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
@@ -208,18 +209,23 @@ public class GameBoard {
         row11.add(blank);
         row11.add(new BoardSquare(Color.WHITE, 11, 11));
 
-        gameBoard.add(row0);
-        gameBoard.add(row1);
-        gameBoard.add(row2);
-        gameBoard.add(row3);
-        gameBoard.add(row4);
-        gameBoard.add(row5);
-        gameBoard.add(row6);
-        gameBoard.add(row7);
-        gameBoard.add(row8);
-        gameBoard.add(row9);
-        gameBoard.add(row10);
-        gameBoard.add(row11);
+        emptyBoard.add(row0);
+        emptyBoard.add(row1);
+        emptyBoard.add(row2);
+        emptyBoard.add(row3);
+        emptyBoard.add(row4);
+        emptyBoard.add(row5);
+        emptyBoard.add(row6);
+        emptyBoard.add(row7);
+        emptyBoard.add(row8);
+        emptyBoard.add(row9);
+        emptyBoard.add(row10);
+        emptyBoard.add(row11);
+    }
+
+    //create 2d arraylist of BoardSquare objects
+    public void initializeBoard() {
+        gameBoard = emptyBoard; // set gameboard to empty board
     }
 
     //get square with chess position string (i.e. "a3", "f5", etc.)
@@ -243,8 +249,7 @@ public class GameBoard {
                 color = Color.BLACK;
             }
 
-            matchParent.setTexture(piece);
-            gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color, matchParent.getTexture(count));
+            gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color, matchParent.getTexture(piece));
             count++;
         }
     }
