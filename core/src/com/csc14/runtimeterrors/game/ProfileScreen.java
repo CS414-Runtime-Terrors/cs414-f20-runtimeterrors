@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -16,12 +17,11 @@ public class ProfileScreen implements Screen {
     private final OmegaChess parent;
     private final Stage stage;
     //private TextButton changePwBtn, changeNicknameBtn; todo decide if implement or remove
-    private final String nickname;
+    private String nickname;
     private boolean isPopupDisplayed = false;
 
     public ProfileScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
-        nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -31,6 +31,8 @@ public class ProfileScreen implements Screen {
 
     @Override
     public void show() {
+        nickname = parent.getUser();
+
         Gdx.input.setInputProcessor(stage);
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
@@ -293,11 +295,10 @@ public class ProfileScreen implements Screen {
 
     @Override
     public void hide() {
-
+        stage.clear();
     }
 
     @Override
     public void dispose() {
-
     }
 }
