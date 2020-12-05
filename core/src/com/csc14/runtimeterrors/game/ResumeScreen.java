@@ -23,7 +23,6 @@ public class ResumeScreen implements Screen {
 
     public ResumeScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
-        nickname = parent.getUser();
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -34,6 +33,11 @@ public class ResumeScreen implements Screen {
 
     @Override
     public void show() {
+        nickname = parent.getUser();
+
+        matchOpponents = new ArrayList<>();
+        matchIDs = new ArrayList<>();
+        playerIDs = new ArrayList<>();
         Gdx.input.setInputProcessor(stage);
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
@@ -74,24 +78,27 @@ public class ResumeScreen implements Screen {
 
         if (receivedMessage.get("success").equals("true")) {
             System.out.println(receivedMessage);
-            for (int i = 0; i < Integer.parseInt(receivedMessage.get("count")); i++){
-                matchOpponents.add(receivedMessage.get("opponent"+i));
-                matchIDs.add(receivedMessage.get("ID"+i));
-                playerIDs.add(receivedMessage.get("playerIndex"+i));
-            }
-
-            if (matchOpponents.size() > 0) {
-                matches.setItems(matchOpponents.toArray(new String[0]));
+            if (Integer.parseInt(receivedMessage.get("count")) == 0){
                 resumeBtn.setDisabled(false);
-            }
-            else {
-                resumeBtn.setDisabled(true);
-            }
+            }else {
+                for (int i = 1; i <= Integer.parseInt(receivedMessage.get("count")); i++) {
+                    matchOpponents.add(receivedMessage.get("opponent" + i));
+                    matchIDs.add(receivedMessage.get("ID" + i));
+                    playerIDs.add(receivedMessage.get("playerIndex" + i));
+                }
 
-            matches.setWidth(550);
-            matches.setHeight(325);
-            matches.setPosition(50, 85);
-            stage.addActor(matches);
+                if (matchOpponents.size() > 0) {
+                    matches.setItems(matchOpponents.toArray(new String[0]));
+                    resumeBtn.setDisabled(false);
+                } else {
+                    resumeBtn.setDisabled(true);
+                }
+
+                matches.setWidth(550);
+                matches.setHeight(325);
+                matches.setPosition(50, 85);
+                stage.addActor(matches);
+            }
         }
         else {
             resumeBtn.setDisabled(true);
