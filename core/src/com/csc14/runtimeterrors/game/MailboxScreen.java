@@ -350,6 +350,7 @@ public class MailboxScreen implements Screen {
 
     @Override
     public void hide() {
+        stage.clear();
     }
 
     @Override
