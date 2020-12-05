@@ -1,5 +1,6 @@
 package com.csc14.runtimeterrors.game;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 import javax.swing.*;

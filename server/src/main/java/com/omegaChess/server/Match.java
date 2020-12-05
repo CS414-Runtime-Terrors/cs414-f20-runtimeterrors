@@ -20,6 +20,7 @@ public class Match {
     private String profile1, profile2;
     private static int matchCount = 0;
     private int matchID;
+    private boolean acknowledgeEnd = false;
 
     // Profile 1 should be the profile that sent an invite
     public Match(String profile1, String profile2){
@@ -46,10 +47,10 @@ public class Match {
         boolean check = true, noBlock = true;
         switch (board.getTurn().getCurrentTurnColor()){
             case WHITE:
-                currentPieces = board.get_black_pieces();
+                currentPieces = board.get_white_pieces();
                 break;
             case BLACK:
-                currentPieces = board.get_white_pieces();
+                currentPieces = board.get_black_pieces();
                 break;
         }
 
@@ -96,6 +97,14 @@ public class Match {
     public String getProfile1() { return profile1; }
 
     public String getProfile2() { return profile2; }
+
+    public void setAcknowledgeEnd(boolean acknowledgeEnd) {
+        this.acknowledgeEnd = acknowledgeEnd;
+    }
+
+    public boolean isAcknowledgeEnd() {
+        return acknowledgeEnd;
+    }
 
     public void save(String saveLocation) {
         createDirectoryIfNonExistent(saveLocation);

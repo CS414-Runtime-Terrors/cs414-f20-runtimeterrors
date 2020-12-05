@@ -328,6 +328,9 @@ public class GameBoard {
                                 for (String position : highlightedSquares) {
                                     getSquare(position).unHighlight();
                                 }
+
+                                MatchScreen m = (MatchScreen) parent.getScreen();
+                                m.setJustFinishedTurnTrue();
                             }
                             // if second click is on a non-highlighted square, reset first click and unhighlight squares
                             else if (clickedPiece != null && !square.isHighlighted()) {

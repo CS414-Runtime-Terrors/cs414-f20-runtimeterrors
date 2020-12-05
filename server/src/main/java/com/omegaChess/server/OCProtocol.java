@@ -79,6 +79,12 @@ public class OCProtocol {
                 case "get game records":
                     toReturn = getGameRecords(receivedMessage);
                     break;
+                case "checkmate check":
+                    toReturn = checkCheckmate(receivedMessage);
+                    break;
+                case "forfeit check":
+                    toReturn = checkForfeit(receivedMessage);
+                    break;
                 default:
                     message = new OCMessage();
                     message.put("success", "false");
@@ -619,35 +625,29 @@ public class OCProtocol {
 
     public String resumeMatchesListResponse(OCMessage receivedMessage) {
         String user = receivedMessage.get("nickname");
-        String opponents = "";
-        String IDs = "";
-        String playerIndex = "";
+        int count = 0;
         ArrayList<Match> matches = serverData.getMatches();
         message = new OCMessage();
 
+        message.put("success", "true");
         // This allows us to figure out if the user requesting the match to resume is the first or second player
         for (Match m : matches) {
             if (m.getProfile1().equalsIgnoreCase(user)) {
-                playerIndex += 1 + ", ";
-                opponents += m.getProfile2() + ", ";
-                IDs += m.getMatchID() + ", ";
+                count++;
+                message.put("playerIndex"+count, String.valueOf(1));
+                message.put("opponent"+count, m.getProfile2());
+                message.put("ID"+count,String.valueOf(m.getMatchID()));
             }
             else if (m.getProfile2().equalsIgnoreCase(user)) {
-                playerIndex += 2 + ", ";
-                opponents += m.getProfile1() + ", ";
-                IDs += m.getMatchID() + ", ";
+                count++;
+                message.put("playerIndex"+count, String.valueOf(2));
+                message.put("opponent"+count, m.getProfile1());
+                message.put("ID"+count,String.valueOf(m.getMatchID()));
             }
         }
 
-        if (!opponents.equals("")) {
-            opponents = opponents.substring(0, opponents.length() - 2);
-            IDs = IDs.substring(0, IDs.length() - 2);
-        }
+        message.put("count", String.valueOf(count));
 
-        message.put("success", "true");
-        message.put("opponents", opponents);
-        message.put("matchIDs", IDs);
-        message.put("playerIndex", playerIndex);
         return message.toString();
     }
 
@@ -679,33 +679,42 @@ public class OCProtocol {
         return message.toString();
     }
 
-    public String endMatch(OCMessage receivedMessage){
+    public String endMatch(OCMessage receivedMessage) {
         int ID = Integer.valueOf(receivedMessage.get("ID")), moves = 0;
         String loser = receivedMessage.get("loser"), winner = receivedMessage.get("winner");
         message = new OCMessage();
 
         Match end = null;
-        if (serverData.getMatches().size() == 0){
+        if (serverData.getMatches().size() == 0) {
             message.put("success", "false");
             message.put("reason", "There are no matches available");
             return message.toString();
         }
-        for (Match match : serverData.getMatches()){
+        for (Match match : serverData.getMatches()) {
             if (match.getMatchID() == ID) {
                 message.put("success", "true");
                 end = match;
                 break;
             }
         }
-        if (end == null){
+        if (end == null) {
             message.put("success", "false");
             message.put("reason", "there is no match with ID " + ID);
             return message.toString();
         }
-        moves = end.getBoard().getMoves().size();
-        end.endMatch(loser, winner, moves);
-        serverData.removeMatch(end);
-        message.put("ID", String.valueOf(serverData.getArchive().size()));
+        if (end.isAcknowledgeEnd()) {
+            moves = end.getBoard().getMoves().size();
+            UserProfile user = serverData.getProfile(winner);
+            user.increment("gamesWon");
+            user = serverData.getProfile(loser);
+            user.increment("gamesLost");
+            serverData.addToArchive(end.endMatch(loser, winner, moves));
+            serverData.removeMatch(end);
+            message.put("ID", String.valueOf(serverData.getArchive().size()));
+        }
+        else {
+            end.setAcknowledgeEnd(true);
+        }
 
         return message.toString();
     }
@@ -740,6 +749,7 @@ public class OCProtocol {
 
     private String getGameRecords(OCMessage receivedMessage) {
         String user = receivedMessage.get("user");
+        message = new OCMessage();
 
         if (!serverData.profileExists(user)){
             // target user doesn't exist
@@ -781,6 +791,83 @@ public class OCProtocol {
             }
         }
         message.put("number", "" + countForUser);
+
+        return message.toString();
+    }
+
+    private String checkCheckmate(OCMessage receivedMessage) {
+        int ID = Integer.valueOf(receivedMessage.get("ID"));
+        message = new OCMessage();
+
+        Match match = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+            return message.toString();
+        }
+        for (Match m : serverData.getMatches()){
+            if (m.getMatchID() == ID) {
+                message.put("success", "true");
+                match = m;
+                break;
+            }
+        }
+        if (match == null){
+            message.put("success", "false");
+            message.put("reason", "there is no match with ID " + ID);
+            return message.toString();
+        }
+        String p1 = match.getProfile1();
+        String p2 = match.getProfile2();
+        boolean inCheckmate = match.checkCheckmate();
+
+        if (inCheckmate) {
+            message.put("checkmate", "true");
+            if (p1.equals(match.getBoard().getTurn().getCurrentTurnPlayer())) {
+                message.put("loser", p1);
+                message.put("winner", p2);
+            }
+            else {
+                message.put("loser", p2);
+                message.put("winner", p1);
+            }
+        }
+        else {
+            message.put("checkmate", "false");
+        }
+
+        return message.toString();
+    }
+
+    private String checkForfeit(OCMessage receivedMessage) {
+        int ID = Integer.valueOf(receivedMessage.get("ID"));
+        message = new OCMessage();
+
+        Match match = null;
+        if (serverData.getMatches().size() == 0){
+            message.put("success", "false");
+            message.put("reason", "There are no matches available");
+            return message.toString();
+        }
+        for (Match m : serverData.getMatches()){
+            if (m.getMatchID() == ID) {
+                message.put("success", "true");
+                match = m;
+                break;
+            }
+        }
+        if (match == null){
+            message.put("success", "false");
+            message.put("reason", "there is no match with ID " + ID);
+            return message.toString();
+        }
+
+        if (match.isAcknowledgeEnd()) {
+            message.put("forfeit", "true");
+        }
+        else {
+            message.put("forfeit", "false");
+        }
 
         return message.toString();
     }
