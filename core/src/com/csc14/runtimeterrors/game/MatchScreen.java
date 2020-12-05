@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,19 +15,24 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class MatchScreen implements Screen {
     private final OmegaChess parent;
     private final Stage stage;
     private Table table;
-    private final GameBoard board;
+    private GameBoard board;
     private TextField currentTurn;
     private boolean isPopupDisplayed = false;
+    Skin skin;
+    ArrayList<Texture> textures;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
 
-        board = new GameBoard(parent);
+        board = new GameBoard(parent, this);
+
+        textures = new ArrayList<>();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -69,8 +75,18 @@ public class MatchScreen implements Screen {
         board.addListeners();
     }
 
+    public void setTexture(String piece)
+    {
+        textures.add(new Texture(Gdx.files.internal(piece)));
+    }
+
+    public Texture getTexture(int index)
+    {
+        return textures.get(index);
+    }
+
     private void addButtons() {
-        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         TextButton backBtn = new TextButton("Back", skin);
         TextButton forfeit = new TextButton("Forfeit", skin);
         TextButton refresh = new TextButton("Refresh", skin);
@@ -223,6 +239,15 @@ public class MatchScreen implements Screen {
 
     @Override
     public void dispose() {
+        for( Texture text : textures)
+        {
+            text.dispose();
+        }
 
+        table.remove();
+        currentTurn.remove();
+        skin.dispose();
+        stage.dispose();
+        board = null;
     }
 }

@@ -84,8 +84,8 @@ public class BoardSquare extends Actor {
         pieceColor = color;
     }
 
-    public void setPiece(String piece, Color color) {
-        this.currentPiece = new Sprite(new Texture(Gdx.files.internal(piece)));
+    public void setPiece(String piece, Color color, Texture texture) {
+        this.currentPiece = new Sprite(texture);
         currentPiece.setSize(30, 30);
         pieceColor = color;
     }

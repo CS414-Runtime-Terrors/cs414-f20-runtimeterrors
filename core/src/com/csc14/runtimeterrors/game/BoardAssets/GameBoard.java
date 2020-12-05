@@ -1,8 +1,10 @@
 package com.csc14.runtimeterrors.game.BoardAssets;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.csc14.runtimeterrors.game.MatchScreen;
 import com.csc14.runtimeterrors.game.OCMessage;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class GameBoard {
 
     private final OmegaChess parent;
+    private MatchScreen matchParent;
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
     private List<String> highlightedSquares;
@@ -19,10 +22,12 @@ public class GameBoard {
     private String whitePlayer, blackPlayer, turn;
     private Color turnColor;
     private int matchID;
+    Texture texture;
 
-    public GameBoard(OmegaChess omegaChess) {
+    public GameBoard(OmegaChess omegaChess, MatchScreen match) {
         parent = omegaChess;
         gameBoard = new ArrayList<>();
+        matchParent = match;
         initializeBoard();
         whitePlayer = "";
         blackPlayer = "";
@@ -227,6 +232,7 @@ public class GameBoard {
         OCMessage message = parent.getClient().getBoardData(matchID);
         ArrayList<String> locations = message.getKeys();
         locations.remove("success");
+        int count = 0;
         for (String loc : locations){
             int[] pos = parsePosition(loc);
             String piece = message.get(loc);
@@ -236,7 +242,10 @@ public class GameBoard {
             }else{
                 color = Color.BLACK;
             }
-            gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color);
+
+            matchParent.setTexture(piece);
+            gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color, matchParent.getTexture(count));
+            count++;
         }
     }
 
