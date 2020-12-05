@@ -75,9 +75,10 @@ public class TestMatch {
         board.initializeInvalidSpaces();
 
         match = new Match(p1.getNickname(), p2.getNickname());
-        TurnTracker turn = new TurnTracker(p1.getNickname(), p2.getNickname());
-        match.getBoard().setTurn(turn);
         match.setBoard(board);
+        TurnTracker turn = new TurnTracker(p1.getNickname(), p2.getNickname());
+        turn.switchTurn();
+        match.getBoard().setTurn(turn);
 
         assertTrue(match.checkCheckmate(), "Black should be checkmate.");
 

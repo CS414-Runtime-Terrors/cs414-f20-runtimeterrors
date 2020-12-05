@@ -269,3 +269,73 @@ Return Message Success:
 Return Message Failure:
 * "success": "false"
 * "reason": "no records for that user"
+
+## End Match
+- This request marks the match as ready for completion if it is the first time a match calls end and then ends the match and creates the game record on the second.
+
+ Message Template:
+ * "process": "end match"
+ * "ID": "match ID"
+ * "winner": "winning player"
+ * "loser": "losing player"
+ 
+ Return Message Template 1:
+ * "success": "true"
+ 
+ Return Message Template 2:
+ * "success": "true"
+ * "ID": "archive ID"
+ 
+ Return Message Template 3:
+ * "success": "false"
+ * "reason": "There are no matches available"
+ 
+ Return Message Template 4:
+ * "success": "false"
+ * "reason": "there is no match with ID #"
+ 
+ ## Check Checkmate
+ - This request checks if the current turn player is in checkmate.
+ 
+ Message Template:
+ * "process": "checkmate check"
+ * "ID": "match ID"
+ 
+ Return Message Template 1:
+ * "success": "true"
+ * "checkmate": "false"
+ 
+ Return Message Template 2:
+ * "success": "true"
+ * "checkmate": "false"
+ * "loser": "losing player"
+ * "winner": "winning player"
+ 
+ Return Message Template 3:
+ * "success": "false"
+ * "reason": "There are no matches available"
+ 
+ Return Message Template 4:
+ * "success": "false"
+ * "reason": "there is no match with ID #"
+ 
+ ## Check Forfeit
+ - This request checks if the other player has forfeit the match.
+ 
+ Message Template:
+ * "process": "forfeit check"
+ * "ID": "match ID"
+ 
+ Return Message Template 1:
+ * "success": "true"
+ * "checkmate": "true/false"
+ 
+ Return Message Template 2:
+ * "success": "false"
+ * "reason": "There are no matches available"
+ 
+ Return Message Template 3:
+ * "success": "false"
+ * "reason": "there is no match with ID #"
+ 
+ 

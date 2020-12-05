@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csc14.runtimeterrors.game.BoardAssets.GameBoard;
 
 import javax.swing.*;
+import java.util.TimerTask;
 
 public class MatchScreen implements Screen {
     private final OmegaChess parent;
@@ -21,7 +22,7 @@ public class MatchScreen implements Screen {
     private Table table;
     private final GameBoard board;
     private TextField currentTurn;
-    private boolean isPopupDisplayed = false;
+    private boolean isPopupDisplayed = false, justFinishedTurn = false;
 
     public MatchScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
@@ -105,12 +106,17 @@ public class MatchScreen implements Screen {
         forfeit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent even, float x, float y) {
-                if (parent.getUser().equalsIgnoreCase(board.getWhitePlayer())) {
-                    parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getBlackPlayer());
-                }else{
-                    parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getWhitePlayer());
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to forfeit?",
+                        "Forfeit?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if (result == JOptionPane.YES_OPTION) {
+                    if (parent.getUser().equalsIgnoreCase(board.getWhitePlayer())) {
+                        parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getBlackPlayer());
+                    } else {
+                        parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getWhitePlayer());
+                    }
+                    parent.changeScreen(OmegaChess.SCREEN.LOBBY);
                 }
-                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
         }
         });
 
@@ -131,6 +137,68 @@ public class MatchScreen implements Screen {
 
         //add listeners for all of the BoardSquare objects
         board.addListeners();
+    }
+
+    private void refresh() {
+        if (!parent.getUser().equals(board.getTurn())) {
+            clearStage();
+
+            initializeBoard();
+            stage.addActor(table);
+
+            setTurn();
+            board.addListeners();
+
+            currentTurn.setText("Current Turn: " + board.getTurn());
+
+            //check for forfeit
+            checkForfeit();
+
+            // just switched turns, check checkmate
+            if (parent.getUser().equals(board.getTurn()) || justFinishedTurn) {
+                checkCheckmate(justFinishedTurn);
+            }
+            justFinishedTurn = false;
+        }
+    }
+
+    // called at the end of move by GameBoard
+    public void setJustFinishedTurnTrue() {
+        justFinishedTurn = true;
+    }
+
+    private void checkCheckmate(boolean startOfOppTurn) {
+        OCMessage receivedMessage = parent.getClient().getCheckmate(board.getMatchID());
+
+        if (receivedMessage.get("success").equals("true")) {
+            if (receivedMessage.get("checkmate").equals("true")) {
+                String title = "Checkmate!";
+                String message = "";
+                if (startOfOppTurn) {
+                    message = "You put " + receivedMessage.get("loser") + " in checkmate!";
+                } else {
+                    message = receivedMessage.get("winner") + " put you in checkmate!";
+                }
+                JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+                parent.getClient().endMatch(board.getMatchID(), receivedMessage.get("winner"), receivedMessage.get("loser"));
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+            }
+        }
+    }
+
+    private void checkForfeit() {
+        OCMessage receivedMessage = parent.getClient().getForfeit(board.getMatchID());
+
+        if (receivedMessage.get("success").equals("true")) {
+            if (receivedMessage.get("forfeit").equals("true")) {
+                String title = "Forfeit!";
+                String message = board.getTurn() + " has forfeit the match!";
+
+                JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+                parent.getClient().endMatch(board.getMatchID(), parent.getUser(), board.getTurn());
+                parent.changeScreen(OmegaChess.SCREEN.LOBBY);
+            }
+        }
     }
 
     public void showNotification(String message, int messageCount){
@@ -155,6 +223,8 @@ public class MatchScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        refresh();
 
         stage.act();
         stage.draw();
