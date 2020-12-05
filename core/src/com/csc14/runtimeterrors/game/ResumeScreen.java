@@ -25,7 +25,6 @@ public class ResumeScreen implements Screen {
 
     public ResumeScreen(OmegaChess omegachess) {
         parent = omegachess;     // setting the argument to our field.
-        nickname = parent.getUser();
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -36,6 +35,11 @@ public class ResumeScreen implements Screen {
 
     @Override
     public void show() {
+        nickname = parent.getUser();
+
+        matchOpponents = new ArrayList<>();
+        matchIDs = new ArrayList<>();
+        playerIDs = new ArrayList<>();
         Gdx.input.setInputProcessor(stage);
 
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
@@ -81,25 +85,28 @@ public class ResumeScreen implements Screen {
         OCMessage receivedMessage = parent.getClient().getResumeMatches(nickname);
 
         if (receivedMessage.get("success").equals("true")) {
-            String[] opponents = receivedMessage.get("opponents").split(", ");
-            String[] IDs = receivedMessage.get("matchIDs").split(", ");
-            String[] playerIndex = receivedMessage.get("playerIndex").split(", ");
-            matchOpponents = new ArrayList<>(Arrays.asList(opponents));
-            matchIDs = new ArrayList<>(Arrays.asList(IDs));
-            playerIDs = new ArrayList<>(Arrays.asList(playerIndex));
-
-            if (matchOpponents.size() > 0) {
-                matches.setItems(matchOpponents.toArray(new String[0]));
+            System.out.println(receivedMessage);
+            if (Integer.parseInt(receivedMessage.get("count")) == 0){
                 resumeBtn.setDisabled(false);
-            }
-            else {
-                resumeBtn.setDisabled(true);
-            }
+            }else {
+                for (int i = 1; i <= Integer.parseInt(receivedMessage.get("count")); i++) {
+                    matchOpponents.add(receivedMessage.get("opponent" + i));
+                    matchIDs.add(receivedMessage.get("ID" + i));
+                    playerIDs.add(receivedMessage.get("playerIndex" + i));
+                }
 
-            matches.setWidth(550);
-            matches.setHeight(325);
-            matches.setPosition(50, 85);
-            stage.addActor(matches);
+                if (matchOpponents.size() > 0) {
+                    matches.setItems(matchOpponents.toArray(new String[0]));
+                    resumeBtn.setDisabled(false);
+                } else {
+                    resumeBtn.setDisabled(true);
+                }
+
+                matches.setWidth(550);
+                matches.setHeight(325);
+                matches.setPosition(50, 85);
+                stage.addActor(matches);
+            }
         }
         else {
             resumeBtn.setDisabled(true);
