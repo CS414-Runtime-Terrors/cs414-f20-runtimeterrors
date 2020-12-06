@@ -23,7 +23,6 @@ public final class MatchScreen {
     private BoardSquare toSquare;
     private OmegaChess parent;
 
-    private boolean justFinishedTurn = false;
     private JLabel turnLabel;
     JFrame gameFrame;
 
@@ -70,14 +69,10 @@ public final class MatchScreen {
                     chessBoard.populateBoard();
                     boardPanel.drawBoard(chessBoard);
 
-                    //check for forfeit
-                    checkForfeit();
-
                     // just switched turns, check checkmate
-                    if (parent.getUser().equals(chessBoard.getTurn()) || justFinishedTurn) {
-                        checkCheckmate(justFinishedTurn);
+                    if (parent.getUser().equals(chessBoard.getTurn())) {
+                        checkCheckmate(false);
                     }
-                    justFinishedTurn = false;
                 }
 
             }
@@ -162,9 +157,9 @@ public final class MatchScreen {
 
                 if (result == JOptionPane.YES_OPTION) {
                     if (parent.getUser().equalsIgnoreCase(chessBoard.getWhitePlayer())) {
-                        parent.getClient().endMatch(chessBoard.getMatchID(), parent.getUser(), chessBoard.getBlackPlayer());
+                        parent.getClient().endMatch(chessBoard.getMatchID(), chessBoard.getBlackPlayer(), parent.getUser());
                     } else {
-                        parent.getClient().endMatch(chessBoard.getMatchID(), parent.getUser(), chessBoard.getWhitePlayer());
+                        parent.getClient().endMatch(chessBoard.getMatchID(), chessBoard.getWhitePlayer(), parent.getUser());
                     }
                     parent.changeScreenFromMatch();
                     gameFrame.setVisible(false);
@@ -282,7 +277,11 @@ public final class MatchScreen {
                                             break;
                                     }
 
-                                    justFinishedTurn = true;
+                                    //check for forfeit
+                                    checkForfeit();
+
+                                    // just switched turns, check checkmate
+                                    checkCheckmate(true);
 
                                     chessBoard.initializeBoard();
                                     chessBoard.populateBoard();
