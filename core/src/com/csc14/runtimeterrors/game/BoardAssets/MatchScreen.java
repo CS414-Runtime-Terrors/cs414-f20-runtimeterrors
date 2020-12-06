@@ -258,9 +258,7 @@ public final class MatchScreen {
                                     fromSquare.removePiece();
 
                                     if (chessBoard.getEnPessant()) {
-                                        int increment = fromSquare.getPosition()[0] - fromSquare.getPosition()[0];  //todo what is this supposed to be doing? [0]-[0] is always 0
-                                        BoardSquare enPesSq = chessBoard.getSquare(fromSquare.getPosition()[0] + increment, fromSquare.getPosition()[1]);
-                                        enPesSq.removePiece();
+                                        chessBoard.getSquare(fromSquare.getPosition()[0], toSquare.getPosition()[1]).removePiece();
                                     }
 
                                     chessBoard.setEnPessant(false);
