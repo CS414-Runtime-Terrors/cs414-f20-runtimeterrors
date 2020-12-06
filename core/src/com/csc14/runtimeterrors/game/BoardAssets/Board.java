@@ -13,37 +13,24 @@ import java.util.Map;
 public class Board {
 
     private final OmegaChess parent;
-    private MatchScreen matchParent;
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
-    private List<String> highlightedSquares;
     private boolean isEnPessant;
     private String whitePlayer, blackPlayer, turn;
     private Color turnColor;
     private int matchID;
-    private String pieceType;
-    Texture texture;
-    private ArrayList<ArrayList<BoardSquare>> emptyBoard;
-    private Map<Integer, String> boardConfig;
 
     public Board(OmegaChess omegaChess) {
         parent = omegaChess;
-        boardConfig = new HashMap<>();
         gameBoard = new ArrayList<>();
         initializeBoard();
         whitePlayer = "";
         blackPlayer = "";
         turn = "";
-        pieceType = "";
     }
 
     //create 2d arraylist of BoardSquare objects
     public void initializeBoard() {
-       /* for(int i = 1; i <= BoardUtilities.NUM_TILES; i++)
-        {
-            boardConfig.put(i, null);
-        }*/
-
         gameBoard = new ArrayList<>();
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
@@ -280,13 +267,12 @@ public class Board {
         return null;
     }
 
-    public String getSquareStr(int tileId){
-        return boardConfig.get(tileId);
-    }
-
     public BoardSquare getSquare(int tileId){
-        int row = tileId / BoardUtilities.NUM_TILES_PER_ROW;
-        int col = tileId - row*BoardUtilities.NUM_TILES_PER_ROW;
+        //144 -> 12 0
+        System.out.println("Tile id: " + tileId);
+        int row = BoardUtilities.NUM_TILES_PER_ROW - (tileId / BoardUtilities.NUM_TILES_PER_ROW)-1;
+        int col = tileId - (tileId / BoardUtilities.NUM_TILES_PER_ROW)*BoardUtilities.NUM_TILES_PER_ROW;
+        System.out.println("Row: " + row + "\nCol: " + col);
         return gameBoard.get(row).get(col);
     }
 
@@ -300,7 +286,7 @@ public class Board {
 
     public Integer getSquareIndex(int r, int c)
     {
-        return r*BoardUtilities.NUM_TILES_PER_ROW + c;
+        return (BoardUtilities.NUM_TILES_PER_ROW-r-1)*BoardUtilities.NUM_TILES_PER_ROW + c;
     }
 
     //turn chess string into integers ("c3" -> (3,3))

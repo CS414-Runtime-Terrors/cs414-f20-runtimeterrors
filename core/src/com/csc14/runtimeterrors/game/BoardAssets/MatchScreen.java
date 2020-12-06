@@ -21,14 +21,7 @@ public final class MatchScreen {
     private Board chessBoard;
     private BoardSquare fromSquare;
     private BoardSquare toSquare;
-    private String imagePath;
     private OmegaChess parent;
-    private final Color lightSquareColor = Color.decode("#FFFFFF");
-    private final Color darkSquareColor = Color.decode("#808080");
-
-    private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
-    private static final Dimension INNER_DIMENSION = new Dimension(400, 350);
-    private static final Dimension SQUARES_DIMENSION = new Dimension(10, 10);
 
     private boolean justFinishedTurn = false;
     private JLabel turnLabel;
@@ -48,14 +41,12 @@ public final class MatchScreen {
         chessBoard.setWhitePlayer(whitePlayer);
         chessBoard.setBlackPlayer(blackPlayer);
 
-        this.imagePath = "core/assets/";
-
         gameFrame = new JFrame("Omega Chess Match");
         gameFrame.setLayout(new BorderLayout());
         final JMenuBar tableMenuBar = new JMenuBar();
         tableMenuBar.add(createOptionsMenu());
         gameFrame.setJMenuBar(tableMenuBar);
-        gameFrame.setSize(OUTER_FRAME_DIMENSION);
+        gameFrame.setSize(new Dimension(600, 600));
         setTurn();
         turnLabel = new JLabel("Current Turn: " + chessBoard.getTurn());
         turnLabel.setFont(new Font("Serif", Font.BOLD, 16));
@@ -198,7 +189,7 @@ public final class MatchScreen {
                 this.boardTiles.add(tilePanel);
                 add(tilePanel);
             }
-            setPreferredSize(INNER_DIMENSION);
+            setPreferredSize(new Dimension(400, 350));
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setBackground(Color.decode("#000000"));
             validate();
@@ -223,7 +214,7 @@ public final class MatchScreen {
                   final int tileId) {
             super(new GridBagLayout());
             this.tileId = tileId;
-            setPreferredSize(SQUARES_DIMENSION);
+            setPreferredSize(new Dimension(10, 10));
             setTileColor();
             setTileImage(chessBoard);
             addMouseListener(new MouseListener() {
@@ -360,11 +351,12 @@ public final class MatchScreen {
         }
 
         private void setTileImage(final Board board) {
+            String imagePath = "core/assets/";
             this.removeAll();
             board.populateBoard();
             if(board.getSquare(this.tileId) != null) {
                 try{
-                    if(board.getSquare(this.tileId).getPiece() != "")
+                    if(!board.getSquare(this.tileId).getPiece().equals(""))
                     {
                         final BufferedImage image = ImageIO.read(new File(imagePath +
                                 board.getSquare(this.tileId).getPiece()));
@@ -398,14 +390,14 @@ public final class MatchScreen {
                     BoardUtilities.INSTANCE.SEVENTH_ROW.get(this.tileId) ||
                     BoardUtilities.INSTANCE.NINTH_ROW.get(this.tileId) ||
                     BoardUtilities.INSTANCE.ELEVENTH_ROW.get(this.tileId)) {
-                setBackground(this.tileId % 2 == 0 ? darkSquareColor : lightSquareColor);
+                setBackground(this.tileId % 2 == 0 ? Color.decode("#808080") : Color.decode("#FFFFFF"));
             } else if(BoardUtilities.INSTANCE.SECOND_ROW.get(this.tileId) ||
                     BoardUtilities.INSTANCE.FOURTH_ROW.get(this.tileId) ||
                     BoardUtilities.INSTANCE.SIXTH_ROW.get(this.tileId)  ||
                     BoardUtilities.INSTANCE.EIGHTH_ROW.get(this.tileId) ||
                     BoardUtilities.INSTANCE.TENTH_ROW.get(this.tileId) ||
                     BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.tileId)) {
-                setBackground(this.tileId % 2 != 0 ? darkSquareColor : lightSquareColor);
+                setBackground(this.tileId % 2 != 0 ? Color.decode("#808080") : Color.decode("#FFFFFF"));
             }
         }
     }
