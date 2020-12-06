@@ -26,11 +26,11 @@ public class Pawn extends ChessPiece {
     {
         if( this.color == Color.BLACK)
         {
-            return "blackPawn.png";
+            return "blackPawn.gif";
         }
         else if( this.color == Color.WHITE )
         {
-            return "whitePawn.png";
+            return "whitePawn.gif";
         }
 
         return "";

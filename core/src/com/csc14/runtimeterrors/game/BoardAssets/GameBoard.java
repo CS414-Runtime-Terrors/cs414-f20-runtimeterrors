@@ -2,9 +2,6 @@ package com.csc14.runtimeterrors.game.BoardAssets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.csc14.runtimeterrors.game.MatchScreen;
 import com.csc14.runtimeterrors.game.OCMessage;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
@@ -37,8 +34,196 @@ public class GameBoard {
     }
 
     private void createEmptyBoard() {
-        emptyBoard = new ArrayList<>();
+       /* emptyBoard = new ArrayList<>();
 
+        ArrayList<BoardSquare> row0 = new ArrayList<>();
+        ArrayList<BoardSquare> row1 = new ArrayList<>();
+        ArrayList<BoardSquare> row2 = new ArrayList<>();
+        ArrayList<BoardSquare> row3 = new ArrayList<>();
+        ArrayList<BoardSquare> row4 = new ArrayList<>();
+        ArrayList<BoardSquare> row5 = new ArrayList<>();
+        ArrayList<BoardSquare> row6 = new ArrayList<>();
+        ArrayList<BoardSquare> row7 = new ArrayList<>();
+        ArrayList<BoardSquare> row8 = new ArrayList<>();
+        ArrayList<BoardSquare> row9 = new ArrayList<>();
+        ArrayList<BoardSquare> row10 = new ArrayList<>();
+        ArrayList<BoardSquare> row11 = new ArrayList<>();
+       // BoardSquare blank = new BoardSquare(Color.BLACK, -1, -1);
+
+        row0.add(new BoardSquare(Color.WHITE,0, 0));
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+        row0.add(blank);
+      //  row0.add(new BoardSquare(Color.GRAY,0, 11));
+
+        row1.add(blank);
+        row1.add(new BoardSquare(Color.WHITE, 1, 1));
+        row1.add(new BoardSquare(Color.GRAY, 1, 2));
+        row1.add(new BoardSquare(Color.WHITE, 1, 3));
+        row1.add(new BoardSquare(Color.GRAY, 1, 4));
+        row1.add(new BoardSquare(Color.WHITE, 1, 5));
+        row1.add(new BoardSquare(Color.GRAY, 1, 6));
+        row1.add(new BoardSquare(Color.WHITE, 1, 7));
+        row1.add(new BoardSquare(Color.GRAY, 1, 8));
+        row1.add(new BoardSquare(Color.WHITE, 1, 9));
+        row1.add(new BoardSquare(Color.GRAY, 1, 10));
+        row1.add(blank);
+
+        row2.add(blank);
+        row2.add(new BoardSquare(Color.GRAY, 2, 1));
+        row2.add(new BoardSquare(Color.WHITE, 2, 2));
+        row2.add(new BoardSquare(Color.GRAY, 2, 3));
+        row2.add(new BoardSquare(Color.WHITE, 2, 4));
+        row2.add(new BoardSquare(Color.GRAY, 2, 5));
+        row2.add(new BoardSquare(Color.WHITE, 2, 6));
+        row2.add(new BoardSquare(Color.GRAY, 2, 7));
+        row2.add(new BoardSquare(Color.WHITE, 2, 8));
+        row2.add(new BoardSquare(Color.GRAY, 2, 9));
+        row2.add(new BoardSquare(Color.WHITE, 2, 10));
+        row2.add(blank);
+
+        row3.add(blank);
+        row3.add(new BoardSquare(Color.WHITE, 3, 1));
+        row3.add(new BoardSquare(Color.GRAY, 3, 2));
+        row3.add(new BoardSquare(Color.WHITE, 3, 3));
+        row3.add(new BoardSquare(Color.GRAY, 3, 4));
+        row3.add(new BoardSquare(Color.WHITE, 3, 5));
+        row3.add(new BoardSquare(Color.GRAY, 3, 6));
+        row3.add(new BoardSquare(Color.WHITE, 3, 7));
+        row3.add(new BoardSquare(Color.GRAY, 3, 8));
+        row3.add(new BoardSquare(Color.WHITE, 3, 9));
+        row3.add(new BoardSquare(Color.GRAY, 3, 10));
+        row3.add(blank);
+
+        row4.add(blank);
+        row4.add(new BoardSquare(Color.GRAY, 4, 1));
+        row4.add(new BoardSquare(Color.WHITE, 4, 2));
+        row4.add(new BoardSquare(Color.GRAY, 4, 3));
+        row4.add(new BoardSquare(Color.WHITE, 4, 4));
+        row4.add(new BoardSquare(Color.GRAY, 4, 5));
+        row4.add(new BoardSquare(Color.WHITE, 4, 6));
+        row4.add(new BoardSquare(Color.GRAY, 4 , 7));
+        row4.add(new BoardSquare(Color.WHITE, 4, 8));
+        row4.add(new BoardSquare(Color.GRAY, 4, 9));
+        row4.add(new BoardSquare(Color.WHITE, 4, 10));
+        row4.add(blank);
+
+        row5.add(blank);
+        row5.add(new BoardSquare(Color.WHITE, 5, 1));
+        row5.add(new BoardSquare(Color.GRAY, 5, 2));
+        row5.add(new BoardSquare(Color.WHITE, 5, 3));
+        row5.add(new BoardSquare(Color.GRAY, 5, 4));
+        row5.add(new BoardSquare(Color.WHITE, 5, 5));
+        row5.add(new BoardSquare(Color.GRAY, 5, 6));
+        row5.add(new BoardSquare(Color.WHITE, 5, 7));
+        row5.add(new BoardSquare(Color.GRAY, 5, 8));
+        row5.add(new BoardSquare(Color.WHITE, 5, 9));
+        row5.add(new BoardSquare(Color.GRAY, 5, 10));
+        row5.add(blank);
+
+        row6.add(blank);
+        row6.add(new BoardSquare(Color.GRAY, 6, 1));
+        row6.add(new BoardSquare(Color.WHITE, 6, 2));
+        row6.add(new BoardSquare(Color.GRAY, 6, 3));
+        row6.add(new BoardSquare(Color.WHITE, 6, 4));
+        row6.add(new BoardSquare(Color.GRAY, 6, 5));
+        row6.add(new BoardSquare(Color.WHITE, 6, 6));
+        row6.add(new BoardSquare(Color.GRAY, 6, 7));
+        row6.add(new BoardSquare(Color.WHITE, 6, 8));
+        row6.add(new BoardSquare(Color.GRAY, 6, 9));
+        row6.add(new BoardSquare(Color.WHITE, 6, 10));
+        row6.add(blank);
+
+        row7.add(blank);
+        row7.add(new BoardSquare(Color.WHITE, 7, 1));
+        row7.add(new BoardSquare(Color.GRAY, 7, 2));
+        row7.add(new BoardSquare(Color.WHITE, 7, 3));
+        row7.add(new BoardSquare(Color.GRAY, 7, 4));
+        row7.add(new BoardSquare(Color.WHITE, 7, 5));
+        row7.add(new BoardSquare(Color.GRAY, 7, 6));
+        row7.add(new BoardSquare(Color.WHITE, 7, 7));
+        row7.add(new BoardSquare(Color.GRAY, 7, 8));
+        row7.add(new BoardSquare(Color.WHITE, 7, 9));
+        row7.add(new BoardSquare(Color.GRAY, 7, 10));
+        row7.add(blank);
+
+        row8.add(blank);
+        row8.add(new BoardSquare(Color.GRAY, 8, 1));
+        row8.add(new BoardSquare(Color.WHITE, 8, 2));
+        row8.add(new BoardSquare(Color.GRAY, 8, 3));
+        row8.add(new BoardSquare(Color.WHITE, 8, 4));
+        row8.add(new BoardSquare(Color.GRAY, 8, 5));
+        row8.add(new BoardSquare(Color.WHITE, 8, 6));
+        row8.add(new BoardSquare(Color.GRAY, 8, 7));
+        row8.add(new BoardSquare(Color.WHITE, 8, 8));
+        row8.add(new BoardSquare(Color.GRAY, 8, 9));
+        row8.add(new BoardSquare(Color.WHITE, 8, 10));
+        row8.add(blank);
+
+        row9.add(blank);
+        row9.add(new BoardSquare(Color.WHITE, 9, 1));
+        row9.add(new BoardSquare(Color.GRAY, 9, 2));
+        row9.add(new BoardSquare(Color.WHITE, 9, 3));
+        row9.add(new BoardSquare(Color.GRAY, 9, 4));
+        row9.add(new BoardSquare(Color.WHITE, 9, 5));
+        row9.add(new BoardSquare(Color.GRAY, 9, 6));
+        row9.add(new BoardSquare(Color.WHITE, 9, 7));
+        row9.add(new BoardSquare(Color.GRAY, 9, 8));
+        row9.add(new BoardSquare(Color.WHITE, 9, 9));
+        row9.add(new BoardSquare(Color.GRAY, 9, 10));
+        row9.add(blank);
+
+        row10.add(blank);
+        row10.add(new BoardSquare(Color.GRAY, 10, 1));
+        row10.add(new BoardSquare(Color.WHITE, 10, 2));
+        row10.add(new BoardSquare(Color.GRAY, 10, 3));
+        row10.add(new BoardSquare(Color.WHITE, 10, 4));
+        row10.add(new BoardSquare(Color.GRAY, 10, 5));
+        row10.add(new BoardSquare(Color.WHITE, 10, 6));
+        row10.add(new BoardSquare(Color.GRAY, 10, 7));
+        row10.add(new BoardSquare(Color.WHITE, 10, 8));
+        row10.add(new BoardSquare(Color.GRAY, 10, 9));
+        row10.add(new BoardSquare(Color.WHITE, 10, 10));
+        row10.add(blank);
+
+        row11.add(new BoardSquare(Color.GRAY, 11, 0));
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(blank);
+        row11.add(new BoardSquare(Color.WHITE, 11, 11));
+
+        emptyBoard.add(row0);
+        emptyBoard.add(row1);
+        emptyBoard.add(row2);
+        emptyBoard.add(row3);
+        emptyBoard.add(row4);
+        emptyBoard.add(row5);
+        emptyBoard.add(row6);
+        emptyBoard.add(row7);
+        emptyBoard.add(row8);
+        emptyBoard.add(row9);
+        emptyBoard.add(row10);
+        emptyBoard.add(row11);*/
+    }
+
+    //create 2d arraylist of BoardSquare objects
+    public void initializeBoard() {
+        /*gameBoard.clear();
+       // gameBoard = (ArrayList<ArrayList<BoardSquare>>) emptyBoard.clone(); // set gameboard to empty board
         ArrayList<BoardSquare> row0 = new ArrayList<>();
         ArrayList<BoardSquare> row1 = new ArrayList<>();
         ArrayList<BoardSquare> row2 = new ArrayList<>();
@@ -209,23 +394,18 @@ public class GameBoard {
         row11.add(blank);
         row11.add(new BoardSquare(Color.WHITE, 11, 11));
 
-        emptyBoard.add(row0);
-        emptyBoard.add(row1);
-        emptyBoard.add(row2);
-        emptyBoard.add(row3);
-        emptyBoard.add(row4);
-        emptyBoard.add(row5);
-        emptyBoard.add(row6);
-        emptyBoard.add(row7);
-        emptyBoard.add(row8);
-        emptyBoard.add(row9);
-        emptyBoard.add(row10);
-        emptyBoard.add(row11);
-    }
-
-    //create 2d arraylist of BoardSquare objects
-    public void initializeBoard() {
-        gameBoard = emptyBoard; // set gameboard to empty board
+        gameBoard.add(row0);
+        gameBoard.add(row1);
+        gameBoard.add(row2);
+        gameBoard.add(row3);
+        gameBoard.add(row4);
+        gameBoard.add(row5);
+        gameBoard.add(row6);
+        gameBoard.add(row7);
+        gameBoard.add(row8);
+        gameBoard.add(row9);
+        gameBoard.add(row10);
+        gameBoard.add(row11);*/
     }
 
     //get square with chess position string (i.e. "a3", "f5", etc.)
@@ -238,7 +418,6 @@ public class GameBoard {
         OCMessage message = parent.getClient().getBoardData(matchID);
         ArrayList<String> locations = message.getKeys();
         locations.remove("success");
-        int count = 0;
         for (String loc : locations){
             int[] pos = parsePosition(loc);
             String piece = message.get(loc);
@@ -249,8 +428,7 @@ public class GameBoard {
                 color = Color.BLACK;
             }
 
-            gameBoard.get(pos[0]).get(pos[1]).setPiece(piece, color, matchParent.getTexture(piece));
-            count++;
+            //gameBoard.get(pos[0]).get(pos[1]).setPiece(color, matchParent.getSprite(piece));
         }
     }
 
@@ -279,8 +457,15 @@ public class GameBoard {
         return gameBoard.get(row).get(column);
     }
 
+    public BoardSquare getSquare(int tileId){
+        int row = tileId / BoardUtilities.NUM_TILES_PER_ROW;
+        int column = tileId - (row*BoardUtilities.NUM_TILES_PER_ROW);
+
+        return gameBoard.get(row).get(column);
+    }
+
     //add click listener to each square
-    public void addListeners() {
+   /* public void addListeners() {
         for (ArrayList<BoardSquare> row : gameBoard) {
             for (final BoardSquare square : row) {
                 //currently, you can click a piece in its starting position and move it to a legal spot
@@ -353,7 +538,7 @@ public class GameBoard {
                 });
             }
         }
-    }
+    }*/
 
     //turn chess string into integers ("c3" -> (3,3))
     private int[] parsePosition(String position) {
