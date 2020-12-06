@@ -258,7 +258,7 @@ public final class MatchScreen {
                                     fromSquare.removePiece();
 
                                     if (chessBoard.getEnPessant()) {
-                                        chessBoard.getSquare(fromSquare.getPosition()[0], toSquare.getPosition()[1]).removePiece();
+                                        chessBoard.getSquare(toSquare.getPosition()[0], toSquare.getPosition()[1]).removePiece();
                                     }
 
                                     chessBoard.setEnPessant(false);
