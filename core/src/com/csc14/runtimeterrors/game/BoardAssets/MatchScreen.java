@@ -78,11 +78,20 @@ public final class MatchScreen {
                     chessBoard.initializeBoard();
                     chessBoard.populateBoard();
                     boardPanel.drawBoard(chessBoard);
+
+                    //check for forfeit
+                    checkForfeit();
+
+                    // just switched turns, check checkmate
+                    if (parent.getUser().equals(chessBoard.getTurn()) || justFinishedTurn) {
+                        checkCheckmate(justFinishedTurn);
+                    }
+                    justFinishedTurn = false;
                 }
 
             }
         };
-        t.scheduleAtFixedRate(tt, 15000,10000);
+        t.scheduleAtFixedRate(tt, 15000,5000);
     }
 
     private void setTurn(){
@@ -283,15 +292,6 @@ public final class MatchScreen {
                                     }
 
                                     justFinishedTurn = true;
-
-                                    //check for forfeit
-                                    checkForfeit();
-
-                                    // just switched turns, check checkmate
-                                    if (parent.getUser().equals(chessBoard.getTurn()) || justFinishedTurn) {
-                                        checkCheckmate(justFinishedTurn);
-                                    }
-                                    justFinishedTurn = false;
 
                                     chessBoard.initializeBoard();
                                     chessBoard.populateBoard();
