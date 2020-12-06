@@ -1,40 +1,29 @@
 package com.csc14.runtimeterrors.game.BoardAssets;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.csc14.runtimeterrors.game.OCMessage;
 import com.csc14.runtimeterrors.game.OmegaChess;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Board {
 
     private final OmegaChess parent;
-    private MatchScreen matchParent;
     public ArrayList<ArrayList<BoardSquare>> gameBoard;
     private BoardSquare clickedPiece = null;
-    private List<String> highlightedSquares;
-    private boolean isEnPessant;
     private String whitePlayer, blackPlayer, turn;
     private Color turnColor;
     private int matchID;
-    private String pieceType;
-    Texture texture;
-    private ArrayList<ArrayList<BoardSquare>> emptyBoard;
-    private Map<Integer, String> boardConfig;
+    private boolean isEnPessant;
 
     public Board(OmegaChess omegaChess) {
         parent = omegaChess;
-        boardConfig = new HashMap<>();
         gameBoard = new ArrayList<>();
         initializeBoard();
         whitePlayer = "";
         blackPlayer = "";
         turn = "";
-        pieceType = "";
     }
 
     //create 2d arraylist of BoardSquare objects
@@ -278,10 +267,6 @@ public class Board {
             return legalMoves;
         }
         return null;
-    }
-
-    public String getSquareStr(int tileId){
-        return boardConfig.get(tileId);
     }
 
     public BoardSquare getSquare(int tileId){

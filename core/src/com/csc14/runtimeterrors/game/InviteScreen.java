@@ -11,11 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import sun.font.TextLabel;
-
 import javax.swing.*;
-import java.awt.font.TextLayout;
 
 public class InviteScreen implements Screen {
     private final OmegaChess parent;

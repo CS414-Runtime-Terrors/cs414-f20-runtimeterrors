@@ -3,8 +3,10 @@ package com.omegaChess.server;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 import static com.omegaChess.server.OCServerData.createDirectoryIfNonExistent;
@@ -17,6 +19,7 @@ public class GameRecord {
     private ArrayList<String> players;
     private int numMoves;
     private boolean draw;
+    private String dateEnded;
 
     //constructor
     public GameRecord(String winner, String loser, int moves, boolean tie) {
@@ -28,6 +31,8 @@ public class GameRecord {
             setWinner(winner);
             setLoser(loser);
         }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateEnded = format.format(new Date());
         ID = numInstances;
     }
 
@@ -38,6 +43,8 @@ public class GameRecord {
 
     //getters and setters
     public void setWinner(String newWinner) { winner = newWinner; }
+
+    public String getDateEnded() { return dateEnded;}
 
     public String getWinner() { return winner; }
 

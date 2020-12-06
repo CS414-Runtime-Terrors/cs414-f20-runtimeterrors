@@ -6,7 +6,9 @@ import com.omegaChess.exceptions.IllegalPositionException;
 import com.omegaChess.pieces.ChessPiece;
 import com.omegaChess.pieces.LegalMoves;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 // this class is responsible for actually processing any input from a client
 public class OCProtocol {
@@ -702,19 +704,27 @@ public class OCProtocol {
             message.put("reason", "there is no match with ID " + ID);
             return message.toString();
         }
-        if (end.isAcknowledgeEnd()) {
-            moves = end.getBoard().getMoves().size();
-            UserProfile user = serverData.getProfile(winner);
-            user.increment("gamesWon");
-            user = serverData.getProfile(loser);
-            user.increment("gamesLost");
-            serverData.addToArchive(end.endMatch(loser, winner, moves));
-            serverData.removeMatch(end);
-            message.put("ID", String.valueOf(serverData.getArchive().size()));
-        }
-        else {
+        //if (end.isAcknowledgeEnd()) {
+
+        if(!end.isAcknowledgeEnd())
+        {
             end.setAcknowledgeEnd(true);
         }
+
+        moves = end.getBoard().getMoves().size();
+        UserProfile user = serverData.getProfile(winner);
+        user.increment("gamesWon");
+        user = serverData.getProfile(loser);
+        user.increment("gamesLost");
+        serverData.addToArchive(end.endMatch(loser, winner, moves));
+        serverData.removeMatch(end);
+        message.put("ID", String.valueOf(serverData.getArchive().size()));
+
+
+        //}
+      //  else {
+      //      end.setAcknowledgeEnd(true);
+     //   }
 
         return message.toString();
     }
@@ -768,6 +778,7 @@ public class OCProtocol {
 
             if(user.equals(players.get(0)) || user.equals(players.get(1)))
             {
+                message.put("matchID" + (countForUser+1), String.valueOf(record.getID()));
                 if(user.equals(players.get(0)))
                 {
                     message.put("user" + (countForUser + 1), players.get(1));
@@ -787,6 +798,7 @@ public class OCProtocol {
                 }
 
                 message.put("moves" + (countForUser + 1), String.valueOf(record.getNumMoves()));
+                message.put("dateEnded" + (countForUser+1), record.getDateEnded());
                 countForUser++;
             }
         }

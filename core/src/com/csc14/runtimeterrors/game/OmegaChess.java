@@ -26,11 +26,14 @@ public class OmegaChess extends Game {
 	private MatchScreen matchScreen;
 	private final boolean useLocal;
 	private Date currentDate;
+	private int numFinishedGames;
+	private int numForfeitedGames;
 
 	private boolean matchShown = false;
 	private int matchId;
 	private String whitePlayer;
 	private String blackPlayer;
+	int messageCount;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX, RESUME_GAME, RULES, ARCHIVE
@@ -42,13 +45,16 @@ public class OmegaChess extends Game {
 	{
 		useLocal = useLocalArg;
 		currentDate = new Date();
+		numFinishedGames = 0;
+		numForfeitedGames = 0;
 		matchScreen = table;
 
 		final java.util.Timer t = new java.util.Timer(true);
 		final TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
-				showNotification();
+				String message = getNotificationUpdates();
+				showNotification(message);
 			}
 		};
 		t.scheduleAtFixedRate(tt, 0,15000);
@@ -89,63 +95,100 @@ public class OmegaChess extends Game {
 		this.blackPlayer = blackPlayer;
 	}
 
-	public void showNotification() {
-		int messageCount = 0;
-		if(client != null)
-		{
-			OCMessage receivedMessage = client.getNotifications(user);	// get the notifications from the user
-			System.out.println(receivedMessage.get("success"));
-			if(receivedMessage.get("success").equals("true")) {
+	private String getNotificationUpdates() {
+		// check for new notifications
+		messageCount = 0;
+		StringBuilder messages = new StringBuilder();
+		Date intermediateDate = currentDate;
+
+		if(client != null) {
+			// get notifications
+			OCMessage receivedMessage = client.getNotifications(user);    // get the notifications from the user
+			if (receivedMessage.get("success").equals("true")) {
 				int num_messages = Integer.parseInt(receivedMessage.get("count"));
-				StringBuilder message = new StringBuilder();
 
 				for (int i = 0; i < num_messages; i++) {
 					Date date = getDateFromString(receivedMessage.get("datestring" + (i + 1)));
-					if (date.compareTo(currentDate) > 0) {
+					if (date.compareTo(intermediateDate) > 0) {
 						currentDate = date;    // update current date
 						messageCount += 1;
 
-						message.append(receivedMessage.get("message" + (i + 1)));
+						messages.append(receivedMessage.get("message" + (i + 1))).append("\n");
 					}
 				}
+			}
 
-				Screen screen = this.getScreen();
-				if (messageCount > 0) {
-					if (screen instanceof LobbyScreen) {
-						// only show the popup if it isn't already displayed
-						if (!lobbyScreen.isPopupShown()) {
-							lobbyScreen.showNotification(message.toString(), messageCount);
+			//get game records
+			receivedMessage = client.getGameRecords(user);
+			if (receivedMessage.get("success").equals("true")) {
+				int count = Integer.parseInt(receivedMessage.get("number"));
+				for (int i = 0; i < count; i++) {
+				Date date = getDateFromString(receivedMessage.get("dateEnded" + (i+1)));
+					if (date.compareTo(intermediateDate) > 0) {
+						currentDate = date;
+						String otherPlayer = receivedMessage.get("user" + (i + 1));
+						String totalMoves = receivedMessage.get("moves" + (i + 1));
+						messageCount += 1;
+						int matchId = Integer.parseInt(receivedMessage.get("matchID" + (i+1)));
+						OCMessage innerMsg = client.getForfeit(matchId);
+						if (innerMsg.get("forfeit").equals("true")) {
+							messages.append("Game with ").append(otherPlayer).append(" resulted in a forfeit!\n");
+							messageCount += 1;
 						}
-					} else if (screen instanceof InviteScreen) {
-						// only show the popup if it isn't already displayed
-						if (!inviteScreen.isPopupShown()) {
-							inviteScreen.showNotification(message.toString(), messageCount);
+						else if (receivedMessage.get("result" + (i + 1)).equals("tie")) {
+							messages.append("You and ").append(otherPlayer).append(" tied! In ").append(totalMoves).append(" moves.");
+						} else if (receivedMessage.get("result" + (i + 1)).equals(user)) {
+							messages.append("You won against ").append(otherPlayer).append(" in ").append(totalMoves).append(" moves.");
+						} else {
+							messages.append("You lost to ").append(otherPlayer).append(" in ").append(totalMoves).append(" moves.");
 						}
-					} else if (screen instanceof ProfileScreen) {
-						// only show the popup if it isn't already displayed
-						if (!profileScreen.isPopupShown()) {
-							profileScreen.showNotification(message.toString(), messageCount);
-						}
-					} else if (screen instanceof MailboxScreen) {
-						// only show the popup if it isn't already displayed
-						if (!mailboxScreen.isPopupShown()) {
-							mailboxScreen.showNotification(message.toString(), messageCount);
-						}
-					} else if (screen instanceof RulesScreen) {
-						// only show the popup if it isn't already displayed
-						if (!rulesScreen.isPopupShown()) {
-							rulesScreen.showNotification(message.toString(), messageCount);
-						}
-					} else if (screen instanceof ArchiveScreen) {
-						// only show the popup if it isn't already displayed
-						if (!archiveScreen.isPopupShown()) {
-							archiveScreen.showNotification(message.toString(), messageCount);
-						}
-					} else if( screen instanceof ResumeScreen) {
-						// only show the popup if it isn't already displayed
-						if (!resumeScreen.isPopupShown()) {
-							resumeScreen.showNotification(message.toString(), messageCount);
-						}
+					};
+				}
+			}
+		}
+
+		return messages.toString();
+	}
+
+	public void showNotification(String message) {
+		if(client != null)
+		{
+			Screen screen = this.getScreen();
+			if (messageCount > 0) {
+				if (screen instanceof LobbyScreen) {
+					// only show the popup if it isn't already displayed
+					if (!lobbyScreen.isPopupShown()) {
+						lobbyScreen.showNotification(message, messageCount);
+					}
+				} else if (screen instanceof InviteScreen) {
+					// only show the popup if it isn't already displayed
+					if (!inviteScreen.isPopupShown()) {
+						inviteScreen.showNotification(message, messageCount);
+					}
+				} else if (screen instanceof ProfileScreen) {
+					// only show the popup if it isn't already displayed
+					if (!profileScreen.isPopupShown()) {
+						profileScreen.showNotification(message, messageCount);
+					}
+				} else if (screen instanceof MailboxScreen) {
+					// only show the popup if it isn't already displayed
+					if (!mailboxScreen.isPopupShown()) {
+						mailboxScreen.showNotification(message, messageCount);
+					}
+				} else if (screen instanceof RulesScreen) {
+					// only show the popup if it isn't already displayed
+					if (!rulesScreen.isPopupShown()) {
+						rulesScreen.showNotification(message, messageCount);
+					}
+				} else if (screen instanceof ArchiveScreen) {
+					// only show the popup if it isn't already displayed
+					if (!archiveScreen.isPopupShown()) {
+						archiveScreen.showNotification(message, messageCount);
+					}
+				} else if( screen instanceof ResumeScreen) {
+					// only show the popup if it isn't already displayed
+					if (!resumeScreen.isPopupShown()) {
+						resumeScreen.showNotification(message, messageCount);
 					}
 				}
 			}

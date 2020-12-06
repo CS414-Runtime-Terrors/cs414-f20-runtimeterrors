@@ -35,7 +35,7 @@ public class OCClient {
 
     private OCMessage sendRequestAndReceiveMessage(OCMessage message) {
         // send request
-        out.println(message.toString());
+        //out.println(message.toString());
 
         // receive message
         OCMessage receivedMessage = new OCMessage();
@@ -64,7 +64,7 @@ public class OCClient {
     // example request
     public String sendSquareRequest(String number) {
 
-        System.out.println("Sending square request!");
+        //System.out.println("Sending square request!");
 
         OCMessage message = new OCMessage();
         message.put("process", "square");
@@ -88,7 +88,7 @@ public class OCClient {
     // register request
     public boolean sendRegisterRequest(String email, String nickname, String password) {
 
-        System.out.println("Sending register request for " + nickname + "!");
+        //System.out.println("Sending register request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "register");
@@ -104,7 +104,7 @@ public class OCClient {
 
     // unregister request
     public boolean sendUnregisterRequest(String nickname) {
-        System.out.println("Sending unregister request for " + nickname + "!");
+        //System.out.println("Sending unregister request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "unregister");
@@ -118,7 +118,7 @@ public class OCClient {
 
     // login request
     public OCMessage sendLoginRequest(String nickname, String password) {
-        System.out.println("Sending login request for " + nickname + "!");
+        //System.out.println("Sending login request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "login");
@@ -128,14 +128,14 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // get profile data request
     public OCMessage sendGetProfileDataRequest(String nickname) {
-        System.out.println("Sending get profile data request for " + nickname + "!");
+        //System.out.println("Sending get profile data request for " + nickname + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "get profile data");
@@ -144,14 +144,14 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // send invite request
     public OCMessage sendInviteRequest(String inviter, String invitee){
-        System.out.println("Sending invite request from " + inviter + " to " + invitee + "!");
+       // System.out.println("Sending invite request from " + inviter + " to " + invitee + "!");
 
         OCMessage message = new OCMessage();
         message.put("process", "invite");
@@ -161,7 +161,7 @@ public class OCClient {
         // send and receive results
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
 
@@ -169,7 +169,7 @@ public class OCClient {
 
     // get sent invites request
     public OCMessage getSentInvites(String user){
-        System.out.println("Sending request to get sent invites from mailbox!");
+        //System.out.println("Sending request to get sent invites from mailbox!");
 
         OCMessage message = new OCMessage();
         message.put("process", "invites sent");
@@ -178,14 +178,14 @@ public class OCClient {
         // Send and receive results
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // get received invites request
     public OCMessage getReceivedInvites(String user){
-        System.out.println("Sending request to get received invites from mailbox!");
+        //System.out.println("Sending request to get received invites from mailbox!");
 
         OCMessage message = new OCMessage();
         message.put("process", "invites received");
@@ -194,14 +194,14 @@ public class OCClient {
         // Send and receive results
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // get notifications request
     public OCMessage getNotifications(String nickname) {
-        System.out.println("Sending request to get notifications from mailbox for user: " + nickname);
+       // System.out.println("Sending request to get notifications from mailbox for user: " + nickname);
 
         OCMessage message = new OCMessage();
         message.put("process", "get notifications");
@@ -210,7 +210,7 @@ public class OCClient {
         // Send and receive results
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
@@ -218,7 +218,7 @@ public class OCClient {
 
     // get legal moves request
     public OCMessage getLegalMoves(int matchID, int[] position) {
-        System.out.println("Sending request to get legal moves for matchID: " + matchID + " and piece at position: " + position[0] + "," + position[1]);
+       // System.out.println("Sending request to get legal moves for matchID: " + matchID + " and piece at position: " + position[0] + "," + position[1]);
 
         OCMessage message = new OCMessage();
         message.put("process", "get legal moves");
@@ -229,14 +229,14 @@ public class OCClient {
         // Send and receive results
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // Accept an invite from another user
     public OCMessage acceptInvite(String user, String inviter){
-        System.out.println("Accepting an invitation from " + inviter);
+       // System.out.println("Accepting an invitation from " + inviter);
         OCMessage message = new OCMessage();
         message.put("process", "invite response");
         message.put("response", "accept");
@@ -245,14 +245,14 @@ public class OCClient {
 
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // Decline an invite from another user
     public OCMessage declineInvite(String user, String inviter){
-        System.out.println("Accepting an invitation from " + inviter);
+        //System.out.println("Accepting an invitation from " + inviter);
         OCMessage message = new OCMessage();
         message.put("process", "invite response");
         message.put("response", "decline");
@@ -261,7 +261,7 @@ public class OCClient {
 
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+       // printResult(receivedMessage);
 
         return receivedMessage;
     }
@@ -282,7 +282,7 @@ public class OCClient {
 
     // send move to be made on the server
     public OCMessage matchMove(int matchID, int[] fromPosition, int[] toPosition){
-        System.out.println("Sending move from "+ Arrays.toString(fromPosition) +" to "+ Arrays.toString(toPosition) +" to the server");
+        //System.out.println("Sending move from "+ Arrays.toString(fromPosition) +" to "+ Arrays.toString(toPosition) +" to the server");
         OCMessage message = new OCMessage();
         message.put("process", "match move");
         message.put("matchID", Integer.toString(matchID));
@@ -294,14 +294,14 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }
 
     // request the matches a user can resume
     public OCMessage getResumeMatches(String nickname) {
-        System.out.println("Sending get in-progress matches request for " + nickname);
+        //System.out.println("Sending get in-progress matches request for " + nickname);
 
         OCMessage message = new OCMessage();
         message.put("process", "get in-progress matches");
@@ -310,7 +310,7 @@ public class OCClient {
         // receive message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+       // printResult(receivedMessage);
 
         return receivedMessage;
     }
@@ -325,7 +325,7 @@ public class OCClient {
         // Received message
         OCMessage receivedMessage = sendRequestAndReceiveMessage(message);
 
-        printResult(receivedMessage);
+        //printResult(receivedMessage);
 
         return receivedMessage;
     }

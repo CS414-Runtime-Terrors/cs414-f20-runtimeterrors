@@ -1,12 +1,5 @@
 package com.csc14.runtimeterrors.game.BoardAssets;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
 import java.awt.*;
 
 public class BoardSquare {
@@ -45,13 +38,4 @@ public class BoardSquare {
     }
 
     public boolean hasPiece() { return !(this.currentPiece == null); }
-
-    /*public boolean isHighlighted() { return this.getColor().equals(Color.YELLOW); }
-
-    /public void highlight() {
-        this.setColor(Color.YELLOW);
-    }
-
-    public void unHighlight() { this.setColor(squareColor); }*/
-
 }

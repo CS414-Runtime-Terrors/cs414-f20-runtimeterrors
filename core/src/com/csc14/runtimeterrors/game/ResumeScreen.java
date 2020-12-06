@@ -84,7 +84,6 @@ public class ResumeScreen implements Screen {
         OCMessage receivedMessage = parent.getClient().getResumeMatches(nickname);
 
         if (receivedMessage.get("success").equals("true")) {
-            System.out.println(receivedMessage);
             if (Integer.parseInt(receivedMessage.get("count")) == 0){
                 resumeBtn.setDisabled(false);
             }else {

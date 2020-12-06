@@ -21,14 +21,7 @@ public final class MatchScreen {
     private Board chessBoard;
     private BoardSquare fromSquare;
     private BoardSquare toSquare;
-    private String imagePath;
     private OmegaChess parent;
-    private final Color lightSquareColor = Color.decode("#FFFFFF");
-    private final Color darkSquareColor = Color.decode("#808080");
-
-    private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
-    private static final Dimension INNER_DIMENSION = new Dimension(400, 350);
-    private static final Dimension SQUARES_DIMENSION = new Dimension(10, 10);
 
     private boolean justFinishedTurn = false;
     private JLabel turnLabel;
@@ -48,25 +41,30 @@ public final class MatchScreen {
         chessBoard.setWhitePlayer(whitePlayer);
         chessBoard.setBlackPlayer(blackPlayer);
 
-        this.imagePath = "core/assets/";
-
+        // set up screen components
         gameFrame = new JFrame("Omega Chess Match");
         gameFrame.setLayout(new BorderLayout());
         final JMenuBar tableMenuBar = new JMenuBar();
-        tableMenuBar.add(createOptionsMenu());
+        tableMenuBar.add(createMenu());
         gameFrame.setJMenuBar(tableMenuBar);
-        gameFrame.setSize(OUTER_FRAME_DIMENSION);
+        gameFrame.setSize(new Dimension(600, 600));
+
+        // get the current turn and set the label
         setTurn();
         turnLabel = new JLabel("Current Turn: " + chessBoard.getTurn());
         turnLabel.setFont(new Font("Serif", Font.BOLD, 16));
         gameFrame.add(turnLabel);
-        final BoardPanel boardPanel = new BoardPanel();
         gameFrame.add(turnLabel, BorderLayout.NORTH);
-        gameFrame.add(boardPanel, BorderLayout.CENTER);
 
+        // create the chess board graphics
+        final BoardGraphical boardGraphical = new BoardGraphical();
+        gameFrame.add(boardGraphical, BorderLayout.CENTER);
+
+        // finish setting game frame up
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
 
+        // create timer to check for turn updates every 10 seconds
         final java.util.Timer t = new java.util.Timer(true);
         final TimerTask tt = new TimerTask() {
             @Override
@@ -77,7 +75,7 @@ public final class MatchScreen {
                     turnLabel.setText("Current Turn: " + chessBoard.getTurn());
                     chessBoard.initializeBoard();
                     chessBoard.populateBoard();
-                    boardPanel.drawBoard(chessBoard);
+                    boardGraphical.drawBoard(chessBoard);
                 }
 
             }
@@ -104,6 +102,7 @@ public final class MatchScreen {
 
         if (receivedMessage.get("success").equals("true")) {
             if (receivedMessage.get("checkmate").equals("true")) {
+                System.out.println("In checkmate!!");
                 String title = "Checkmate!";
                 String message = "";
                 if (startOfOppTurn) {
@@ -137,7 +136,7 @@ public final class MatchScreen {
         }
     }
 
-    private JMenu createOptionsMenu() {
+    private JMenu createMenu() {
 
         final JMenu optionsMenu = new JMenu("Options");
         optionsMenu.setMnemonic(KeyEvent.VK_O);
@@ -178,18 +177,18 @@ public final class MatchScreen {
     }
 
     // corresponds to chessboard
-    private class BoardPanel extends JPanel {
-        final List<TilePanel> boardTiles;
+    private class BoardGraphical extends JPanel {
+        final List<GraphicalSquares> boardSquares;
 
-        BoardPanel() {
+        BoardGraphical() {
             super(new GridLayout(12,12));
-            this.boardTiles = new ArrayList<>();
+            this.boardSquares = new ArrayList<>();
             for (int i = 0; i < BoardUtilities.NUM_TILES; i++) {
-                final TilePanel tilePanel = new TilePanel(this, i);
-                this.boardTiles.add(tilePanel);
-                add(tilePanel);
+                final GraphicalSquares graphicalSquares = new GraphicalSquares(this, i);
+                this.boardSquares.add(graphicalSquares);
+                add(graphicalSquares);
             }
-            setPreferredSize(INNER_DIMENSION);
+            setPreferredSize(new Dimension(400, 350));
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setBackground(Color.decode("#000000"));
             validate();
@@ -197,8 +196,8 @@ public final class MatchScreen {
 
         void drawBoard(final Board board) {
             removeAll();
-            for (final TilePanel boardTile : boardTiles) {
-                boardTile.drawTile(board);
+            for (final GraphicalSquares boardTile : boardSquares) {
+                boardTile.drawSquare(board);
                 add(boardTile);
             }
             validate();
@@ -206,17 +205,17 @@ public final class MatchScreen {
         }
     }
 
-    // corresponds to individual tile on chessboard
-    private class TilePanel extends JPanel {
-        private final int tileId;
+    // corresponds to individual square on chessboard
+    private class GraphicalSquares extends JPanel {
+        private final int squareId;
 
-        TilePanel(final BoardPanel boardPanel,
-                  final int tileId) {
+        GraphicalSquares(final BoardGraphical boardGraphical,
+                         final int squareId) {
             super(new GridBagLayout());
-            this.tileId = tileId;
-            setPreferredSize(SQUARES_DIMENSION);
-            setTileColor();
-            setTileImage(chessBoard);
+            this.squareId = squareId;
+            setPreferredSize(new Dimension(10, 10));
+            setSquareColor();
+            setSquareImage(chessBoard);
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(final MouseEvent event) {
@@ -231,8 +230,8 @@ public final class MatchScreen {
                             if(fromSquare == null)
                             {
                                 // first click
-                                fromSquare = chessBoard.getSquare(tileId);
-                                if(!chessBoard.getSquare(tileId).hasPiece())
+                                fromSquare = chessBoard.getSquare(squareId);
+                                if(!chessBoard.getSquare(squareId).hasPiece())
                                 {
                                     fromSquare = null;
                                 }
@@ -248,7 +247,7 @@ public final class MatchScreen {
                             else
                             {
                                 //second click
-                                toSquare = chessBoard.getSquare(tileId);
+                                toSquare = chessBoard.getSquare(squareId);
 
                                 // get legal moves from server
                                 OCMessage receivedMessage = parent.getClient().getLegalMoves(chessBoard.getMatchID(), fromSquare.getPosition());
@@ -312,7 +311,7 @@ public final class MatchScreen {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                boardPanel.drawBoard(chessBoard);
+                                boardGraphical.drawBoard(chessBoard);
                             }
                         });
                     }
@@ -337,9 +336,9 @@ public final class MatchScreen {
             validate();
         }
 
-        void drawTile(final Board board) {
-            setTileColor();
-            setTileImage(board);
+        void drawSquare(final Board board) {
+            setSquareColor();
+            setSquareImage(board);
             highlightLegals(board);
             validate();
             repaint();
@@ -351,7 +350,7 @@ public final class MatchScreen {
             {
                 for (final String move : legalMoves) {
                     int[] pos = board.parsePosition(move);
-                    if (board.getSquareIndex(pos[0], pos[1]) == this.tileId) {
+                    if (board.getSquareIndex(pos[0], pos[1]) == this.squareId) {
                         setBackground(Color.YELLOW);
                     }
                 }
@@ -359,15 +358,16 @@ public final class MatchScreen {
 
         }
 
-        private void setTileImage(final Board board) {
+        private void setSquareImage(final Board board) {
+            String imagePath = "core/assets/";
             this.removeAll();
             board.populateBoard();
-            if(board.getSquare(this.tileId) != null) {
+            if(board.getSquare(this.squareId) != null) {
                 try{
-                    if(board.getSquare(this.tileId).getPiece() != "")
+                    if(!board.getSquare(this.squareId).getPiece().equals(""))
                     {
                         final BufferedImage image = ImageIO.read(new File(imagePath +
-                                board.getSquare(this.tileId).getPiece()));
+                                board.getSquare(this.squareId).getPiece()));
                         add(new JLabel(new ImageIcon(image)));
                     }
 
@@ -377,35 +377,35 @@ public final class MatchScreen {
             }
         }
 
-        private void setTileColor() {
-            if( (BoardUtilities.INSTANCE.FIRST_ROW.get(this.tileId) ||
-                BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.tileId)) &&
-                (!BoardUtilities.INSTANCE.FIRST_COLUMN.get(this.tileId) &&
-                !BoardUtilities.INSTANCE.TWELFTH_COLUMN.get(this.tileId)))
+        private void setSquareColor() {
+            if( (BoardUtilities.INSTANCE.FIRST_ROW.get(this.squareId) ||
+                BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.squareId)) &&
+                (!BoardUtilities.INSTANCE.FIRST_COLUMN.get(this.squareId) &&
+                !BoardUtilities.INSTANCE.TWELFTH_COLUMN.get(this.squareId)))
             {
                 setBackground(Color.decode("#000000"));
             }
-            else if( (BoardUtilities.INSTANCE.FIRST_COLUMN.get(this.tileId) ||
-                 BoardUtilities.INSTANCE.TWELFTH_COLUMN.get(this.tileId)) &&
-                 (!BoardUtilities.INSTANCE.FIRST_ROW.get(this.tileId) &&
-                  !BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.tileId)))
+            else if( (BoardUtilities.INSTANCE.FIRST_COLUMN.get(this.squareId) ||
+                 BoardUtilities.INSTANCE.TWELFTH_COLUMN.get(this.squareId)) &&
+                 (!BoardUtilities.INSTANCE.FIRST_ROW.get(this.squareId) &&
+                  !BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.squareId)))
             {
                 setBackground(Color.decode("#000000"));
             }
-            else if (BoardUtilities.INSTANCE.FIRST_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.THIRD_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.FIFTH_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.SEVENTH_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.NINTH_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.ELEVENTH_ROW.get(this.tileId)) {
-                setBackground(this.tileId % 2 == 0 ? darkSquareColor : lightSquareColor);
-            } else if(BoardUtilities.INSTANCE.SECOND_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.FOURTH_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.SIXTH_ROW.get(this.tileId)  ||
-                    BoardUtilities.INSTANCE.EIGHTH_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.TENTH_ROW.get(this.tileId) ||
-                    BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.tileId)) {
-                setBackground(this.tileId % 2 != 0 ? darkSquareColor : lightSquareColor);
+            else if (BoardUtilities.INSTANCE.FIRST_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.THIRD_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.FIFTH_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.SEVENTH_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.NINTH_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.ELEVENTH_ROW.get(this.squareId)) {
+                setBackground(this.squareId % 2 == 0 ? Color.decode("#808080") : Color.decode("#FFFFFF"));
+            } else if(BoardUtilities.INSTANCE.SECOND_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.FOURTH_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.SIXTH_ROW.get(this.squareId)  ||
+                    BoardUtilities.INSTANCE.EIGHTH_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.TENTH_ROW.get(this.squareId) ||
+                    BoardUtilities.INSTANCE.TWELFTH_ROW.get(this.squareId)) {
+                setBackground(this.squareId % 2 != 0 ? Color.decode("#808080") : Color.decode("#FFFFFF"));
             }
         }
     }
