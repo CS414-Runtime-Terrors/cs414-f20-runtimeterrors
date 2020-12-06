@@ -303,7 +303,7 @@ public final class MatchScreen {
                                     chessBoard.initializeBoard();
                                     chessBoard.populateBoard();
                                 }
-                                
+
                                 fromSquare = null;
                                 toSquare = null;
                             }
