@@ -484,7 +484,7 @@ public class OCProtocol {
                         int matchID = match.getMatchID();
                         serverData.addMatch(match);
                         mail.addNotification(Notification.NotificationType.ACCEPTED_INVITE,
-                                invitee + " accepted your invite request.");
+                                invitee + " accepted your invite request. Go to the Resume Game screen to enter the match.");
                         message.put("success", "true");
                         message.put("matchID", Integer.toString(matchID));
                         return message.toString();
