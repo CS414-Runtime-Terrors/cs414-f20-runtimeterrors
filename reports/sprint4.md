@@ -44,7 +44,6 @@ Epics planned for this release.
 * #6 "As a user, I can participate in multiple games at the same time."
 * #7 "As a user, I can forfeit from any game at any time."
 * #9 "As a user, I can view history statistics from previous games."
-* #10 "As a user, I can view a user profile if registered."
 * #11 "As a user, I can make the first move if I create the match."
 * #12 "As a user, I can return to a saved game."
 * #13 "As a user, I can see the end result of a game I participate in." 
@@ -65,18 +64,24 @@ Epics planned for this release.
 * Result Alert (#29)
 
 #### What went well
-tbd
+* Most everything got completed.
+* Communication was good.
 
 #### Problems encountered and resolutions
-tbd
+* We ran into a memory leak issue with the match screen which was solved by switching the libGDX screen for a java swing screen.
+* We ran into a problem with the En Passant move where the captured piece would not be removed, creating a black hole square.
+* There were some issues when trying to implement pawn promotion in which the selection of replacement options was not functioning, despite the presentation of replacement options showing up.
 
 ## Retrospective
 
 #### What went well
-tbd
+* We got almost everything completed, including a majority of epics and mega epics.
+* We had good communication between team members, especially related to problems that we ran into.
 
 #### Potential improvements
-tbd
+* Figuring out the En Passant and Pawn Promotion features.
+* Learning more about LibGDX.
 
 #### What we will change next time
-tbd
+* Picking a different graphical library to use, maybe Java Swing.
+* Figuring out how to not have memory leaks with LibGDX.
