@@ -72,7 +72,7 @@ public class Pawn extends ChessPiece {
         validMoves = baseMoves(increment);
 
         //check en pessant possibility
-        if (!board.moves.isEmpty()) {
+        /*if (!board.moves.isEmpty()) {
             ChessPiece lastMovePiece = board.moves.get(0).getMovedPiece();
             boolean lastFirstMove = board.moves.get(0).isFirstMove();
             if ((lastMovePiece.getClass() == Pawn.class) && lastFirstMove) {
@@ -95,7 +95,7 @@ public class Pawn extends ChessPiece {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
 
         return new LegalMoves(validMoves, isEnPessant, false);
     }

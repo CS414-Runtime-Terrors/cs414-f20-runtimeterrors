@@ -255,11 +255,12 @@ public final class MatchScreen {
                                     parent.getClient().matchMove(chessBoard.getMatchID(), fromSquare.getPosition(), toSquare.getPosition());
 
                                     toSquare.setPiece(fromSquare.getCurrentPiece(), fromSquare.getPieceColor());
-                                    fromSquare.removePiece();
 
                                     if (chessBoard.getEnPessant()) {
-                                        chessBoard.getSquare(toSquare.getPosition()[0], toSquare.getPosition()[1]).removePiece();
+                                        chessBoard.getSquare(fromSquare.getPosition()[0], toSquare.getPosition()[1]).removePiece();
                                     }
+
+                                    fromSquare.removePiece();
 
                                     chessBoard.setEnPessant(false);
 
