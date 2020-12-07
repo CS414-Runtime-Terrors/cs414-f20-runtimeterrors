@@ -32,11 +32,11 @@ public class King extends ChessPiece {
     {
         if( this.color == Color.BLACK)
         {
-            return "blackKing.png";
+            return "blackKing.gif";
         }
         else if( this.color == Color.WHITE )
         {
-            return "whiteKing.png";
+            return "whiteKing.gif";
         }
 
         return "";

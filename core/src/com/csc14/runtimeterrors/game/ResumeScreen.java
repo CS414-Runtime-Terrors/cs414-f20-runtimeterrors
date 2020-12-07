@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ResumeScreen implements Screen {
     private final OmegaChess parent;
@@ -197,6 +196,6 @@ public class ResumeScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

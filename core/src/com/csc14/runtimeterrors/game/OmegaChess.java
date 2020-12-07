@@ -1,11 +1,13 @@
 package com.csc14.runtimeterrors.game;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csc14.runtimeterrors.game.BoardAssets.MatchScreen;
 
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
+
 
 public class OmegaChess extends Game {
 
@@ -16,14 +18,19 @@ public class OmegaChess extends Game {
 	private RegisterScreen registerScreen;
 	private LobbyScreen lobbyScreen;
 	private InviteScreen inviteScreen;
-	private MatchScreen matchScreen;
 	private ProfileScreen profileScreen;
 	private MailboxScreen mailboxScreen;
 	private ResumeScreen resumeScreen;
 	private RulesScreen rulesScreen;
 	private ArchiveScreen archiveScreen;
+	private MatchScreen matchScreen;
 	private final boolean useLocal;
 	private Date currentDate;
+
+	private boolean matchShown = false;
+	private int matchId;
+	private String whitePlayer;
+	private String blackPlayer;
 
 	enum SCREEN{
 		LOGIN, REGISTER, MAIN_MENU, LOBBY, INVITE, MATCH, PROFILE, MAILBOX, RESUME_GAME, RULES, ARCHIVE
@@ -31,10 +38,11 @@ public class OmegaChess extends Game {
 
 	private String user = "";
 
-	public OmegaChess(boolean useLocalArg)
+	public OmegaChess(boolean useLocalArg, MatchScreen table)
 	{
 		useLocal = useLocalArg;
 		currentDate = new Date();
+		matchScreen = table;
 
 		final java.util.Timer t = new java.util.Timer(true);
 		final TimerTask tt = new TimerTask() {
@@ -76,10 +84,9 @@ public class OmegaChess extends Game {
 	public void setUser(String newUser) { user =newUser; }
 
 	public void setMatchInfo(int matchID, String whitePlayer, String blackPlayer) {
-		if(matchScreen == null) matchScreen = new MatchScreen(this);
-		matchScreen.setMatchID(matchID);
-		matchScreen.setWhitePlayer(whitePlayer);
-		matchScreen.setBlackPlayer(blackPlayer);
+		this.matchId = matchID;
+		this.whitePlayer = whitePlayer;
+		this.blackPlayer = blackPlayer;
 	}
 
 	public void showNotification() {
@@ -113,11 +120,6 @@ public class OmegaChess extends Game {
 						// only show the popup if it isn't already displayed
 						if (!inviteScreen.isPopupShown()) {
 							inviteScreen.showNotification(message.toString(), messageCount);
-						}
-					} else if (screen instanceof MatchScreen) {
-						// only show the popup if it isn't already displayed
-						if (!matchScreen.isPopupShown()) {
-							matchScreen.showNotification(message.toString(), messageCount);
 						}
 					} else if (screen instanceof ProfileScreen) {
 						// only show the popup if it isn't already displayed
@@ -162,8 +164,6 @@ public class OmegaChess extends Game {
 		return date;
 	}
 
-	public void setMatchID(int matchID) { matchScreen.setMatchID(matchID); }
-
 	public void changeScreen(SCREEN screen){
 		switch(screen){
 			case MAIN_MENU:
@@ -187,7 +187,19 @@ public class OmegaChess extends Game {
 				this.setScreen(inviteScreen);
 				break;
 			case MATCH:
-				this.setScreen(matchScreen);
+				if(!matchShown)
+				{
+					matchScreen.setTable(this, matchId, whitePlayer, blackPlayer);
+					matchShown = true;
+
+					if(lobbyScreen == null) lobbyScreen = new LobbyScreen(this);
+					this.setScreen(lobbyScreen);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Can't open a match when one is already open!!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
 				break;
 			case PROFILE:
 				if(profileScreen == null) profileScreen = new ProfileScreen(this);
@@ -199,7 +211,15 @@ public class OmegaChess extends Game {
 				break;
 			case RESUME_GAME:
 				if (resumeScreen == null) resumeScreen = new ResumeScreen(this);
-				this.setScreen(resumeScreen);
+				if(matchShown)
+				{
+					JOptionPane.showMessageDialog(null, "Can't open a match when one is already open!!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					this.setScreen(resumeScreen);
+				}
+
 				break;
 			case RULES:
 				if (rulesScreen == null) rulesScreen = new RulesScreen(this);
@@ -211,4 +231,9 @@ public class OmegaChess extends Game {
 				break;
 		}
 	}
+
+	public void changeScreenFromMatch() {
+		matchShown = false;
+	}
+
 }
