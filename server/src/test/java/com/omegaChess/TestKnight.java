@@ -55,11 +55,11 @@ class TestKnight {
 
         Knight knight = new Knight(board, ChessPiece.Color.BLACK);
 
-        assertEquals("\u265E", knight.toString());
+        assertEquals("blackKnight.png", knight.toString());
 
         Knight knight_w = new Knight(board, ChessPiece.Color.WHITE);
 
-        assertEquals("\u2658", knight_w.toString());
+        assertEquals("whiteKnight.png", knight_w.toString());
     }
 
     @Test

@@ -58,11 +58,11 @@ class TestQueen {
 
         Queen queen = new Queen(board, ChessPiece.Color.BLACK);
 
-        assertEquals("\u265B", queen.toString());
+        assertEquals("blackQueen.png", queen.toString());
 
         Queen queen_w = new Queen(board, ChessPiece.Color.WHITE);
 
-        assertEquals("\u2655", queen_w.toString());
+        assertEquals("whiteQueen.png", queen_w.toString());
     }
 
     @Test

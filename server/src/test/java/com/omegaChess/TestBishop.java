@@ -56,11 +56,11 @@ class TestBishop {
 
         Bishop bishop = new Bishop(board, ChessPiece.Color.BLACK);
 
-        assertEquals("\u265D", bishop.toString());
+        assertEquals("blackBishop.png", bishop.toString());
 
         Bishop bishop_w = new Bishop(board, ChessPiece.Color.WHITE);
 
-        assertEquals("\u2657", bishop_w.toString());
+        assertEquals("whiteBishop.png", bishop_w.toString());
     }
 
     @Test
