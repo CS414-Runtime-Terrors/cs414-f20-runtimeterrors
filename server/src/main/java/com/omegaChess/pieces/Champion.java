@@ -16,9 +16,9 @@ public class Champion extends ChessPiece{
     @Override
     public String toString(){
         if (this.color == Color.WHITE)
-            return "whiteChampion.png";
+            return "whiteChampion.gif";
         else
-            return "blackChampion.png";
+            return "blackChampion.gif";
     }
 
     @Override

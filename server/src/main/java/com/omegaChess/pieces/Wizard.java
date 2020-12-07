@@ -16,9 +16,9 @@ public class Wizard extends ChessPiece {
     @Override
     public String toString(){
         if (this.color == Color.WHITE)
-            return "whiteWizard.png";
+            return "whiteWizard.gif";
         else
-            return "blackWizard.png";
+            return "blackWizard.gif";
     }
 
     @Override
