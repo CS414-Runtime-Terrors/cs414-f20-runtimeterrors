@@ -55,11 +55,11 @@ class TestRook {
 
         Rook rook = new Rook(board, ChessPiece.Color.BLACK);
 
-        assertEquals("\u265C", rook.toString());
+        assertEquals("blackRook.gif", rook.toString());
 
         Rook rook_w = new Rook(board, ChessPiece.Color.WHITE);
 
-        assertEquals("\u2656", rook_w.toString());
+        assertEquals("whiteRook.gif", rook_w.toString());
     }
     @Test
     void test_legalMoves() {

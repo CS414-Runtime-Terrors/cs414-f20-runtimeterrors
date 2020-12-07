@@ -724,6 +724,7 @@ public class TestOCProtocol {
 
         receivedMessage.fromString(out);
         assertEquals("true", receivedMessage.get("success"), "The match was unable to end because " + receivedMessage.get("reason"));
+        protocol.processInput(message.toString());
         assertEquals(0, data.getMatches().size(), "Failed to remove ended match");
     }
 
