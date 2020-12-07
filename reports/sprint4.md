@@ -41,7 +41,15 @@ Epics planned for this release.
 ## Review
 
 #### Completed user stories
-tbd
+* #6 "As a user, I can participate in multiple games at the same time."
+* #7 "As a user, I can forfeit from any game at any time."
+* #9 "As a user, I can view history statistics from previous games."
+* #10 "As a user, I can view a user profile if registered."
+* #11 "As a user, I can make the first move if I create the match."
+* #12 "As a user, I can return to a saved game."
+* #13 "As a user, I can see the end result of a game I participate in." 
+* #16 "As a user, I will be able to quit the game using a Quit button."
+* #18 "As a user, when I choose to move a piece the board will show where I can move the piece."
 
 #### Completed epics in Sprint Backlog 
 
