@@ -26,7 +26,7 @@ public abstract class ChessPiece {
     // Color of piece
     protected Color color;
 
-    protected boolean moved, firstMove;
+    protected boolean moved, firstMove, captureWhileBlocking;
 
     // Sets board and color attributes
     public ChessPiece(ChessBoard board, Color color){
@@ -34,6 +34,7 @@ public abstract class ChessPiece {
         this.color = color;
         this.moved = false;
         this.firstMove = true;
+        this.captureWhileBlocking = false;
         if(color == Color.BLACK)
             board.black_pieces.add(this);
         if(color == Color.WHITE)
@@ -130,15 +131,24 @@ public abstract class ChessPiece {
     }
 
     // used to check if moving the selected piece from it's current position will put it's king in check
-    public boolean willLeaveKingInCheck() {
+    public boolean willLeaveKingInCheck(ArrayList<String> moves) {
         King myKing = this.getMyKing();
 
         String myPos = this.getPosition();
         this.board.placePiece(null, myPos);
         if (myKing.isKingInCheck()) {
-            this.board.placePiece(this, myPos);
-            return true;
+            if (!moves.contains(myKing.getCheckingPiece().getPosition())) {
+                this.captureWhileBlocking = false;
+                this.board.placePiece(this, myPos);
+                return true;
+            }
+            else {
+                this.captureWhileBlocking = true;
+                this.board.placePiece(this, myPos);
+                return true;
+            }
         }
+        this.captureWhileBlocking = false;
         this.board.placePiece(this, myPos);
         return false;
     }
@@ -158,6 +168,10 @@ public abstract class ChessPiece {
     * position. Assumed that kingPos is within piece's valid move-set, since only called after
     * the king's isKingInCheck method. */
     abstract public LegalMoves movesToBlockCheckingPiece(String kingPos);
+
+    /* To be implemented in concrete subclasses. Returns the list of possible locations between this peice
+     * and the piece checking the king. */
+    abstract public ArrayList<String> movesToCaptureWhileBlocking(String oppPos);
 
     public void save(String saveLocation) {
 

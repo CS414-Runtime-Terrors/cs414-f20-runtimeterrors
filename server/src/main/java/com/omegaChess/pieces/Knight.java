@@ -4,6 +4,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Knight extends ChessPiece {
     public Knight(ChessBoard board, Color color) {
@@ -48,14 +49,7 @@ public class Knight extends ChessPiece {
      */
     public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking)
     {
-        ArrayList<String> legalMoves = new ArrayList<>();
-
-        //check if leaving position puts own king in check on first call
-        if (firstPass) {
-            if (this.willLeaveKingInCheck()) {
-                return new LegalMoves(legalMoves, false, false);
-            }
-        }
+        ArrayList<String> validMoves = new ArrayList<>();
 
         ChessPiece tmp_piece = null;
         String tmp_str;
@@ -73,7 +67,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -90,7 +84,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -107,7 +101,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -124,7 +118,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -141,7 +135,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -158,7 +152,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -175,7 +169,7 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
@@ -192,17 +186,37 @@ public class Knight extends ChessPiece {
             // can't move to a friend piece
             if(tmp_piece == null || (tmp_piece != null && tmp_piece.getColor() != this.color) || (tmp_piece != null && tmp_piece.getColor() == this.color && protectedPieceChecking))
             {
-                legalMoves.add(tmp_str);
+                validMoves.add(tmp_str);
             }
         }
 
-        return new LegalMoves(legalMoves, false, false);
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck(validMoves)) {
+                if (this.captureWhileBlocking) {
+                    ArrayList<String> block = this.movesToCaptureWhileBlocking(this.getMyKing().getCheckingPiece().getPosition());
+                    validMoves = (ArrayList)(validMoves.stream().distinct().filter(block::contains).collect(Collectors.toList()));
+                }
+                else {
+                    validMoves.clear();
+                }
+            }
+        }
+
+        return new LegalMoves(validMoves, false, false);
     }
 
     public LegalMoves movesToBlockCheckingPiece(String kinPos) {
         ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add(this.getPosition());
         return new LegalMoves(validMoves, false, false);
+    }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) {
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add(oppPos);
+        return validMoves;
     }
 }
 

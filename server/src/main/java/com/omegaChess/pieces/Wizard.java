@@ -4,6 +4,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Wizard extends ChessPiece {
 
@@ -23,14 +24,7 @@ public class Wizard extends ChessPiece {
 
     @Override
     public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking){
-        ArrayList<String> moves = new ArrayList<>();
-
-        //check if leaving position puts own king in check on first call
-        if (firstPass) {
-            if (this.willLeaveKingInCheck()) {
-                return new LegalMoves(moves, false, false);
-            }
-        }
+        ArrayList<String> validMoves = new ArrayList<>();
 
         for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
@@ -47,7 +41,7 @@ public class Wizard extends ChessPiece {
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         } for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
             if (row+1 > 11 || column+i > 11)
@@ -63,7 +57,7 @@ public class Wizard extends ChessPiece {
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         } for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
             if (row-i < 0 || column+1 > 11)
@@ -79,7 +73,7 @@ public class Wizard extends ChessPiece {
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         } for(int i = 1; i <= 3; i++){
             if (i == 2) continue;
             if (row-1 < 0 || column-i < 0)
@@ -95,7 +89,7 @@ public class Wizard extends ChessPiece {
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         }
         ArrayList<String> diagStr = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -135,14 +129,34 @@ public class Wizard extends ChessPiece {
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(diagStr.get(i));
+                validMoves.add(diagStr.get(i));
         }
-        return new LegalMoves(moves, false, false);
+
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck(validMoves)) {
+                if (this.captureWhileBlocking) {
+                    ArrayList<String> block = this.movesToCaptureWhileBlocking(this.getMyKing().getCheckingPiece().getPosition());
+                    validMoves = (ArrayList)(validMoves.stream().distinct().filter(block::contains).collect(Collectors.toList()));
+                }
+                else {
+                    validMoves.clear();
+                }
+            }
+        }
+        return new LegalMoves(validMoves, false, false);
     }
 
     public LegalMoves movesToBlockCheckingPiece(String kinPos) {
         ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add(this.getPosition());
         return new LegalMoves(validMoves, false, false);
+    }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) {
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add(oppPos);
+        return validMoves;
     }
 }

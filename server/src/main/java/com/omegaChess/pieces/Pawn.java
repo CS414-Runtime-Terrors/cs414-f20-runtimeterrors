@@ -4,6 +4,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Pawn extends ChessPiece {
     public Pawn(ChessBoard board, Color color) {
@@ -49,13 +50,6 @@ public class Pawn extends ChessPiece {
     {
         ArrayList<String> validMoves = new ArrayList<>();
 
-        //check if leaving position puts own king in check on first call
-        if (firstPass) {
-            if (this.willLeaveKingInCheck()) {
-                return new LegalMoves(validMoves, false, false);
-            }
-        }
-
         boolean isEnPessant = false;
 
         ChessPiece p1 = null;
@@ -96,6 +90,19 @@ public class Pawn extends ChessPiece {
                 }
             }
         }*/
+
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck(validMoves)) {
+                if (this.captureWhileBlocking) {
+                    ArrayList<String> block = this.movesToCaptureWhileBlocking(this.getMyKing().getCheckingPiece().getPosition());
+                    validMoves = (ArrayList)(validMoves.stream().distinct().filter(block::contains).collect(Collectors.toList()));
+                }
+                else {
+                    validMoves.clear();
+                }
+            }
+        }
 
         return new LegalMoves(validMoves, isEnPessant, false);
     }
@@ -154,6 +161,13 @@ public class Pawn extends ChessPiece {
         ArrayList<String> validMoves = new ArrayList<>();
         validMoves.add(this.getPosition());
         return new LegalMoves(validMoves, false, false);
+    }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) {
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add(oppPos);
+        return validMoves;
     }
 }
 
