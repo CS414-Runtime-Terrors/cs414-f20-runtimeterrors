@@ -1,6 +1,6 @@
 # Design Artifacts
 P2 Class Diagram
-![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/P2%20class%20diagram.png)
+![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/P3%20class%20diagram.png)
 
 Server Setup
 ![Server Setup](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/multi-server-setup.png)
@@ -24,16 +24,19 @@ Match Screen
 ![Match Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/MatchScreen.PNG)
 
 Profile Screen
-![Profile Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Profile%20Screen.PNG)
+![Profile Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/ProfileScreen.PNG)
 
-Notifications Screen
-![Notifications Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Notifications%20Screen.png)
+Mailbox Screen
+![Mailbox Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/MailboxScreen.PNG)
 
 Archives Screen
-![Archives Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Archives%20Screen.png)
+![Archives Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/ArchiveScreen.PNG)
 
-Results Screen
-![Results Screen](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Results%20Screen.png)
+Forfeit Pop-up
+![Forfeit Pop-up](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/ForfeitPop-up.PNG)
+
+Checkmate Pop-up
+![Checkmate Pop-up](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/CheckmatePop-up.PNG)
 
 [CRC Cards](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/deliverables/CRC%20Cards.pdf)
 
