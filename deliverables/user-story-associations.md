@@ -36,6 +36,7 @@
 ### 6) As a user, I can participate in multiple games at the same time. (should have)
 - #42 “Method to acquire a list of in progress games for a user”
 - #82 “Visual representation of the list”
+- #359 "Bug when more than 1 in progress game"
 ### 7) As a user, I can quit from any game at any time. (could have)
 - #39 “Button to end a match in game”
 ### 8) As a user, I can unregister. (must have)
@@ -48,6 +49,7 @@
 - #45 “Show users a list of previous games and whether they won or lost the match”
 - #44 “'History' button”
 - #103 ”Archives Screen”
+- #347 "Enable the server to handle requests of the type "get game records""
 ### 10) As a user, I can view a user profile if registered. (would have)
 - #86 “Profile Card”
 - #35 “Graphical card that displays user data”
@@ -58,6 +60,11 @@
 ### 12) As a user, I can return to a saved game. (should have)
 - #42 "Method to acquire a list of in progress games for a user."
 - #82 "Visual representation of the list"
+- #303 "Add a save and load() method to ChessBoard.java which gets called in Match's save and load() methods."
+- #305 "Add a save and load() method to ChessPiece.java which gets called in ChessBoard's save and load() methods."
+- #306 "Add a save() and load() method to TurnTracker.java which gets called in Match's save and load() methods"
+- #307 "Add a save() and load() method to Move.java which gets called in ChessBoard's save and load() methods"
+- #334 "Pull in-progress game data"
 ### 13) As a user, I can see the end result of a game I participate in. (would have)
 - #38 “Method to end match”
 - #68 “Card that lists who won, how many moves”
@@ -118,3 +125,6 @@
 - #239 "Enable the server/client to handle requests with process type "get board data""
 - #240 "Match Screen"
 - #247 "Enable the server/client to handle requests with process type "get turn""
+- #333 "Fix en passant"
+- #353 "King can capture a protected piece"
+- #361 "Turn-tracking Client side (No Auto)"
