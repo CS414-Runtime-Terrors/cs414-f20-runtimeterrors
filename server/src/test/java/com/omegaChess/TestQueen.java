@@ -58,11 +58,11 @@ class TestQueen {
 
         Queen queen = new Queen(board, ChessPiece.Color.BLACK);
 
-        assertEquals("blackQueen.png", queen.toString());
+        assertEquals("blackQueen.gif", queen.toString());
 
         Queen queen_w = new Queen(board, ChessPiece.Color.WHITE);
 
-        assertEquals("whiteQueen.png", queen_w.toString());
+        assertEquals("whiteQueen.gif", queen_w.toString());
     }
 
     @Test

@@ -55,11 +55,11 @@ class TestKing {
 
         King king = new King(board, ChessPiece.Color.BLACK);
 
-        assertEquals("blackKing.png", king.toString());
+        assertEquals("blackKing.gif", king.toString());
 
         King king_w = new King(board, ChessPiece.Color.WHITE);
 
-        assertEquals("whiteKing.png", king_w.toString());
+        assertEquals("whiteKing.gif", king_w.toString());
     }
 
 

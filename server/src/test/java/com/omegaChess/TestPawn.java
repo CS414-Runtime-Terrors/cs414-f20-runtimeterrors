@@ -58,11 +58,11 @@ class TestPawn {
 
         Pawn pawn = new Pawn(board, ChessPiece.Color.BLACK);
 
-        assertEquals("blackPawn.png", pawn.toString());
+        assertEquals("blackPawn.gif", pawn.toString());
 
         Pawn pawn_w = new Pawn(board, ChessPiece.Color.WHITE);
 
-        assertEquals("whitePawn.png", pawn_w.toString());
+        assertEquals("whitePawn.gif", pawn_w.toString());
     }
 
     @Test
