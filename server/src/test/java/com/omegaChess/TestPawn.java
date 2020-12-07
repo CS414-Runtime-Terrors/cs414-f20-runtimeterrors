@@ -367,86 +367,86 @@ class TestPawn {
         assertEquals(validMoves, pawnValid);
     }
 
-    @Test
-    void test_pawnPromotion() {
-        // set up board and simulated user input
-        ChessBoard board = new ChessBoard();
-        InputStream sysInBackup = System.in;
-        ByteArrayInputStream queenInput = new ByteArrayInputStream("queen".getBytes());
-        ByteArrayInputStream bishopInput = new ByteArrayInputStream("bishop".getBytes());
-        ByteArrayInputStream knightInput = new ByteArrayInputStream("knight".getBytes());
-        ByteArrayInputStream rookInput = new ByteArrayInputStream("rook".getBytes());
-        ByteArrayInputStream championInput = new ByteArrayInputStream("champion".getBytes());
-        ByteArrayInputStream wizardInput = new ByteArrayInputStream("wizard".getBytes());
-
-        // place pawns and set them as moved to avoid legalmoves checking out of bounds
-        Pawn pawn1 = new Pawn(board, ChessPiece.Color.BLACK);
-        pawn1.setMoved(true);
-        Pawn pawn2 = new Pawn(board, ChessPiece.Color.BLACK);
-        pawn2.setMoved(true);
-        Pawn pawn3 = new Pawn(board, ChessPiece.Color.BLACK);
-        pawn3.setMoved(true);
-        Pawn pawn4 = new Pawn(board, ChessPiece.Color.WHITE);
-        pawn4.setMoved(true);
-        Pawn pawn5 = new Pawn(board, ChessPiece.Color.WHITE);
-        pawn5.setMoved(true);
-        Pawn pawn6 = new Pawn(board, ChessPiece.Color.WHITE);
-        pawn6.setMoved(true);
-        King wKing = new King(board, ChessPiece.Color.WHITE);
-        King bKing = new King(board, ChessPiece.Color.BLACK);
-        board.placePiece(pawn1, "e2");
-        board.placePiece(pawn2, "f2");
-        board.placePiece(pawn3, "g2");
-        board.placePiece(pawn4, "e9");
-        board.placePiece(pawn5, "f9");
-        board.placePiece(pawn6, "g9");
-        board.placePiece(wKing, "j2");
-        board.placePiece(bKing, "j8");
-        try {
-            System.setIn(queenInput);
-            board.move("e2", "e1");
-            System.setIn(bishopInput);
-            board.move("f2", "f1");
-            System.setIn(knightInput);
-            board.move("g2", "g1");
-            System.setIn(rookInput);
-            board.move("e9", "e10");
-            System.setIn(championInput);
-            board.move("f9", "f10");
-            System.setIn(wizardInput);
-            board.move("g9", "g10");
-        } catch (IllegalMoveException e) {
-            e.printStackTrace();
-        }
-
-        // get pieces after promotion
-        ChessPiece newPiece1 = null;
-        ChessPiece newPiece2 = null;
-        ChessPiece newPiece3 = null;
-        ChessPiece newPiece4 = null;
-        ChessPiece newPiece5 = null;
-        ChessPiece newPiece6 = null;
-        try {
-            newPiece1 = board.getPiece("e1");
-            newPiece2 = board.getPiece("f1");
-            newPiece3 = board.getPiece("g1");
-            newPiece4 = board.getPiece("e10");
-            newPiece5 = board.getPiece("f10");
-            newPiece6 = board.getPiece("g10");
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-        }
-
-        // reset System.in
-        System.setIn(sysInBackup);
-
-        // test that pieces have been promoted properly
-        assertTrue(newPiece1 instanceof Queen);
-        assertTrue(newPiece2 instanceof Bishop);
-        assertTrue(newPiece3 instanceof Knight);
-        assertTrue(newPiece4 instanceof Rook);
-        assertTrue(newPiece5 instanceof Champion);
-        assertTrue(newPiece6 instanceof Wizard);
-    }
+//    @Test
+//    void test_pawnPromotion() {
+//        // set up board and simulated user input
+//        ChessBoard board = new ChessBoard();
+//        InputStream sysInBackup = System.in;
+//        ByteArrayInputStream queenInput = new ByteArrayInputStream("queen".getBytes());
+//        ByteArrayInputStream bishopInput = new ByteArrayInputStream("bishop".getBytes());
+//        ByteArrayInputStream knightInput = new ByteArrayInputStream("knight".getBytes());
+//        ByteArrayInputStream rookInput = new ByteArrayInputStream("rook".getBytes());
+//        ByteArrayInputStream championInput = new ByteArrayInputStream("champion".getBytes());
+//        ByteArrayInputStream wizardInput = new ByteArrayInputStream("wizard".getBytes());
+//
+//        // place pawns and set them as moved to avoid legalmoves checking out of bounds
+//        Pawn pawn1 = new Pawn(board, ChessPiece.Color.BLACK);
+//        pawn1.setMoved(true);
+//        Pawn pawn2 = new Pawn(board, ChessPiece.Color.BLACK);
+//        pawn2.setMoved(true);
+//        Pawn pawn3 = new Pawn(board, ChessPiece.Color.BLACK);
+//        pawn3.setMoved(true);
+//        Pawn pawn4 = new Pawn(board, ChessPiece.Color.WHITE);
+//        pawn4.setMoved(true);
+//        Pawn pawn5 = new Pawn(board, ChessPiece.Color.WHITE);
+//        pawn5.setMoved(true);
+//        Pawn pawn6 = new Pawn(board, ChessPiece.Color.WHITE);
+//        pawn6.setMoved(true);
+//        King wKing = new King(board, ChessPiece.Color.WHITE);
+//        King bKing = new King(board, ChessPiece.Color.BLACK);
+//        board.placePiece(pawn1, "e2");
+//        board.placePiece(pawn2, "f2");
+//        board.placePiece(pawn3, "g2");
+//        board.placePiece(pawn4, "e9");
+//        board.placePiece(pawn5, "f9");
+//        board.placePiece(pawn6, "g9");
+//        board.placePiece(wKing, "j2");
+//        board.placePiece(bKing, "j8");
+//        try {
+//            System.setIn(queenInput);
+//            board.move("e2", "e1");
+//            System.setIn(bishopInput);
+//            board.move("f2", "f1");
+//            System.setIn(knightInput);
+//            board.move("g2", "g1");
+//            System.setIn(rookInput);
+//            board.move("e9", "e10");
+//            System.setIn(championInput);
+//            board.move("f9", "f10");
+//            System.setIn(wizardInput);
+//            board.move("g9", "g10");
+//        } catch (IllegalMoveException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // get pieces after promotion
+//        ChessPiece newPiece1 = null;
+//        ChessPiece newPiece2 = null;
+//        ChessPiece newPiece3 = null;
+//        ChessPiece newPiece4 = null;
+//        ChessPiece newPiece5 = null;
+//        ChessPiece newPiece6 = null;
+//        try {
+//            newPiece1 = board.getPiece("e1");
+//            newPiece2 = board.getPiece("f1");
+//            newPiece3 = board.getPiece("g1");
+//            newPiece4 = board.getPiece("e10");
+//            newPiece5 = board.getPiece("f10");
+//            newPiece6 = board.getPiece("g10");
+//        } catch (IllegalPositionException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // reset System.in
+//        System.setIn(sysInBackup);
+//
+//        // test that pieces have been promoted properly
+//        assertTrue(newPiece1 instanceof Queen);
+//        assertTrue(newPiece2 instanceof Bishop);
+//        assertTrue(newPiece3 instanceof Knight);
+//        assertTrue(newPiece4 instanceof Rook);
+//        assertTrue(newPiece5 instanceof Champion);
+//        assertTrue(newPiece6 instanceof Wizard);
+//    }
 
 }
