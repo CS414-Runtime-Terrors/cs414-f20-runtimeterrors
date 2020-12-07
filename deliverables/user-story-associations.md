@@ -128,7 +128,3 @@
 - #333 "Fix en passant"
 - #353 "King can capture a protected piece"
 - #361 "Turn-tracking Client side (No Auto)"
-
-### Not Associated
-- #318 "Rule Screen"
-- #332 "Update pawn promotion for client"
