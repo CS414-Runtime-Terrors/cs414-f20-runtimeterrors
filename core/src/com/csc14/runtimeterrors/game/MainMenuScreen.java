@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MainMenuScreen implements Screen {
     private final OmegaChess parent;
-    private final Stage stage;
+    private Stage stage;
 
     public MainMenuScreen(OmegaChess omegachess){
         parent = omegachess;     // setting the argument to our field.
@@ -24,6 +24,8 @@ public class MainMenuScreen implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+
+
     }
 
 

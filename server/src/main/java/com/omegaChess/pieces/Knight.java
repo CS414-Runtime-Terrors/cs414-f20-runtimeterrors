@@ -27,11 +27,11 @@ public class Knight extends ChessPiece {
     {
         if( this.color == Color.BLACK)
         {
-            return "blackKnight.png";
+            return "blackKnight.gif";
         }
         else if( this.color == Color.WHITE )
         {
-            return "whiteKnight.png";
+            return "whiteKnight.gif";
         }
 
         return "";

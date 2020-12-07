@@ -1,5 +1,5 @@
 # Design Artifacts
-P2 Class Diagram
+P3 Class Diagram
 ![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/P3%20class%20diagram.png)
 
 Server Setup

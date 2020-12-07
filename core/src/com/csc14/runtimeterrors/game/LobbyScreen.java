@@ -20,6 +20,7 @@ public class LobbyScreen implements Screen {
     private boolean isPopupDisplayed = false;
 
     public LobbyScreen(OmegaChess omegachess) {
+
         parent = omegachess;     // setting the argument to our field.
 
         stage = new Stage();
