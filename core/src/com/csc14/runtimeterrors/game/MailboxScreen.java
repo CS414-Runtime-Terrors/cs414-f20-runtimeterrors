@@ -16,14 +16,13 @@ public class MailboxScreen implements Screen {
     private final OmegaChess parent;
     private final Stage stage;
     private Skin skin;
-    private final String nickname;
+    private String nickname;
     private Table mailboxTable;
     private ButtonGroup optionsGrp;
     private boolean isPopupDisplayed = false;
 
     public MailboxScreen(OmegaChess omegachess){
         parent = omegachess;
-        nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -33,6 +32,7 @@ public class MailboxScreen implements Screen {
 
     @Override
     public void show() {
+        nickname = parent.getUser();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         Skin btnSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
