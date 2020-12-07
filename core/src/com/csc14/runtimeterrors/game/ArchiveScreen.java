@@ -18,11 +18,10 @@ public class ArchiveScreen implements Screen {
     private final Stage stage;
     private Skin skin;
     private boolean isPopupDisplayed = false;
-    private final String nickname;
+    private String nickname;
 
     public ArchiveScreen(OmegaChess omegachess){
         parent = omegachess;
-        nickname = parent.getUser();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -32,6 +31,7 @@ public class ArchiveScreen implements Screen {
 
     @Override
     public void show() {
+        nickname = parent.getUser();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
