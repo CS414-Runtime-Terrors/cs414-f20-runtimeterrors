@@ -2,6 +2,8 @@ package com.omegaChess.pieces;
 
 import com.omegaChess.board.ChessBoard;
 
+import java.util.ArrayList;
+
 public class InvalidSpace extends ChessPiece{
 
     public InvalidSpace(ChessBoard board, ChessPiece.Color color){ super(board, color); }
@@ -25,4 +27,7 @@ public class InvalidSpace extends ChessPiece{
 
     @Override
     public LegalMoves movesToBlockCheckingPiece(String kingPos) { return null; }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) { return null; }
 }

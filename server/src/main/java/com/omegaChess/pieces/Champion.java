@@ -4,6 +4,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Champion extends ChessPiece{
 
@@ -23,14 +24,7 @@ public class Champion extends ChessPiece{
 
     @Override
     public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking){
-        ArrayList<String> moves = new ArrayList<>();
-
-        //check if leaving position puts own king in check on first call
-        if (firstPass) {
-            if (this.willLeaveKingInCheck()) {
-                return new LegalMoves(moves, false, false);
-            }
-        }
+        ArrayList<String> validMoves = new ArrayList<>();
 
         for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
@@ -45,7 +39,7 @@ public class Champion extends ChessPiece{
             if (((piece != null && piece.getColor() != this.color)
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace) && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         } for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
             if (row - i < 0)
@@ -60,7 +54,7 @@ public class Champion extends ChessPiece{
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         } for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
             if (column + i > 11)
@@ -75,7 +69,7 @@ public class Champion extends ChessPiece{
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         } for (int i = 1; i <= 2; i++){
             ChessPiece piece = null;
             if (column - i < 0)
@@ -90,7 +84,7 @@ public class Champion extends ChessPiece{
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(loc);
+                validMoves.add(loc);
         }
         ArrayList<String>  diagStr = new ArrayList<>();
         for (int i = 0; i < 4; i++){
@@ -130,9 +124,23 @@ public class Champion extends ChessPiece{
                     && !(piece instanceof InvalidSpace)) || piece == null
                     || (piece != null && !(piece instanceof InvalidSpace)
                     && piece.getColor() == this.color && protectedPieceChecking))
-                moves.add(diagStr.get(i));
+                validMoves.add(diagStr.get(i));
         }
-        return new LegalMoves(moves, false, false);
+
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck(validMoves)) {
+                if (this.captureWhileBlocking) {
+                    ArrayList<String> block = this.movesToCaptureWhileBlocking(this.getMyKing().getCheckingPiece().getPosition());
+                    validMoves = (ArrayList)(validMoves.stream().distinct().filter(block::contains).collect(Collectors.toList()));
+                }
+                else {
+                    validMoves.clear();
+                }
+            }
+        }
+
+        return new LegalMoves(validMoves, false, false);
     }
 
     public LegalMoves movesToBlockCheckingPiece(String kingPos) {
@@ -182,5 +190,56 @@ public class Champion extends ChessPiece{
         }
 
         return new LegalMoves(validMoves, false, false);
+    }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) {
+        int[] oPos = new int[2];
+        try {
+            oPos = board.parsePosition(oppPos);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+        int or = oPos[0];
+        int oc = oPos[1];
+        int r = row;
+        int c = column;
+
+        ArrayList<String> validMoves = new ArrayList<>();
+        String pos = this.getPosition();
+        validMoves.add(pos);
+        validMoves.add(oppPos);
+
+        //conditions to see if king is within the sliding move-set
+        if (r < or && c == oc) {
+            while (r < (or - 1)) {
+                r += 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+        else if (r > or && c == oc) {
+            while (r > (or + 1)) {
+                r -= 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+        else if (c < oc && r == or) {
+            while (c < (oc - 1)) {
+                c += 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+        else if (c > oc && r == or) {
+            while (c > (oc + 1)) {
+                c -= 1;
+                pos = board.reverseParse(r, c);
+                validMoves.add(pos);
+            }
+        }
+
+        return validMoves;
     }
 }

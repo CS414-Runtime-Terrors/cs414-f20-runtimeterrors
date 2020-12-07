@@ -4,6 +4,7 @@ import com.omegaChess.board.ChessBoard;
 import com.omegaChess.exceptions.IllegalPositionException;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Bishop extends ChessPiece {
     public Bishop(ChessBoard board, Color color) {
@@ -47,13 +48,6 @@ public class Bishop extends ChessPiece {
     public LegalMoves legalMoves(Boolean firstPass, Boolean protectedPieceChecking)
     {
         ArrayList<String> validMoves = new ArrayList<>();
-
-        //check if leaving position puts own king in check on first call
-        if (firstPass) {
-            if (this.willLeaveKingInCheck()) {
-                return new LegalMoves(validMoves, false, false);
-            }
-        }
 
         // bishop can move any number of squares diagonally if no other pieces
 
@@ -226,6 +220,19 @@ public class Bishop extends ChessPiece {
             tmp_str = board.reverseParse(tmp_row, tmp_col);
         }
 
+        //check if leaving position puts own king in check on first call
+        if (firstPass) {
+            if (this.willLeaveKingInCheck(validMoves)) {
+                if (this.captureWhileBlocking) {
+                    ArrayList<String> block = this.movesToCaptureWhileBlocking(this.getMyKing().getCheckingPiece().getPosition());
+                    validMoves = (ArrayList)(validMoves.stream().distinct().filter(block::contains).collect(Collectors.toList()));
+                }
+                else {
+                    validMoves.clear();
+                }
+            }
+        }
+
         return new LegalMoves(validMoves, false, false);
     }
 
@@ -262,5 +269,42 @@ public class Bishop extends ChessPiece {
         }
 
         return new LegalMoves(validMoves, false, false);
+    }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) {
+        int[] oPos = new int[2];
+        try {
+            oPos = board.parsePosition(oppPos);
+        } catch (IllegalPositionException e) {
+            e.printStackTrace();
+        }
+        int or = oPos[0];
+        int oc = oPos[1];
+        int r = row;
+        int c = column;
+
+        int rIncrement = 1;
+        int cIncrement = 1;
+        if (r > or) {
+            rIncrement = -1;
+        }
+        if (c > oc) {
+            cIncrement = -1;
+        }
+
+        String pos = this.getPosition();
+        ArrayList<String> validMoves = new ArrayList<>();
+        validMoves.add(pos);
+        validMoves.add(oppPos);
+
+        while (r != (or - rIncrement) && c != (oc - cIncrement)) {
+            r += rIncrement;
+            c += cIncrement;
+            pos = board.reverseParse(r, c);
+            validMoves.add(pos);
+        }
+
+        return validMoves;
     }
 }

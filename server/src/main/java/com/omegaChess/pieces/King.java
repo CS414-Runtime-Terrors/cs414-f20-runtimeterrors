@@ -354,4 +354,7 @@ public class King extends ChessPiece {
     public LegalMoves movesToBlockCheckingPiece(String kingPos) {
         return null;
     }
+
+    @Override
+    public ArrayList<String> movesToCaptureWhileBlocking(String oppPos) { return null; }
 }
