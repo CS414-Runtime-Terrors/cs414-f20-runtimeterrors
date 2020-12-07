@@ -1,5 +1,5 @@
 # Design Artifacts
-P2 Class Diagram
+P3 Class Diagram
 ![Class Diagram](https://github.com/CS414-Runtime-Terrors/cs414-f20-runtimeterrors/blob/master/pictures/Omega%20Chess%20Class%20Diagram.vpd%20(3).png)
 
 Server Setup
