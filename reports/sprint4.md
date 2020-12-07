@@ -22,9 +22,9 @@ Epics planned for this release.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *8* | *N/A* |
-| Tasks |  *13*   | *N/A* |
-| Story Points |  *20*  | *N/A* |
+| Epics | *8* | *7* |
+| Tasks |  *18*   | *17* |
+| Story Points |  *23*  | *22* |
 
 
 ## Scrums
@@ -44,10 +44,17 @@ Epics planned for this release.
 tbd
 
 #### Completed epics in Sprint Backlog 
-tbd
+
+* Viewer for Notifications (#27)
+* GameBoard move functions (#281)
+* Surrounding graphics (#75)
+* View history from previous games (#22)
+* Server Requests - Match/Board (#249)
+* Select an in-progress game (#17)
+* Screens (#32)
 
 #### Incomplete epics in Sprint Backlog 
-tbd
+* Result Alert (#29)
 
 #### What went well
 tbd
